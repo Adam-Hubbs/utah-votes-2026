@@ -3,7 +3,7 @@
  "name": "2026 General Election (simulated)",
  "date": "2026-11-03",
  "status": "live",
- "updated_at": "2026-10-23T03:11:53.176Z",
+ "updated_at": "2026-10-23T03:15:33.475Z",
  "source": "electionresults.utah.gov (MOCK)",
  "precinct_geo": "precincts_2026",
  "cd_plan": "cd2026",
@@ -71,7 +71,7 @@
    },
    "call": {
     "candidate_id": "ben-mcadams",
-    "called_at": "2026-10-23T02:56:53.176Z",
+    "called_at": "2026-10-23T03:00:33.475Z",
     "by": "manual"
    }
   },

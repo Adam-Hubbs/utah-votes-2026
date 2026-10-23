@@ -76,10 +76,10 @@ export function PollTracker({ contestId, avg, polls, height = 340, stage = 'gene
           {avg && avg.series.length > 0 && <> Latest through {fmtDay(avg.series[avg.series.length - 1].date)}.</>}
         </div>
       </div>
-      <PollChart series={series} height={height} marker={today ? { x: today, label: 'Today' } : undefined}
+      {series.some((x) => x.line.length > 0) && <PollChart series={series} height={height} marker={today ? { x: today, label: 'Today' } : undefined}
         yDomain={[0, Math.max(40, Math.ceil(Math.max(...series.flatMap((s) => [...s.line.map((p) => p.hi ?? p.y), ...(s.dots ?? []).map((d) => d.y)]), 0) / 10) * 10)]}
-        hint={() => (nPolls === 1 ? 'Only one poll so far' : null)} ariaLabel={`Poll averages for ${contestId}`} />
-      <p className="chart-note">Dots are individual polls, sized by sample size. Lines are the weighted average with a shaded 95% uncertainty band.</p>
+        hint={() => (nPolls === 1 ? 'Only one poll so far' : null)} ariaLabel={`Poll averages for ${contestId}`} />}
+      {series.some((x) => x.line.length > 0) && <p className="chart-note">Dots are individual polls, sized by sample size. Lines are the weighted average with a shaded 95% uncertainty band.</p>}
       {showTable && (
         <SortableTable rows={rows} columns={columns} rowKey={(p) => p.poll_id + p.question_id} initialSort={{ key: 'date', dir: 'desc' }} caption="Individual polls" />
       )}

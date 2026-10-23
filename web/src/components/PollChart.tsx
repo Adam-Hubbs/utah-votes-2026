@@ -45,7 +45,7 @@ export function PollChart({
   const [hover, setHover] = useState<Date | null>(null)
   const w = Math.max(280, width || 640)
   const narrow = w < 520
-  const m = { t: 12, r: endLabels ? (narrow ? 66 : 128) : 16, b: 26, l: 38 }
+  const m = { t: 12, r: endLabels ? (narrow ? 92 : 128) : 16, b: 26, l: 38 }
   const iw = w - m.l - m.r
   const ih = height - m.t - m.b
 
@@ -55,9 +55,10 @@ export function PollChart({
     const [a, b] = extent(allX) as [Date | undefined, Date | undefined]
     if (!a || !b) return [new Date(), new Date()] as [Date, Date]
     const end = marker ? new Date(Math.max(b.getTime(), marker.x.getTime())) : b
-    const span = (end.getTime() - a.getTime()) / 86400000
-    const pad = Math.max(0, minSpanDays - span) / 2
-    return [new Date(a.getTime() - pad * 86400000 - 86400000), new Date(end.getTime() + pad * 86400000 + 86400000)] as [Date, Date]
+    const spanMs = end.getTime() - a.getTime()
+    const edge = minSpanDays < 1 ? Math.max(spanMs * 0.03, 60000) : 86400000
+    const pad = Math.max(0, minSpanDays * 86400000 - spanMs) / 2
+    return [new Date(a.getTime() - pad - edge), new Date(end.getTime() + pad + edge)] as [Date, Date]
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [series, xDomain, marker, minSpanDays])
 

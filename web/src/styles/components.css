@@ -64,7 +64,7 @@
 .segmented { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: var(--radius); overflow: hidden; flex-wrap: wrap; background: #fff; }
 .segmented button { border: 0; background: #fff; padding: 7px 12px; font-size: 13px; font-weight: 500; cursor: pointer; border-right: 1px solid var(--rule); color: var(--ink-2); }
 .segmented button:last-child { border-right: 0; }
-.segmented button:hover:not(:disabled) { background: var(--wash); }
+.segmented button:hover:not(:disabled):not(.on) { background: var(--wash); }
 .segmented button.on { background: var(--ink); color: #fff; font-weight: 600; }
 .segmented button:disabled { color: var(--ink-4); cursor: not-allowed; }
 .select { display: inline-flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -189,7 +189,8 @@
 @media (max-width: 560px) { .legend-name { width: 70px; } }
 
 /* ---------- charts ---------- */
-.poll-chart, .scatter { position: relative; width: 100%; }
+.poll-chart, .scatter { position: relative; width: 100%; max-width: 100%; overflow: hidden; }
+@media (max-width: 520px) { .end-label { font-size: 10.5px; } }
 .poll-chart svg, .scatter svg { display: block; overflow: visible; }
 .grid { stroke: #ececec; stroke-width: 1; } .axis { stroke: var(--ink); } .zero { stroke: var(--ink-4); stroke-dasharray: 3 3; }
 .axis-text { font-size: 11px; fill: var(--ink-3); } .axis-title { font-size: 11px; fill: var(--ink-3); font-weight: 600; }

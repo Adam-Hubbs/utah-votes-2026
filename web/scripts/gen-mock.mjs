@@ -174,7 +174,13 @@ function unionBy(precs, key) {
   })
 }
 
+// d3-geo uses spherical winding: exterior rings must be clockwise.
+const rewind = (mp) => mp.map((poly) => poly.map((ring, i) => {
+  const cw = ringArea(ring) < 0
+  return (i === 0 ? cw : !cw) ? ring : [...ring].reverse()
+}))
 const topo = (name, feats, q = 1e5) => {
+  feats = feats.map((f) => ({ ...f, geometry: { type: 'MultiPolygon', coordinates: rewind(f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates) } }))
   let t = topology({ [name]: { type: 'FeatureCollection', features: feats } }, q)
   t = presimplify(t)
   t = simplify(t, quantile(t, 0.35))

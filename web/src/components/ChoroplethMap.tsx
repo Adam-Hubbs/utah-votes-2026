@@ -69,14 +69,27 @@ export function ChoroplethMap({
   const [tf, setTf] = useState<ZoomTransform>(zoomIdentity)
   const [hover, setHover] = useState<{ i: number; x: number; y: number } | null>(null)
   const w = Math.max(240, width || 640)
-  const h = Math.min(maxHeight, Math.round(w * aspect))
 
-  const projection = useMemo<GeoProjection | null>(() => {
+  const fitted = useMemo<{ projection: GeoProjection; h: number } | null>(() => {
     const fit = fitTo ?? features
     if (!fit.length) return null
     const fc: FeatureCollection = { type: 'FeatureCollection', features: fit }
-    return geoMercator().fitExtent([[6, 6], [w - 6, h - 6]], fc)
-  }, [fitTo, features, w, h])
+    const pad = 6
+    let proj = geoMercator().fitWidth(w - pad * 2, fc)
+    let [[, y0], [, y1]] = geoPath(proj).bounds(fc)
+    let h = Math.ceil(y1 - y0) + pad * 2
+    if (h > maxHeight) {
+      proj = geoMercator().fitHeight(maxHeight - pad * 2, fc)
+      ;[[, y0], [, y1]] = geoPath(proj).bounds(fc)
+      h = maxHeight
+    }
+    const [tx, ty] = proj.translate()
+    const [[x0], [x1]] = geoPath(proj).bounds(fc)
+    proj.translate([tx + (w - (x1 - x0)) / 2 - x0, ty + pad - y0 + (h - pad * 2 - (y1 - y0)) / 2])
+    return { projection: proj, h: Math.max(h, 160) }
+  }, [fitTo, features, w, maxHeight])
+  const projection = fitted?.projection ?? null
+  const h = fitted?.h ?? Math.min(maxHeight, Math.round(w * aspect))
 
   const path = useMemo(() => (projection ? geoPath(projection) : null), [projection])
   const paths = useMemo(() => features.map((f) => path?.(f) ?? null), [features, path])
