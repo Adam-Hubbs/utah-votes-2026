@@ -1,0 +1,4 @@
+# Manual override of ballots still to be counted per county, e.g. from a county clerk's election-night statement.
+# The model then uses counted + remaining (+-5%) for that county. Set final=true once a county reports all ballots counted.
+# fips,remaining,final,as_of,note   e.g.  49035,85000,,2026-11-04T06:00:00Z,"SL clerk press briefing"
+fips,remaining,final,as_of,note

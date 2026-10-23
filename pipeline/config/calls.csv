@@ -1,0 +1,3 @@
+# Manual race calls. Only rows listed here (or the API's official isWinner after certification) set a winner.
+# contest_id,candidate_id,called_at,by   e.g.  us-house-1,ben-mcadams,2026-11-04T05:12:00Z,manual
+contest_id,candidate_id,called_at,by

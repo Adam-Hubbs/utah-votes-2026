@@ -1,0 +1,107 @@
+name: Election night scraper
+
+# Polls close 8pm MST Nov 3 2026 = 03:00 UTC Nov 4. One long-running job loops scrape -> model -> commit -> deploy;
+# the */10 watchdog starts a replacement loop (queued in the same concurrency group) if the previous one ended or died.
+on:
+  workflow_dispatch:
+    inputs:
+      ignore_window:
+        description: "Run even outside the election-night window (for drills)"
+        type: boolean
+        default: false
+      end_time:
+        description: "Stop looping at this UTC time (ISO, e.g. 2026-11-04T09:00:00Z); default 5h45m from start"
+        type: string
+        default: ""
+  schedule:
+    - cron: "30 2 4 11 *"
+    - cron: "*/10 2-23 4 11 *"
+    - cron: "*/10 0-8 5 11 *"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: election-night
+  cancel-in-progress: false
+
+env:
+  WINDOW_START: "2026-11-04T02:15:00Z"
+  WINDOW_END: "2026-11-05T08:00:00Z"
+  UTEL_RAW_DIR: ${{ github.workspace }}/pipeline/raw
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - name: Check window
+        id: window
+        run: |
+          now=$(date -u +%s)
+          start=$(date -u -d "$WINDOW_START" +%s)
+          end=$(date -u -d "$WINDOW_END" +%s)
+          if [ "${{ inputs.ignore_window }}" = "true" ] || { [ "$now" -ge "$start" ] && [ "$now" -lt "$end" ]; }; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Outside election-night window; exiting cleanly."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.window.outputs.run == 'true'
+        with:
+          ref: main
+
+      - uses: r-lib/actions/setup-r@v2
+        if: steps.window.outputs.run == 'true'
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        if: steps.window.outputs.run == 'true'
+        with:
+          working-directory: pipeline
+          extra-packages: any::yaml
+          cache-version: 1
+
+      - name: Connectivity check
+        if: steps.window.outputs.run == 'true'
+        run: |
+          for u in \
+            https://electionresults.utah.gov/results/public/api/jurisdictions/Utah \
+            https://electionresults.utah.gov/results/public/api/elections/Utah/General11032026/data; do
+            code=$(curl -s -o /dev/null -m 20 -w '%{http_code}' -A 'utah-elections-site/0.1' "$u" || true)
+            echo "::notice::$u -> HTTP $code"
+          done
+          code=$(curl -sI -o /dev/null -m 20 -w '%{http_code}' -A 'utah-elections-site/0.1' https://electionresults.utah.gov/cdn/results/Utah/export-General11032026.json || true)
+          echo "::notice::export -> HTTP $code"
+          if [ "$code" = "403" ]; then
+            echo "::warning::electionresults.utah.gov rejected this runner (HTTP 403). Use the local fallback: pipeline/scripts/election_night_loop.sh (see pipeline/docs/live.md)."
+          fi
+
+      - name: Configure git
+        if: steps.window.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Scrape loop
+        if: steps.window.outputs.run == 'true'
+        env:
+          INPUT_END: ${{ inputs.end_time }}
+        run: |
+          budget=$(( $(date -u +%s) + 5*3600 + 40*60 ))
+          window_end=$(date -u -d "$WINDOW_END" +%s)
+          if [ -n "$INPUT_END" ]; then
+            end=$(date -u -d "$INPUT_END" +%s)
+          elif [ "$budget" -lt "$window_end" ]; then
+            end=$budget
+          else
+            end=$window_end
+          fi
+          export END_TIME=$(date -u -d "@$end" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Looping until $END_TIME"
+          SLEEP_SECONDS=100 DEPLOY_MIN_GAP=180 pipeline/scripts/election_night_loop.sh
