@@ -135,11 +135,15 @@ build_senate <- function(cfg, calls, today, sa) {
   races <- cfg$races |>
     pmap(\(state, state_name, special, incumbent, incumbent_party, open, status_note, cook, sabato, inside) {
       call <- senate_calls |> filter(.data$state == .env$state) |> slice_head(n = 1)
+      field <- cfg$candidates |> filter(.data$state == .env$state)
+      opponent <- field |> filter(main_opponent | (party == "DEM" & !any(main_opponent))) |> slice_head(n = 1)
+      avg <- averages[[state]]
+      if (!is.null(avg$margin)) avg$margin <- c(avg$margin, list(opponent = opponent$name, opponent_party = opponent$party))
       list(
         state = state, state_name = state_name, special = special,
         incumbent = incumbent, incumbent_party = incumbent_party, open = open, status_note = status_note,
-        candidates = cfg$candidates |> filter(.data$state == .env$state) |> transmute(name, party),
-        poll_avg = averages[[state]] |> (\(a) if (is.null(a)) list(n_polls = 0L, latest = list(), margin = NULL) else list_modify(a, series = zap()))(),
+        candidates = field |> transmute(name, party),
+        poll_avg = if (is.null(avg)) list(n_polls = 0L, latest = list(), margin = NULL) else list_modify(avg, series = zap()),
         ratings = list(cook = cook, sabato = sabato, inside = inside),
         tracker = str_c("senate-", state) %in% names(tracker),
         call = if (nrow(call) == 1) as.list(call[c("winner_party", "winner_name", "called_at", "called_by")])
