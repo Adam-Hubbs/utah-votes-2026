@@ -90,3 +90,34 @@ seed_legislature_seats <- function(summary) {
     arrange(chamber, district) |>
     mutate(source = "le.utah.gov/data/legislators.json; candidates from results/2026-general/summary.json", note = "")
 }
+
+ORDINALS <- c(First = 1, Second = 2, Third = 3, Fourth = 4, Fifth = 5, Sixth = 6, Seventh = 7, Eighth = 8)
+
+# Court label from the ballot description ("judge of the District Court of the Third Judicial District").
+court_from_description <- function(desc) {
+  office <- str_match(desc, "^Judicial retention election for (?:judge|justice) of (?:the )?(.+?)\\. Voters")[, 2]
+  ordinal <- str_extract(office, str_c("\\b(", str_c(names(ORDINALS), collapse = "|"), ")\\b"))
+  num <- ORDINALS[ordinal]
+  case_when(
+    str_detect(office, "^Supreme Court") ~ "Supreme Court",
+    str_detect(office, "^Court of Appeals") ~ "Court of Appeals",
+    str_detect(office, "^District Court") ~ str_c("District Court ", num),
+    str_detect(office, "^Juvenile Court") ~ str_c("Juvenile Court ", num),
+    str_detect(office, "Justice Court") ~ str_c("Justice Court: ", str_remove(office, "^Springville Municipal Justice Court\\? ")),
+    .default = office
+  )
+}
+
+seed_judges <- function(summary) {
+  summary$contests |>
+    keep(\(c) c$office == "retention") |>
+    map(\(c) {
+      tibble(
+        contest_id = c$contest_id,
+        judge = c$name |> str_remove("^Retain (Judge|Justice) ") |> str_remove("\\?$"),
+        title = if_else(str_detect(c$name, "^Retain Justice"), "Justice", "Judge"),
+        court = court_from_description(c$description)
+      )
+    }) |>
+    list_rbind()
+}
