@@ -115,7 +115,7 @@ Utah votes by mail, so precincts-reporting is meaningless. For each county c:
   Since 2025's HB 300 mail ballots must be *received* by 8 pm Election Day, so a large share (drop-box ballots) is counted after the first report.
 * Posterior: exact 2-D grid over (delta, eta) with eps_c integrated out per county on a 1-D grid, then 4000 joint Monte Carlo
   draws (counties inform each other through delta/eta). The county log-likelihood is multiplied by 0.35 (`likelihood_power`)
-  because counties are not independent evidence about the statewide shift/pace. ~2 s. Counties with no votes yet use the prior.
+  because counties are not independent evidence about the statewide shift/pace. ~0.5 s per fit. Counties with no votes yet use the prior.
   `counted <= T` holds by construction.
 * Optional `pipeline/config/ballots_returned.csv` (`fips,returned`; absent by default - no official per-county returned-ballot feed
   was found to scrape): `0.97 * returned` becomes a lower bound on `T_c`.
