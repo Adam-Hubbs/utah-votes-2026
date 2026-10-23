@@ -1,0 +1,97 @@
+{
+ "source": "MOCK (approximate ACS 2020–2024 5-year)",
+ "units": [
+  {
+   "id": "1",
+   "name": "District 1",
+   "population": 708112,
+   "median_age": 27.3,
+   "pct_white_nh": 0.757,
+   "pct_hispanic": 0.163,
+   "pct_asian": 0.034,
+   "pct_black": 0.012,
+   "pct_bachelors_plus": 0.394,
+   "median_hh_income": 80800,
+   "pct_under_18": 0.305,
+   "pct_65_plus": 0.097,
+   "pct_urban": 1,
+   "registration": {
+    "REP": 193888,
+    "DEM": 117830,
+    "UNA": 127879,
+    "OTH": 13596,
+    "total": 453192,
+    "as_of": "2026-10-01"
+   }
+  },
+  {
+   "id": "2",
+   "name": "District 2",
+   "population": 873819,
+   "median_age": 28.4,
+   "pct_white_nh": 0.845,
+   "pct_hispanic": 0.105,
+   "pct_asian": 0.03,
+   "pct_black": 0.011,
+   "pct_bachelors_plus": 0.357,
+   "median_hh_income": 91000,
+   "pct_under_18": 0.31,
+   "pct_65_plus": 0.108,
+   "pct_urban": 0.978,
+   "registration": {
+    "REP": 304678,
+    "DEM": 90748,
+    "UNA": 147040,
+    "OTH": 16777,
+    "total": 559244,
+    "as_of": "2026-10-01"
+   }
+  },
+  {
+   "id": "3",
+   "name": "District 3",
+   "population": 790537,
+   "median_age": 28.9,
+   "pct_white_nh": 0.859,
+   "pct_hispanic": 0.084,
+   "pct_asian": 0.03,
+   "pct_black": 0.01,
+   "pct_bachelors_plus": 0.345,
+   "median_hh_income": 90200,
+   "pct_under_18": 0.315,
+   "pct_65_plus": 0.112,
+   "pct_urban": 0.962,
+   "registration": {
+    "REP": 296193,
+    "DEM": 66287,
+    "UNA": 128286,
+    "OTH": 15180,
+    "total": 505945,
+    "as_of": "2026-10-01"
+   }
+  },
+  {
+   "id": "4",
+   "name": "District 4",
+   "population": 899981,
+   "median_age": 27.7,
+   "pct_white_nh": 0.816,
+   "pct_hispanic": 0.119,
+   "pct_asian": 0.033,
+   "pct_black": 0.011,
+   "pct_bachelors_plus": 0.392,
+   "median_hh_income": 89600,
+   "pct_under_18": 0.319,
+   "pct_65_plus": 0.104,
+   "pct_urban": 0.992,
+   "registration": {
+    "REP": 283939,
+    "DEM": 117120,
+    "UNA": 157650,
+    "OTH": 17279,
+    "total": 575988,
+    "as_of": "2026-10-01"
+   }
+  }
+ ]
+}

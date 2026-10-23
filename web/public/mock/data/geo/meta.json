@@ -1,0 +1,9 @@
+{
+ "note": "MOCK geometry. Counties from us-atlas (Census). Precincts and districts are synthetic Voronoi cells.",
+ "vintages": [
+  "precincts_2024",
+  "precincts_2026",
+  "cd2022",
+  "cd2026"
+ ]
+}

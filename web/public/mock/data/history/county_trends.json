@@ -1,0 +1,1454 @@
+{
+ "counties": {
+  "49001": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.642,
+    "turnout": 0.735
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.727,
+    "turnout": 0.537
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.625,
+    "turnout": 0.686
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.637,
+    "turnout": 0.717
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.751,
+    "turnout": 0.472
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.625,
+    "turnout": 0.737
+   }
+  ],
+  "49003": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.675,
+    "turnout": 0.682
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.681,
+    "turnout": 0.486
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.599,
+    "turnout": 0.741
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.676,
+    "turnout": 0.694
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.732,
+    "turnout": 0.502
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.612,
+    "turnout": 0.676
+   }
+  ],
+  "49005": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.323,
+    "turnout": 0.697
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.284,
+    "turnout": 0.517
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.271,
+    "turnout": 0.67
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.271,
+    "turnout": 0.692
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.295,
+    "turnout": 0.568
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.289,
+    "turnout": 0.676
+   }
+  ],
+  "49007": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.449,
+    "turnout": 0.702
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.513,
+    "turnout": 0.535
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.391,
+    "turnout": 0.721
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.421,
+    "turnout": 0.653
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.49,
+    "turnout": 0.523
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.488,
+    "turnout": 0.716
+   }
+  ],
+  "49009": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.424,
+    "turnout": 0.691
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.516,
+    "turnout": 0.51
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.316,
+    "turnout": 0.759
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.448,
+    "turnout": 0.741
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.523,
+    "turnout": 0.469
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.426,
+    "turnout": 0.71
+   }
+  ],
+  "49011": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.258,
+    "turnout": 0.671
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.303,
+    "turnout": 0.482
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.265,
+    "turnout": 0.671
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.239,
+    "turnout": 0.703
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.354,
+    "turnout": 0.495
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.193,
+    "turnout": 0.646
+   }
+  ],
+  "49013": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.688,
+    "turnout": 0.754
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.728,
+    "turnout": 0.486
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.642,
+    "turnout": 0.712
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.78,
+    "turnout": 0.663
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.762,
+    "turnout": 0.464
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.68,
+    "turnout": 0.702
+   }
+  ],
+  "49015": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.663,
+    "turnout": 0.695
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.776,
+    "turnout": 0.468
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.683,
+    "turnout": 0.653
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.783,
+    "turnout": 0.659
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.786,
+    "turnout": 0.51
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.735,
+    "turnout": 0.731
+   }
+  ],
+  "49017": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.578,
+    "turnout": 0.667
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.653,
+    "turnout": 0.423
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.559,
+    "turnout": 0.756
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.599,
+    "turnout": 0.637
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.69,
+    "turnout": 0.502
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.606,
+    "turnout": 0.702
+   }
+  ],
+  "49019": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": -0.283,
+    "turnout": 0.72
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": -0.135,
+    "turnout": 0.502
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": -0.232,
+    "turnout": 0.584
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": -0.226,
+    "turnout": 0.725
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": -0.134,
+    "turnout": 0.511
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": -0.212,
+    "turnout": 0.669
+   }
+  ],
+  "49021": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.479,
+    "turnout": 0.689
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.563,
+    "turnout": 0.529
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.466,
+    "turnout": 0.657
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.468,
+    "turnout": 0.73
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.563,
+    "turnout": 0.486
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.503,
+    "turnout": 0.686
+   }
+  ],
+  "49023": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.676,
+    "turnout": 0.681
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.736,
+    "turnout": 0.536
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.571,
+    "turnout": 0.733
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.738,
+    "turnout": 0.743
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.744,
+    "turnout": 0.499
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.619,
+    "turnout": 0.621
+   }
+  ],
+  "49025": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.362,
+    "turnout": 0.712
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.499,
+    "turnout": 0.47
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.356,
+    "turnout": 0.736
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.445,
+    "turnout": 0.689
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.482,
+    "turnout": 0.485
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.367,
+    "turnout": 0.689
+   }
+  ],
+  "49027": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.659,
+    "turnout": 0.643
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.817,
+    "turnout": 0.621
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.72,
+    "turnout": 0.749
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.707,
+    "turnout": 0.674
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.785,
+    "turnout": 0.534
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.716,
+    "turnout": 0.671
+   }
+  ],
+  "49029": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.638,
+    "turnout": 0.7
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.691,
+    "turnout": 0.465
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.645,
+    "turnout": 0.769
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.645,
+    "turnout": 0.772
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.749,
+    "turnout": 0.456
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.672,
+    "turnout": 0.735
+   }
+  ],
+  "49031": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.709,
+    "turnout": 0.715
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.74,
+    "turnout": 0.541
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.629,
+    "turnout": 0.712
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.749,
+    "turnout": 0.607
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.803,
+    "turnout": 0.551
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.797,
+    "turnout": 0.636
+   }
+  ],
+  "49033": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.671,
+    "turnout": 0.699
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.702,
+    "turnout": 0.548
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.61,
+    "turnout": 0.661
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.657,
+    "turnout": 0.688
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.743,
+    "turnout": 0.486
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.647,
+    "turnout": 0.69
+   }
+  ],
+  "49035": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": -0.104,
+    "turnout": 0.69
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": -0.064,
+    "turnout": 0.484
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": -0.124,
+    "turnout": 0.741
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": -0.139,
+    "turnout": 0.701
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": -0.061,
+    "turnout": 0.575
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": -0.118,
+    "turnout": 0.712
+   }
+  ],
+  "49037": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": -0.102,
+    "turnout": 0.622
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.018,
+    "turnout": 0.461
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": -0.126,
+    "turnout": 0.68
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": -0.075,
+    "turnout": 0.688
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": -0.024,
+    "turnout": 0.432
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": -0.08,
+    "turnout": 0.693
+   }
+  ],
+  "49039": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.602,
+    "turnout": 0.724
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.629,
+    "turnout": 0.521
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.515,
+    "turnout": 0.714
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.592,
+    "turnout": 0.674
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.669,
+    "turnout": 0.486
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.571,
+    "turnout": 0.741
+   }
+  ],
+  "49041": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.721,
+    "turnout": 0.625
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.756,
+    "turnout": 0.506
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.635,
+    "turnout": 0.63
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.702,
+    "turnout": 0.658
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.777,
+    "turnout": 0.43
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.706,
+    "turnout": 0.653
+   }
+  ],
+  "49043": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": -0.276,
+    "turnout": 0.701
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": -0.177,
+    "turnout": 0.551
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": -0.324,
+    "turnout": 0.761
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": -0.267,
+    "turnout": 0.658
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": -0.214,
+    "turnout": 0.511
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": -0.254,
+    "turnout": 0.679
+   }
+  ],
+  "49045": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.4,
+    "turnout": 0.7
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.496,
+    "turnout": 0.467
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.388,
+    "turnout": 0.629
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.442,
+    "turnout": 0.689
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.508,
+    "turnout": 0.477
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.39,
+    "turnout": 0.665
+   }
+  ],
+  "49047": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.643,
+    "turnout": 0.721
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.722,
+    "turnout": 0.507
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.556,
+    "turnout": 0.678
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.669,
+    "turnout": 0.677
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.784,
+    "turnout": 0.34
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.678,
+    "turnout": 0.72
+   }
+  ],
+  "49049": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.29,
+    "turnout": 0.687
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.348,
+    "turnout": 0.489
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.292,
+    "turnout": 0.749
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.327,
+    "turnout": 0.69
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.344,
+    "turnout": 0.547
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.314,
+    "turnout": 0.715
+   }
+  ],
+  "49051": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.176,
+    "turnout": 0.649
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.156,
+    "turnout": 0.546
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.134,
+    "turnout": 0.725
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.087,
+    "turnout": 0.714
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.224,
+    "turnout": 0.492
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.122,
+    "turnout": 0.656
+   }
+  ],
+  "49053": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.46,
+    "turnout": 0.759
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.536,
+    "turnout": 0.501
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.393,
+    "turnout": 0.771
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.423,
+    "turnout": 0.687
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.448,
+    "turnout": 0.448
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.446,
+    "turnout": 0.671
+   }
+  ],
+  "49055": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.442,
+    "turnout": 0.689
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.575,
+    "turnout": 0.431
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.443,
+    "turnout": 0.679
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.437,
+    "turnout": 0.664
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.531,
+    "turnout": 0.501
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.475,
+    "turnout": 0.664
+   }
+  ],
+  "49057": [
+   {
+    "election_id": "2016-general",
+    "contest_id": "president",
+    "name": "2016 President",
+    "year": 2016,
+    "margin": 0.172,
+    "turnout": 0.683
+   },
+   {
+    "election_id": "2018-general",
+    "contest_id": "us-senate",
+    "name": "2018 U.S. Senate",
+    "year": 2018,
+    "margin": 0.231,
+    "turnout": 0.52
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "president",
+    "name": "2020 President",
+    "year": 2020,
+    "margin": 0.202,
+    "turnout": 0.723
+   },
+   {
+    "election_id": "2020-general",
+    "contest_id": "governor",
+    "name": "2020 Governor",
+    "year": 2020,
+    "margin": 0.227,
+    "turnout": 0.721
+   },
+   {
+    "election_id": "2022-general",
+    "contest_id": "us-senate",
+    "name": "2022 U.S. Senate",
+    "year": 2022,
+    "margin": 0.304,
+    "turnout": 0.473
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "year": 2024,
+    "margin": 0.257,
+    "turnout": 0.662
+   }
+  ]
+ }
+}

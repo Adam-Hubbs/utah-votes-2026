@@ -1,0 +1,162 @@
+{
+ "us-house-1": [
+  {
+   "candidate_id": "ben-mcadams",
+   "name": "Ben McAdams",
+   "party": "DEM",
+   "incumbent": false,
+   "bio": "Former U.S. Representative and Salt Lake County mayor.",
+   "website": null
+  },
+  {
+   "candidate_id": "riley-owen",
+   "name": "Riley Owen",
+   "party": "REP",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "jesse-west",
+   "name": "Jesse West",
+   "party": "LIB",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "elias-montgomery",
+   "name": "Elias Montgomery",
+   "party": "NPA",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  }
+ ],
+ "us-house-2": [
+  {
+   "candidate_id": "blake-moore",
+   "name": "Blake Moore",
+   "party": "REP",
+   "incumbent": true,
+   "bio": "Incumbent Republican representative.",
+   "website": null
+  },
+  {
+   "candidate_id": "peter-crosby",
+   "name": "Peter Crosby",
+   "party": "DEM",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "daniel-cottam",
+   "name": "Daniel Cottam",
+   "party": "LIB",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "carlton-bowen",
+   "name": "Carlton Bowen",
+   "party": "IAP",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "robert-moesinger",
+   "name": "Robert Moesinger",
+   "party": "NPA",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  }
+ ],
+ "us-house-3": [
+  {
+   "candidate_id": "celeste-maloy",
+   "name": "Celeste Maloy",
+   "party": "REP",
+   "incumbent": true,
+   "bio": "Incumbent Republican representative.",
+   "website": null
+  },
+  {
+   "candidate_id": "kent-udell",
+   "name": "Kent Udell",
+   "party": "DEM",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "michael-stoddard",
+   "name": "Michael Stoddard",
+   "party": "LIB",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "cassie-easley",
+   "name": "Cassie Easley",
+   "party": "CON",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "ayden-scott",
+   "name": "Ayden Scott",
+   "party": "NPA",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "adonis-hooslyn",
+   "name": "Adonis Hooslyn",
+   "party": "NPA",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  }
+ ],
+ "us-house-4": [
+  {
+   "candidate_id": "mike-kennedy",
+   "name": "Mike Kennedy",
+   "party": "REP",
+   "incumbent": true,
+   "bio": "Incumbent Republican representative.",
+   "website": null
+  },
+  {
+   "candidate_id": "jonny-larsen",
+   "name": "Jonny Larsen",
+   "party": "DEM",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "steven-burt",
+   "name": "Steven Burt",
+   "party": "NPA",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  },
+  {
+   "candidate_id": "taylor-wright",
+   "name": "Taylor Wright",
+   "party": "LIB",
+   "incumbent": false,
+   "bio": null,
+   "website": null
+  }
+ ]
+}

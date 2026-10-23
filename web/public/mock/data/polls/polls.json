@@ -1,0 +1,1148 @@
+[
+ {
+  "poll_id": "ut-lighthouse-1",
+  "question_id": "q-ut-lighthouse-1",
+  "contest_id": "us-house-1",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-09-08",
+  "end_date": "2026-09-10",
+  "sample_size": 515,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "ben-mcadams",
+    "name": "Ben McAdams",
+    "party": "DEM",
+    "pct": 62.7
+   },
+   {
+    "candidate_id": "riley-owen",
+    "name": "Riley Owen",
+    "party": "REP",
+    "pct": 21.2
+   },
+   {
+    "candidate_id": "jesse-west",
+    "name": "Jesse West",
+    "party": "LIB",
+    "pct": 4.7
+   },
+   {
+    "candidate_id": "elias-montgomery",
+    "name": "Elias Montgomery",
+    "party": "NPA",
+    "pct": 3.3
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-1",
+  "question_id": "q-mock-2",
+  "contest_id": "us-house-1",
+  "stage": "general",
+  "pollster": "Noble Predictive Insights",
+  "sponsor": null,
+  "start_date": "2026-10-14",
+  "end_date": "2026-10-16",
+  "sample_size": 537,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "ben-mcadams",
+    "name": "Ben McAdams",
+    "party": "DEM",
+    "pct": 69.9
+   },
+   {
+    "candidate_id": "riley-owen",
+    "name": "Riley Owen",
+    "party": "REP",
+    "pct": 21.2
+   },
+   {
+    "candidate_id": "jesse-west",
+    "name": "Jesse West",
+    "party": "LIB",
+    "pct": 3.7
+   },
+   {
+    "candidate_id": "elias-montgomery",
+    "name": "Elias Montgomery",
+    "party": "NPA",
+    "pct": 2.5
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-2",
+  "question_id": "q-mock-3",
+  "contest_id": "us-house-1",
+  "stage": "general",
+  "pollster": "Y2 Analytics",
+  "sponsor": "Salt Lake Tribune",
+  "start_date": "2026-09-28",
+  "end_date": "2026-09-30",
+  "sample_size": 599,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "ben-mcadams",
+    "name": "Ben McAdams",
+    "party": "DEM",
+    "pct": 67.3
+   },
+   {
+    "candidate_id": "riley-owen",
+    "name": "Riley Owen",
+    "party": "REP",
+    "pct": 23.4
+   },
+   {
+    "candidate_id": "jesse-west",
+    "name": "Jesse West",
+    "party": "LIB",
+    "pct": 3
+   },
+   {
+    "candidate_id": "elias-montgomery",
+    "name": "Elias Montgomery",
+    "party": "NPA",
+    "pct": 3.2
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-3",
+  "question_id": "q-mock-4",
+  "contest_id": "us-house-1",
+  "stage": "general",
+  "pollster": "Emerson College",
+  "sponsor": "KUTV",
+  "start_date": "2026-09-21",
+  "end_date": "2026-09-23",
+  "sample_size": 444,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "ben-mcadams",
+    "name": "Ben McAdams",
+    "party": "DEM",
+    "pct": 66.9
+   },
+   {
+    "candidate_id": "riley-owen",
+    "name": "Riley Owen",
+    "party": "REP",
+    "pct": 19.4
+   },
+   {
+    "candidate_id": "jesse-west",
+    "name": "Jesse West",
+    "party": "LIB",
+    "pct": 4.7
+   },
+   {
+    "candidate_id": "elias-montgomery",
+    "name": "Elias Montgomery",
+    "party": "NPA",
+    "pct": 4.9
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-4",
+  "question_id": "q-mock-5",
+  "contest_id": "us-house-1",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-09-11",
+  "end_date": "2026-09-13",
+  "sample_size": 499,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "ben-mcadams",
+    "name": "Ben McAdams",
+    "party": "DEM",
+    "pct": 69.2
+   },
+   {
+    "candidate_id": "riley-owen",
+    "name": "Riley Owen",
+    "party": "REP",
+    "pct": 23.8
+   },
+   {
+    "candidate_id": "jesse-west",
+    "name": "Jesse West",
+    "party": "LIB",
+    "pct": 7.9
+   },
+   {
+    "candidate_id": "elias-montgomery",
+    "name": "Elias Montgomery",
+    "party": "NPA",
+    "pct": 1.7
+   }
+  ]
+ },
+ {
+  "poll_id": "ut-lighthouse-2",
+  "question_id": "q-ut-lighthouse-2",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-09-08",
+  "end_date": "2026-09-10",
+  "sample_size": 515,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 39
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 34
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 4.9
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 4.1
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 4.9
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-5",
+  "question_id": "q-mock-6",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Y2 Analytics",
+  "sponsor": "Salt Lake Tribune",
+  "start_date": "2026-10-14",
+  "end_date": "2026-10-16",
+  "sample_size": 753,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 42.4
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 37.2
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 7
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 2.7
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 7
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-6",
+  "question_id": "q-mock-7",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Emerson College",
+  "sponsor": "KUTV",
+  "start_date": "2026-10-06",
+  "end_date": "2026-10-08",
+  "sample_size": 448,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 41.5
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 33.7
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 5.5
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 4.5
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 3
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-7",
+  "question_id": "q-mock-8",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-10-01",
+  "end_date": "2026-10-03",
+  "sample_size": 440,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 45.2
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 39
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 5.9
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 1
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 7.3
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-8",
+  "question_id": "q-mock-9",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Dan Jones & Associates",
+  "sponsor": null,
+  "start_date": "2026-09-24",
+  "end_date": "2026-09-26",
+  "sample_size": 361,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 41.7
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 33.8
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 6.7
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 7.7
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 7.1
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-9",
+  "question_id": "q-mock-10",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Deseret News / Hinckley Institute",
+  "sponsor": "Deseret News",
+  "start_date": "2026-09-11",
+  "end_date": "2026-09-13",
+  "sample_size": 642,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 45.4
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 39.4
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 10
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 8.1
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 3.9
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-10",
+  "question_id": "q-mock-11",
+  "contest_id": "us-house-2",
+  "stage": "general",
+  "pollster": "Noble Predictive Insights",
+  "sponsor": null,
+  "start_date": "2026-09-07",
+  "end_date": "2026-09-09",
+  "sample_size": 456,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "blake-moore",
+    "name": "Blake Moore",
+    "party": "REP",
+    "pct": 38.2
+   },
+   {
+    "candidate_id": "peter-crosby",
+    "name": "Peter Crosby",
+    "party": "DEM",
+    "pct": 32.7
+   },
+   {
+    "candidate_id": "daniel-cottam",
+    "name": "Daniel Cottam",
+    "party": "LIB",
+    "pct": 2.8
+   },
+   {
+    "candidate_id": "carlton-bowen",
+    "name": "Carlton Bowen",
+    "party": "IAP",
+    "pct": 4.9
+   },
+   {
+    "candidate_id": "robert-moesinger",
+    "name": "Robert Moesinger",
+    "party": "NPA",
+    "pct": 4.7
+   }
+  ]
+ },
+ {
+  "poll_id": "ut-lighthouse-3",
+  "question_id": "q-ut-lighthouse-3",
+  "contest_id": "us-house-3",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-09-08",
+  "end_date": "2026-09-10",
+  "sample_size": 515,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 44.5
+   },
+   {
+    "candidate_id": "kent-udell",
+    "name": "Kent Udell",
+    "party": "DEM",
+    "pct": 26.4
+   },
+   {
+    "candidate_id": "michael-stoddard",
+    "name": "Michael Stoddard",
+    "party": "LIB",
+    "pct": 6.5
+   },
+   {
+    "candidate_id": "cassie-easley",
+    "name": "Cassie Easley",
+    "party": "CON",
+    "pct": 2.6
+   },
+   {
+    "candidate_id": "ayden-scott",
+    "name": "Ayden Scott",
+    "party": "NPA",
+    "pct": 2.8
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-11",
+  "question_id": "q-mock-12",
+  "contest_id": "us-house-3",
+  "stage": "general",
+  "pollster": "Emerson College",
+  "sponsor": "KUTV",
+  "start_date": "2026-10-14",
+  "end_date": "2026-10-16",
+  "sample_size": 462,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 49.6
+   },
+   {
+    "candidate_id": "kent-udell",
+    "name": "Kent Udell",
+    "party": "DEM",
+    "pct": 28.2
+   },
+   {
+    "candidate_id": "michael-stoddard",
+    "name": "Michael Stoddard",
+    "party": "LIB",
+    "pct": 8.3
+   },
+   {
+    "candidate_id": "cassie-easley",
+    "name": "Cassie Easley",
+    "party": "CON",
+    "pct": 4.8
+   },
+   {
+    "candidate_id": "ayden-scott",
+    "name": "Ayden Scott",
+    "party": "NPA",
+    "pct": 6.9
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-12",
+  "question_id": "q-mock-13",
+  "contest_id": "us-house-3",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-10-08",
+  "end_date": "2026-10-10",
+  "sample_size": 514,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 47.1
+   },
+   {
+    "candidate_id": "kent-udell",
+    "name": "Kent Udell",
+    "party": "DEM",
+    "pct": 27.7
+   },
+   {
+    "candidate_id": "michael-stoddard",
+    "name": "Michael Stoddard",
+    "party": "LIB",
+    "pct": 3.3
+   },
+   {
+    "candidate_id": "cassie-easley",
+    "name": "Cassie Easley",
+    "party": "CON",
+    "pct": 1.9
+   },
+   {
+    "candidate_id": "ayden-scott",
+    "name": "Ayden Scott",
+    "party": "NPA",
+    "pct": 3.8
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-13",
+  "question_id": "q-mock-14",
+  "contest_id": "us-house-3",
+  "stage": "general",
+  "pollster": "Dan Jones & Associates",
+  "sponsor": null,
+  "start_date": "2026-09-29",
+  "end_date": "2026-10-01",
+  "sample_size": 423,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 45.5
+   },
+   {
+    "candidate_id": "kent-udell",
+    "name": "Kent Udell",
+    "party": "DEM",
+    "pct": 28.6
+   },
+   {
+    "candidate_id": "michael-stoddard",
+    "name": "Michael Stoddard",
+    "party": "LIB",
+    "pct": 6.2
+   },
+   {
+    "candidate_id": "cassie-easley",
+    "name": "Cassie Easley",
+    "party": "CON",
+    "pct": 2.6
+   },
+   {
+    "candidate_id": "ayden-scott",
+    "name": "Ayden Scott",
+    "party": "NPA",
+    "pct": 4.9
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-14",
+  "question_id": "q-mock-15",
+  "contest_id": "us-house-3",
+  "stage": "general",
+  "pollster": "Deseret News / Hinckley Institute",
+  "sponsor": "Deseret News",
+  "start_date": "2026-09-16",
+  "end_date": "2026-09-18",
+  "sample_size": 539,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 50.8
+   },
+   {
+    "candidate_id": "kent-udell",
+    "name": "Kent Udell",
+    "party": "DEM",
+    "pct": 30
+   },
+   {
+    "candidate_id": "michael-stoddard",
+    "name": "Michael Stoddard",
+    "party": "LIB",
+    "pct": 8
+   },
+   {
+    "candidate_id": "cassie-easley",
+    "name": "Cassie Easley",
+    "party": "CON",
+    "pct": 3.1
+   },
+   {
+    "candidate_id": "ayden-scott",
+    "name": "Ayden Scott",
+    "party": "NPA",
+    "pct": 1.2
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-15",
+  "question_id": "q-mock-16",
+  "contest_id": "us-house-3",
+  "stage": "general",
+  "pollster": "Noble Predictive Insights",
+  "sponsor": null,
+  "start_date": "2026-09-07",
+  "end_date": "2026-09-09",
+  "sample_size": 417,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 46.4
+   },
+   {
+    "candidate_id": "kent-udell",
+    "name": "Kent Udell",
+    "party": "DEM",
+    "pct": 27.6
+   },
+   {
+    "candidate_id": "michael-stoddard",
+    "name": "Michael Stoddard",
+    "party": "LIB",
+    "pct": 9.8
+   },
+   {
+    "candidate_id": "cassie-easley",
+    "name": "Cassie Easley",
+    "party": "CON",
+    "pct": 1
+   },
+   {
+    "candidate_id": "ayden-scott",
+    "name": "Ayden Scott",
+    "party": "NPA",
+    "pct": 2.9
+   }
+  ]
+ },
+ {
+  "poll_id": "ut-lighthouse-4",
+  "question_id": "q-ut-lighthouse-4",
+  "contest_id": "us-house-4",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-09-08",
+  "end_date": "2026-09-10",
+  "sample_size": 515,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "mike-kennedy",
+    "name": "Mike Kennedy",
+    "party": "REP",
+    "pct": 41.7
+   },
+   {
+    "candidate_id": "jonny-larsen",
+    "name": "Jonny Larsen",
+    "party": "DEM",
+    "pct": 32.9
+   },
+   {
+    "candidate_id": "steven-burt",
+    "name": "Steven Burt",
+    "party": "NPA",
+    "pct": 5.7
+   },
+   {
+    "candidate_id": "taylor-wright",
+    "name": "Taylor Wright",
+    "party": "LIB",
+    "pct": 5.3
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-16",
+  "question_id": "q-mock-17",
+  "contest_id": "us-house-4",
+  "stage": "general",
+  "pollster": "Lighthouse Research",
+  "sponsor": "Utah Debate Commission",
+  "start_date": "2026-10-10",
+  "end_date": "2026-10-12",
+  "sample_size": 563,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "mike-kennedy",
+    "name": "Mike Kennedy",
+    "party": "REP",
+    "pct": 45.4
+   },
+   {
+    "candidate_id": "jonny-larsen",
+    "name": "Jonny Larsen",
+    "party": "DEM",
+    "pct": 35.2
+   },
+   {
+    "candidate_id": "steven-burt",
+    "name": "Steven Burt",
+    "party": "NPA",
+    "pct": 8.8
+   },
+   {
+    "candidate_id": "taylor-wright",
+    "name": "Taylor Wright",
+    "party": "LIB",
+    "pct": 6.2
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-17",
+  "question_id": "q-mock-18",
+  "contest_id": "us-house-4",
+  "stage": "general",
+  "pollster": "Dan Jones & Associates",
+  "sponsor": null,
+  "start_date": "2026-10-03",
+  "end_date": "2026-10-05",
+  "sample_size": 474,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "mike-kennedy",
+    "name": "Mike Kennedy",
+    "party": "REP",
+    "pct": 43.9
+   },
+   {
+    "candidate_id": "jonny-larsen",
+    "name": "Jonny Larsen",
+    "party": "DEM",
+    "pct": 34
+   },
+   {
+    "candidate_id": "steven-burt",
+    "name": "Steven Burt",
+    "party": "NPA",
+    "pct": 4.3
+   },
+   {
+    "candidate_id": "taylor-wright",
+    "name": "Taylor Wright",
+    "party": "LIB",
+    "pct": 5.1
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-18",
+  "question_id": "q-mock-19",
+  "contest_id": "us-house-4",
+  "stage": "general",
+  "pollster": "Deseret News / Hinckley Institute",
+  "sponsor": "Deseret News",
+  "start_date": "2026-09-25",
+  "end_date": "2026-09-27",
+  "sample_size": 598,
+  "population": "rv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "mike-kennedy",
+    "name": "Mike Kennedy",
+    "party": "REP",
+    "pct": 42.9
+   },
+   {
+    "candidate_id": "jonny-larsen",
+    "name": "Jonny Larsen",
+    "party": "DEM",
+    "pct": 34.5
+   },
+   {
+    "candidate_id": "steven-burt",
+    "name": "Steven Burt",
+    "party": "NPA",
+    "pct": 2.6
+   },
+   {
+    "candidate_id": "taylor-wright",
+    "name": "Taylor Wright",
+    "party": "LIB",
+    "pct": 4.4
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-19",
+  "question_id": "q-mock-20",
+  "contest_id": "us-house-4",
+  "stage": "general",
+  "pollster": "Noble Predictive Insights",
+  "sponsor": null,
+  "start_date": "2026-09-13",
+  "end_date": "2026-09-15",
+  "sample_size": 464,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "mike-kennedy",
+    "name": "Mike Kennedy",
+    "party": "REP",
+    "pct": 45.1
+   },
+   {
+    "candidate_id": "jonny-larsen",
+    "name": "Jonny Larsen",
+    "party": "DEM",
+    "pct": 35.1
+   },
+   {
+    "candidate_id": "steven-burt",
+    "name": "Steven Burt",
+    "party": "NPA",
+    "pct": 6.7
+   },
+   {
+    "candidate_id": "taylor-wright",
+    "name": "Taylor Wright",
+    "party": "LIB",
+    "pct": 4.7
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-20",
+  "question_id": "q-mock-21",
+  "contest_id": "us-house-4",
+  "stage": "general",
+  "pollster": "Y2 Analytics",
+  "sponsor": "Salt Lake Tribune",
+  "start_date": "2026-09-08",
+  "end_date": "2026-09-10",
+  "sample_size": 597,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "mike-kennedy",
+    "name": "Mike Kennedy",
+    "party": "REP",
+    "pct": 46.6
+   },
+   {
+    "candidate_id": "jonny-larsen",
+    "name": "Jonny Larsen",
+    "party": "DEM",
+    "pct": 36.3
+   },
+   {
+    "candidate_id": "steven-burt",
+    "name": "Steven Burt",
+    "party": "NPA",
+    "pct": 5.2
+   },
+   {
+    "candidate_id": "taylor-wright",
+    "name": "Taylor Wright",
+    "party": "LIB",
+    "pct": 5.8
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-prim-1",
+  "question_id": "q-prim-1",
+  "contest_id": "us-house-1",
+  "stage": "primary",
+  "pollster": "Y2 Analytics",
+  "sponsor": "Salt Lake Tribune",
+  "start_date": "2026-05-20",
+  "end_date": "2026-05-27",
+  "sample_size": 410,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "ben-mcadams",
+    "name": "Ben McAdams",
+    "party": "DEM",
+    "pct": 51
+   },
+   {
+    "candidate_id": "nate-blouin",
+    "name": "Nate Blouin",
+    "party": "DEM",
+    "pct": 29
+   }
+  ]
+ },
+ {
+  "poll_id": "mock-prim-2",
+  "question_id": "q-prim-2",
+  "contest_id": "us-house-3",
+  "stage": "primary",
+  "pollster": "Deseret News / Hinckley Institute",
+  "sponsor": "Deseret News",
+  "start_date": "2026-05-28",
+  "end_date": "2026-06-03",
+  "sample_size": 380,
+  "population": "lv",
+  "partisan": null,
+  "internal": false,
+  "url": null,
+  "numeric_grade": null,
+  "results": [
+   {
+    "candidate_id": "celeste-maloy",
+    "name": "Celeste Maloy",
+    "party": "REP",
+    "pct": 57
+   },
+   {
+    "candidate_id": "alex-example",
+    "name": "Alex Example",
+    "party": "REP",
+    "pct": 25
+   }
+  ]
+ }
+]

@@ -1,0 +1,34 @@
+:root {
+  --bg: #fff;
+  --ink: #121212;
+  --ink-2: #444;
+  --ink-3: #6b6b6b;
+  --ink-4: #999;
+  --rule: #e2e2e2;
+  --rule-strong: #c9c9c9;
+  --wash: #f6f6f4;
+  --wash-2: #efefec;
+
+  --rep: #d6303a;
+  --rep-mid: #f28c8c;
+  --rep-light: #fbd5d3;
+  --rep-text: #b3222c;
+  --dem: #2563b5;
+  --dem-mid: #7fa9de;
+  --dem-light: #d3e3f6;
+  --dem-text: #1d5099;
+  --third: #e3b505;
+  --third-light: #f8e9a8;
+  --for: #17808a;
+  --against: #b5651d;
+  --live: #d6303a;
+  --focus: #1a73e8;
+
+  --font-ui: 'Libre Franklin', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Source Serif 4', 'Georgia', 'Times New Roman', serif;
+
+  --wrap: 1150px;
+  --gutter: clamp(16px, 4vw, 28px);
+  --radius: 4px;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+}

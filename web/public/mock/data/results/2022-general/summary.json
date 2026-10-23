@@ -1,0 +1,259 @@
+{
+ "election_id": "2022-general",
+ "name": "2022 General Election",
+ "date": "2022-11-08",
+ "status": "final",
+ "updated_at": "2022-11-30T18:00:00Z",
+ "source": "electionresults.utah.gov (MOCK)",
+ "precinct_geo": null,
+ "cd_plan": "cd2022",
+ "turnout": {
+  "ballots_counted": 1107824,
+  "registered": 2028919,
+  "expected_ballots": 1107824,
+  "expected_lo": 1030276,
+  "expected_hi": 1185372,
+  "pct_expected": 1
+ },
+ "contests": [
+  {
+   "contest_id": "us-senate",
+   "name": "U.S. Senate",
+   "office": "us-senate",
+   "district": null,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 1063560,
+   "candidates": [
+    {
+     "candidate_id": "mike-lee",
+     "name": "Mike Lee",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 567221,
+     "pct": 0.5333,
+     "winner": false
+    },
+    {
+     "candidate_id": "evan-mcmullin",
+     "name": "Evan McMullin",
+     "party": "IAP",
+     "incumbent": false,
+     "votes": 460025,
+     "pct": 0.4325,
+     "winner": false
+    },
+    {
+     "candidate_id": "tommy-williams",
+     "name": "Tommy Williams",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 22992,
+     "pct": 0.0216,
+     "winner": false
+    },
+    {
+     "candidate_id": "ben-mcadams-jr",
+     "name": "Ben McAdams Jr.",
+     "party": "OTH",
+     "incumbent": false,
+     "votes": 13322,
+     "pct": 0.0125,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": null
+  },
+  {
+   "contest_id": "us-house-1",
+   "name": "U.S. House District 1",
+   "office": "us-house",
+   "district": 1,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 278344,
+   "candidates": [
+    {
+     "candidate_id": "blake-moore",
+     "name": "Blake Moore",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 177820,
+     "pct": 0.6388,
+     "winner": false
+    },
+    {
+     "candidate_id": "rick-jones",
+     "name": "Rick Jones",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 80615,
+     "pct": 0.2896,
+     "winner": false
+    },
+    {
+     "candidate_id": "third-party-1",
+     "name": "Third Party 1",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 19909,
+     "pct": 0.0715,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 10,
+    "counties_total": 10,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": null
+  },
+  {
+   "contest_id": "us-house-2",
+   "name": "U.S. House District 2",
+   "office": "us-house",
+   "district": 2,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 342850,
+   "candidates": [
+    {
+     "candidate_id": "celeste-maloy",
+     "name": "Celeste Maloy",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 218604,
+     "pct": 0.6376,
+     "winner": false
+    },
+    {
+     "candidate_id": "audrey-perry",
+     "name": "Audrey Perry",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 99122,
+     "pct": 0.2891,
+     "winner": false
+    },
+    {
+     "candidate_id": "third-party-2",
+     "name": "Third Party 2",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 25124,
+     "pct": 0.0733,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 11,
+    "counties_total": 11,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": null
+  },
+  {
+   "contest_id": "us-house-3",
+   "name": "U.S. House District 3",
+   "office": "us-house",
+   "district": 3,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 190755,
+   "candidates": [
+    {
+     "candidate_id": "celeste-maloy",
+     "name": "Celeste Maloy",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 121898,
+     "pct": 0.639,
+     "winner": false
+    },
+    {
+     "candidate_id": "nathaniel-woodward",
+     "name": "Nathaniel Woodward",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 55182,
+     "pct": 0.2893,
+     "winner": false
+    },
+    {
+     "candidate_id": "third-party-3",
+     "name": "Third Party 3",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 13675,
+     "pct": 0.0717,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 9,
+    "counties_total": 9,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": null
+  },
+  {
+   "contest_id": "us-house-4",
+   "name": "U.S. House District 4",
+   "office": "us-house",
+   "district": 4,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 251545,
+   "candidates": [
+    {
+     "candidate_id": "burgess-owens",
+     "name": "Burgess Owens",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 144361,
+     "pct": 0.5739,
+     "winner": false
+    },
+    {
+     "candidate_id": "darlene-mcdonald",
+     "name": "Darlene McDonald",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 88612,
+     "pct": 0.3523,
+     "winner": false
+    },
+    {
+     "candidate_id": "third-party-4",
+     "name": "Third Party 4",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 18572,
+     "pct": 0.0738,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 2,
+    "counties_total": 2,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": null
+  }
+ ]
+}

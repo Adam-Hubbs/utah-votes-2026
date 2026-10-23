@@ -1,0 +1,456 @@
+{
+ "election_id": "2024-general",
+ "name": "2024 General Election",
+ "date": "2024-11-05",
+ "status": "final",
+ "updated_at": "2024-11-20T18:00:00Z",
+ "source": "electionresults.utah.gov (MOCK)",
+ "precinct_geo": "precincts_2024",
+ "cd_plan": "cd2022",
+ "turnout": {
+  "ballots_counted": 1538624,
+  "registered": 2159820,
+  "expected_ballots": 1538624,
+  "expected_lo": 1430920,
+  "expected_hi": 1646328,
+  "pct_expected": 1
+ },
+ "contests": [
+  {
+   "contest_id": "president",
+   "name": "President",
+   "office": "president",
+   "district": null,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 1477094,
+   "candidates": [
+    {
+     "candidate_id": "donald-j-trump",
+     "name": "Donald J. Trump",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 876670,
+     "pct": 0.5935,
+     "winner": true
+    },
+    {
+     "candidate_id": "kamala-d-harris",
+     "name": "Kamala D. Harris",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 557916,
+     "pct": 0.3777,
+     "winner": false
+    },
+    {
+     "candidate_id": "robert-f-kennedy-jr",
+     "name": "Robert F. Kennedy Jr.",
+     "party": "UNA",
+     "incumbent": false,
+     "votes": 18297,
+     "pct": 0.0124,
+     "winner": false
+    },
+    {
+     "candidate_id": "chase-oliver",
+     "name": "Chase Oliver",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12174,
+     "pct": 0.0082,
+     "winner": false
+    },
+    {
+     "candidate_id": "jill-stein",
+     "name": "Jill Stein",
+     "party": "GRN",
+     "incumbent": false,
+     "votes": 6021,
+     "pct": 0.0041,
+     "winner": false
+    },
+    {
+     "candidate_id": "other-write-in",
+     "name": "Other / write-in",
+     "party": "OTH",
+     "incumbent": false,
+     "votes": 6016,
+     "pct": 0.0041,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "donald-j-trump",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "us-senate",
+   "name": "U.S. Senate",
+   "office": "us-senate",
+   "district": null,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 1477107,
+   "candidates": [
+    {
+     "candidate_id": "john-curtis",
+     "name": "John Curtis",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 921219,
+     "pct": 0.6237,
+     "winner": true
+    },
+    {
+     "candidate_id": "caroline-gleich",
+     "name": "Caroline Gleich",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 457130,
+     "pct": 0.3095,
+     "winner": false
+    },
+    {
+     "candidate_id": "carlton-bowen",
+     "name": "Carlton Bowen",
+     "party": "IAP",
+     "incumbent": false,
+     "votes": 53348,
+     "pct": 0.0361,
+     "winner": false
+    },
+    {
+     "candidate_id": "daniel-cottam",
+     "name": "Daniel Cottam",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 45410,
+     "pct": 0.0307,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "john-curtis",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "governor",
+   "name": "Governor",
+   "office": "governor",
+   "district": null,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 1477072,
+   "candidates": [
+    {
+     "candidate_id": "spencer-cox",
+     "name": "Spencer Cox",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 945637,
+     "pct": 0.6402,
+     "winner": true
+    },
+    {
+     "candidate_id": "brian-king",
+     "name": "Brian King",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 421251,
+     "pct": 0.2852,
+     "winner": false
+    },
+    {
+     "candidate_id": "robert-latham",
+     "name": "Robert Latham",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 68798,
+     "pct": 0.0466,
+     "winner": false
+    },
+    {
+     "candidate_id": "tom-tomorrow",
+     "name": "Tom Tomorrow",
+     "party": "IAP",
+     "incumbent": false,
+     "votes": 41386,
+     "pct": 0.028,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "spencer-cox",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "amendment-d",
+   "name": "Constitutional Amendment D",
+   "office": "amendment",
+   "district": null,
+   "type": "measure",
+   "featured": true,
+   "total_votes": 1477085,
+   "candidates": [
+    {
+     "candidate_id": "against",
+     "name": "Against",
+     "party": null,
+     "incumbent": false,
+     "votes": 901028,
+     "pct": 0.61,
+     "winner": true
+    },
+    {
+     "candidate_id": "for",
+     "name": "For",
+     "party": null,
+     "incumbent": false,
+     "votes": 576057,
+     "pct": 0.39,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "against",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "us-house-1",
+   "name": "U.S. House District 1",
+   "office": "us-house",
+   "district": 1,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 386603,
+   "candidates": [
+    {
+     "candidate_id": "blake-moore",
+     "name": "Blake Moore",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 254730,
+     "pct": 0.6589,
+     "winner": true
+    },
+    {
+     "candidate_id": "bill-campbell",
+     "name": "Bill Campbell",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 111897,
+     "pct": 0.2894,
+     "winner": false
+    },
+    {
+     "candidate_id": "daniel-cottam",
+     "name": "Daniel Cottam",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 19976,
+     "pct": 0.0517,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 10,
+    "counties_total": 10,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "blake-moore",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "us-house-2",
+   "name": "U.S. House District 2",
+   "office": "us-house",
+   "district": 2,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 476170,
+   "candidates": [
+    {
+     "candidate_id": "celeste-maloy",
+     "name": "Celeste Maloy",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 289988,
+     "pct": 0.609,
+     "winner": true
+    },
+    {
+     "candidate_id": "nathaniel-woodward",
+     "name": "Nathaniel Woodward",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 156917,
+     "pct": 0.3295,
+     "winner": false
+    },
+    {
+     "candidate_id": "daniel-cottam",
+     "name": "Daniel Cottam",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 29265,
+     "pct": 0.0615,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 11,
+    "counties_total": 11,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "celeste-maloy",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "us-house-3",
+   "name": "U.S. House District 3",
+   "office": "us-house",
+   "district": 3,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 264978,
+   "candidates": [
+    {
+     "candidate_id": "mike-kennedy",
+     "name": "Mike Kennedy",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 168917,
+     "pct": 0.6375,
+     "winner": true
+    },
+    {
+     "candidate_id": "glenn-wright",
+     "name": "Glenn Wright",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 79212,
+     "pct": 0.2989,
+     "winner": false
+    },
+    {
+     "candidate_id": "michael-stoddard",
+     "name": "Michael Stoddard",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 16849,
+     "pct": 0.0636,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 9,
+    "counties_total": 9,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "mike-kennedy",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  },
+  {
+   "contest_id": "us-house-4",
+   "name": "U.S. House District 4",
+   "office": "us-house",
+   "district": 4,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 349349,
+   "candidates": [
+    {
+     "candidate_id": "burgess-owens",
+     "name": "Burgess Owens",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 209552,
+     "pct": 0.5998,
+     "winner": true
+    },
+    {
+     "candidate_id": "katrina-fallick",
+     "name": "Katrina Fallick",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 125730,
+     "pct": 0.3599,
+     "winner": false
+    },
+    {
+     "candidate_id": "jeremy-peterson",
+     "name": "Jeremy Peterson",
+     "party": "UUP",
+     "incumbent": false,
+     "votes": 14067,
+     "pct": 0.0403,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 2,
+    "counties_total": 2,
+    "pct_expected": 1,
+    "pct_expected_lo": 0.988,
+    "pct_expected_hi": 1
+   },
+   "call": {
+    "candidate_id": "burgess-owens",
+    "called_at": "2024-11-06T03:00:00Z",
+    "by": "AP"
+   }
+  }
+ ]
+}

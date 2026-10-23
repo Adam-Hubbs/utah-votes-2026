@@ -1,0 +1,1304 @@
+{
+ "election_id": "2026-sim",
+ "name": "2026 General Election (simulated)",
+ "date": "2026-11-03",
+ "status": "live",
+ "updated_at": "2026-10-23T03:15:33.475Z",
+ "source": "electionresults.utah.gov (MOCK)",
+ "precinct_geo": "precincts_2026",
+ "cd_plan": "cd2026",
+ "turnout": {
+  "ballots_counted": 773592,
+  "registered": 2094368,
+  "expected_ballots": 1161055,
+  "expected_lo": 1079781,
+  "expected_hi": 1242329,
+  "pct_expected": 0.6663
+ },
+ "contests": [
+  {
+   "contest_id": "us-house-1",
+   "name": "U.S. House District 1",
+   "office": "us-house",
+   "district": 1,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 178281,
+   "candidates": [
+    {
+     "candidate_id": "ben-mcadams",
+     "name": "Ben McAdams",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 111595,
+     "pct": 0.626,
+     "winner": true
+    },
+    {
+     "candidate_id": "riley-owen",
+     "name": "Riley Owen",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 56964,
+     "pct": 0.3195,
+     "winner": false
+    },
+    {
+     "candidate_id": "jesse-west",
+     "name": "Jesse West",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 6070,
+     "pct": 0.034,
+     "winner": false
+    },
+    {
+     "candidate_id": "elias-montgomery",
+     "name": "Elias Montgomery",
+     "party": "NPA",
+     "incumbent": false,
+     "votes": 3652,
+     "pct": 0.0205,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 1,
+    "counties_total": 1,
+    "pct_expected": 0.7383,
+    "pct_expected_lo": 0.7153,
+    "pct_expected_hi": 0.7612
+   },
+   "call": {
+    "candidate_id": "ben-mcadams",
+    "called_at": "2026-10-23T03:00:33.475Z",
+    "by": "manual"
+   }
+  },
+  {
+   "contest_id": "us-house-2",
+   "name": "U.S. House District 2",
+   "office": "us-house",
+   "district": 2,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 209212,
+   "candidates": [
+    {
+     "candidate_id": "blake-moore",
+     "name": "Blake Moore",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 96879,
+     "pct": 0.4631,
+     "winner": false
+    },
+    {
+     "candidate_id": "peter-crosby",
+     "name": "Peter Crosby",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 89741,
+     "pct": 0.4289,
+     "winner": false
+    },
+    {
+     "candidate_id": "robert-moesinger",
+     "name": "Robert Moesinger",
+     "party": "NPA",
+     "incumbent": false,
+     "votes": 8605,
+     "pct": 0.0411,
+     "winner": false
+    },
+    {
+     "candidate_id": "daniel-cottam",
+     "name": "Daniel Cottam",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 7705,
+     "pct": 0.0368,
+     "winner": false
+    },
+    {
+     "candidate_id": "carlton-bowen",
+     "name": "Carlton Bowen",
+     "party": "IAP",
+     "incumbent": false,
+     "votes": 6282,
+     "pct": 0.03,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 8,
+    "counties_total": 8,
+    "pct_expected": 0.7032,
+    "pct_expected_lo": 0.6764,
+    "pct_expected_hi": 0.73
+   },
+   "call": null
+  },
+  {
+   "contest_id": "us-house-3",
+   "name": "U.S. House District 3",
+   "office": "us-house",
+   "district": 3,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 150631,
+   "candidates": [
+    {
+     "candidate_id": "celeste-maloy",
+     "name": "Celeste Maloy",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 80026,
+     "pct": 0.5313,
+     "winner": false
+    },
+    {
+     "candidate_id": "kent-udell",
+     "name": "Kent Udell",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 51594,
+     "pct": 0.3425,
+     "winner": false
+    },
+    {
+     "candidate_id": "michael-stoddard",
+     "name": "Michael Stoddard",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 7879,
+     "pct": 0.0523,
+     "winner": false
+    },
+    {
+     "candidate_id": "cassie-easley",
+     "name": "Cassie Easley",
+     "party": "CON",
+     "incumbent": false,
+     "votes": 3966,
+     "pct": 0.0263,
+     "winner": false
+    },
+    {
+     "candidate_id": "ayden-scott",
+     "name": "Ayden Scott",
+     "party": "NPA",
+     "incumbent": false,
+     "votes": 3622,
+     "pct": 0.024,
+     "winner": false
+    },
+    {
+     "candidate_id": "adonis-hooslyn",
+     "name": "Adonis Hooslyn",
+     "party": "NPA",
+     "incumbent": false,
+     "votes": 3544,
+     "pct": 0.0235,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 17,
+    "counties_total": 17,
+    "pct_expected": 0.5595,
+    "pct_expected_lo": 0.5144,
+    "pct_expected_hi": 0.6045
+   },
+   "call": null
+  },
+  {
+   "contest_id": "us-house-4",
+   "name": "U.S. House District 4",
+   "office": "us-house",
+   "district": 4,
+   "type": "candidate",
+   "featured": true,
+   "total_votes": 204478,
+   "candidates": [
+    {
+     "candidate_id": "mike-kennedy",
+     "name": "Mike Kennedy",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 98040,
+     "pct": 0.4795,
+     "winner": false
+    },
+    {
+     "candidate_id": "jonny-larsen",
+     "name": "Jonny Larsen",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 84957,
+     "pct": 0.4155,
+     "winner": false
+    },
+    {
+     "candidate_id": "steven-burt",
+     "name": "Steven Burt",
+     "party": "NPA",
+     "incumbent": false,
+     "votes": 10953,
+     "pct": 0.0536,
+     "winner": false
+    },
+    {
+     "candidate_id": "taylor-wright",
+     "name": "Taylor Wright",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 10528,
+     "pct": 0.0515,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 5,
+    "counties_total": 5,
+    "pct_expected": 0.6675,
+    "pct_expected_lo": 0.6368,
+    "pct_expected_hi": 0.6983
+   },
+   "call": null
+  },
+  {
+   "contest_id": "amendment-a",
+   "name": "Constitutional Amendment A",
+   "office": "amendment",
+   "district": null,
+   "type": "measure",
+   "featured": true,
+   "total_votes": 742638,
+   "candidates": [
+    {
+     "candidate_id": "for",
+     "name": "For",
+     "party": null,
+     "incumbent": false,
+     "votes": 392202,
+     "pct": 0.5281,
+     "winner": false
+    },
+    {
+     "candidate_id": "against",
+     "name": "Against",
+     "party": null,
+     "incumbent": false,
+     "votes": 350436,
+     "pct": 0.4719,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 0.6663,
+    "pct_expected_lo": 0.6348,
+    "pct_expected_hi": 0.6978
+   },
+   "call": null
+  },
+  {
+   "contest_id": "amendment-b",
+   "name": "Constitutional Amendment B",
+   "office": "amendment",
+   "district": null,
+   "type": "measure",
+   "featured": true,
+   "total_votes": 742672,
+   "candidates": [
+    {
+     "candidate_id": "against",
+     "name": "Against",
+     "party": null,
+     "incumbent": false,
+     "votes": 419121,
+     "pct": 0.5643,
+     "winner": false
+    },
+    {
+     "candidate_id": "for",
+     "name": "For",
+     "party": null,
+     "incumbent": false,
+     "votes": 323551,
+     "pct": 0.4357,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 29,
+    "counties_total": 29,
+    "pct_expected": 0.6663,
+    "pct_expected_lo": 0.6348,
+    "pct_expected_hi": 0.6978
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-1",
+   "name": "Utah House District 1",
+   "office": "state-house",
+   "district": 1,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "sarah-jenkins",
+     "name": "Sarah Jenkins",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 342910,
+     "pct": 0.5293,
+     "winner": false
+    },
+    {
+     "candidate_id": "dale-hansen",
+     "name": "Dale Hansen",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 292002,
+     "pct": 0.4507,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-1",
+     "name": "Morgan Lee 1",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-4",
+   "name": "Utah House District 4",
+   "office": "state-house",
+   "district": 4,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647868,
+   "candidates": [
+    {
+     "candidate_id": "cal-whitaker",
+     "name": "Cal Whitaker",
+     "party": "DEM",
+     "incumbent": true,
+     "votes": 350580,
+     "pct": 0.5411,
+     "winner": false
+    },
+    {
+     "candidate_id": "priya-nair",
+     "name": "Priya Nair",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 284331,
+     "pct": 0.4389,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-4",
+     "name": "Morgan Lee 4",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-9",
+   "name": "Utah House District 9",
+   "office": "state-house",
+   "district": 9,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "jen-okafor",
+     "name": "Jen Okafor",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 454638,
+     "pct": 0.7017,
+     "winner": false
+    },
+    {
+     "candidate_id": "luis-barrera",
+     "name": "Luis Barrera",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 180274,
+     "pct": 0.2783,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-9",
+     "name": "Morgan Lee 9",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-14",
+   "name": "Utah House District 14",
+   "office": "state-house",
+   "district": 14,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "mina-sato",
+     "name": "Mina Sato",
+     "party": "DEM",
+     "incumbent": true,
+     "votes": 335130,
+     "pct": 0.5173,
+     "winner": false
+    },
+    {
+     "candidate_id": "rosa-mendez",
+     "name": "Rosa Mendez",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 299782,
+     "pct": 0.4627,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-14",
+     "name": "Morgan Lee 14",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-20",
+   "name": "Utah House District 20",
+   "office": "state-house",
+   "district": 20,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "ann-pratt",
+     "name": "Ann Pratt",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 362654,
+     "pct": 0.5598,
+     "winner": false
+    },
+    {
+     "candidate_id": "tom-alvarez",
+     "name": "Tom Alvarez",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 272258,
+     "pct": 0.4202,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-20",
+     "name": "Morgan Lee 20",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-23",
+   "name": "Utah House District 23",
+   "office": "state-house",
+   "district": 23,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "mark-eliason",
+     "name": "Mark Eliason",
+     "party": "DEM",
+     "incumbent": true,
+     "votes": 345500,
+     "pct": 0.5333,
+     "winner": false
+    },
+    {
+     "candidate_id": "hollis-ward",
+     "name": "Hollis Ward",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 289412,
+     "pct": 0.4467,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-23",
+     "name": "Morgan Lee 23",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-31",
+   "name": "Utah House District 31",
+   "office": "state-house",
+   "district": 31,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "sarah-jenkins",
+     "name": "Sarah Jenkins",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 435148,
+     "pct": 0.6717,
+     "winner": false
+    },
+    {
+     "candidate_id": "dale-hansen",
+     "name": "Dale Hansen",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 199764,
+     "pct": 0.3083,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-31",
+     "name": "Morgan Lee 31",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-38",
+   "name": "Utah House District 38",
+   "office": "state-house",
+   "district": 38,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647868,
+   "candidates": [
+    {
+     "candidate_id": "priya-nair",
+     "name": "Priya Nair",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 344544,
+     "pct": 0.5318,
+     "winner": false
+    },
+    {
+     "candidate_id": "cal-whitaker",
+     "name": "Cal Whitaker",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 290367,
+     "pct": 0.4482,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-38",
+     "name": "Morgan Lee 38",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-44",
+   "name": "Utah House District 44",
+   "office": "state-house",
+   "district": 44,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "jen-okafor",
+     "name": "Jen Okafor",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 347558,
+     "pct": 0.5365,
+     "winner": false
+    },
+    {
+     "candidate_id": "luis-barrera",
+     "name": "Luis Barrera",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 287354,
+     "pct": 0.4435,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-44",
+     "name": "Morgan Lee 44",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-52",
+   "name": "Utah House District 52",
+   "office": "state-house",
+   "district": 52,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647868,
+   "candidates": [
+    {
+     "candidate_id": "rosa-mendez",
+     "name": "Rosa Mendez",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 409096,
+     "pct": 0.6314,
+     "winner": false
+    },
+    {
+     "candidate_id": "mina-sato",
+     "name": "Mina Sato",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 225815,
+     "pct": 0.3486,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-52",
+     "name": "Morgan Lee 52",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-60",
+   "name": "Utah House District 60",
+   "office": "state-house",
+   "district": 60,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "tom-alvarez",
+     "name": "Tom Alvarez",
+     "party": "DEM",
+     "incumbent": true,
+     "votes": 372783,
+     "pct": 0.5754,
+     "winner": false
+    },
+    {
+     "candidate_id": "ann-pratt",
+     "name": "Ann Pratt",
+     "party": "REP",
+     "incumbent": false,
+     "votes": 262129,
+     "pct": 0.4046,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-60",
+     "name": "Morgan Lee 60",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-house-68",
+   "name": "Utah House District 68",
+   "office": "state-house",
+   "district": 68,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "hollis-ward",
+     "name": "Hollis Ward",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 372450,
+     "pct": 0.5749,
+     "winner": false
+    },
+    {
+     "candidate_id": "mark-eliason",
+     "name": "Mark Eliason",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 262462,
+     "pct": 0.4051,
+     "winner": false
+    },
+    {
+     "candidate_id": "lib-68",
+     "name": "Morgan Lee 68",
+     "party": "LIB",
+     "incumbent": false,
+     "votes": 12957,
+     "pct": 0.02,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-senate-3",
+   "name": "Utah Senate District 3",
+   "office": "state-senate",
+   "district": 3,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "dem-ss-3",
+     "name": "Cal Whitaker",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 362268,
+     "pct": 0.5592,
+     "winner": false
+    },
+    {
+     "candidate_id": "rep-ss-3",
+     "name": "Mark Eliason",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 285601,
+     "pct": 0.4408,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-senate-11",
+   "name": "Utah Senate District 11",
+   "office": "state-senate",
+   "district": 11,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "dem-ss-11",
+     "name": "Mark Eliason",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 348326,
+     "pct": 0.5376,
+     "winner": false
+    },
+    {
+     "candidate_id": "rep-ss-11",
+     "name": "Mina Sato",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 299543,
+     "pct": 0.4624,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-senate-17",
+   "name": "Utah Senate District 17",
+   "office": "state-senate",
+   "district": 17,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "dem-ss-17",
+     "name": "Luis Barrera",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 346350,
+     "pct": 0.5346,
+     "winner": false
+    },
+    {
+     "candidate_id": "rep-ss-17",
+     "name": "Dale Hansen",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 301519,
+     "pct": 0.4654,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "state-senate-25",
+   "name": "Utah Senate District 25",
+   "office": "state-senate",
+   "district": 25,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "dem-ss-25",
+     "name": "Dale Hansen",
+     "party": "DEM",
+     "incumbent": false,
+     "votes": 387116,
+     "pct": 0.5975,
+     "winner": false
+    },
+    {
+     "candidate_id": "rep-ss-25",
+     "name": "Tom Alvarez",
+     "party": "REP",
+     "incumbent": true,
+     "votes": 260753,
+     "pct": 0.4025,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "school-board-2",
+   "name": "State Board of Education District 2",
+   "office": "school-board",
+   "district": 2,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "sb-2-a",
+     "name": "Mark Eliason",
+     "party": null,
+     "incumbent": true,
+     "votes": 362807,
+     "pct": 0.56,
+     "winner": false
+    },
+    {
+     "candidate_id": "sb-2-b",
+     "name": "Luis Barrera",
+     "party": null,
+     "incumbent": false,
+     "votes": 285062,
+     "pct": 0.44,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "school-board-6",
+   "name": "State Board of Education District 6",
+   "office": "school-board",
+   "district": 6,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "sb-6-a",
+     "name": "Cal Whitaker",
+     "party": null,
+     "incumbent": true,
+     "votes": 362807,
+     "pct": 0.56,
+     "winner": false
+    },
+    {
+     "candidate_id": "sb-6-b",
+     "name": "Tom Alvarez",
+     "party": null,
+     "incumbent": false,
+     "votes": 285062,
+     "pct": 0.44,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "school-board-9",
+   "name": "State Board of Education District 9",
+   "office": "school-board",
+   "district": 9,
+   "type": "candidate",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "sb-9-a",
+     "name": "Hollis Ward",
+     "party": null,
+     "incumbent": true,
+     "votes": 362807,
+     "pct": 0.56,
+     "winner": false
+    },
+    {
+     "candidate_id": "sb-9-b",
+     "name": "Jen Okafor",
+     "party": null,
+     "incumbent": false,
+     "votes": 285062,
+     "pct": 0.44,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "retention-justice-diane-park",
+   "name": "Retention: Justice Diane Park",
+   "office": "retention",
+   "district": null,
+   "type": "measure",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "retain",
+     "name": "Retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 584094,
+     "pct": 0.9016,
+     "winner": false
+    },
+    {
+     "candidate_id": "not-retain",
+     "name": "Do not retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 63775,
+     "pct": 0.0984,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "retention-judge-robert-hale",
+   "name": "Retention: Judge Robert Hale",
+   "office": "retention",
+   "district": null,
+   "type": "measure",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "retain",
+     "name": "Retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 565011,
+     "pct": 0.8721,
+     "winner": false
+    },
+    {
+     "candidate_id": "not-retain",
+     "name": "Do not retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 82858,
+     "pct": 0.1279,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "retention-judge-elena-ruiz",
+   "name": "Retention: Judge Elena Ruiz",
+   "office": "retention",
+   "district": null,
+   "type": "measure",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "retain",
+     "name": "Retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 562093,
+     "pct": 0.8676,
+     "winner": false
+    },
+    {
+     "candidate_id": "not-retain",
+     "name": "Do not retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 85776,
+     "pct": 0.1324,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  },
+  {
+   "contest_id": "retention-judge-marcus-trent",
+   "name": "Retention: Judge Marcus Trent",
+   "office": "retention",
+   "district": null,
+   "type": "measure",
+   "featured": false,
+   "total_votes": 647869,
+   "candidates": [
+    {
+     "candidate_id": "retain",
+     "name": "Retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 570517,
+     "pct": 0.8806,
+     "winner": false
+    },
+    {
+     "candidate_id": "not-retain",
+     "name": "Do not retain",
+     "party": null,
+     "incumbent": false,
+     "votes": 77352,
+     "pct": 0.1194,
+     "winner": false
+    }
+   ],
+   "reporting": {
+    "counties_reporting": 3,
+    "counties_total": 3,
+    "pct_expected": 0.62,
+    "pct_expected_lo": 0.54,
+    "pct_expected_hi": 0.7
+   },
+   "call": null
+  }
+ ]
+}

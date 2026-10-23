@@ -1,0 +1,60 @@
+{
+ "updated_at": "2026-10-23T03:15:33.475Z",
+ "sources": [
+  {
+   "id": "cook",
+   "name": "Cook Political Report",
+   "url": "https://www.cookpolitical.com"
+  },
+  {
+   "id": "sabato",
+   "name": "Sabato's Crystal Ball",
+   "url": "https://centerforpolitics.org/crystalball"
+  },
+  {
+   "id": "inside",
+   "name": "Inside Elections",
+   "url": "https://insideelections.com"
+  },
+  {
+   "id": "splitticket",
+   "name": "Split Ticket",
+   "url": "https://split-ticket.org"
+  }
+ ],
+ "ratings": {
+  "us-house-1": {
+   "cook": "Solid D",
+   "sabato": "Safe D",
+   "inside": "Solid D",
+   "splitticket": "Safe D"
+  },
+  "us-house-2": {
+   "cook": "Likely R",
+   "sabato": "Likely R",
+   "inside": "Likely R",
+   "splitticket": "Lean R"
+  },
+  "us-house-3": {
+   "cook": "Solid R",
+   "sabato": "Safe R",
+   "inside": "Solid R",
+   "splitticket": "Likely R"
+  },
+  "us-house-4": {
+   "cook": "Lean R",
+   "sabato": "Likely R",
+   "inside": "Likely R",
+   "splitticket": "Lean R"
+  }
+ },
+ "scale": [
+  "Solid D",
+  "Likely D",
+  "Lean D",
+  "Toss-up",
+  "Lean R",
+  "Likely R",
+  "Solid R"
+ ]
+}

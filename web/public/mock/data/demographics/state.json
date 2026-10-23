@@ -1,0 +1,28 @@
+{
+ "source": "MOCK (approximate ACS 2020–2024 5-year)",
+ "units": [
+  {
+   "id": "49",
+   "name": "Utah",
+   "population": 3272449,
+   "median_age": 28.1,
+   "pct_white_nh": 0.821,
+   "pct_hispanic": 0.116,
+   "pct_asian": 0.032,
+   "pct_black": 0.011,
+   "pct_bachelors_plus": 0.372,
+   "median_hh_income": 88200,
+   "pct_under_18": 0.313,
+   "pct_65_plus": 0.105,
+   "pct_urban": 0.983,
+   "registration": {
+    "REP": 1078698,
+    "DEM": 391985,
+    "UNA": 560855,
+    "OTH": 62832,
+    "total": 2094368,
+    "as_of": "2026-10-01"
+   }
+  }
+ ]
+}
