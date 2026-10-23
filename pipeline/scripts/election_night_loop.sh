@@ -22,7 +22,7 @@ if [ -n "${END_TIME:-}" ]; then
 else
   END_EPOCH=$DEFAULT_END
 fi
-PATHS=(web/public/data/results/2026-general web/public/data/config.json)
+PATHS=(web/public/data/results/2026-general web/public/data/config.json web/public/data/national)
 last_deploy=0
 deploy_pending=0
 export UTEL_SKIP_CONNCHECK=0
@@ -54,6 +54,9 @@ maybe_deploy() {
 
 while :; do
   log "scrape start"
+  # National tallies come from hand-entered calls (pipeline/config/national_calls.csv); a failure here must not block Utah results.
+  [ "${PUSH:-1}" = "0" ] || git pull --rebase --autostash -q origin main || log "pull failed; using local calls"
+  Rscript pipeline/scripts/build_national.R || log "national build failed (previous data left in place)"
   if Rscript pipeline/scripts/scrape_live.R; then
     export UTEL_SKIP_CONNCHECK=1
     if [ -n "$(git status --porcelain -- "${PATHS[@]}")" ]; then

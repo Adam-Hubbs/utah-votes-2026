@@ -34,12 +34,15 @@ jobs:
       - name: Build polls
         run: Rscript pipeline/scripts/build_polls.R
 
+      - name: Build national
+        run: Rscript pipeline/scripts/build_national.R
+
       - name: Commit changes
         id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add web/public/data/polls
+          git add web/public/data/polls web/public/data/national
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
