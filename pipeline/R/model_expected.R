@@ -8,7 +8,7 @@ VOTE_PER_BALLOT <- 0.97
 model_defaults <- function() {
   list(
     draws = 4000L,
-    sigma_delta = 0.45, # scale of the statewide turnout shift, logit scale
+    sigma_delta = 0.6, # scale of the statewide turnout shift, logit scale
     df_delta = 3, # Student-t df: Utah midterm turnout swings between cycles (2018 surge) are far heavier-tailed than a normal
     df_eta = 3, # same for the statewide pace shift
     mu_delta = 0.10, # 2026 is expected to run a bit hotter than 2022 (new map, high-profile House race)
@@ -20,7 +20,7 @@ model_defaults <- function() {
     m0 = 0.62, # prior mean fraction of final ballots counted at the first post-8pm drop
     m_inf = 0.975, # fraction counted once only cures/provisionals are outstanding
     tau_hours = 22,
-    likelihood_power = 0.4, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
+    likelihood_power = 0.35, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
     returned_valid = 0.97, # share of returned ballots that end up counted
     concentration = 12, # Beta concentration of a county's counted fraction around the stage mean (counties differ a lot in processing speed)
     remaining_sd = 0.05, # relative sd of an officially reported "ballots remaining"
@@ -369,9 +369,10 @@ run_expected_vote_model <- function(
     draws = p$draws,
     method = str_c(
       "Bayesian expected-ballots model. Eventual county ballots = active registered voters x turnout, with turnout ",
-      "centred on the county's 2022 midterm rate plus a statewide shift and county deviations (logit scale). ",
+      "centred on the county's 2022 midterm rate plus a heavy-tailed (Student-t) statewide shift and county deviations (logit scale). ",
       "The counted fraction of each county follows a Beta whose mean rises with hours since the 8pm MT poll close, ",
-      "with statewide uncertainty in that pace. Posterior by grid integration + Monte Carlo (",
+      "with a heavy-tailed statewide pace shift whose uncertainty shrinks as counting converges, so early counts can be explained ",
+      "by either high turnout or fast pace. County likelihood is tempered for dependence between counties. Posterior by grid integration + Monte Carlo (",
       p$draws,
       " draws), ",
       "so counties inform each other. County 'ballots remaining' overrides, when present, replace the model."

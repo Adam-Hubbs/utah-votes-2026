@@ -106,13 +106,19 @@ Priors can be tuned in `pipeline/config/live.yml` under `model:` (names as in `m
 Utah votes by mail, so precincts-reporting is meaningless. For each county c:
 
 * Eventual ballots `T_c = R_c * p_c`, `R_c` = active registered voters, `logit p_c = logit(turnout_2022_c) + delta + eps_c`;
-  `delta ~ N(0.10, 0.25^2)` (statewide shift; 2026 is expected slightly hotter than 2022), `eps_c ~ N(0, s_c^2)` with
-  `s_c^2 = 0.17^2 + (0.6 / sqrt(R_c/1000))^2` (small counties are noisier).
-* Counted fraction `f_c = counted_c / T_c ~ Beta(m k, (1-m) k)`, `k = 25`, `logit m = logit m(h) + eta`, `eta ~ N(0, 0.5^2)` is a
-  statewide pace uncertainty and `m(h) = 0.975 - 0.355 exp(-h/22h)` with h = hours since the 8 pm MT close (0.62 at close).
+  `delta = 0.10 + 0.6 t_3` (Student-t, 3 df: heavy-tailed because Utah midterm turnout swings a lot between cycles, e.g. the 2018 surge),
+  `eps_c ~ N(0, s_c^2)` with `s_c^2 = 0.17^2 + (0.6 / sqrt(R_c/1000))^2` (small counties are noisier).
+* Counted fraction `f_c = counted_c / T_c ~ Beta(m k, (1-m) k)`, `k = 12` (counties differ a lot in processing speed),
+  `logit m = logit m(h) + eta`, `m(h) = 0.975 - 0.355 exp(-h/22h)` with h = hours since the 8 pm MT close (0.62 at close).
+  `eta = s(h) t_3` is a heavy-tailed statewide pace shift with `s(h) = 0.5 + 0.2 exp(-h/24h)`, so early on a low count can be
+  explained by either low turnout or slow pace; the split is decided by the priors, which keeps early intervals honest.
   Since 2025's HB 300 mail ballots must be *received* by 8 pm Election Day, so a large share (drop-box ballots) is counted after the first report.
 * Posterior: exact 2-D grid over (delta, eta) with eps_c integrated out per county on a 1-D grid, then 4000 joint Monte Carlo
-  draws (counties inform each other through delta/eta). ~1 s. Counties with no votes yet use the prior. `counted <= T` holds by construction.
+  draws (counties inform each other through delta/eta). The county log-likelihood is multiplied by 0.35 (`likelihood_power`)
+  because counties are not independent evidence about the statewide shift/pace. ~2 s. Counties with no votes yet use the prior.
+  `counted <= T` holds by construction.
+* Optional `pipeline/config/ballots_returned.csv` (`fips,returned`; absent by default - no official per-county returned-ballot feed
+  was found to scrape): `0.97 * returned` becomes a lower bound on `T_c`.
 * Overrides (`remaining_ballots.csv`) and `final` counties replace the model for that county.
 * Propagation: county `pct_expected(+lo/hi)` = counted / quantiles of T. A contest's `reporting.pct_expected` divides its votes
   by the draw-wise sum over counties of `T_c * rho_c` where `rho_c` is the contest's votes-per-counted-ballot in that county (for
@@ -126,19 +132,26 @@ Truth = real county totals (2022 ballots; 2024 top-of-ticket votes / 0.97). Fake
 (logit-normal county noise, uniform statewide pace in 0.50-0.85 at the first drop, then geometric catch-up). Priors are built from the *other*
 election's county pattern with a +-0.2 logit statewide miss. 40 replicates per cell; coverage = share of true values inside the 90 % interval.
 
-| scenario | stage | counted | county cover | statewide cover | statewide MAPE | interval width (rel.) |
-|---|---|---|---|---|---|---|
-| 2022 truth, 2024 pattern, +0.2 miss | first drop (1h) | 69 % | 0.71 | 0.45 | 10.6 % | 22 % |
-| | next morning (14h) | 84 % | 0.84 | 0.73 | 7.1 % | 20 % |
-| | day two (36h) | 93 % | 0.94 | 0.83 | 3.5 % | 15 % |
-| 2024 truth, 2022 pattern, -0.2 miss | first drop | 66 % | 0.83 | 0.90 | 2.9 % | 10 % |
-| | next morning | 85 % | 0.90 | 0.95 | 1.5 % | 8.5 % |
-| | day two | 94 % | 0.95 | 1.00 | 1.1 % | 6 % |
-| 2022 truth, noisy own pattern (0.15), +0.2 miss | first drop | 68 % | 0.77 | 0.55 | 9.7 % | 22 % |
-| | next morning | 85 % | 0.83 | 0.80 | 6.3 % | 18 % |
-| | day two | 94 % | 0.90 | 0.70 | 4.7 % | 13 % |
+| scenario | stage | counted | county cover | statewide cover | statewide MAPE | width state (rel.) | width county (rel.) |
+|---|---|---|---|---|---|---|---|
+| 2022 truth, 2024 pattern, +0.2 miss | first drop (1h) | 69 % | 0.91 | 0.93 | 10.0 % | 45 % | 45 % |
+|  | next morning (14h) | 84 % | 0.96 | 1.00 | 5.0 % | 32 % | 34 % |
+|  | day two (36h) | 93 % | 0.98 | 0.97 | 2.4 % | 18 % | 22 % |
+| 2024 truth, 2022 pattern, -0.2 miss | first drop (1h) | 66 % | 0.94 | 0.93 | 4.9 % | 24 % | 24 % |
+|  | next morning (14h) | 85 % | 0.98 | 1.00 | 2.4 % | 16 % | 17 % |
+|  | day two (36h) | 94 % | 0.97 | 1.00 | 1.7 % | 8 % | 11 % |
+| 2022 truth, noisy own pattern, +0.2 miss | first drop (1h) | 68 % | 0.93 | 0.88 | 8.1 % | 42 % | 44 % |
+|  | next morning (14h) | 85 % | 0.98 | 0.95 | 3.7 % | 27 % | 31 % |
+|  | day two (36h) | 94 % | 0.99 | 0.88 | 4.1 % | 16 % | 21 % |
+| surge: +25 % ballots vs 2022 | first drop (1h) | 66 % | 0.94 | 0.90 | 8.8 % | 29 % | 30 % |
+|  | next morning (14h) | 85 % | 0.95 | 0.90 | 5.0 % | 17 % | 19 % |
+|  | day two (36h) | 94 % | 0.98 | 0.97 | 2.0 % | 8 % | 12 % |
+| slump: -25 % ballots vs 2022 | first drop (1h) | 73 % | 0.91 | 0.95 | 13.0 % | 63 % | 65 % |
+|  | next morning (14h) | 85 % | 0.97 | 1.00 | 4.2 % | 38 % | 43 % |
+|  | day two (36h) | 94 % | 0.98 | 0.93 | 2.8 % | 18 % | 26 % |
 
-Honest reading: county intervals reach about 90 % once ~85 % is counted; the first-drop statewide interval is overconfident when the
-statewide prior misses by more than ~0.2 logit *and* the early count pace differs from the assumed one (the pace/turnout split is not
-identifiable from counts alone - only a "ballots remaining" statement fixes it). Tune `m0`/`tau_hours`/`mu_delta` in `live.yml` after
-the first report, or enter remaining ballots. A self-consistent check (data drawn from the model itself) gives ~0.93 county coverage.
+Honest reading: with 40 replicates per cell, coverage has a standard error of about 0.05 statewide, so every cell is within noise of
+or above 0.85-0.90. The price is width: at the first drop the statewide 90 % interval is 25-65 % of the truth (the turnout/pace split is
+not identifiable from counts alone), narrowing to 8-18 % by day two. Before this recalibration (normal priors, `k = 25`) the first-drop
+statewide coverage was 0.45-0.55 in two scenarios with widths of 10-22 %. Only a "ballots remaining" statement
+(`remaining_ballots.csv`) removes the ambiguity. `UTEL_MODEL_OVERRIDES="sigma_delta=0.5"` lets the back-test try other priors.
