@@ -1,0 +1,53 @@
+page_url,timestamp,contest_id,contest,counted,election_year
+https://electionresults.utah.gov/elections/federal,20161220042901,300000,President / Vice President,1131317,2016
+https://electionresults.utah.gov/elections/federal,20161220042901,300050,US Senate,1115583,2016
+https://electionresults.utah.gov/elections/statewide,20161204125032,300300,Governor / Lt. Governor,1124913,2016
+https://electionresults.utah.gov/elections/statewide,20161204125032,300350,Attorney General,1099271,2016
+https://electionresults.utah.gov/elections/statewide,20161204125032,300400,State Auditor,1074966,2016
+https://electionresults.utah.gov/elections/statewide,20161204125032,300450,State Treasurer,1066061,2016
+https://electionresults.utah.gov/elections/federal,20181108080629,300000,U.S. Senate,766101,2018
+https://electionresults.utah.gov/elections/federal,20201104015904,399789495,U.S. President,0,2020
+https://electionresults.utah.gov/elections/federal,20201112192819,399789495,U.S. President,1435407,2020
+https://electionresults.utah.gov/elections/federal,20201114134133,399789495,U.S. President,1463861,2020
+https://electionresults.utah.gov/elections/federal,20201116012210,399789495,U.S. President,1463861,2020
+https://electionresults.utah.gov/elections/federal,20201121193336,399789495,U.S. President,1487677,2020
+https://electionresults.utah.gov/elections/federal,20201125030316,399789495,U.S. President,1487677,2020
+https://electionresults.utah.gov/elections/statewide,20201105010846,399794718,Governor,1058659,2020
+https://electionresults.utah.gov/elections/statewide,20201105010846,399794712,Attorney General,1071480,2020
+https://electionresults.utah.gov/elections/statewide,20201105010846,399794744,State Auditor,989151,2020
+https://electionresults.utah.gov/elections/statewide,20201105010846,399794752,State Treasurer,984756,2020
+https://electionresults.utah.gov/elections/statewide,20201115181742,399794718,Governor,1416787,2020
+https://electionresults.utah.gov/elections/statewide,20201115181742,399794712,Attorney General,1428985,2020
+https://electionresults.utah.gov/elections/statewide,20201115181742,399794744,State Auditor,1318070,2020
+https://electionresults.utah.gov/elections/statewide,20201115181742,399794752,State Treasurer,1312703,2020
+https://electionresults.utah.gov/elections/statewide,20201116065148,399794718,Governor,1416787,2020
+https://electionresults.utah.gov/elections/statewide,20201116065148,399794712,Attorney General,1428985,2020
+https://electionresults.utah.gov/elections/statewide,20201116065148,399794744,State Auditor,1318070,2020
+https://electionresults.utah.gov/elections/statewide,20201116065148,399794752,State Treasurer,1312703,2020
+https://electionresults.utah.gov/elections/statewide,20201116074054,399794718,Governor,1416787,2020
+https://electionresults.utah.gov/elections/statewide,20201116074054,399794712,Attorney General,1428985,2020
+https://electionresults.utah.gov/elections/statewide,20201116074054,399794744,State Auditor,1318070,2020
+https://electionresults.utah.gov/elections/statewide,20201116074054,399794752,State Treasurer,1312703,2020
+https://electionresults.utah.gov/elections/statewide,20201119155143,399794718,Governor,1438711,2020
+https://electionresults.utah.gov/elections/statewide,20201119155143,399794712,Attorney General,1450797,2020
+https://electionresults.utah.gov/elections/statewide,20201119155143,399794744,State Auditor,1338362,2020
+https://electionresults.utah.gov/elections/statewide,20201119155143,399794752,State Treasurer,1333130,2020
+https://electionresults.utah.gov/elections/statewide,20201128131600,399794718,Governor,1438711,2020
+https://electionresults.utah.gov/elections/statewide,20201128131600,399794712,Attorney General,1450797,2020
+https://electionresults.utah.gov/elections/statewide,20201128131600,399794744,State Auditor,1338362,2020
+https://electionresults.utah.gov/elections/statewide,20201128131600,399794752,State Treasurer,1333130,2020
+https://electionresults.utah.gov/elections/statewide,20201229220333,399794718,Governor,1438711,2020
+https://electionresults.utah.gov/elections/statewide,20201229220333,399794712,Attorney General,1450797,2020
+https://electionresults.utah.gov/elections/statewide,20201229220333,399794744,State Auditor,1338362,2020
+https://electionresults.utah.gov/elections/statewide,20201229220333,399794752,State Treasurer,1333130,2020
+https://electionresults.utah.gov/elections/federal,20221107234655,451556070,U.S. Senate,0,2022
+https://electionresults.utah.gov/elections/federal,20221109153826,451556070,U.S. Senate,723153,2022
+https://electionresults.utah.gov/elections/federal,20221109184230,451556070,U.S. Senate,723153,2022
+https://electionresults.utah.gov/elections/federal,20221118005035,451556070,U.S. Senate,1053694,2022
+https://electionresults.utah.gov/elections/federal,20221118053411,451556070,U.S. Senate,1053694,2022
+https://electionresults.utah.gov/elections/federal,20221128173759,451556070,U.S. Senate,1076056,2022
+https://electionresults.utah.gov/elections/federal,20221130050645,451556070,U.S. Senate,1076061,2022
+https://electionresults.utah.gov/elections/federal,20221130050647,451556070,U.S. Senate,1076061,2022
+https://electionresults.utah.gov/elections/statewide,20221110033955,451556164,State Treasurer,700044,2022
+https://electionresults.utah.gov/elections/statewide,20221206074645,451556164,State Treasurer,980213,2022
+https://electionresults.utah.gov/elections/statewide,20221215214417,451556164,State Treasurer,980213,2022

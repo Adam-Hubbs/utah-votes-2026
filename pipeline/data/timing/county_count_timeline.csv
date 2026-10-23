@@ -1,0 +1,335 @@
+election_id,county_fips,county,timestamp_utc,hours_since_close,counted,final_counted,frac_of_final,source,contest_id,contest,final_days_after_close,final_reliable
+2016-general,49001,Beaver,2016-11-10T21:52:07Z,42.87,2434,2485,0.9795,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49001,Beaver,2016-11-19T22:59:20Z,259.99,2485,2485,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49005,Cache,2016-11-10T21:52:07Z,42.87,26492,40796,0.6494,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49005,Cache,2016-11-19T22:59:20Z,259.99,40796,40796,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49007,Carbon,2016-11-10T21:52:07Z,42.87,7654,7818,0.979,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49007,Carbon,2016-11-19T22:59:20Z,259.99,7818,7818,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49009,Daggett,2016-11-10T21:52:07Z,42.87,465,465,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49009,Daggett,2016-11-19T22:59:20Z,259.99,465,465,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49013,Duchesne,2016-11-10T21:52:07Z,42.87,6895,6932,0.9947,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49013,Duchesne,2016-11-19T22:59:20Z,259.99,6932,6932,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49015,Emery,2016-11-10T21:52:07Z,42.87,4263,4263,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49015,Emery,2016-11-19T22:59:20Z,259.99,4263,4263,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49017,Garfield,2016-11-10T21:52:07Z,42.87,2294,2294,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49017,Garfield,2016-11-19T22:59:20Z,259.99,2294,2294,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49023,Juab,2016-11-10T21:52:07Z,42.87,4059,4076,0.9958,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49023,Juab,2016-11-19T22:59:20Z,259.99,4076,4076,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49025,Kane,2016-11-10T21:52:07Z,42.87,3254,3482,0.9345,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49025,Kane,2016-11-19T22:59:20Z,259.99,3482,3482,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49027,Millard,2016-11-10T21:52:07Z,42.87,4982,5234,0.9519,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49027,Millard,2016-11-19T22:59:20Z,259.99,5234,5234,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49029,Morgan,2016-11-10T21:52:07Z,42.87,5136,5136,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49029,Morgan,2016-11-19T22:59:20Z,259.99,5136,5136,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49035,Salt Lake,2016-11-10T21:52:07Z,42.87,257746,418178,0.6164,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49035,Salt Lake,2016-11-19T22:59:20Z,259.99,418178,418178,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49037,San Juan,2016-11-10T21:52:07Z,42.87,3770,5385,0.7001,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49037,San Juan,2016-11-19T22:59:20Z,259.99,5385,5385,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49041,Sevier,2016-11-10T21:52:07Z,42.87,7923,8308,0.9537,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49041,Sevier,2016-11-19T22:59:20Z,259.99,8308,8308,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49043,Summit,2016-11-10T21:52:07Z,42.87,18474,20133,0.9176,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49043,Summit,2016-11-19T22:59:20Z,259.99,20133,20133,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49047,Uintah,2016-11-10T21:52:07Z,42.87,12201,12883,0.9471,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49047,Uintah,2016-11-19T22:59:20Z,259.99,12883,12883,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49049,Utah,2016-11-10T21:52:07Z,42.87,164777,190387,0.8655,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49049,Utah,2016-11-19T22:59:20Z,259.99,190387,190387,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49051,Wasatch,2016-11-10T21:52:07Z,42.87,11149,12120,0.9199,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49051,Wasatch,2016-11-19T22:59:20Z,259.99,12120,12120,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49053,Washington,2016-11-10T21:52:07Z,42.87,48818,61817,0.7897,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49053,Washington,2016-11-19T22:59:20Z,259.99,61817,61817,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49055,Wayne,2016-11-10T21:52:07Z,42.87,1410,1410,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49055,Wayne,2016-11-19T22:59:20Z,259.99,1410,1410,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49057,Weber,2016-11-10T21:52:07Z,42.87,65253,85015,0.7675,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49057,Weber,2016-11-19T22:59:20Z,259.99,85015,85015,1,old_site_countyCount,300000,President / Vice President,10.8,TRUE
+2016-general,49019,Grand,2016-11-12T14:12:01Z,83.2,4435,4463,0.9937,old_site_countyCount,300300,Governor / Lt. Governor,10.3,TRUE
+2016-general,49019,Grand,2016-11-19T10:11:54Z,247.2,4463,4463,1,old_site_countyCount,300300,Governor / Lt. Governor,10.3,TRUE
+2016-general,49033,Rich,2016-11-12T14:12:01Z,83.2,1102,1102,1,old_site_countyCount,300300,Governor / Lt. Governor,10.3,TRUE
+2016-general,49033,Rich,2016-11-19T10:11:54Z,247.2,1102,1102,1,old_site_countyCount,300300,Governor / Lt. Governor,10.3,TRUE
+2016-general,49039,Sanpete,2016-11-12T14:12:01Z,83.2,9801,10175,0.9632,old_site_countyCount,300300,Governor / Lt. Governor,10.3,TRUE
+2016-general,49039,Sanpete,2016-11-19T10:11:54Z,247.2,10175,10175,1,old_site_countyCount,300300,Governor / Lt. Governor,10.3,TRUE
+2016-general,49003,Box Elder,2016-11-13T11:02:12Z,104.04,15462,18417,0.8396,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49003,Box Elder,2016-11-26T21:57:33Z,426.96,18417,18417,1,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49011,Davis,2016-11-13T11:02:12Z,104.04,85928,128474,0.6688,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49011,Davis,2016-11-26T21:57:33Z,426.96,128474,128474,1,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49021,Iron,2016-11-13T11:02:12Z,104.04,10602,16010,0.6622,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49021,Iron,2016-11-26T21:57:33Z,426.96,16010,16010,1,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49031,Piute,2016-11-13T11:02:12Z,104.04,555,661,0.8396,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49031,Piute,2016-11-26T21:57:33Z,426.96,661,661,1,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49045,Tooele,2016-11-13T11:02:12Z,104.04,17323,19943,0.8686,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49045,Tooele,2016-11-26T21:57:33Z,426.96,19943,19943,1,old_site_countyCount,306900,Constitutional Amendment C,17.8,TRUE
+2016-general,49001,Beaver,2016-11-29T08:30:54Z,485.52,2466,2466,1,old_site_county_page,10000,County Commissioner C,51.4,TRUE
+2016-general,49001,Beaver,2016-12-30T13:37:13Z,1234.62,2466,2466,1,old_site_county_page,10000,County Commissioner C,51.4,TRUE
+2016-general,49021,Iron,2016-11-04T01:05:36Z,-121.91,0,17002,0,old_site_county_page,110000,"Iron County Commissioner ""A""",19.5,TRUE
+2016-general,49021,Iron,2016-11-28T14:21:47Z,467.36,17002,17002,1,old_site_county_page,110000,"Iron County Commissioner ""A""",19.5,TRUE
+2016-general,49029,Morgan,2016-11-18T22:11:41Z,235.19,5775,5844,0.9882,old_site_county_page,150100,County Council,19.5,TRUE
+2016-general,49029,Morgan,2016-11-28T14:22:07Z,467.37,5844,5844,1,old_site_county_page,150100,County Council,19.5,TRUE
+2016-general,49043,Summit,2016-11-15T18:58:29Z,159.97,19448,19904,0.9771,old_site_county_page,220750,Summit County Proposition 10,19.5,TRUE
+2016-general,49043,Summit,2016-11-28T14:22:37Z,467.38,19904,19904,1,old_site_county_page,220750,Summit County Proposition 10,19.5,TRUE
+2016-general,49045,Tooele,2016-11-04T10:00:13Z,-113,0,21368,0,old_site_county_page,230000,County Commission,35.1,TRUE
+2016-general,49045,Tooele,2016-11-15T00:20:43Z,141.35,18524,21368,0.8669,old_site_county_page,230000,County Commission,35.1,TRUE
+2016-general,49045,Tooele,2016-11-18T00:25:53Z,213.43,18524,21368,0.8669,old_site_county_page,230000,County Commission,35.1,TRUE
+2016-general,49045,Tooele,2016-12-14T06:31:59Z,843.53,21368,21368,1,old_site_county_page,230000,County Commission,35.1,TRUE
+2016-general,49047,Uintah,2016-11-15T17:38:21Z,158.64,12529,12606,0.9939,old_site_county_page,240000,Uintah County Commissioner,19.5,TRUE
+2016-general,49047,Uintah,2016-11-28T14:22:42Z,467.38,12606,12606,1,old_site_county_page,240000,Uintah County Commissioner,19.5,TRUE
+2016-general,49049,Utah,2016-11-01T15:07:54Z,-179.87,0,190019,0,old_site_county_page,250000,NA,19.5,TRUE
+2016-general,49049,Utah,2016-11-28T14:22:47Z,467.38,190019,190019,1,old_site_county_page,250000,County Commission C,19.5,TRUE
+2016-general,49053,Washington,2016-11-15T01:59:19Z,142.99,47033,59293,0.7932,old_site_county_page,270450,Proposition 1,40.2,TRUE
+2016-general,49053,Washington,2016-11-16T16:15:25Z,181.26,55297,59293,0.9326,old_site_county_page,270450,Proposition 1,40.2,TRUE
+2016-general,49053,Washington,2016-11-28T14:22:58Z,467.38,59293,59293,1,old_site_county_page,270450,Proposition 1,40.2,TRUE
+2016-general,49053,Washington,2016-12-19T06:49:46Z,963.83,59293,59293,1,old_site_county_page,270450,Proposition 1,40.2,TRUE
+2016-general,49057,Weber,2016-11-15T09:27:31Z,150.46,64004,66809,0.958,old_site_county_page,290000,Commission Seat C,19.5,TRUE
+2016-general,49057,Weber,2016-11-15T18:07:34Z,159.13,64004,66809,0.958,old_site_county_page,290000,Commission Seat C,19.5,TRUE
+2016-general,49057,Weber,2016-11-28T14:23:08Z,467.39,66809,66809,1,old_site_county_page,290000,Commission Seat C,19.5,TRUE
+2016-general,49005,Cache,2016-11-15T01:54:24Z,142.91,33343,42894,0.7773,old_site_county_page,30850,County Proposition #11,20.1,TRUE
+2016-general,49005,Cache,2016-11-16T15:44:25Z,180.74,33343,42894,0.7773,old_site_county_page,30850,County Proposition #11,20.1,TRUE
+2016-general,49005,Cache,2016-11-29T05:22:25Z,482.37,42894,42894,1,old_site_county_page,30850,County Proposition #11,20.1,TRUE
+2016-general,49007,Carbon,2016-11-15T09:27:33Z,150.46,7558,7841,0.9639,old_site_county_page,40000,County Commissioner,20.1,TRUE
+2016-general,49007,Carbon,2016-11-15T17:54:29Z,158.91,7558,7841,0.9639,old_site_county_page,40000,County Commissioner,20.1,TRUE
+2016-general,49007,Carbon,2016-11-18T13:21:20Z,226.36,7717,7841,0.9842,old_site_county_page,40000,County Commissioner,20.1,TRUE
+2016-general,49007,Carbon,2016-11-29T05:22:30Z,482.38,7841,7841,1,old_site_county_page,40000,County Commissioner,20.1,TRUE
+2016-general,49011,Davis,2016-11-04T12:51:49Z,-110.14,0,132470,0,old_site_county_page,60000,Davis County Commissioner,20.1,TRUE
+2016-general,49011,Davis,2016-11-29T05:22:40Z,482.38,132470,132470,1,old_site_county_page,60000,Davis County Commissioner,20.1,TRUE
+2016-general,49017,Garfield,2016-11-15T00:27:50Z,141.46,2289,2337,0.9795,old_site_county_page,90000,"Commission Seat ""C""",19.5,TRUE
+2016-general,49017,Garfield,2016-11-16T16:14:08Z,181.24,2289,2337,0.9795,old_site_county_page,90000,"Commission Seat ""C""",19.5,TRUE
+2016-general,49017,Garfield,2016-11-28T14:21:37Z,467.36,2337,2337,1,old_site_county_page,90000,"Commission Seat ""C""",19.5,TRUE
+2020-general,49035,Salt Lake,2020-11-06T05:49:34Z,50.83,375347,375347,1,clarity_salt_lake,107137,ballots cast (max over contests),2.1,FALSE
+2020-general,49035,Salt Lake,2020-11-06T05:49:44Z,50.83,375347,375347,1,clarity_salt_lake,107137,ballots cast (max over contests),2.1,FALSE
+2020-general,49001,Beaver,2020-11-08T03:58:08Z,96.97,3076,3100,0.9923,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49001,Beaver,2020-11-08T14:56:04Z,107.93,3076,3100,0.9923,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49001,Beaver,2020-12-31T01:28:23Z,1366.47,3100,3100,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49003,Box Elder,2020-11-08T03:58:08Z,96.97,25890,27023,0.9581,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49003,Box Elder,2020-11-08T14:56:04Z,107.93,25890,27023,0.9581,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49003,Box Elder,2020-12-31T01:28:23Z,1366.47,27023,27023,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49005,Cache,2020-11-08T03:58:08Z,96.97,52222,57534,0.9077,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49005,Cache,2020-11-08T14:56:04Z,107.93,52222,57534,0.9077,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49005,Cache,2020-12-31T01:28:23Z,1366.47,57534,57534,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49007,Carbon,2020-11-08T03:58:08Z,96.97,8822,9369,0.9416,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49007,Carbon,2020-11-08T14:56:04Z,107.93,8822,9369,0.9416,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49007,Carbon,2020-12-31T01:28:23Z,1366.47,9369,9369,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49009,Daggett,2020-11-08T03:58:08Z,96.97,590,619,0.9532,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49009,Daggett,2020-11-08T14:56:04Z,107.93,590,619,0.9532,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49009,Daggett,2020-12-31T01:28:23Z,1366.47,619,619,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49011,Davis,2020-11-08T03:58:08Z,96.97,147774,169814,0.8702,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49011,Davis,2020-11-08T14:56:04Z,107.93,147774,169814,0.8702,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49011,Davis,2020-12-31T01:28:23Z,1366.47,169814,169814,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49013,Duchesne,2020-11-08T03:58:08Z,96.97,8442,8524,0.9904,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49013,Duchesne,2020-11-08T14:56:04Z,107.93,8442,8524,0.9904,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49013,Duchesne,2020-12-31T01:28:23Z,1366.47,8524,8524,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49015,Emery,2020-11-08T03:58:08Z,96.97,4816,4865,0.9899,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49015,Emery,2020-11-08T14:56:04Z,107.93,4816,4865,0.9899,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49015,Emery,2020-12-31T01:28:23Z,1366.47,4865,4865,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49017,Garfield,2020-11-08T03:58:08Z,96.97,2722,2732,0.9963,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49017,Garfield,2020-11-08T14:56:04Z,107.93,2722,2732,0.9963,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49017,Garfield,2020-12-31T01:28:23Z,1366.47,2732,2732,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49019,Grand,2020-11-08T03:58:08Z,96.97,5027,5185,0.9695,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49019,Grand,2020-11-08T14:56:04Z,107.93,5027,5185,0.9695,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49019,Grand,2020-12-31T01:28:23Z,1366.47,5185,5185,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49021,Iron,2020-11-08T03:58:08Z,96.97,23731,24890,0.9534,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49021,Iron,2020-11-08T14:56:04Z,107.93,23731,24890,0.9534,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49021,Iron,2020-12-31T01:28:23Z,1366.47,24890,24890,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49023,Juab,2020-11-08T03:58:08Z,96.97,5837,5865,0.9952,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49023,Juab,2020-11-08T14:56:04Z,107.93,5837,5865,0.9952,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49023,Juab,2020-12-31T01:28:23Z,1366.47,5865,5865,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49025,Kane,2020-11-08T03:58:08Z,96.97,3869,4180,0.9256,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49025,Kane,2020-11-08T14:56:04Z,107.93,3869,4180,0.9256,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49025,Kane,2020-12-31T01:28:23Z,1366.47,4180,4180,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49027,Millard,2020-11-08T03:58:08Z,96.97,4887,6160,0.7933,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49027,Millard,2020-11-08T14:56:04Z,107.93,4887,6160,0.7933,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49027,Millard,2020-12-31T01:28:23Z,1366.47,6160,6160,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49029,Morgan,2020-11-08T03:58:08Z,96.97,6254,6512,0.9604,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49029,Morgan,2020-11-08T14:56:04Z,107.93,6254,6512,0.9604,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49029,Morgan,2020-12-31T01:28:23Z,1366.47,6512,6512,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49031,Piute,2020-11-08T03:58:08Z,96.97,871,871,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49031,Piute,2020-11-08T14:56:04Z,107.93,871,871,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49031,Piute,2020-12-31T01:28:23Z,1366.47,871,871,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49033,Rich,2020-11-08T03:58:08Z,96.97,1320,1363,0.9685,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49033,Rich,2020-11-08T14:56:04Z,107.93,1320,1363,0.9685,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49033,Rich,2020-12-31T01:28:23Z,1366.47,1363,1363,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49035,Salt Lake,2020-11-08T03:58:08Z,96.97,425956,540966,0.7874,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49035,Salt Lake,2020-11-08T14:56:04Z,107.93,425956,540966,0.7874,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49035,Salt Lake,2020-12-31T01:28:23Z,1366.47,540966,540966,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49037,San Juan,2020-11-08T03:58:08Z,96.97,5243,6877,0.7624,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49037,San Juan,2020-11-08T14:56:04Z,107.93,5243,6877,0.7624,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49037,San Juan,2020-12-31T01:28:23Z,1366.47,6877,6877,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49039,Sanpete,2020-11-08T03:58:08Z,96.97,12039,12625,0.9536,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49039,Sanpete,2020-11-08T14:56:04Z,107.93,12039,12625,0.9536,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49039,Sanpete,2020-12-31T01:28:23Z,1366.47,12625,12625,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49041,Sevier,2020-11-08T03:58:08Z,96.97,9666,10362,0.9328,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49041,Sevier,2020-11-08T14:56:04Z,107.93,9666,10362,0.9328,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49041,Sevier,2020-12-31T01:28:23Z,1366.47,10362,10362,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49043,Summit,2020-11-08T03:58:08Z,96.97,25439,26086,0.9752,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49043,Summit,2020-11-08T14:56:04Z,107.93,25439,26086,0.9752,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49043,Summit,2020-12-31T01:28:23Z,1366.47,26086,26086,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49045,Tooele,2020-11-08T03:58:08Z,96.97,29474,31506,0.9355,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49045,Tooele,2020-11-08T14:56:04Z,107.93,29474,31506,0.9355,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49045,Tooele,2020-12-31T01:28:23Z,1366.47,31506,31506,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49047,Uintah,2020-11-08T03:58:08Z,96.97,14736,15303,0.9629,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49047,Uintah,2020-11-08T14:56:04Z,107.93,14736,15303,0.9629,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49047,Uintah,2020-12-31T01:28:23Z,1366.47,15303,15303,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49049,Utah,2020-11-08T03:58:08Z,96.97,256689,284286,0.9029,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49049,Utah,2020-11-08T14:56:04Z,107.93,256689,284286,0.9029,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49049,Utah,2020-12-31T01:28:23Z,1366.47,284286,284286,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49051,Wasatch,2020-11-08T03:58:08Z,96.97,16260,17579,0.925,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49051,Wasatch,2020-11-08T14:56:04Z,107.93,16260,17579,0.925,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49051,Wasatch,2020-12-31T01:28:23Z,1366.47,17579,17579,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49053,Washington,2020-11-08T03:58:08Z,96.97,88209,90457,0.9751,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49053,Washington,2020-11-08T14:56:04Z,107.93,88209,90457,0.9751,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49053,Washington,2020-12-31T01:28:23Z,1366.47,90457,90457,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49055,Wayne,2020-11-08T03:58:08Z,96.97,1596,1621,0.9846,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49055,Wayne,2020-11-08T14:56:04Z,107.93,1596,1621,0.9846,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49055,Wayne,2020-12-31T01:28:23Z,1366.47,1621,1621,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49057,Weber,2020-11-08T03:58:08Z,96.97,108335,111403,0.9725,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49057,Weber,2020-11-08T14:56:04Z,107.93,108335,111403,0.9725,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2020-general,49057,Weber,2020-12-31T01:28:23Z,1366.47,111403,111403,1,old_site_countyCount,399789495,U.S. President,56.9,TRUE
+2022-general,49035,Salt Lake,2022-11-09T04:56:57Z,1.95,181372,263191,0.6891,clarity_salt_lake,115463,ballots cast (max over contests),2.7,FALSE
+2022-general,49035,Salt Lake,2022-11-10T02:23:51Z,23.4,230772,263191,0.8768,clarity_salt_lake,115463,ballots cast (max over contests),2.7,FALSE
+2022-general,49035,Salt Lake,2022-11-11T20:34:45Z,65.58,263191,263191,1,clarity_salt_lake,115463,ballots cast (max over contests),2.7,FALSE
+2022-general,49001,Beaver,2022-11-10T01:10:43Z,22.18,2438,2447,0.9963,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49001,Beaver,2022-11-30T05:06:47Z,506.11,2447,2447,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49003,Box Elder,2022-11-10T01:10:43Z,22.18,17722,19903,0.8904,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49003,Box Elder,2022-11-30T05:06:47Z,506.11,19903,19903,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49005,Cache,2022-11-10T01:10:43Z,22.18,27215,41990,0.6481,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49005,Cache,2022-11-30T05:06:47Z,506.11,41990,41990,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49007,Carbon,2022-11-10T01:10:43Z,22.18,6462,6729,0.9603,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49007,Carbon,2022-11-30T05:06:47Z,506.11,6729,6729,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49009,Daggett,2022-11-10T01:10:43Z,22.18,473,498,0.9498,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49009,Daggett,2022-11-30T05:06:47Z,506.11,498,498,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49011,Davis,2022-11-10T01:10:43Z,22.18,99543,123778,0.8042,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49011,Davis,2022-11-30T05:06:47Z,506.11,123778,123778,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49013,Duchesne,2022-11-10T01:10:43Z,22.18,6234,6283,0.9922,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49013,Duchesne,2022-11-30T05:06:47Z,506.11,6283,6283,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49015,Emery,2022-11-10T01:10:43Z,22.18,4084,4107,0.9944,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49015,Emery,2022-11-30T05:06:47Z,506.11,4107,4107,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49017,Garfield,2022-11-10T01:10:43Z,22.18,2295,2385,0.9623,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49017,Garfield,2022-11-30T05:06:47Z,506.11,2385,2385,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49019,Grand,2022-11-10T01:10:43Z,22.18,4468,4643,0.9623,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49019,Grand,2022-11-30T05:06:47Z,506.11,4643,4643,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49021,Iron,2022-11-10T01:10:43Z,22.18,13073,17309,0.7553,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49021,Iron,2022-11-30T05:06:47Z,506.11,17309,17309,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49023,Juab,2022-11-10T01:10:43Z,22.18,4703,4731,0.9941,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49023,Juab,2022-11-30T05:06:47Z,506.11,4731,4731,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49025,Kane,2022-11-10T01:10:43Z,22.18,3574,3659,0.9768,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49025,Kane,2022-11-30T05:06:47Z,506.11,3659,3659,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49027,Millard,2022-11-10T01:10:43Z,22.18,4008,5130,0.7813,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49027,Millard,2022-11-30T05:06:47Z,506.11,5130,5130,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49029,Morgan,2022-11-10T01:10:43Z,22.18,5040,5157,0.9773,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49029,Morgan,2022-11-30T05:06:47Z,506.11,5157,5157,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49031,Piute,2022-11-10T01:10:43Z,22.18,783,783,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49031,Piute,2022-11-30T05:06:47Z,506.11,783,783,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49033,Rich,2022-11-10T01:10:43Z,22.18,1059,1073,0.987,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49033,Rich,2022-11-30T05:06:47Z,506.11,1073,1073,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49035,Salt Lake,2022-11-10T01:10:43Z,22.18,228849,381195,0.6003,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49035,Salt Lake,2022-11-30T05:06:47Z,506.11,381195,381195,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49037,San Juan,2022-11-10T01:10:43Z,22.18,4468,5562,0.8033,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49037,San Juan,2022-11-30T05:06:47Z,506.11,5562,5562,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49039,Sanpete,2022-11-10T01:10:43Z,22.18,7388,10004,0.7385,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49039,Sanpete,2022-11-30T05:06:47Z,506.11,10004,10004,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49041,Sevier,2022-11-10T01:10:43Z,22.18,6977,7775,0.8974,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49041,Sevier,2022-11-30T05:06:47Z,506.11,7775,7775,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49043,Summit,2022-11-10T01:10:43Z,22.18,18483,20358,0.9079,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49043,Summit,2022-11-30T05:06:47Z,506.11,20358,20358,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49045,Tooele,2022-11-10T01:10:43Z,22.18,21402,22074,0.9696,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49045,Tooele,2022-11-30T05:06:47Z,506.11,22074,22074,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49047,Uintah,2022-11-10T01:10:43Z,22.18,10572,10834,0.9758,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49047,Uintah,2022-11-30T05:06:47Z,506.11,10834,10834,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49049,Utah,2022-11-10T01:10:43Z,22.18,140651,206100,0.6824,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49049,Utah,2022-11-30T05:06:47Z,506.11,206100,206100,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49051,Wasatch,2022-11-10T01:10:43Z,22.18,12961,13464,0.9626,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49051,Wasatch,2022-11-30T05:06:47Z,506.11,13464,13464,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49053,Washington,2022-11-10T01:10:43Z,22.18,50109,69501,0.721,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49053,Washington,2022-11-30T05:06:47Z,506.11,69501,69501,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49055,Wayne,2022-11-10T01:10:43Z,22.18,1497,1514,0.9888,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49055,Wayne,2022-11-30T05:06:47Z,506.11,1514,1514,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49057,Weber,2022-11-10T01:10:43Z,22.18,49873,77075,0.6471,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49057,Weber,2022-11-30T05:06:47Z,506.11,77075,77075,1,old_site_countyCount,451556070,U.S. Senate,21.1,TRUE
+2022-general,49049,Utah,2022-11-08T01:14:16Z,-25.76,0,195805,0,old_site_county_page,451901211,Utah County Commission Seat A,10.6,TRUE
+2022-general,49049,Utah,2022-11-09T22:57:43Z,19.96,135703,195805,0.6931,old_site_county_page,451901211,Utah County Commission Seat A,10.6,TRUE
+2022-general,49049,Utah,2022-11-10T03:05:46Z,24.1,135703,195805,0.6931,old_site_county_page,451901211,Utah County Commission Seat A,10.6,TRUE
+2022-general,49049,Utah,2022-11-10T11:50:22Z,32.84,135703,195805,0.6931,old_site_county_page,451901211,Utah County Commission Seat A,10.6,TRUE
+2022-general,49049,Utah,2022-11-10T11:55:44Z,32.93,135703,195805,0.6931,old_site_county_page,451901211,Utah County Commission Seat A,10.6,TRUE
+2022-general,49049,Utah,2022-11-19T16:54:45Z,253.91,195805,195805,1,old_site_county_page,451901211,Utah County Commission Seat A,10.6,TRUE
+2022-general,49057,Weber,2022-11-08T04:31:35Z,-22.47,0,48773,0,old_site_county_page,452081684,County Commissioner Seat A,0.3,FALSE
+2022-general,49057,Weber,2022-11-09T10:16:09Z,7.27,48773,48773,1,old_site_county_page,452081684,County Commissioner Seat A,0.3,FALSE
+2022-general,49011,Davis,2022-11-08T01:14:13Z,-25.76,0,116522,0,old_site_county_page,514188265,SPECIAL BOND ELECTION,27.2,TRUE
+2022-general,49011,Davis,2022-11-09T20:46:07Z,17.77,94013,116522,0.8068,old_site_county_page,514188265,SPECIAL BOND ELECTION,27.2,TRUE
+2022-general,49011,Davis,2022-11-10T03:05:45Z,24.1,94013,116522,0.8068,old_site_county_page,514188265,SPECIAL BOND ELECTION,27.2,TRUE
+2022-general,49011,Davis,2022-11-11T22:28:07Z,67.47,111912,116522,0.9604,old_site_county_page,514188265,SPECIAL BOND ELECTION,27.2,TRUE
+2022-general,49011,Davis,2022-12-06T08:24:14Z,653.4,116522,116522,1,old_site_county_page,514188265,SPECIAL BOND ELECTION,27.2,TRUE
+2025-general,49001,Beaver,2025-11-05T02:29:22Z,-0.51,0,3365,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49001,Beaver,2025-11-05T22:12:45Z,19.21,3286,3365,0.9765,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49001,Beaver,2025-12-13T01:29:42Z,910.5,3365,3365,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49003,Box Elder,2025-11-05T02:29:22Z,-0.51,0,29275,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49003,Box Elder,2025-11-05T22:12:45Z,19.21,28877,29275,0.9864,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49003,Box Elder,2025-12-13T01:29:42Z,910.5,29275,29275,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49005,Cache,2025-11-05T02:29:22Z,-0.51,0,62140,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49005,Cache,2025-11-05T22:12:45Z,19.21,40128,62140,0.6458,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49005,Cache,2025-12-13T01:29:42Z,910.5,62140,62140,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49007,Carbon,2025-11-05T02:29:22Z,-0.51,0,10474,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49007,Carbon,2025-11-05T22:12:45Z,19.21,10196,10474,0.9735,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49007,Carbon,2025-12-13T01:29:42Z,910.5,10474,10474,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49009,Daggett,2025-11-05T02:29:22Z,-0.51,0,166,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49009,Daggett,2025-11-05T22:12:45Z,19.21,166,166,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49009,Daggett,2025-12-13T01:29:42Z,910.5,166,166,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49011,Davis,2025-11-05T02:29:22Z,-0.51,0,253277,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49011,Davis,2025-11-05T22:12:45Z,19.21,202033,253277,0.7977,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49011,Davis,2025-12-13T01:29:42Z,910.5,253277,253277,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49015,Emery,2025-11-05T02:29:22Z,-0.51,0,3431,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49015,Emery,2025-11-05T22:12:45Z,19.21,3431,3431,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49015,Emery,2025-12-13T01:29:42Z,910.5,3431,3431,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49017,Garfield,2025-11-05T02:29:22Z,-0.51,0,3734,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49017,Garfield,2025-11-05T22:12:45Z,19.21,3725,3734,0.9976,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49017,Garfield,2025-12-13T01:29:42Z,910.5,3734,3734,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49019,Grand,2025-11-05T02:29:22Z,-0.51,0,9163,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49019,Grand,2025-11-05T22:12:45Z,19.21,9140,9163,0.9975,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49019,Grand,2025-12-13T01:29:42Z,910.5,9163,9163,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49021,Iron,2025-11-05T02:29:22Z,-0.51,0,27633,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49021,Iron,2025-11-05T22:12:45Z,19.21,22773,27633,0.8241,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49021,Iron,2025-12-13T01:29:42Z,910.5,27633,27633,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49023,Juab,2025-11-05T02:29:22Z,-0.51,0,7700,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49023,Juab,2025-11-05T22:12:45Z,19.21,7645,7700,0.9929,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49023,Juab,2025-12-13T01:29:42Z,910.5,7700,7700,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49025,Kane,2025-11-05T02:29:22Z,-0.51,0,5723,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49025,Kane,2025-11-05T22:12:45Z,19.21,5704,5723,0.9967,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49025,Kane,2025-12-13T01:29:42Z,910.5,5723,5723,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49027,Millard,2025-11-05T02:29:22Z,-0.51,0,3994,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49027,Millard,2025-11-05T22:12:45Z,19.21,3119,3994,0.7809,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49027,Millard,2025-12-13T01:29:42Z,910.5,3994,3994,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49031,Piute,2025-11-05T02:29:22Z,-0.51,0,1425,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49031,Piute,2025-11-05T22:12:45Z,19.21,1425,1425,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49031,Piute,2025-12-13T01:29:42Z,910.5,1425,1425,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49033,Rich,2025-11-05T02:29:22Z,-0.51,0,1704,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49033,Rich,2025-11-05T22:12:45Z,19.21,1703,1704,0.9994,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49033,Rich,2025-12-13T01:29:42Z,910.5,1704,1704,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49035,Salt Lake,2025-11-05T02:29:22Z,-0.51,0,415165,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49035,Salt Lake,2025-11-05T22:12:45Z,19.21,280736,415165,0.6762,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49035,Salt Lake,2025-12-13T01:29:42Z,910.5,415165,415165,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49037,San Juan,2025-11-05T02:29:22Z,-0.51,0,3567,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49037,San Juan,2025-11-05T22:12:45Z,19.21,2025,3567,0.5677,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49037,San Juan,2025-12-13T01:29:42Z,910.5,3567,3567,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49039,Sanpete,2025-11-05T02:29:22Z,-0.51,0,15441,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49039,Sanpete,2025-11-05T22:12:45Z,19.21,15197,15441,0.9842,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49039,Sanpete,2025-12-13T01:29:42Z,910.5,15441,15441,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49041,Sevier,2025-11-05T02:29:22Z,-0.51,0,15286,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49041,Sevier,2025-11-05T22:12:45Z,19.21,13923,15286,0.9108,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49041,Sevier,2025-12-13T01:29:42Z,910.5,15286,15286,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49043,Summit,2025-11-05T02:29:22Z,-0.51,0,17999,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49043,Summit,2025-11-05T22:12:45Z,19.21,17957,17999,0.9977,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49043,Summit,2025-12-13T01:29:42Z,910.5,17999,17999,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49045,Tooele,2025-11-05T02:29:22Z,-0.51,0,31941,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49045,Tooele,2025-11-05T22:12:45Z,19.21,27525,31941,0.8617,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49045,Tooele,2025-12-13T01:29:42Z,910.5,31941,31941,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49047,Uintah,2025-11-05T02:29:22Z,-0.51,0,9824,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49047,Uintah,2025-11-05T22:12:45Z,19.21,9742,9824,0.9917,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49047,Uintah,2025-12-13T01:29:42Z,910.5,9824,9824,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49049,Utah,2025-11-05T02:29:22Z,-0.51,0,440370,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49049,Utah,2025-11-05T22:12:45Z,19.21,282033,440370,0.6404,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49049,Utah,2025-12-13T01:29:42Z,910.5,440370,440370,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49051,Wasatch,2025-11-05T02:29:22Z,-0.51,0,19491,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49051,Wasatch,2025-11-05T22:12:45Z,19.21,18541,19491,0.9513,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49051,Wasatch,2025-12-13T01:29:42Z,910.5,19491,19491,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49053,Washington,2025-11-05T02:29:22Z,-0.51,0,123700,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49053,Washington,2025-11-05T22:12:45Z,19.21,111607,123700,0.9022,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49053,Washington,2025-12-13T01:29:42Z,910.5,123700,123700,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49057,Weber,2025-11-05T02:29:22Z,-0.51,0,138665,0,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49057,Weber,2025-11-05T22:12:45Z,19.21,114277,138665,0.8241,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
+2025-general,49057,Weber,2025-12-13T01:29:42Z,910.5,138665,138665,1,export_2025_wayback,all-contests,sum of votes over all municipal contests,37.9,TRUE
