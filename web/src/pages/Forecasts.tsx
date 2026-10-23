@@ -43,6 +43,7 @@ function RatingsTable({ ratings, nameOf }: { ratings: Ratings; nameOf: (id: stri
     { key: 'cons', header: 'Consensus', align: 'center', className: 'cons-col', sort: (r) => r.cons?.index ?? null, render: (r) => <RatingChip label={r.cons?.label} scale={ratings.scale} /> },
   ]
   const odds = ratings.forecasts
+  const marketSources = [...new Set(Object.values(odds ?? {}).flatMap((v) => v.map((x) => x.source)))]
   return (
     <>
       <Section>
@@ -60,9 +61,23 @@ function RatingsTable({ ratings, nameOf }: { ratings: Ratings; nameOf: (id: stri
         </div>
       </Section>
       {odds && Object.keys(odds).length > 0 && (
-        <Section title="Model forecasts" dek="Probability of a Republican win from published models.">
-          <table className="data-table"><thead><tr><th>Race</th>{Object.keys(Object.values(odds)[0]).map((k) => <th key={k} className="right">{k}</th>)}</tr></thead>
-            <tbody>{Object.entries(odds).map(([id, v]) => <tr key={id}><td>{nameOf(id)}</td>{Object.values(v).map((x, i) => <td key={i} className="right num">{fmtPct(x, 0)}</td>)}</tr>)}</tbody></table>
+        <Section title="Prediction markets" dek="Implied probability of a Democratic win. Market prices, not polls or models.">
+          <div className="table-scroll">
+            <table className="data-table">
+              <thead><tr><th>Race</th>{marketSources.map((k) => <th key={k} className="right">{k}</th>)}</tr></thead>
+              <tbody>
+                {Object.entries(odds).map(([id, v]) => (
+                  <tr key={id}>
+                    <td><Link to={`/race/${id}`}>{nameOf(id)}</Link></td>
+                    {marketSources.map((k) => {
+                      const m = v.find((x) => x.source === k)
+                      return <td key={k} className="right num">{m ? fmtPct(m.prob_dem, 0) : '–'}</td>
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Section>
       )}
     </>

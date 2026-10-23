@@ -268,7 +268,7 @@ export interface Ratings {
   ratings: Record<string, Record<string, string>>
   scale: string[]
   // Optional extras some pipelines include.
-  forecasts?: Record<string, Record<string, number>>
+  forecasts?: Record<string, { source: string; prob_dem: number; as_of?: string; url?: string }[]>
 }
 
 export interface CandidateBio {
