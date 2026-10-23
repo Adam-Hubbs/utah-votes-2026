@@ -36,7 +36,21 @@ needle_params <- function() {
     leg_heterogeneity = 0.2,
     leg_min_contests = 5,
     missing_baseline_extra_sd = 0.3,
-    size_prior_votes = 20
+    size_prior_votes = 20,
+    # Legislative pre-election prior re-centred on 2018-2024 results (pipeline/tests/eval_legislative_spec.R):
+    # logit(share) = intercept + slope * logit(fundamentals) + incumbency + non-Democratic challenger.
+    # sd_* are TOTAL prior sds on the logit scale; extra_sd is what needle_simulate adds on top (late-ballot misfit, county noise).
+    leg_spec = list(
+      enabled = TRUE,
+      intercept = -0.064,
+      slope = 0.872,
+      inc_rep = -0.168,
+      inc_challenger = 0.161,
+      non_dem = -0.396,
+      sd_dem = 0.30,
+      sd_other = 0.50,
+      extra_sd = 0.184
+    )
   )
 }
 
@@ -490,6 +504,29 @@ needle_prior <- function(ids, pair, type, prec, sm, polls, p) {
       other = other,
       share = 0.3,
       source = "default for a non-major-party challenger"
+    ))
+  }
+  if (str_starts(contest_id, "state-") && isTRUE(p$leg_spec$enabled)) {
+    ls <- p$leg_spec
+    is_inc <- \(id) any(map_lgl(sm$candidates, \(c) identical(c$candidate_id, id) && isTRUE(c$incumbent)))
+    non_dem <- pair$kind == "other_vs_r"
+    m_leg <- plogis(
+      ls$intercept +
+        ls$slope * qlogis(m_f) +
+        ls$inc_rep * is_inc(ids[2]) +
+        ls$inc_challenger * is_inc(ids[1]) +
+        ls$non_dem * non_dem
+    )
+    sd_total <- if_else(non_dem, ls$sd_other, ls$sd_dem)
+    sol <- solve_alpha(prec$x, prec$w, 1, m_leg)
+    return(list(
+      alpha = sol$alpha,
+      beta = 1,
+      sd_alpha = sqrt(max(sd_total^2 - ls$extra_sd^2, 0.05^2)),
+      sd_beta = 0.25,
+      other = other,
+      share = m_leg,
+      source = "fundamentals adjusted for incumbency and challenger type"
     ))
   }
   sd_f <- if_else(

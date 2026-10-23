@@ -1,0 +1,82 @@
+id,a,b,prob_a_old,share_a_old,src_old,prob_a_new,share_a_new,src_new,side,label_old,label_new,fav_old,fav_new,parties
+state-senate-1,claudia-bigler,scott-sandall,0.01,0.2387,fundamentals,0.01,0.2239,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,scott-sandall,scott-sandall,DEM v REP* v FWD
+state-senate-5,cj-hernandez,jill-koford,0.322,0.4642,fundamentals,0.2236,0.4529,fundamentals adjusted for incumbency and challenger type,b,Lean,Lean,jill-koford,jill-koford,DEM v REP
+state-senate-6,jared-neal,tami-tran,0.05,0.3501,fundamentals,0.0184,0.3536,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,tami-tran,tami-tran,DEM v REP v FWD
+state-senate-7,garret-rushforth,stephanie-hollist,0.1308,0.396,fundamentals,0.0768,0.3936,fundamentals adjusted for incumbency and challenger type,b,Likely,Likely,stephanie-hollist,stephanie-hollist,DEM v REP v CON
+state-senate-9,jen-plumb,thaddeus-evans,0.99,0.8086,fundamentals,0.99,0.7947,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,jen-plumb,jen-plumb,REP v DEM* v FWD
+state-senate-11,emily-buss,brooks-benson,0.0704,0.353,fundamentals,0.0544,0.3042,fundamentals adjusted for incumbency and challenger type,b,Likely,Likely,brooks-benson,brooks-benson,REP v FWD*
+state-senate-12,karen-kwan,deidre-tyler,0.7568,0.5597,fundamentals,0.8584,0.576,fundamentals adjusted for incumbency and challenger type,a,Lean,Likely,karen-kwan,karen-kwan,REP v DEM*
+state-senate-13,silvia-catten,ryan-mahoney,0.986,0.7223,fundamentals,0.99,0.6834,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,silvia-catten,silvia-catten,DEM v REP v FWD
+state-senate-18,dane-anderson,doug-fiefia,0.0684,0.3667,fundamentals,0.0272,0.3681,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,doug-fiefia,doug-fiefia,DEM v REP
+state-senate-19,shana-anderson,kirk-cullimore,0.4352,0.481,fundamentals,0.1656,0.426,fundamentals adjusted for incumbency and challenger type,b,Toss-up,Likely,kirk-cullimore,kirk-cullimore,REP* v DEM
+state-senate-20,annette-mcrae,ronald-winterton,0.0652,0.3335,fundamentals,0.01,0.2259,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,ronald-winterton,ronald-winterton,REP* v FWD
+state-senate-21,kandee-myers,brady-brammer,0.0232,0.306,fundamentals,0.01,0.2797,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,brady-brammer,brady-brammer,FWD v DEM v REP*
+state-senate-23,tucker-smith,keith-grover,0.0704,0.3663,fundamentals,0.01,0.3296,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,keith-grover,keith-grover,REP* v DEM
+state-senate-28,richard-robillard,evan-vickers,0.01,0.2217,fundamentals,0.01,0.2097,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,evan-vickers,evan-vickers,REP* v DEM
+state-house-1,chris-reid,thomas-peterson,0.01,0.1897,fundamentals,0.01,0.1827,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,thomas-peterson,thomas-peterson,REP* v DEM v CON
+state-house-2,barbara-haggerty,mike-petersen,0.0368,0.3308,fundamentals,0.01,0.3002,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,mike-petersen,mike-petersen,REP* v DEM
+state-house-3,patrick-belmont,jason-thompson,0.3716,0.469,fundamentals,0.0644,0.3238,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,jason-thompson,jason-thompson,REP* v UNA
+state-house-4,zane-woolstenhulme,tiara-auxier,0.2864,0.4492,fundamentals,0.0508,0.399,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,tiara-auxier,tiara-auxier,DEM v REP*
+state-house-5,kendra-penry,casey-snider,0.01,0.2792,fundamentals,0.01,0.2575,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,casey-snider,casey-snider,DEM v REP*
+state-house-6,james-rich,rob-bishop,0.01,0.2604,fundamentals,0.01,0.1768,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,rob-bishop,rob-bishop,FWD v REP*
+state-house-7,bianca-mittendorf,ryan-wilcox,0.1408,0.3997,fundamentals,0.0208,0.3574,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,ryan-wilcox,ryan-wilcox,REP* v DEM
+state-house-8,kim-james,jason-kyle,0.3292,0.458,fundamentals,0.0964,0.4064,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,jason-kyle,jason-kyle,FWD v DEM v REP*
+state-house-9,angela-choberka,jake-sawyer,0.2056,0.4172,fundamentals,0.0388,0.3721,fundamentals adjusted for incumbency and challenger type,b,Lean,Safe,jake-sawyer,jake-sawyer,DEM v REP*
+state-house-10,rosemary-lesser,jim-alvey,0.5484,0.5124,fundamentals,0.4628,0.4949,fundamentals adjusted for incumbency and challenger type,b,Toss-up,Toss-up,rosemary-lesser,jim-alvey,DEM v REP
+state-house-11,dave-calder,katy-hall,0.176,0.4212,fundamentals,0.0276,0.3754,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,katy-hall,katy-hall,DEM v REP*
+state-house-12,anna-graff,mike-schultz,0.0192,0.3002,fundamentals,0.01,0.2749,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,mike-schultz,mike-schultz,DEM v REP*
+state-house-13,jeffrey-anderson,erik-craythorne,0.0752,0.3602,fundamentals,0.0272,0.3624,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,erik-craythorne,erik-craythorne,FWD v REP v DEM
+state-house-14,brandon-young,john-taylor,0.0768,0.3592,fundamentals,0.0264,0.3616,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,john-taylor,john-taylor,DEM v REP
+state-house-15,anne-berbert,ariel-defay,0.0388,0.3345,fundamentals,0.01,0.3032,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,ariel-defay,ariel-defay,REP* v DEM
+state-house-16,abigail-treasure,bob-stevenson,0.1664,0.4097,fundamentals,0.0896,0.4056,fundamentals adjusted for incumbency and challenger type,b,Likely,Likely,bob-stevenson,bob-stevenson,DEM v REP
+state-house-17,eric-last,lili-bitner,0.1332,0.3941,fundamentals,0.072,0.392,fundamentals adjusted for incumbency and challenger type,b,Likely,Likely,lili-bitner,lili-bitner,DEM v REP
+state-house-18,scott-troxel,paul-cutler,0.1584,0.4055,fundamentals,0.0292,0.3622,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,paul-cutler,paul-cutler,REP* v DEM
+state-house-20,phil-graves,melissa-ballard,0.4632,0.4899,fundamentals,0.186,0.4336,fundamentals adjusted for incumbency and challenger type,b,Toss-up,Likely,melissa-ballard,melissa-ballard,DEM v REP*
+state-house-22,jen-dailey-provost,char-varga,0.99,0.8174,fundamentals,0.99,0.8028,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,jen-dailey-provost,jen-dailey-provost,DEM* v REP
+state-house-23,hoang-nguyen,franklin-robinson,0.99,0.8121,fundamentals,0.99,0.7979,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,hoang-nguyen,hoang-nguyen,FWD v DEM* v REP
+state-house-24,grant-miller,braeden-oswald,0.99,0.8441,fundamentals,0.99,0.8278,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,grant-miller,grant-miller,DEM* v REP
+state-house-25,angela-romero,richard-nowak,0.912,0.6331,fundamentals,0.974,0.6394,fundamentals adjusted for incumbency and challenger type,a,Likely,Safe,angela-romero,angela-romero,REP v DEM*
+state-house-26,michael-finch,matt-macpherson,0.606,0.5207,fundamentals,0.3092,0.4602,fundamentals adjusted for incumbency and challenger type,b,Lean,Lean,michael-finch,matt-macpherson,REP* v DEM
+state-house-27,liz-oates,anthony-loubet,0.4492,0.4928,fundamentals,0.19,0.4361,fundamentals adjusted for incumbency and challenger type,b,Toss-up,Likely,anthony-loubet,anthony-loubet,REP* v DEM
+state-house-28,anita-dalrymple,nicholeen-peck,0.0632,0.3539,fundamentals,0.01,0.3193,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,nicholeen-peck,nicholeen-peck,REP* v DEM v FWD
+state-house-29,sara-snow,sheldon-birch,0.01,0.2248,fundamentals,0.01,0.2417,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,sheldon-birch,sheldon-birch,CON v FWD v REP v DEM
+state-house-30,jake-fitisemanu,dave-parke,0.67,0.5426,fundamentals,0.782,0.5612,fundamentals adjusted for incumbency and challenger type,a,Lean,Lean,jake-fitisemanu,jake-fitisemanu,REP v DEM*
+state-house-31,verona-mauga,melody-jones,0.8608,0.5995,fundamentals,0.9356,0.6104,fundamentals adjusted for incumbency and challenger type,a,Likely,Likely,verona-mauga,verona-mauga,DEM* v REP
+state-house-32,sahara-hayes,aileen-hampton,0.99,0.7709,fundamentals,0.99,0.7604,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,sahara-hayes,sahara-hayes,DEM* v REP
+state-house-33,doug-owens,anna-reeves,0.978,0.6989,fundamentals,0.99,0.6966,fundamentals adjusted for incumbency and challenger type,a,Safe,Safe,doug-owens,doug-owens,REP v DEM*
+state-house-35,rosalba-dominguez,monique-ketcham,0.9072,0.6213,fundamentals,0.9632,0.6292,fundamentals adjusted for incumbency and challenger type,a,Likely,Safe,rosalba-dominguez,rosalba-dominguez,DEM* v REP
+state-house-36,blake-townsend,jim-dunnigan,0.5204,0.5075,fundamentals,0.2328,0.4487,fundamentals adjusted for incumbency and challenger type,b,Toss-up,Lean,blake-townsend,jim-dunnigan,REP* v DEM
+state-house-37,ashlee-matthews,casey-saxton,0.6728,0.5403,fundamentals,0.7928,0.5592,fundamentals adjusted for incumbency and challenger type,a,Lean,Lean,ashlee-matthews,ashlee-matthews,DEM* v REP
+state-house-38,sergio-sotelo,chris-mcconnehey,0.3768,0.4719,fundamentals,0.126,0.364,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,chris-mcconnehey,chris-mcconnehey,REP v UNA
+state-house-39,drew-howells,ken-ivory,0.5192,0.5013,fundamentals,0.2304,0.4434,fundamentals adjusted for incumbency and challenger type,b,Toss-up,Lean,drew-howells,ken-ivory,DEM v REP*
+state-house-41,john-arthur,darren-croft,0.9396,0.6475,fundamentals,0.9832,0.6519,fundamentals adjusted for incumbency and challenger type,a,Likely,Safe,john-arthur,john-arthur,REP v DEM*
+state-house-42,iva-williams,clint-okerlund,0.656,0.54,fundamentals,0.3536,0.477,fundamentals adjusted for incumbency and challenger type,b,Lean,Lean,iva-williams,clint-okerlund,DEM v REP*
+state-house-43,ofa-matagi,steve-eliason,0.7352,0.5567,fundamentals,0.4508,0.4916,fundamentals adjusted for incumbency and challenger type,b,Lean,Toss-up,ofa-matagi,steve-eliason,REP* v DEM
+state-house-44,jess-birtcher,jordan-teuscher,0.3476,0.4639,fundamentals,0.1128,0.4114,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,jordan-teuscher,jordan-teuscher,REP* v DEM
+state-house-45,rod-moser,tracy-miller,0.2588,0.4417,fundamentals,0.066,0.3927,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,tracy-miller,tracy-miller,DEM v REP*
+state-house-46,braxten-rutherford,cal-roberts,0.2024,0.4227,fundamentals,0.0364,0.3767,fundamentals adjusted for incumbency and challenger type,b,Lean,Safe,cal-roberts,cal-roberts,DEM v REP*
+state-house-48,benyde-walker,jake-hunsaker,0.2072,0.4233,fundamentals,0.1272,0.4173,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,jake-hunsaker,jake-hunsaker,DEM v REP
+state-house-49,lillian-bowles,candice-pierucci,0.0524,0.3473,fundamentals,0.01,0.3139,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,candice-pierucci,candice-pierucci,REP* v DEM
+state-house-50,kristin-meyer,stephanie-gricius,0.0116,0.2664,fundamentals,0.01,0.2469,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,stephanie-gricius,stephanie-gricius,REP* v DEM
+state-house-51,brett-nielsen,leah-hansen,0.024,0.3125,fundamentals,0.01,0.285,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,leah-hansen,leah-hansen,DEM v REP*
+state-house-52,nicole-melling,cory-maloy,0.0428,0.328,fundamentals,0.01,0.2979,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,cory-maloy,cory-maloy,DEM v REP* v UNA
+state-house-53,kevin-slater,kay-christofferson,0.0392,0.326,fundamentals,0.01,0.2962,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,kay-christofferson,kay-christofferson,REP* v FWD v DEM
+state-house-54,kristina-robinson,kristen-chevrier,0.0164,0.2857,fundamentals,0.01,0.2629,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,kristen-chevrier,kristen-chevrier,REP* v DEM
+state-house-55,travis-hysell,jon-hawkins,0.0328,0.3227,fundamentals,0.01,0.2935,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,jon-hawkins,jon-hawkins,DEM v REP*
+state-house-56,natassja-grossman,val-peterson,0.0632,0.3582,fundamentals,0.01,0.3229,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,val-peterson,val-peterson,DEM v REP*
+state-house-58,karli-black,david-shallenberger,0.0708,0.3644,fundamentals,0.01,0.328,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,david-shallenberger,david-shallenberger,DEM v REP*
+state-house-59,celeste-johnson,luke-searle,0.3212,0.4676,fundamentals,0.194,0.4559,fundamentals adjusted for incumbency and challenger type,b,Lean,Likely,luke-searle,luke-searle,DEM v REP
+state-house-61,alan-jimenez,lisa-shepherd,0.1572,0.409,fundamentals,0.0328,0.3652,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,lisa-shepherd,lisa-shepherd,CON v DEM v REP*
+state-house-62,david-chappell,norm-thurston,0.1592,0.4063,fundamentals,0.0264,0.3629,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,norm-thurston,norm-thurston,DEM v REP*
+state-house-63,mark-youngquist,stephen-whyte,0.0176,0.2877,fundamentals,0.01,0.2645,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,stephen-whyte,stephen-whyte,REP* v DEM v FWD
+state-house-64,alan-wessman,jackie-larson,0.01,0.2546,fundamentals,0.01,0.173,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,jackie-larson,jackie-larson,UNA v REP*
+state-house-66,breanne-mashek,troy-shelley,0.01,0.153,fundamentals,0.01,0.1513,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,troy-shelley,troy-shelley,DEM v REP* v CON
+state-house-67,carl-ingwell,jr-bird,0.01,0.2099,fundamentals,0.01,0.228,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,jr-bird,jr-bird,REP v DEM
+state-house-68,sonya-ray,scott-chew,0.01,0.1338,fundamentals,0.01,0.0947,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,scott-chew,scott-chew,REP* v CON
+state-house-69,tracie-tso,logan-monson,0.0704,0.3713,fundamentals,0.01,0.3338,fundamentals adjusted for incumbency and challenger type,b,Likely,Safe,logan-monson,logan-monson,REP* v DEM
+state-house-70,stacey-pendergraft,carl-albrecht,0.01,0.1384,fundamentals,0.01,0.1387,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,carl-albrecht,carl-albrecht,DEM v REP* v FWD
+state-house-71,thomas-loveheart,rex-shipp,0.01,0.2527,fundamentals,0.01,0.2355,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,rex-shipp,rex-shipp,DEM v REP*
+state-house-72,eva-weldon,joseph-elison,0.01,0.2208,fundamentals,0.01,0.2089,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,joseph-elison,joseph-elison,DEM v REP* v CON
+state-house-73,glenn-webb,colin-jack,0.01,0.2345,fundamentals,0.01,0.2203,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,colin-jack,colin-jack,DEM v REP*
+state-house-74,jeffrey-lipe,neil-walter,0.026,0.3051,fundamentals,0.01,0.279,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,neil-walter,neil-walter,REP* v DEM
+state-house-75,rebecca-winsor,walt-brooks,0.0156,0.2752,fundamentals,0.01,0.2542,fundamentals adjusted for incumbency and challenger type,b,Safe,Safe,walt-brooks,walt-brooks,DEM v REP*
