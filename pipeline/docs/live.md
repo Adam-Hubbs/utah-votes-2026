@@ -52,19 +52,14 @@ END_TIME=2026-11-05T08:00:00Z pipeline/scripts/election_night_loop.sh
 
 Status lives in `config.json` `live_mode`: `pre` -> `live` (first vote counted) -> `final` (API says official).
 
-### Calling races (winners are never automatic)
+### Winners (automatic, never manual)
 
-Add a row to `pipeline/config/calls.csv` and commit/push (or let the loop pick it up: a changed config file forces a
-rebuild on the next pass):
-
-```
-contest_id,candidate_id,called_at,by
-us-house-1,ben-mcadams,2026-11-04T05:12:00Z,manual
-amendment-a,for,2026-11-04T06:30:00Z,manual
-```
-
-The candidate gets `winner: true` and the contest gets `call: {candidate_id, called_at, by}`. After certification, if the API
-sets `isWinner` on statewide contests (it did not for 2024), that is used when no manual call exists. Leads never set a winner.
+There is no call mechanism. `build_results()` (`pipeline/R/live_normalize.R`) marks `winner: true` only when results are
+official: the statewide `/data` feed reports `isOfficialResults` (live status `final`), or it sets `isWinner` on a contest
+(the API did not for 2024; that is used when present). Then the top vote-getter wins, or the top `voteFor` candidates in
+multi-seat contests (`auto_winners()`); a tie at the cutoff awards nothing. Measures and judicial retention are a single
+seat between For/Yes and Against/No, i.e. more than 50% yes. Until the results are official, candidates are only
+"leading" in the UI and nothing is marked won.
 
 ### Overriding the expected-vote estimate
 

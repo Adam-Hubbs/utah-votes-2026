@@ -57,7 +57,6 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
   const maxPct = Math.max(...contest.candidates.map((c) => c.pct), 0.0001)
   const hasVotes = contest.total_votes > 0
   const rep = contest.reporting
-  const call = contest.call
 
   return (
     <div className="contest-body">
@@ -69,7 +68,7 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
               <LastUpdated iso={summary.updated_at} status={summary.status} showRefresh={isLive} />
             </div>
             <div className="contest-status">
-              {call ? <span className="call-badge">Called {call.by === 'AP' ? 'by AP' : ''}</span> : hasVotes && summary.status !== 'final' ? <span className="status-pill live"><i />Counting</span> : !hasVotes && summary.status === 'pre' ? <span className="status-pill">No results yet</span> : null}
+              {summary.status === 'final' ? <span className="call-badge">Official results</span> : hasVotes ? <span className="status-pill live"><i />Counting</span> : !hasVotes && summary.status === 'pre' ? <span className="status-pill">No results yet</span> : null}
             </div>
           </div>
           <div className="cand-list">

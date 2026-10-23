@@ -41,7 +41,7 @@ export function StatePage() {
         <h1 className="headline sm">The Legislature, judges and school board</h1>
         <p className="dek">
           {started
-            ? 'Which party controls each chamber, race by race. A seat counts as won only once it is called; until then it is shown as leading.'
+            ? 'Which party controls each chamber, race by race. A seat counts as won only once results are official; until then it is shown as leading.'
             : 'All 75 House seats and 15 of 29 Senate seats are on the ballot, along with judicial retention and the State School Board.'}
           {started && <> <LastUpdated iso={summary?.updated_at} /></>}
         </p>

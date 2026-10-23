@@ -31,7 +31,9 @@ export function MethodologyPage() {
         <h2>Estimating how much vote is left</h2>
         <p>Utah votes almost entirely by mail, and counties report in batches over about two weeks. A precinct “reporting” therefore says little about how much of the vote is in. Instead we estimate the share of the <em>expected</em> final vote that has been counted.</p>
         <p>A Bayesian model predicts each county’s final number of ballots from its registration, past turnout and the ballots already counted, and simulates thousands of plausible outcomes. The percent shown is the median; the range is a 90% interval from the simulations. Statewide totals are the sum across simulated counties, so they are more certain than any single county. Estimates are least reliable early in the night and in small counties.</p>
-        <p>The model is a guide, not a call. Late-arriving ballots can differ in partisanship from those counted first, and the site does not project winners except where a result has been called and labelled.</p>
+        <p>The model is a guide, not a call. Late-arriving ballots can differ in partisanship from those counted first, and the site does not project winners.</p>
+        <h2>Winners and “leading”</h2>
+        <p>We do not make race calls. Winners are marked automatically once results are official: when the Lieutenant Governor’s office reports the election results as final, the top vote-getter (the top candidates, where several seats are open) is marked the winner, and a measure or judicial retention is decided by whether it clears its threshold (more than 50% yes). Until then, candidates are shown as leading. The national page shows pre-election context only (ratings and polls), not results.</p>
         {model && <p className="callout-small"><b>Current model:</b> {model.method}</p>}
 
         <h2>Data sources</h2>

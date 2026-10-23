@@ -46,28 +46,6 @@ export function RatingsTally({ house }: { house: HouseFile }) {
   )
 }
 
-export function CalledSeats({ house }: { house: HouseFile }) {
-  const t = house.tally
-  const called = t.DEM_won + t.REP_won + t.IND_won
-  if (!called) return <p className="note">No House seats have been called nationally yet. Calls are entered by hand from news-organization projections.</p>
-  const parts = [
-    { k: 'DEM', n: t.DEM_won, c: SEAT_HEX.DEM }, { k: 'IND', n: t.IND_won, c: SEAT_HEX.IND }, { k: 'none', n: t.uncalled, c: '#e4e4e0' }, { k: 'REP', n: t.REP_won, c: SEAT_HEX.REP },
-  ].filter((p) => p.n > 0)
-  return (
-    <div>
-      <div className="balance-heads">
-        <div className="bh bh-d"><div className="bh-n">{t.DEM_won}</div><div className="bh-l">Democratic seats called</div></div>
-        <div className="bh bh-mid"><div className="bh-n">{t.uncalled}</div><div className="bh-l">not yet called</div></div>
-        <div className="bh bh-r"><div className="bh-n">{t.REP_won}</div><div className="bh-l">Republican seats called</div></div>
-      </div>
-      <div className="seat-bar" role="img" aria-label={`House seats called: Democrats ${t.DEM_won}, Republicans ${t.REP_won}, uncalled ${t.uncalled}`}>
-        {parts.map((p) => <div key={p.k} style={{ flex: p.n, background: p.c }} />)}
-      </div>
-      <p className="note small">{house.composition.majority} seats are needed for a majority. Only seats entered as called are counted; this tally is partial and unofficial.</p>
-    </div>
-  )
-}
-
 export function HouseSection({ house, national }: { house: HouseFile; national: NationalPolls | null | undefined }) {
   const c = house.composition.current
   const gb = house.generic_ballot
@@ -99,8 +77,6 @@ export function HouseSection({ house, national }: { house: HouseFile; national: 
               <i className="seat-line" style={{ left: `${(218 - 0.5) / 435 * 100}%` }} aria-hidden />
             </div>
             <p className="note small">Democrats {c.DEM} · Republicans {c.REP} · Independent {c.IND} · Vacant {c.vacant}. {house.composition.majority} needed for a majority. {house.composition.note} (<a href={house.composition.source.url} target="_blank" rel="noreferrer">{house.composition.source.name}</a>, as of {fmtDay(house.composition.source.as_of)}.)</p>
-            <h3 className="subhead" style={{ marginTop: 18 }}>Seats called</h3>
-            <CalledSeats house={house} />
           </div>
         </div>
       </Section>

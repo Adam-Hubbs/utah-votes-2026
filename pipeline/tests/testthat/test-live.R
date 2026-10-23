@@ -54,17 +54,20 @@ test_that("uncounted counties fall back to the prior", {
   expect_equal(median(fit$T[, "49035"]) / cty$registered[cty$fips == "49035"], 0.65, tolerance = 0.1)
 })
 
-test_that("winners only come from manual calls", {
+test_that("winners are only marked once results are official", {
   path <- file.path(Sys.getenv("UTEL_RAW_DIR", file.path(root, "pipeline", "raw")), "live", "exp2026.json")
   skip_if_not(file.exists(path))
   parsed <- parse_export(jsonlite::fromJSON(path, simplifyVector = FALSE))
   cands <- read_candidates()
-  none <- tibble(contest_id = character(), candidate_id = character(), called_at = character(), by = character())
-  r0 <- build_results(parsed, cands, none, cfg = live_config())
-  expect_false(any(map_lgl(r0$summary$contests, \(c) any(map_lgl(c$candidates, "winner")))))
-  call <- tibble(contest_id = "us-house-1", candidate_id = "ben-mcadams", called_at = "2026-11-04T05:00:00Z", by = "manual")
-  r1 <- build_results(parsed, cands, call, cfg = live_config())
-  h1 <- keep(r1$summary$contests, \(c) c$contest_id == "us-house-1")[[1]]
-  expect_equal(h1$call$candidate_id, "ben-mcadams")
-  expect_equal(keep(h1$candidates, \(x) x$winner) |> map_chr("candidate_id"), "ben-mcadams")
+  any_winner <- \(r) any(map_lgl(r$summary$contests, \(c) any(map_lgl(c$candidates, "winner"))))
+  expect_false(any_winner(build_results(parsed, cands, cfg = live_config())))
+})
+
+test_that("auto_winners takes top seats and refuses ties at the cutoff", {
+  rows <- tibble(candidate_id = c("a", "b", "c"), votes = c(50, 30, 30))
+  expect_equal(auto_winners(rows, 1), "a")
+  expect_equal(auto_winners(rows, 2), character())
+  expect_equal(auto_winners(rows[1:2, ], 2), c("a", "b"))
+  expect_equal(auto_winners(tibble(candidate_id = c("yes", "no"), votes = c(49, 51)), 1), "no")
+  expect_equal(auto_winners(tibble(candidate_id = "a", votes = 0), 1), character())
 })

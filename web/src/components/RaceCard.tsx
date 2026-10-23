@@ -71,7 +71,7 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
       {useLive && live ? (
         <div className="rc-foot">
           <ReportingMeter pct={live.reporting.pct_expected} lo={live.reporting.pct_expected_lo} hi={live.reporting.pct_expected_hi} size="sm" />
-          <span className="rc-foot-text">Est. expected vote counted · {fmtInt(live.total_votes)} votes{live.call ? ' · Called' : ''}</span>
+          <span className="rc-foot-text">Est. expected vote counted · {fmtInt(live.total_votes)} votes</span>
         </div>
       ) : (
         <div className="rc-foot rc-foot-text">

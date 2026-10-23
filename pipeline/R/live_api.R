@@ -269,6 +269,7 @@ parse_export <- function(j, keep_precincts = TRUE) {
           party_raw = map_chr(opts, \(o) o$politicalParty %||% NA_character_),
           option_order = map_int(opts, \(o) as.integer(o$ballotOrder %||% NA)),
           votes = map_dbl(opts, \(o) as_int0(o$voteCount)),
+          vote_for = as_int0(b$voteFor),
           precincts_total = as_int0(b$precinctsParticipating),
           precincts_reporting = as_int0(b$precinctsReporting)
         ),
