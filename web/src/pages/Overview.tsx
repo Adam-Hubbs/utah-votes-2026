@@ -9,7 +9,7 @@ import { Countdown, LastUpdated } from '../components/LastUpdated'
 import { LegislatureCard } from '../components/state/LegislatureCard'
 import { Section, Stat } from '../components/Ui'
 import { Sparkline } from '../components/Sparkline'
-import { ReportingMeter } from '../components/ReportingMeter'
+import { PctExpectedText, ReportingMeter } from '../components/ReportingMeter'
 import { ResultsBar } from '../components/ResultsBar'
 import { RATING_FILL, NO_DATA, leaderFill } from '../lib/colors'
 import { consensus } from '../lib/ratings'
@@ -42,6 +42,8 @@ export function Overview() {
   const houseIds = config.featured_contests.filter((c) => c.startsWith('us-house')).length ? config.featured_contests.filter((c) => c.startsWith('us-house')) : HOUSE
   const measureIds = config.featured_contests.filter((c) => c.startsWith('amendment'))
   const turnout = summary?.turnout
+  const turnoutLo = turnout?.expected_hi ? turnout.ballots_counted / turnout.expected_hi : undefined
+  const turnoutHi = turnout?.expected_lo ? turnout.ballots_counted / turnout.expected_lo : undefined
   const stateReg = useDemographics('state')?.units[0]?.registration
   const registered = turnout?.registered || stateReg?.total
 
@@ -94,8 +96,8 @@ export function Overview() {
               <Stat label="Ballots counted" value={fmtInt(turnout.ballots_counted)} sub={<LastUpdated iso={summary?.updated_at} />} />
               <div className="stat stat-meter">
                 <div className="stat-label">Est. expected vote counted</div>
-                <div className="stat-value">{fmtPct(turnout.pct_expected, 0)}</div>
-                <ReportingMeter pct={turnout.pct_expected} lo={turnout.expected_lo ? turnout.ballots_counted / turnout.expected_hi : undefined} hi={turnout.expected_lo ? turnout.ballots_counted / turnout.expected_lo : undefined} showText={false} />
+                <div className="stat-value"><PctExpectedText pct={turnout.pct_expected} lo={turnoutLo} hi={turnoutHi} bare /></div>
+                <ReportingMeter pct={turnout.pct_expected} lo={turnoutLo} hi={turnoutHi} showText={false} />
                 <div className="stat-sub">Expected final: {fmtInt(turnout.expected_lo)}–{fmtInt(turnout.expected_hi)} ballots</div>
               </div>
             </>
@@ -147,7 +149,7 @@ export function Overview() {
                       <>
                         <ResultsBar items={items.map((i) => ({ candidate_id: i.candidate_id, name: i.name, party: null, pct: i.pct }))} />
                         <div className="measure-vals">{items.map((i) => <span key={i.candidate_id}>{i.name} <b>{fmtPct(i.pct)}</b></span>)}</div>
-                        {c && <div className="rc-foot-text">Est. {fmtPct(c.reporting.pct_expected, 0)} of expected vote counted</div>}
+                        {c && <div className="rc-foot-text">Est. <PctExpectedText pct={c.reporting.pct_expected} lo={c.reporting.pct_expected_lo} hi={c.reporting.pct_expected_hi} bare /> of expected vote counted</div>}
                       </>
                     ) : <div className="rc-foot-text">No public polling. {blurb ? '' : 'Description pending.'}</div>}
                   </article>

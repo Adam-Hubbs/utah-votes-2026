@@ -126,9 +126,9 @@
 .meter-rough .meter-band { background: repeating-linear-gradient(135deg, #8f9bb3 0 3px, #cfd6e4 3px 6px); }
 .meter-rough .meter-text { font-weight: 500; }
 .rough-tip { position: relative; display: inline-block; margin-left: 6px; vertical-align: middle; }
-.rough-btn { width: 16px; height: 16px; padding: 0; border-radius: 50%; border: 1px solid var(--rule); background: #fff; color: var(--ink-3); font: 600 10px/14px inherit; font-family: inherit; cursor: help; }
+.rough-btn { width: 16px; height: 16px; padding: 0; border-radius: 50%; border: 1px solid var(--rule); background: #fff; color: var(--ink-3); font-family: inherit; font-size: 10px; font-weight: 600; line-height: 14px; cursor: help; }
 .rough-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.rough-pop { left: 0; top: 22px; width: 260px; text-transform: none; font-weight: 400; text-align: left; white-space: normal; }
+.tooltip.rough-pop { left: 0; top: 22px; width: 280px; max-width: 280px; font-size: 13px; line-height: 1.45; letter-spacing: 0; text-transform: none; font-weight: 400; text-align: left; white-space: normal; }
 .meter-text { font-size: 12.5px; font-weight: 600; min-width: 36px; text-align: right; white-space: nowrap; }
 .reporting-block { margin-top: 18px; padding: 14px 16px; background: var(--wash); border-radius: var(--radius); }
 .reporting-title { font-weight: 700; margin-bottom: 8px; font-size: 15px; }
@@ -189,7 +189,7 @@
 .tt-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: 12px; }
 .tt-muted { color: var(--ink-3); font-size: 12px; margin-top: 2px; }
 .legend { margin-top: 12px; font-size: 12px; color: var(--ink-3); }
-.legend-title { text-transform: uppercase; letter-spacing: 0.08em; font-size: 10.5px; font-weight: 600; margin-bottom: 6px; }
+.legend-title { font-size: 12.5px; font-weight: 600; margin-bottom: 6px; }
 .legend-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
 .legend-name { width: 92px; flex: none; color: var(--ink-2); }
 .legend-ramp { display: flex; gap: 2px; flex: 1; max-width: 360px; }
@@ -225,7 +225,7 @@
 .stat-row { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 14px; }
 .demo-compare { font-size: 13.5px; }
 .dc-head, .dc-row { display: grid; grid-template-columns: minmax(110px, 1.1fr) minmax(0, 1.5fr) 62px; gap: 10px; align-items: center; }
-.dc-head { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); font-weight: 600; padding-bottom: 6px; border-bottom: 1px solid var(--ink); }
+.dc-head { font-size: 12.5px; color: var(--ink-3); font-weight: 600; padding-bottom: 6px; border-bottom: 1px solid var(--ink); }
 .dc-head span:last-child, .dc-state { text-align: right; color: var(--ink-3); }
 .dc-row { padding: 7px 0; border-bottom: 1px solid var(--rule); }
 .dc-val { display: grid; grid-template-columns: 74px 1fr; gap: 8px; align-items: center; }

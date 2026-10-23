@@ -12,7 +12,7 @@ import { ChoroplethMap, type UnitPattern } from './ChoroplethMap'
 import { MarginLegend, PrecinctKey } from './MapLegend'
 import { PartyChip } from './PartyChip'
 import { PollChart, type TSeries } from './PollChart'
-import { ReportingMeter } from './ReportingMeter'
+import { PctExpectedText, ReportingMeter } from './ReportingMeter'
 import { SortableTable, type Column } from './SortableTable'
 import { LastUpdated } from './LastUpdated'
 import { Gate, Section, Segmented, Stat, Unavailable } from './Ui'
@@ -87,7 +87,7 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
           )}
           {(isLive || hasVotes) && summary.status !== 'final' && (
             <div className="reporting-block">
-              <div className="reporting-title">Est. {fmtPct(rep.pct_expected, 0)} of expected vote counted</div>
+              <div className="reporting-title">Est. <PctExpectedText pct={rep.pct_expected} lo={rep.pct_expected_lo} hi={rep.pct_expected_hi} bare /> of expected vote counted</div>
               <ReportingMeter pct={rep.pct_expected} lo={rep.pct_expected_lo} hi={rep.pct_expected_hi} showText={false} />
               <p className="note">Plausible range {fmtPct(rep.pct_expected_lo, 0)}–{fmtPct(rep.pct_expected_hi, 0)}, from a statistical model of how many ballots remain. Utah counts for about two weeks, so late ballots can shift margins.</p>
             </div>

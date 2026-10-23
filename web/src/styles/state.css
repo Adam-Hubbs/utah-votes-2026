@@ -37,7 +37,7 @@
 .seat-arc .seat-none.st-vacant { fill: #fff; stroke: var(--ink-4); stroke-dasharray: 2 2; }
 .pat-bg-dem { fill: #b9cfee; } .pat-fg-dem { fill: var(--dem); } .pat-bg-rep { fill: #f6c2c0; } .pat-fg-rep { fill: var(--rep); } .pat-bg-oth { fill: #f8e9a8; } .pat-fg-oth { fill: var(--third); }
 .arc-center { position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; line-height: 1.1; }
-.arc-center b { display: block; font-size: 26px; } .arc-center span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+.arc-center b { display: block; font-size: 26px; } .arc-center span { font-size: 12px; color: var(--ink-3); }
 .seat-arc .seat-dem.st-won, .seat-arc .seat-dem.st-holder { fill: var(--dem); } .seat-arc .seat-rep.st-won, .seat-arc .seat-rep.st-holder { fill: var(--rep); } .seat-arc .seat-oth.st-won, .seat-arc .seat-oth.st-holder { fill: var(--third); }
 .seat-arc .seat-dem.st-leading { fill: #a9c6ec; } .seat-arc .seat-rep.st-leading { fill: #f4aaa8; } .seat-arc .seat-oth.st-leading { fill: #f5e08a; }
 .seat-arc .seat-none { fill: #dcdcd8; }
