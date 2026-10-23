@@ -91,11 +91,10 @@ utah_counties <- tibble(
 
 normalize_county_name <- function(x) {
   x |>
-    str_remove(regex("\\s+county(,?\\s*ut(ah)?)?$", ignore_case = TRUE)) |>
     str_replace_all("-", " ") |>
     str_squish() |>
-    str_to_title() |>
-    str_replace("^Salt Lake$", "Salt Lake")
+    str_remove(regex("\\s+county(,?\\s*ut(ah)?)?$", ignore_case = TRUE)) |>
+    str_to_title()
 }
 
 county_fips_from_name <- function(x) {
