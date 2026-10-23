@@ -34,6 +34,9 @@ export function MethodologyPage() {
         <h2>Race ratings</h2>
         <p>Ratings are collected from independent forecasters. Each source uses its own words (Safe, Solid, Likely, Lean, Toss-up); we map them onto one seven-point scale from Solid Democratic to Solid Republican. The consensus is the average position of the sources, rounded to the nearest category.{ratings ? ` Sources: ${ratings.sources.map((s) => s.name).join(', ')}.` : ''}</p>
 
+        <h2>Legislative race ratings</h2>
+        <p>Each state House and Senate race gets a pre-election rating from the forecast model’s win probability for the favourite: Safe at 97% or higher, Likely at 85–97%, Lean at 65–85%, and Toss-up below 65%. Races with a single candidate are Uncontested. Where the model has no forecast, we use the absolute 2024 presidential margin in the district instead: 20 points or more is Safe, 10–20 Likely, 5–10 Lean and under 5 a Toss-up. Hovering a rating shows which source was used. The rating is fixed before votes are counted and does not change on election night.</p>
+
         <h2>Estimating how much vote is left</h2>
         <p>Utah votes almost entirely by mail, and counties report in batches over about two weeks. A precinct “reporting” therefore says little about how much of the vote is in. Instead we estimate the share of the <em>expected</em> final vote that has been counted.</p>
         <p>A Bayesian model predicts each county’s final number of ballots from its registration, past turnout and the ballots already counted, and simulates thousands of plausible outcomes. The percent shown is the median; the range is a 90% interval from the simulations. Statewide totals are the sum across simulated counties, so they are more certain than any single county. Estimates are least reliable early in the night and in small counties.</p>

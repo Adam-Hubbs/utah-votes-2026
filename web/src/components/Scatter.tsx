@@ -2,6 +2,7 @@ import { scaleLinear, scaleSqrt } from 'd3-scale'
 import { extent, max } from 'd3-array'
 import { useState } from 'react'
 import { useSize } from '../lib/hooks'
+import { TooltipHeader, TooltipRow } from './Tooltip'
 
 export interface ScatterPoint { id: string; label: string; x: number; y: number; r: number; color: string }
 
@@ -58,9 +59,9 @@ export function Scatter({ points, xLabel, yLabel, xFormat, yFormat, height = 380
       </svg>
       {h && (
         <div className="chart-tip" style={{ left: Math.min(w - 180, Math.max(8, m.l + xs(h.x) + 14)), top: Math.max(4, m.t + ys(h.y) - 56) }}>
-          <div className="chart-tip-date">{h.label}</div>
-          <div className="chart-tip-row"><span>{xLabel}</span><b>{xFormat(h.x)}</b></div>
-          <div className="chart-tip-row"><span>{yLabel}</span><b>{yFormat(h.y)}</b></div>
+          <TooltipHeader title={h.label} />
+          <TooltipRow label={xLabel} value={xFormat(h.x)} />
+          <TooltipRow label={yLabel} value={yFormat(h.y)} />
         </div>
       )}
     </div>

@@ -18,6 +18,7 @@ import { partyGroup } from '../lib/parties'
 import { fmtInt, fmtPct, fmtDayYear } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 import { NationalCard } from '../national/NationalCard'
+import { TooltipHeader, TooltipNote, TooltipRow } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 const HOUSE = ['us-house-1', 'us-house-2', 'us-house-3', 'us-house-4']
@@ -64,8 +65,8 @@ export function Overview() {
     const lead = c && c.total_votes > 0 ? leadingCandidate(c.candidates) : null
     return (
       <div>
-        <div className="tt-title">District {String(f.properties?.district)}</div>
-        {showLive && lead ? <div className="tt-row"><span>{lead.name} leads</span><b>{fmtPct(lead.pct)}</b></div> : cons ? <div className="tt-row"><span>Consensus</span><b>{cons.label}</b></div> : <div className="tt-muted">No rating yet</div>}
+        <TooltipHeader title={`District ${String(f.properties?.district)}`} />
+        {showLive && lead ? <TooltipRow label={`${lead.name} leads`} value={fmtPct(lead.pct)} /> : cons ? <TooltipRow label="Consensus" value={cons.label} /> : <TooltipNote>No rating yet</TooltipNote>}
         <div className="tt-muted">Click for the race page</div>
       </div>
     )

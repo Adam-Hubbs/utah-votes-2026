@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
+import { CompetitivenessChip } from './CompetitivenessChip'
 import { ChoroplethMap } from '../ChoroplethMap'
 import { MarginLegend } from '../MapLegend'
+import { TooltipHeader, TooltipNote, TooltipRow } from '../Tooltip'
 import { useGeo } from '../../data/hooks'
 import { useSite } from '../../data/site'
 import { NO_DATA, leaderFill } from '../../lib/colors'
@@ -42,28 +44,28 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
   const tooltip = (f: F) => {
     const s = stateOf(f)
     const d = Number(f.properties?.district)
-    if (!s) return <div className="tt-title">{seatLabel(chamber)} {d}</div>
+    if (!s) return <TooltipHeader title={`${seatLabel(chamber)} ${d}`} />
     const holder = s.seat.vacant ? 'Vacant' : `${s.seat.holder ?? '—'}${s.seat.holder_party ? ` (${s.seat.holder_party[0]})` : ''}`
     return (
       <div>
-        <div className="tt-title">{seatLabel(chamber)} {d}</div>
-        <div className="tt-row"><span>Current</span><b>{holder}</b></div>
-        {s.status === 'holdover' && <div className="tt-muted">Not on the 2026 ballot</div>}
+        <TooltipHeader title={`${seatLabel(chamber)} ${d}`} subtitle={s.status === 'holdover' ? 'Not up in 2026' : undefined} />
+        <TooltipRow label="Current" value={holder} />
+        {s.status !== 'holdover' && <TooltipRow label="Pre-election rating" value={<CompetitivenessChip rating={s.rating} />} />}
+        {s.status !== 'holdover' && <TooltipNote>{s.rating.detail}</TooltipNote>}
         {s.status !== 'holdover' && started && s.leader && (
           <>
-            <div className="tt-row"><span>{s.status === 'won' ? 'Winner' : 'Leading'}</span><b>{s.leader.name} ({s.leader.party?.[0] ?? '–'}) {fmtPct(s.leader.pct)}</b></div>
-            <div className="tt-muted">Est. {fmtPct(s.pctCounted, 0)} counted{s.flip ? ' · flip' : ''}</div>
+            <TooltipRow label={s.status === 'won' ? 'Winner' : 'Leading'} value={`${s.leader.name} (${s.leader.party?.[0] ?? '–'}) ${fmtPct(s.leader.pct)}`} />
+            <TooltipNote>Est. {fmtPct(s.pctCounted, 0)} counted{s.flip ? ' · flip' : ''}</TooltipNote>
           </>
         )}
-        {s.status !== 'holdover' && started && !s.leader && <div className="tt-muted">{s.status === 'untracked' ? 'Contest not yet in results feed' : 'No votes counted yet'}</div>}
+        {s.status !== 'holdover' && started && !s.leader && <TooltipNote>{s.status === 'untracked' ? 'Contest not yet in results feed' : 'No votes counted yet'}</TooltipNote>}
         {s.status !== 'holdover' && !started && (
           <>
-            <div className="tt-row"><span>2024 president</span><b>{fmtMargin(s.seat.pres24_margin)}</b></div>
-            {s.seat.uncontested && <div className="tt-muted">Unopposed</div>}
-            {s.seat.up && !s.seat.vacant && s.seat.incumbent_running === false && <div className="tt-muted">Incumbent not running</div>}
+            <TooltipRow label="2024 president" value={fmtMargin(s.seat.pres24_margin)} />
+            {s.seat.up && !s.seat.vacant && s.seat.incumbent_running === false && <TooltipNote>Incumbent not running</TooltipNote>}
           </>
         )}
-        {s.seat.contest_id && <div className="tt-muted">Click for the race page</div>}
+        {s.seat.contest_id && <TooltipNote>Click for the race page</TooltipNote>}
       </div>
     )
   }

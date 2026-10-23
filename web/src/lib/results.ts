@@ -54,3 +54,11 @@ export const marginText = (l: Leader): string => {
   const who = l.group === 'REP' ? 'R' : l.group === 'DEM' ? 'D' : lastName(l.name)
   return `${who}+${(l.margin * 100).toFixed(1)}`
 }
+
+/** Leader's margin signed so positive is Republican or For and negative is Democratic or Against; null for other leaders. */
+export function signedMargin(l: Leader): number | null {
+  if (!l.id) return null
+  if (l.group === 'REP' || l.group === 'FOR') return l.margin
+  if (l.group === 'DEM' || l.group === 'AGAINST') return -l.margin
+  return null
+}

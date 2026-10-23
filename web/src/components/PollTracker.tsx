@@ -54,7 +54,7 @@ export function PollTracker({ contestId, avg, polls, height = 340, stage = 'gene
       render: (p) => { const r = p.results.find((x) => x.candidate_id === c.candidate_id); return <span className="num">{r ? r.pct.toFixed(1) : '–'}</span> },
     })),
     {
-      key: 'margin', header: 'Margin', align: 'right', sort: (p) => { const m = pollMargin(p); return m ? m.sign : null },
+      key: 'margin', header: 'Margin', align: 'right', marginSort: { value: (p) => pollMargin(p)?.value ?? null },
       render: (p) => { const m = pollMargin(p); return m ? <span className={`margin-pill ${m.sign > 0 ? 'r' : m.sign < 0 ? 'd' : ''}`}>{m.text}</span> : '–' },
     },
   ]

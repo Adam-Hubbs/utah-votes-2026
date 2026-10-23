@@ -1,3 +1,5 @@
+import { useRef, useState } from 'react'
+import { Tooltip, TooltipHeader, TooltipNote, TooltipRow } from '../components/Tooltip'
 import type { SenateRace } from './types'
 import { INDEX_LABEL, SEAT_HEX, indexFill, indexText, raceIndex, shortRating } from './lib'
 
@@ -22,8 +24,16 @@ interface Props {
 
 export function TileMap({ races, election, selected, onSelect }: Props) {
   const byState = new Map(races.map((r) => [r.state, r]))
+  const ref = useRef<HTMLDivElement>(null)
+  const [tip, setTip] = useState<{ race: SenateRace; x: number; y: number } | null>(null)
+  const show = (race: SenateRace, el: HTMLElement) => {
+    const box = ref.current?.getBoundingClientRect()
+    const r = el.getBoundingClientRect()
+    if (box) setTip({ race, x: r.left - box.left + r.width / 2, y: r.top - box.top + r.height / 2 })
+  }
+  const bounds = { width: ref.current?.clientWidth ?? 640, height: ref.current?.clientHeight ?? 400 }
   return (
-    <div className="tile-map" role="group" aria-label="2026 U.S. Senate races by state">
+    <div className="tile-map" ref={ref} role="group" aria-label="2026 U.S. Senate races by state" onMouseLeave={() => setTip(null)}>
       {Object.entries(TILES).map(([abbr, [row, col]]) => {
         const race = byState.get(abbr)
         const style = { gridRow: row + 1, gridColumn: col + 1 }
@@ -39,13 +49,25 @@ export function TileMap({ races, election, selected, onSelect }: Props) {
           <button key={abbr} type="button" className={`tile${selected === abbr ? ' sel' : ''}${called ? ' called' : ''}`} style={{ ...style, background: bg, color: fg }}
             onClick={() => onSelect(abbr)} aria-pressed={selected === abbr}
             aria-label={`${race.state_name}${race.special ? ' special election' : ''}: ${called ? `${called.winner_party} win called` : INDEX_LABEL[idx]}`}
-            title={`${race.state_name}${race.special ? ' (special)' : ''} · ${called ? `Called: ${called.winner_name ?? called.winner_party}` : INDEX_LABEL[idx]}`}>
+            onMouseEnter={(e) => show(race, e.currentTarget)} onFocus={(e) => show(race, e.currentTarget)} onBlur={() => setTip(null)}>
             <span className="tile-abbr">{abbr}</span>
             <span className="tile-sub">{sub}</span>
             {race.special && <span className="tile-flag">S</span>}
           </button>
         )
       })}
+      {tip && (
+        <Tooltip x={tip.x} y={tip.y} bounds={bounds}>
+          <TooltipHeader title={tip.race.state_name} subtitle={tip.race.special ? 'Special election' : undefined} />
+          {tip.race.call
+            ? <TooltipRow label="Called" value={tip.race.call.winner_name ?? tip.race.call.winner_party} />
+            : <TooltipRow label="Consensus" value={INDEX_LABEL[raceIndex(tip.race)]} />}
+          {(['cook', 'sabato', 'inside'] as const).map((k) => tip.race.ratings[k] && (
+            <TooltipRow key={k} label={{ cook: 'Cook', sabato: 'Sabato', inside: 'Inside Elections' }[k]} value={shortRating(tip.race.ratings[k])} />
+          ))}
+          <TooltipNote>Click for details</TooltipNote>
+        </Tooltip>
+      )}
     </div>
   )
 }
