@@ -11,7 +11,8 @@ import { candidateColors } from '../lib/parties'
 import { MAPPABLE_OFFICES, OFFICE_LABEL } from '../lib/results'
 import { fmtInt, fmtPct } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
-import type { ElectionSummary, SummaryContest } from '../types/data'
+import { flags } from '../data/base'
+import type { ElectionSummary, IndexElection, SummaryContest } from '../types/data'
 import { LastUpdated } from '../components/LastUpdated'
 import { NeedlePanel, NeedleStrip } from '../components/NeedlePanel'
 
@@ -21,12 +22,29 @@ export function ResultsPage() {
   const navigate = useNavigate()
   const index = useResultsIndex()
   const electionId = params.electionId ?? currentElection
-  const election = index?.elections.find((e) => e.election_id === electionId)
   const summary = useSummary(electionId)
+  const currentSummary = useSummary(currentElection)
+  // index.json only lists past elections, so the current one is built from its summary.
+  const elections = useMemo(() => {
+    const past = index?.elections.filter((e) => e.election_id !== currentElection) ?? []
+    if (!currentSummary) return past
+    const current: IndexElection = {
+      election_id: currentElection,
+      name: flags.sim ? `${currentSummary.name} (simulation)` : currentSummary.name,
+      date: currentSummary.date, status: currentSummary.status, precinct_geo: currentSummary.precinct_geo, cd_plan: currentSummary.cd_plan,
+      contests: currentSummary.contests.map((c) => ({ contest_id: c.contest_id, name: c.name, office: c.office })),
+    }
+    return [current, ...past]
+  }, [index, currentSummary, currentElection])
+  const election = elections.find((e) => e.election_id === electionId)
   const firstContest = config.featured_contests[0] ?? election?.contests[0]?.contest_id ?? ''
   const contestId = params.contestId ?? (election?.contests.some((c) => c.contest_id === firstContest) ? firstContest : election?.contests[0]?.contest_id) ?? firstContest
   useDocTitle('Results')
 
+  const firstContestOf = (id: string) => {
+    const cs = elections.find((e) => e.election_id === id)?.contests ?? []
+    return (cs.find((c) => config.featured_contests.includes(c.contest_id)) ?? cs[0])?.contest_id
+  }
   const go = (e: string, c: string) => navigate(`/results/${e}/${c}`)
   const contestMeta = election?.contests.find((c) => c.contest_id === contestId)
   const listView = contestMeta ? !MAPPABLE_OFFICES.has(contestMeta.office) : false
@@ -40,9 +58,9 @@ export function ResultsPage() {
       </header>
       <div className="selectors">
         <Gate data={index} what="The election list">
-          {(i) => (
+          {() => (
             <>
-              <ElectionSelect elections={i.elections} value={electionId} onChange={(id) => go(id, i.elections.find((e) => e.election_id === id)?.contests[0]?.contest_id ?? contestId)} />
+              <ElectionSelect elections={elections} value={electionId} onChange={(id) => go(id, firstContestOf(id) ?? contestId)} />
               <ContestSelect election={election} value={contestId} onChange={(c) => go(electionId, c)} />
             </>
           )}
@@ -83,10 +101,12 @@ function OtherContests({ summary, electionId, current }: { summary: ElectionSumm
 function MiniContest({ c, to }: { c: SummaryContest; to: string }) {
   const colors = candidateColors(c.candidates)
   const has = c.total_votes > 0
+  const rank = (p: string | null) => (p === 'DEM' ? 0 : p === 'REP' ? 1 : 2)
+  const shown = (has ? c.candidates : [...c.candidates].sort((a, b) => rank(a.party) - rank(b.party))).slice(0, 2)
   return (
     <Link to={to} className="mini-contest">
       <b>{c.name}</b>
-      {c.candidates.slice(0, 2).map((x) => (
+      {shown.map((x) => (
         <div className="mini-line" key={x.candidate_id}><i style={{ background: colors[x.candidate_id] }} />{x.name}<span>{has ? fmtPct(x.pct) : '–'}</span></div>
       ))}
     </Link>

@@ -62,7 +62,7 @@ function RatingsTable({ ratings, nameOf }: { ratings: Ratings; nameOf: (id: stri
       </Section>
       {odds && Object.keys(odds).length > 0 && (
         <Section title="Prediction markets" dek="Implied probability of a Democratic win. Market prices, not polls or models.">
-          <div className="table-scroll">
+          <div className="table-wrap">
             <table className="data-table">
               <thead><tr><th>Race</th>{marketSources.map((k) => <th key={k} className="right">{k}</th>)}</tr></thead>
               <tbody>

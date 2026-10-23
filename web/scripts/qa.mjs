@@ -47,6 +47,17 @@ for (const [vw, w, h] of [['desktop', 1280, 900], ['phone', 390, 844]]) {
       if (vw === 'phone') {
         const ov = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)
         if (ov > 0) log('overflow', `+${ov}px`)
+        // body has overflow-x: hidden, so look for elements poking past the viewport that are not inside a scroll container
+        const wide = await page.evaluate(() => [...document.querySelectorAll('body *')].filter((el) => {
+          const r = el.getBoundingClientRect()
+          if (r.width === 0 || r.right <= innerWidth + 1) return false
+          for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+            const o = getComputedStyle(p).overflowX
+            if (o === 'auto' || o === 'scroll' || o === 'hidden') return false
+          }
+          return getComputedStyle(el).position !== 'fixed'
+        }).slice(0, 3).map((el) => `${el.tagName}.${String(el.className).slice(0, 40)} right=${Math.round(el.getBoundingClientRect().right)}`))
+        if (wide.length) log('wide', wide.join(' | '))
       }
       const errText = await page.evaluate(() => /NaN|undefined|\[object|Infinity/.test(document.body.innerText) ? (document.body.innerText.match(/.{0,30}(NaN|undefined|\[object|Infinity).{0,30}/)?.[0]) : null)
       if (errText) log('badtext', errText.replace(/\n/g, ' '))
