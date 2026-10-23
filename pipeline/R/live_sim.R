@@ -337,13 +337,12 @@ run_simulation <- function(
     staging <- file.path(tempdir(), "sim")
     unlink(staging, recursive = TRUE)
     write_results(res, staging, tl)
-    if (file.exists(file.path(out_dir, "model.json")))
-      file.copy(
-        file.path(out_dir, "model.json"),
-        file.path(staging, "model.json"),
-        overwrite = TRUE
-      )
+    for (f in c("model.json", "needle.json")) {
+      if (file.exists(file.path(out_dir, f)))
+        file.copy(file.path(out_dir, f), file.path(staging, f), overwrite = TRUE)
+    }
     run_expected_vote_model(staging, "2026-sim", now = now, seed = seed)
+    run_needle(staging, "2026-sim", now = now)
     publish_dir(staging, out_dir)
     mdl <- jsonlite::read_json(file.path(out_dir, "model.json"))
     message(sprintf(

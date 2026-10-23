@@ -96,11 +96,12 @@ scrape_once <- function(force = FALSE, now = Sys.time()) {
   unlink(staging, recursive = TRUE)
   tl <- update_timeline(file.path(dest, "timeline.json"), results, cfg, t_iso)
   write_results(results, staging, if (status == "pre") NULL else tl)
-  if (file.exists(file.path(dest, "model.json"))) file.copy(file.path(dest, "model.json"), file.path(staging, "model.json"), overwrite = TRUE)
+  for (f in c("model.json", "needle.json")) if (file.exists(file.path(dest, f))) file.copy(file.path(dest, f), file.path(staging, f), overwrite = TRUE)
   reg <- if (!is.null(state) && nrow(state$registered) > 0) {
     state$registered |> transmute(fips = county_fips_from_name(county), registered = active) |> filter(!is.na(fips))
   }
   run_expected_vote_model(staging, ELECTION_ID, now = now, is_official = official, registered_override = reg)
+  safe_needle(staging, ELECTION_ID, now)
   publish_dir(staging, dest)
   write_site_config(status, featured_ids(results))
   message(sprintf("[scrape] published status=%s via=%s as_of=%s votes=%s", status, src$via, as_of, format(results$max_votes, big.mark = ",")))
@@ -116,5 +117,12 @@ refresh_model_only <- function(dest, now, min_age_min = 10) {
   status <- read_json_safe(file.path(dest, "summary.json"))$status
   if (!identical(status, "live")) return(invisible(FALSE))
   run_expected_vote_model(dest, ELECTION_ID, now = now)
+  safe_needle(dest, ELECTION_ID, now)
   invisible(TRUE)
+}
+
+# The needle is an add-on: a failure must never block publishing the results themselves.
+safe_needle <- function(dir, election_id, now) {
+  tryCatch(run_needle(dir, election_id, now = now), error = \(e) message("[needle] FAILED: ", conditionMessage(e)))
+  invisible(NULL)
 }

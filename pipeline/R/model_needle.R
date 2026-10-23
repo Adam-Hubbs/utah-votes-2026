@@ -13,6 +13,7 @@
 needle_params <- function() {
   list(
     draws = 5000,
+    draws_other = 2500,
     chunk_cells = 4e6,
     rho_ballots = 0.7,
     tau_county = 0.12,
@@ -238,30 +239,30 @@ needle_simulate <- function(inp, prior, p, n_draws, seed) {
       z0 +
       sqrt(1 - p$rho_ballots) * matrix(rnorm(n * C), n, C)
     Tm <- exp(
-      matrix(log(ct$med), n, C, byrow = TRUE) +
-        Z * matrix(sdlog, n, C, byrow = TRUE)
+      rep(log(ct$med), each = n) +
+        Z * rep(sdlog, each = n)
     )
-    Tm <- pmax(Tm, matrix(ct$B, n, C, byrow = TRUE))
+    Tm <- pmax(Tm, rep(ct$B, each = n))
     Tm[, ct$final] <- matrix(ct$B[ct$final], n, sum(ct$final), byrow = TRUE)
-    Vf <- Tm * matrix(kap_c, n, C, byrow = TRUE)
-    Rem_c <- pmax(Vf - matrix(C_c, n, C, byrow = TRUE), 0)
+    Vf <- Tm * rep(kap_c, each = n)
+    Rem_c <- pmax(Vf - rep(C_c, each = n), 0)
 
-    t_j <- Vf[, cidx, drop = FALSE] * matrix(wfrac, n, P, byrow = TRUE)
+    t_j <- Vf[, cidx, drop = FALSE] * rep(wfrac, each = n)
     # a precinct's own count says how big it is: trust it in proportion to how much of it is in
-    pace_j <- Vf[, cidx, drop = FALSE] / matrix(pmax(C_c, 1)[cidx], n, P, byrow = TRUE)
-    lam_j <- matrix(counted_j / (counted_j + p$size_prior_votes), n, P, byrow = TRUE)
-    size_j <- lam_j * pace_j * matrix(counted_j, n, P, byrow = TRUE) + (1 - lam_j) * t_j
-    rem0 <- pmax(size_j - matrix(counted_j, n, P, byrow = TRUE), 0.02 * size_j)
+    pace_j <- Vf[, cidx, drop = FALSE] / rep(pmax(C_c, 1)[cidx], each = n)
+    lam_j <- rep(counted_j / (counted_j + p$size_prior_votes), each = n)
+    size_j <- lam_j * pace_j * rep(counted_j, each = n) + (1 - lam_j) * t_j
+    rem0 <- pmax(size_j - rep(counted_j, each = n), 0.02 * size_j)
     S0 <- pmax(rem0 %*% Ind, 1e-9)
     rem <- rem0 * (Rem_c / S0)[, cidx, drop = FALSE]
 
     a <- alpha[idx]
     b <- beta[idx]
     eta_j <- eta[idx, , drop = FALSE][, cidx, drop = FALSE]
-    base <- a + outer(b, pr$x) + eta_j + matrix(delta_c[cidx], n, P, byrow = TRUE)
-    eps_mean <- matrix(kappa, n, P, byrow = TRUE) *
-      (matrix(y_j, n, P, byrow = TRUE) - base)
-    eps_sd <- matrix(sqrt(sigma2 * (1 - kappa)), n, P, byrow = TRUE)
+    base <- a + outer(b, pr$x) + eta_j + rep(delta_c[cidx], each = n)
+    eps_mean <- rep(kappa, each = n) *
+      (rep(y_j, each = n) - base)
+    eps_sd <- rep(sqrt(sigma2 * (1 - kappa)), each = n)
     L0 <- base +
       lam[idx] +
       lamc[idx, , drop = FALSE][, cidx, drop = FALSE] +
@@ -269,7 +270,7 @@ needle_simulate <- function(inp, prior, p, n_draws, seed) {
     # second-order correction so independent precinct noise does not pull the expected vote share towards 50%
     L <- L0 + 0.5 * eps_sd^2 * (2 * plogis(L0) - 1) + eps_sd * matrix(rnorm(n * P), n, P)
     s <- plogis(L)
-    keep <- 1 - matrix(o_j, n, P, byrow = TRUE)
+    keep <- 1 - rep(o_j, each = n)
     ra <- rem * keep * s
     rb <- rem * keep * (1 - s)
     ro <- rem * (1 - keep)
@@ -663,7 +664,7 @@ run_needle <- function(
       inp,
       fs[[id]],
       p,
-      p$draws,
+      if_else(isTRUE(items[[id]]$featured), as.integer(p$draws), as.integer(p$draws_other)),
       seed + sum(utf8ToInt(id)),
       shift
     )
@@ -714,6 +715,7 @@ run_needle <- function(
   needle <- list(
     updated_at = now_iso,
     draws = p$draws,
+    draws_other = p$draws_other,
     method = str_c(
       "Monte Carlo projection of the final result. Counted votes are exact; remaining votes per county come from the expected-vote model. ",
       "Remaining ballots' lean = 2024 presidential precinct baseline plus a statewide-in-district swing (prior: poll average blended with ",

@@ -5,7 +5,7 @@
 #   Rscript pipeline/scripts/scrape_live.R --simulate 0.45 --seed 1
 #   Rscript pipeline/scripts/scrape_live.R --simulate-sequence [--seed 1] [--steps 5]
 source(file.path(Sys.getenv("UTEL_ROOT", "."), "pipeline", "R", "utils.R"))
-for (f in c("live_api", "model_expected", "live_normalize", "live_scrape", "live_sim")) {
+for (f in c("live_api", "model_expected", "model_needle", "live_normalize", "live_scrape", "live_sim")) {
   source(file.path(project_root(), "pipeline", "R", str_c(f, ".R")))
 }
 
