@@ -26,6 +26,16 @@ export function MarginLegend({ groups = ['DEM', 'REP', 'THIRD'], note, hatchNote
   )
 }
 
+export function PrecinctKey({ counting }: { counting: boolean }) {
+  return (
+    <div className="legend legend-precinct" aria-label="Precinct map key">
+      <div className="legend-hatch"><i className="key-empty" /> No residents, so no votes cast</div>
+      <div className="legend-hatch"><i className="key-missing" /> No precinct-level result (may be counted with a neighbouring precinct)</div>
+      {counting && <div className="legend-hatch"><i className="key-pending" /> Not yet reported</div>}
+    </div>
+  )
+}
+
 export function ContinuousLegend({ colors, lo, hi, title }: { colors: string[]; lo: string; hi: string; title: string }) {
   return (
     <div className="legend">

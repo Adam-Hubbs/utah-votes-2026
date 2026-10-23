@@ -91,9 +91,15 @@ Shares, percentages and margins are always proportions in 0–1 (e.g. `pct: 0.59
 | `cd2026.topo.json` | `districts` | `district` (int) |
 | `cd2022.topo.json` | `districts` | `district` (int) |
 | `state_house.topo.json` / `state_senate.topo.json` | `districts` | `district` (int) |
-| `precincts_2026.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2026` |
-| `precincts_2024.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2022` |
+| `precincts_2026.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2026`, `vap` |
+| `precincts_2024.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2022`, `vap` |
+| `precincts_2016/2018/2020/2022.topo.json` | `precincts` | same, with `cd2012` (2016-2020) or `cd2022` (2022), and `vap` |
 | `places.json` | – | `[{name, lon, lat, rank}]` label points for major cities |
+`vap` on every precinct polygon is the 2020 Census voting-age population inside it (block internal points), as an integer. `vap: 0` means nobody lives
+there, so a missing result is legitimate and the map draws it as an empty area ("No residents / no votes cast here"). A polygon with `vap > 0` and no
+result row (or a zero-vote row after the count is final) is drawn hatched as "Results not available at precinct level (reported with another precinct)";
+while a count is running (`status: live`) a populated polygon whose row has no votes yet is "Not yet reported". The front end draws every polygon
+of the contest's area (all statewide polygons; the district's polygons for U.S. House), not only those with rows.
 `geo/meta.json` lists sources, vintages, simplification, crosswalk method.
 
 ### Results (`data/results/{election_id}/`) — same schema for historical AND live
