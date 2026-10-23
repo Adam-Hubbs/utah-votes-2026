@@ -1,0 +1,17 @@
+Package: utahelections
+Title: Utah Elections Data Pipeline
+Version: 0.1.0
+Description: Data pipeline for the Utah 2026 elections static site.
+Imports:
+    dplyr,
+    tidyr,
+    purrr,
+    readr,
+    stringr,
+    tibble,
+    lubridate,
+    jsonlite,
+    httr2,
+    rvest,
+    sf
+Encoding: UTF-8

@@ -1,0 +1,201 @@
+# Utah Elections 2026 — Architecture & Data Contracts
+
+A fully static election site (poll tracker + live election-night dashboard) for Utah.
+No server: everything is pre-computed JSON served next to a static front end.
+
+```
+polls/                    NYT poll CSVs (updated independently; also fetchable by URL)
+pipeline/                 R data pipeline (tidyverse, base pipe |>, \(x) lambdas)
+  DESCRIPTION             R package dependencies (used by GitHub Actions)
+  R/                      shared functions (sourced by scripts)
+  scripts/                entry points, run with `Rscript pipeline/scripts/<name>.R`
+  config/                 hand-maintained inputs (ratings, candidate parties, overrides)
+  raw/                    downloaded source files (gitignored, cache)
+web/                      Vite + React + TypeScript + D3 front end
+  public/data/            ALL pipeline outputs land here (committed)
+.github/workflows/        deploy, polls refresh, election-night scraper loop
+```
+
+## Key facts discovered
+
+* Utah's official results site (`electionresults.utah.gov`) is an Enhanced Voting SPA with a public JSON API:
+  * `GET /results/public/api/jurisdictions/Utah` — jurisdiction + list of elections (`publicElectionId`).
+  * `GET /results/public/api/elections/{jurisdiction}/{publicElectionId}/data` — election, `ballotItems`
+    (contests with `summaryResults.ballotOptions[].voteCount`, `party.abbreviation`), `localityElections`
+    (one per county: `ballotsCast`, `precinctsReporting`, reporting statuses), voter registration, turnout.
+    `{jurisdiction}` can be `Utah` or a county shortName such as `salt-lake-county-ut`.
+  * `GET .../{publicElectionId}/vr`, `/stats`, `/turnout`, `/localities`, `/closeraces`.
+  * Media export (all contests, statewide + every county + **precinct-level** results):
+    `GET /cdn/results/{mediaExportPath}` where `mediaExportPath` comes from the jurisdiction/data payload,
+    e.g. `Utah/export-general11052024.json` (29 MB). For 2026 it is `Utah/export-General11032026.json`
+    (404 until results are published).
+  * 2026 general = `General11032026`; 2024 general = `General11052024`. Elections available in this
+    system: 2023 onward. Earlier years must come from other sources (MEDSL, OpenElections, VEST, Utah LG archives).
+  * In the 2026 data the `party` is null on ballot options right now, so party comes from
+    `pipeline/config/candidates.csv`.
+* County ids: the API uses Utah county numbers `01`–`29` (alphabetical; `mapFeatureId`, export `localResults[].id`
+  may differ — always join on names normalized to the county name). We use **5-digit FIPS** (`49035` = Salt Lake) as the canonical county key in every output.
+* 2026 statewide contests: U.S. House 1–4 (new court-ordered map), Constitutional Amendments A and B,
+  state legislature (some multi-county at state level, the rest in county data), State School Board, judicial retention.
+  No U.S. Senate or governor race in 2026.
+* Utah elections are almost entirely vote-by-mail. "Precincts reporting" is not meaningful (every precinct reports partially in
+  the first batch), so we estimate **percent of expected vote counted** with a Bayesian model.
+
+## Boundary changes (critical)
+
+* **Congressional districts changed between 2024 and 2026.** The 2022–2024 map (adopted 2021) was replaced by a
+  court-ordered map in Nov 2025 that creates a Salt Lake County–based district (District 1 in the new map;
+  Ben McAdams is the Democratic nominee). We keep BOTH maps: `cd2022` (used 2022–2024) and `cd2026`.
+* **Precincts change every cycle.** Never assume a precinct name means the same area across years. Precinct
+  geometry is versioned by election year: `precincts_2024`, `precincts_2026`, etc. Results for election Y are only
+  joined to `precincts_Y` geometry.
+* **Crosswalks are population-weighted using 2020 Census blocks.** Each block (with 2020 total population and
+  voting-age population) is assigned to a precinct of each vintage and to each district plan (by block internal point).
+  The weight of source unit s in target unit t = VAP(s ∩ t) / VAP(s). This yields:
+  * `precinct_2024 → cd2026` (re-aggregate 2024 / 2022 results into the new districts: "Trump +X in the new UT-2"),
+  * `precinct_2024 → precinct_2026` (precinct-level swing maps between cycles),
+  * `precinct_Y → county` is exact (precincts nest in counties).
+  If block-level assignment is impossible for some vintage, fall back to area-weighted overlay and record it in metadata.
+
+## Canonical identifiers
+
+| thing | format | example |
+|---|---|---|
+| election_id | `{year}-{type}` | `2026-general`, `2024-general`, `2022-general` |
+| contest_id | kebab-case office + district | `us-house-1`, `president`, `us-senate`, `governor`, `amendment-a`, `state-house-23`, `state-senate-11`, `school-board-7`, `retention-<slug>`, `attorney-general` |
+| county key | 5-digit FIPS string | `"49035"` |
+| precinct_id | `{county_fips}-{precinct name as reported, uppercased, trimmed}` | `"49035-ALT001"` |
+| party | upper-case abbreviation | `REP`, `DEM`, `LIB`, `CON`, `IAP`, `UUP`, `GRN`, `FWD`, `NPA`/`UNA`, `OTH` |
+| candidate_id | slug of name | `ben-mcadams` |
+
+Party colour group: `REP` → red, `DEM` → blue, everything else → yellow (third party). For ballot measures
+`FOR`/`YES` and `AGAINST`/`NO` use neutral green/purple-free palette: FOR = teal `#1b9e77`-ish, AGAINST = orange-brown; the front end decides.
+
+## Output files (`web/public/data/…`) — the contract between pipeline and front end
+
+All JSON, UTF-8, numbers as numbers, dates ISO-8601 (`YYYY-MM-DD`), timestamps ISO with `Z`.
+
+### Site configuration
+`config.json`
+```json
+{ "current_election": "2026-general", "election_date": "2026-11-03", "polls_close_utc": "2026-11-04T03:00:00Z",
+  "live_mode": "pre" , "live_data_base": "data/results", "featured_contests": ["us-house-1","us-house-2","us-house-3","us-house-4","amendment-a","amendment-b"] }
+```
+`live_mode`: `pre` | `live` | `final`. The election-night scraper flips it to `live`.
+
+### Geography (`data/geo/`) — TopoJSON, WGS84, simplified for web
+| file | object name | properties |
+|---|---|---|
+| `counties.topo.json` | `counties` | `fips`, `name` (e.g. "Salt Lake"), `county_nbr` ("18") |
+| `cd2026.topo.json` | `districts` | `district` (int) |
+| `cd2022.topo.json` | `districts` | `district` (int) |
+| `state_house.topo.json` / `state_senate.topo.json` | `districts` | `district` (int) |
+| `precincts_2026.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2026` |
+| `precincts_2024.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2022` |
+| `places.json` | – | `[{name, lon, lat, rank}]` label points for major cities |
+`geo/meta.json` lists sources, vintages, simplification, crosswalk method.
+
+### Results (`data/results/{election_id}/`) — same schema for historical AND live
+`data/results/index.json`
+```json
+{ "elections": [ { "election_id": "2024-general", "name": "2024 General Election", "date": "2024-11-05",
+    "status": "final", "precinct_geo": "precincts_2024", "cd_plan": "cd2022",
+    "contests": [ { "contest_id": "president", "name": "President", "office": "president" } ] } ] }
+```
+`data/results/{election_id}/summary.json`
+```json
+{ "election_id": "2026-general", "name": "2026 General Election", "date": "2026-11-03",
+  "status": "pre|live|final", "updated_at": "2026-11-04T04:12:00Z", "source": "electionresults.utah.gov",
+  "precinct_geo": "precincts_2026", "cd_plan": "cd2026",
+  "turnout": { "ballots_counted": 0, "registered": 2000000, "expected_ballots": 1100000,
+               "expected_lo": 1000000, "expected_hi": 1200000, "pct_expected": 0.0 },
+  "contests": [ {
+    "contest_id": "us-house-1", "name": "U.S. House District 1", "office": "us-house", "district": 1,
+    "type": "candidate",                 // or "measure"
+    "featured": true,
+    "total_votes": 0,
+    "candidates": [ { "candidate_id": "ben-mcadams", "name": "Ben McAdams", "party": "DEM",
+                      "incumbent": false, "votes": 0, "pct": 0.0, "winner": false } ],
+    "reporting": { "counties_reporting": 0, "counties_total": 7,
+                   "pct_expected": 0.0, "pct_expected_lo": 0.0, "pct_expected_hi": 0.0 },
+    "call": null                         // or { "candidate_id": "...", "called_at": "...", "by": "AP|manual" }
+  } ] }
+```
+For measures, `candidates` holds options with `candidate_id` `for`/`against` (or `yes`/`no`) and `party: null`.
+
+`data/results/{election_id}/contests/{contest_id}.json`
+```json
+{ "contest_id": "us-house-1", "election_id": "2026-general", "updated_at": "...",
+  "candidates": [ {"candidate_id": "...", "name": "...", "party": "DEM"} ],
+  "counties": [ { "fips": "49035", "name": "Salt Lake", "votes": {"ben-mcadams": 0}, "total": 0,
+                  "ballots_counted": 0, "expected_ballots": 0, "pct_expected": 0.0,
+                  "pct_expected_lo": 0.0, "pct_expected_hi": 0.0 } ],
+  "precincts": [ { "precinct_id": "49035-ALT001", "votes": {"ben-mcadams": 0}, "total": 0 } ] }
+```
+
+`data/results/{election_id}/model.json` (live only; Bayesian expected-vote model)
+```json
+{ "updated_at": "...", "draws": 4000, "method": "short text",
+  "statewide": { "counted": 0, "expected_median": 0, "expected_lo": 0, "expected_hi": 0, "pct_expected": 0 },
+  "counties": [ { "fips": "49035", "registered": 0, "counted": 0, "expected_median": 0, "expected_lo": 0,
+                  "expected_hi": 0, "pct_expected": 0, "pct_expected_lo": 0, "pct_expected_hi": 0,
+                  "source": "model|reported_remaining|final" } ],
+  "history": [ { "t": "...", "counted": 0, "expected_median": 0 } ] }
+```
+`data/results/{election_id}/timeline.json` (live) — snapshots of each featured contest's totals over time for "how the count evolved" charts:
+`{ "contests": { "us-house-1": [ { "t": "...", "votes": {"ben-mcadams": 0}, "total": 0 } ] } }`
+
+### Historical cross-plan aggregates (`data/history/`)
+`data/history/cd2026_baselines.json` — past statewide contests re-aggregated to the 2026 districts via the crosswalk:
+```json
+{ "method": "2020-block VAP-weighted precinct→district crosswalk",
+  "districts": { "1": [ { "election_id": "2024-general", "contest_id": "president", "name": "2024 President",
+                          "votes": {"REP": 0, "DEM": 0, "OTH": 0}, "total": 0, "margin": -0.25 } ] } }
+```
+`margin` = (REP − DEM) / total (positive = R lead). Same structure for `cd2022_baselines.json` (actual old districts).
+`data/history/county_trends.json` — per county, per (election, contest) two-party margin & turnout for trend charts.
+`data/history/precinct_swing_2024_2026.json` is produced post-election only (needs 2026 results).
+
+### Polls (`data/polls/`)
+`polls.json` — every Utah poll (one entry per poll question):
+```json
+[ { "poll_id": "...", "question_id": "...", "contest_id": "us-house-1", "stage": "general|primary",
+    "pollster": "Lighthouse Research", "sponsor": "Utah Debate Commission", "start_date": "2026-09-08",
+    "end_date": "2026-09-10", "sample_size": 515, "population": "rv", "partisan": null, "internal": false,
+    "url": "...", "numeric_grade": null,
+    "results": [ { "candidate_id": "ben-mcadams", "name": "Ben McAdams", "party": "DEM", "pct": 62.7 } ] } ]
+```
+`averages.json` — `{ "updated_at": "...", "method": "...", "contests": { "us-house-1": {
+   "n_polls": 1, "latest": [ {"candidate_id","name","party","avg","lo","hi"} ],
+   "series": [ {"date": "2026-09-10", "candidate_id": "...", "avg": 0, "lo": 0, "hi": 0} ] } } }`
+`national.json` — national context from the same NYT files: generic congressional ballot average and Trump approval average series
+`{ "generic_ballot": {"series": [{"date","DEM","REP"}], "latest": {...}}, "approval": {"series": [{"date","approve","disapprove"}], "latest": {...}} }`.
+
+### Ratings, candidates, demographics
+`ratings.json` — `{ "updated_at": "...", "sources": [{"id":"cook","name":"Cook Political Report","url":"..."}],
+  "ratings": { "us-house-1": { "cook": "Solid D", "sabato": "Safe D" } }, "scale": ["Solid D","Likely D","Lean D","Toss-up","Lean R","Likely R","Solid R"] }`
+`candidates.json` — `{ "us-house-1": [ {"candidate_id","name","party","incumbent","bio","website"} ] }`
+`demographics/counties.json`, `demographics/cd2026.json`, `demographics/state.json` —
+`{ "source": "ACS 2020–2024 5-year", "units": [ { "id": "49035", "name": "Salt Lake", "population": 0,
+   "median_age": 0, "pct_white_nh": 0, "pct_hispanic": 0, "pct_asian": 0, "pct_black": 0, "pct_bachelors_plus": 0,
+   "median_hh_income": 0, "pct_under_18": 0, "pct_65_plus": 0, "pct_urban": null,
+   "registration": { "REP": 0, "DEM": 0, "UNA": 0, "OTH": 0, "total": 0, "as_of": "..." } } ] }`
+Proportions are 0–1. For `cd2026` units the id is the district number as a string.
+
+## Live election night
+
+* `pipeline/scripts/scrape_live.R` pulls the media export (falls back to `/data` for state + each county),
+  normalizes to the results schema above, writes `data/results/2026-general/*`, appends to `timeline.json`,
+  then runs `pipeline/scripts/model_expected_vote.R`, which writes `model.json` and fills every `pct_expected*`.
+* `--simulate <fraction>` mode builds a fake partial count (from 2024 turnout patterns + polls) so the live UI
+  can be tested before election night; output goes to `data/results/2026-sim/` and the site shows it with `?sim=1`.
+* GitHub Actions `election-night.yml`: one long-running job (≤ 5h50m) that loops scrape → model → commit → dispatch deploy
+  every ~3 minutes, plus a `*/10` cron watchdog in the same concurrency group so a new loop starts if one dies.
+  This beats a bare 5-minute cron (GitHub delays scheduled runs heavily at busy times and each cold start re-installs R).
+* Post-election canvass (Utah counts for ~2 weeks): `canvass.yml` runs every 30 minutes Nov 4–Nov 18.
+
+## Code style
+
+* R: tidyverse, base pipe `|>`, `\(x)` lambdas, `if_else`/`case_when`/`purrr::map*` (never `ifelse`/`sapply`/`lapply`/`vapply`),
+  httr2 for HTTP, sf for geometry. S7/R6 only if OOP is genuinely needed. Comments only to explain *why*.
+* TypeScript/React: function components, hooks, strict TS, small focused components, comments only for *why*.

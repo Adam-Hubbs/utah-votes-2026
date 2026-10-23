@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+dist/
+.Rhistory
+.RData
+.Rproj.user/
+pipeline/raw/
+pipeline/cache/
+*.log
+.env
+.claude/worktrees/
