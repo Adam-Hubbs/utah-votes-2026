@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# Compares 2026 pre-election legislative win probabilities under the production prior and the proposed leg_spec prior.
+# Compares 2026 pre-election legislative win probabilities before and after the adopted leg_spec prior; bands use the site's cut-offs (web/src/lib/competitiveness.ts).
 #   Rscript pipeline/tests/compare_legislative_2026.R <dir_with_old_needle.json> <dir_with_new_needle.json>
 source(file.path(Sys.getenv("UTEL_ROOT", "."), "pipeline", "R", "utils.R"))
 a <- commandArgs(TRUE)
@@ -9,7 +9,7 @@ read_n <- \(dir) {
 }
 label <- \(p) {
   q <- pmax(p, 1 - p)
-  case_when(q >= 0.95 ~ "Safe", q >= 0.8 ~ "Likely", q >= 0.6 ~ "Lean", .default = "Toss-up")
+  case_when(q >= 0.97 ~ "Safe", q >= 0.85 ~ "Likely", q >= 0.65 ~ "Lean", .default = "Toss-up")
 }
 smry <- read_json(file.path(a[1], "summary.json"), simplifyVector = FALSE)$contests
 cand_tbl <- smry |>
