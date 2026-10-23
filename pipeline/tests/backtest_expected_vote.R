@@ -34,6 +34,19 @@ scenarios <- list(
   )
 )
 
+# Production-style prior (raw 2022 rates) against a 2018-style surge (+25 % ballots vs 2022) and a collapse (-25 %).
+make_shift_scenario <- function(mult) {
+  prior <- pmin(pmax(base$turnout_2022, 0.3), 0.9)
+  total <- \(a) sum(base$registered_2026 * plogis(qlogis(prior) + a))
+  shift <- uniroot(\(a) total(a) - mult * total(0), c(-2, 2))$root
+  tibble(
+    fips = base$fips, registered = base$registered_2026, prior_turnout = prior,
+    truth = base$registered_2026 * plogis(qlogis(prior) + shift + rnorm(nrow(base), 0, 0.1))
+  )
+}
+scenarios$surge_2018_style_plus25 <- make_shift_scenario(1.25)
+scenarios$slump_minus25 <- make_shift_scenario(0.75)
+
 stage_hours <- c(first_drop = 1, next_morning = 14, day_two = 36)
 
 simulate_counted <- function(truth, stage) {
@@ -59,12 +72,15 @@ one_rep <- function(sc, stage, p) {
     cover_state = as.numeric(sum(sc$truth) >= st[1] & sum(sc$truth) <= st[3]),
     mape_state = abs(st[2] / sum(sc$truth) - 1),
     width_state = (st[3] - st[1]) / sum(sc$truth),
+    width_county = mean((s$expected_hi - s$expected_lo) / s$truth),
     frac_counted = sum(counted) / sum(sc$truth)
   )
 }
 
 set.seed(2026)
 p <- model_defaults()
+overrides <- Sys.getenv("UTEL_MODEL_OVERRIDES", "")
+if (nzchar(overrides)) p <- modifyList(p, eval(parse(text = str_c("list(", overrides, ")"))))
 p$draws <- 1500L
 res <- expand_grid(scenario = names(scenarios), stage = names(stage_hours), rep = seq_len(n_rep)) |>
   mutate(out = pmap(list(scenario, stage), \(scenario, stage, ...) one_rep(scenarios[[scenario]], stage, p))) |>
@@ -72,9 +88,9 @@ res <- expand_grid(scenario = names(scenarios), stage = names(stage_hours), rep 
 
 report <- res |>
   summarise(
-    across(c(cover_county, cover_state, mape_state, width_state, frac_counted), mean),
+    across(c(cover_county, cover_state, mape_state, width_state, width_county, frac_counted), mean),
     .by = c(scenario, stage)
   ) |>
   mutate(across(where(is.numeric), \(x) round(x, 3)))
 print(report, n = 20, width = Inf)
-write_csv(report, file.path(project_root(), "pipeline", "tests", "backtest_results.csv"))
+if (!nzchar(overrides)) write_csv(report, file.path(project_root(), "pipeline", "tests", "backtest_results.csv"))
