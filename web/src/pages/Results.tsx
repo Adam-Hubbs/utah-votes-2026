@@ -30,7 +30,7 @@ export function ResultsPage() {
     if (!currentSummary) return past
     const current: IndexElection = {
       election_id: currentElection,
-      name: flags.sim ? `${currentSummary.name} (simulation)` : currentSummary.name,
+      name: flags.sim && !/simulat/i.test(currentSummary.name) ? `${currentSummary.name} (simulation)` : currentSummary.name,
       date: currentSummary.date, status: currentSummary.status, precinct_geo: currentSummary.precinct_geo, cd_plan: currentSummary.cd_plan,
       contests: currentSummary.contests.map((c) => ({ contest_id: c.contest_id, name: c.name, office: c.office })),
     }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useAverages, useCandidates, useNational, usePolls, useSummary } from '../data/hooks'
+import { useAverages, useNational, usePolls, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { Gate, Section, Segmented } from '../components/Ui'
 import { PollTracker } from '../components/PollTracker'
@@ -17,12 +17,11 @@ export function PollsPage() {
   const averages = useAverages()
   const national = useNational()
   const summary = useSummary(currentElection)
-  const candidates = useCandidates()
   const [contest, setContest] = useState(house(1))
   const ids = useMemo(() => {
-    const s = new Set<string>([...Object.keys(averages?.contests ?? {}), ...(polls ?? []).map((p) => p.contest_id), ...Object.keys(candidates ?? {})])
+    const s = new Set<string>([...Object.keys(averages?.contests ?? {}), ...(polls ?? []).filter((p) => p.stage !== 'primary').map((p) => p.contest_id)])
     return [...s].sort()
-  }, [averages, polls, candidates])
+  }, [averages, polls])
   const nameOf = (id: string) => summary?.contests.find((c) => c.contest_id === id)?.name ?? id.replace('us-house-', 'U.S. House District ').replace('amendment-', 'Amendment ')
   const primaryContests = useMemo(() => [...new Set((polls ?? []).filter((p) => p.stage === 'primary').map((p) => p.contest_id))].sort(), [polls])
 

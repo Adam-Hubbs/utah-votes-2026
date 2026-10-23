@@ -29,6 +29,7 @@ export function repDemMargin(votes: Record<string, number>, total: number, cands
 }
 
 export const lastName = (name: string): string => {
+  if (/^(don.t know|someone else|undecided|write-in|other)/i.test(name.trim())) return name.trim()
   const parts = name.replace(/\b(Jr\.?|Sr\.?|III|II)$/i, '').trim().split(/\s+/)
   return parts[parts.length - 1] ?? name
 }

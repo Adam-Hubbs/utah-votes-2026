@@ -34,7 +34,7 @@ export function PollTracker({ contestId, avg, polls, height = 340, stage = 'gene
     line: (avg?.series ?? []).filter((s) => s.candidate_id === c.candidate_id).map((s) => ({ x: parseDate(s.date), y: s.avg, lo: s.lo, hi: s.hi })),
     dots: rows.flatMap((p) => {
       const r = p.results.find((x) => x.candidate_id === c.candidate_id)
-      return r ? [{ x: parseDate(p.end_date), y: r.pct, n: p.sample_size ?? 400, tip: `${p.pollster}, ${fmtDateRange(p.start_date, p.end_date)}: ${c.name} ${r.pct}%` }] : []
+      return r ? [{ x: parseDate(p.end_date), y: r.pct, n: p.sample_size ?? 400, tip: `${p.pollster}, ${fmtDateRange(p.start_date, p.end_date)}: ${c.name} ${r.pct.toFixed(1)}%` }] : []
     }),
   })).sort((a, b) => (b.line[b.line.length - 1]?.y ?? 0) - (a.line[a.line.length - 1]?.y ?? 0)), [cands, colors, avg, rows])
 
@@ -50,7 +50,7 @@ export function PollTracker({ contestId, avg, polls, height = 340, stage = 'gene
       key: `c-${c.candidate_id}`, align: 'right', className: 'cand-col',
       header: <span className="th-cand"><i style={{ background: colors[c.candidate_id] }} />{lastName(c.name)} <PartyChip party={c.party} id={c.candidate_id} /></span>,
       sort: (p) => p.results.find((r) => r.candidate_id === c.candidate_id)?.pct ?? null,
-      render: (p) => { const r = p.results.find((x) => x.candidate_id === c.candidate_id); return <span className="num">{r ? r.pct.toFixed(1).replace(/\.0$/, '') : '–'}</span> },
+      render: (p) => { const r = p.results.find((x) => x.candidate_id === c.candidate_id); return <span className="num">{r ? r.pct.toFixed(1) : '–'}</span> },
     })),
     {
       key: 'margin', header: 'Margin', align: 'right', sort: (p) => { const m = pollMargin(p); return m ? m.sign : null },
