@@ -5,7 +5,7 @@
 suppressPackageStartupMessages(library(sf))
 sf_use_s2(FALSE)
 source("pipeline/R/utils.R")
-for (f in c("geo_sources", "geo_layers", "geo_blocks", "geo_match", "geo_precincts", "geo_vest", "history_ut_export", "history_medsl")) {
+for (f in c("geo_sources", "geo_layers", "geo_blocks", "geo_match", "geo_precincts", "geo_alias2026", "geo_vest", "history_ut_export", "history_medsl")) {
   source(file.path(project_root(), "pipeline", "R", str_c(f, ".R")))
 }
 if (Sys.getenv("UTEL_RAW_DIR") == "") message("UTEL_RAW_DIR not set; using ", raw_dir("x") |> dirname())
@@ -122,19 +122,15 @@ v22 <- build_reported_vintage(votes_2022, vista, vista_geom, blocks_tbl, cd2022,
 units_2022 <- v22$units
 blocks_tbl$unit2022 <- v22$block_unit
 
-# ---- 2026 precincts: UGRC ballot areas as they stand now -------------------------------------------
-ownership <- matches_2024 |>
-  filter(!is.na(vista_id)) |>
-  mutate(rank = tier_rank[tier]) |>
-  group_by(county_fips, vista_id) |>
-  filter(rank == min(rank)) |>
-  ungroup() |>
-  distinct(county_fips, precinct, vista_id)
-one_to_one <- ownership |>
-  mutate(n_vista = n(), .by = c(county_fips, precinct)) |>
-  mutate(n_owner = n(), .by = c(county_fips, vista_id)) |>
-  filter(n_vista == 1, n_owner == 1) |>
-  select(county_fips, vista_id, reported = precinct)
+# ---- 2026 precincts: UGRC ballot areas, named as the 2026 results name them --------------------------
+# precinct_id must equal the id the results use (precinct_key(fips, reported name)); see geo_alias2026.R.
+reported_2026 <- read_reported_2026()
+alias_2026 <- alias_reported_2026(reported_2026, vista) |>
+  mutate(unit_id = precinct_key(county_fips, precinct))
+claimed <- alias_2026 |>
+  distinct(county_fips, VistaID) |>
+  mutate(n_claims = n(), .by = c(county_fips, VistaID))
+stopifnot(all(claimed$n_claims == 1))
 
 vista_meta <- vista |>
   st_drop_geometry() |>
@@ -143,25 +139,35 @@ vista_meta <- vista |>
     county_fips = sprintf("49%03d", CountyID * 2L - 1L),
     id_np = str_remove(VistaID, str_c("^0?", CountyID))
   ) |>
-  distinct(county_fips, vista_id = VistaID, id_np, AliasName)
+  distinct(county_fips, vista_id = VistaID, id_np)
+
+alias_units <- alias_2026 |>
+  transmute(county_fips, vista_id = VistaID, unit_id, name = precinct)
+leftover <- vista_meta |>
+  anti_join(alias_units, by = c("county_fips", "vista_id")) |>
+  transmute(county_fips, vista_id, name = id_np, unit_id = precinct_key(county_fips, id_np))
+unit_map <- bind_rows(alias_units, leftover)
+dup_units <- unit_map |> distinct(unit_id, county_fips, vista_id) |> count(unit_id, vista_id) |> filter(n > 1)
+stopifnot(nrow(dup_units) == 0)
+clash <- leftover |> filter(unit_id %in% alias_units$unit_id)
+if (nrow(clash) > 0) {
+  message("unclaimed ballot areas whose id collides with a reported precinct: ", nrow(clash))
+  unit_map <- unit_map |>
+    mutate(unit_id = if_else(vista_id %in% clash$vista_id & !(vista_id %in% alias_units$vista_id), precinct_key(county_fips, str_c(name, "~", vista_id)), unit_id))
+}
 
 units_2026_geom <- vista_geom |>
-  left_join(vista_meta, by = c("county_fips", "vista_id")) |>
-  left_join(one_to_one, by = c("county_fips", "vista_id")) |>
-  mutate(
-    name = coalesce(reported, id_np),
-    precinct_id = precinct_key(county_fips, name)
-  )
-dup <- units_2026_geom |> st_drop_geometry() |> count(precinct_id) |> filter(n > 1)
-if (nrow(dup) > 0) {
-  message("2026 duplicate precinct ids resolved with vista id suffix: ", nrow(dup))
-  units_2026_geom <- units_2026_geom |>
-    mutate(precinct_id = if_else(precinct_id %in% dup$precinct_id, precinct_key(county_fips, str_c(name, "~", id_np)), precinct_id))
-}
-units_2026_geom <- units_2026_geom |>
-  mutate(unit_id = precinct_id, vista_key = str_c(county_fips, "|", vista_id))
+  rename(vista_id = vista_id) |>
+  inner_join(unit_map, by = c("county_fips", "vista_id")) |>
+  group_by(unit_id, county_fips, name) |>
+  summarise(vista_id = first(vista_id), geometry = sf::st_union(geometry), .groups = "drop") |>
+  mutate(precinct_id = unit_id)
 blocks_tbl <- blocks_tbl |>
-  left_join(units_2026_geom |> st_drop_geometry() |> select(vista_key, unit2026 = unit_id), by = "vista_key")
+  left_join(
+    unit_map |> transmute(vista_key = str_c(county_fips, "|", vista_id), unit2026 = unit_id),
+    by = "vista_key"
+  )
+stopifnot(!anyNA(blocks_tbl$unit2026))
 
 units_2026 <- units_2026_geom |>
   plurality_district(blocks_tbl, "unit2026", "cd2026", cd2026) |>
@@ -237,7 +243,8 @@ meta <- list(
     precincts_2026 = list(
       source = "UGRC VistaBallotAreas FeatureServer, retrieved on the build date; one feature per VistaID (sub-precinct level where UGRC has sub-precincts)",
       vintage = "2026 ballot areas (UGRC edits dated 2025-04 to 2026-09)",
-      naming = "precinct_id uses the name reported in 2024 when exactly one 2024 reported precinct maps one-to-one onto the feature, otherwise the VistaID without its county prefix; `vista_id` is the UGRC id",
+      naming = "precinct_id is {county_fips}-{precinct name exactly as the 2026 results report it}, so geometry joins to results by id. Reported names are mapped to UGRC ballot areas by pipeline/R/geo_alias2026.R (a reported precinct covering several sub-precinct areas becomes one dissolved unit); ballot areas no reported name covers keep their VistaID without the county prefix. `vista_id` is the first UGRC id of the unit.",
+      reported_match = list(precincts = nrow(reported_2026), matched = n_distinct(alias_2026$precinct, alias_2026$county_fips), note = "unmatched names are federal-only precincts (no residents) plus 3UNKN (Cache) and Fountain Green U (Sanpete)"),
       cd2026 = "plurality of block voting-age population (internal points) within the feature"
     ),
     precincts_2024 = list(
