@@ -8,7 +8,7 @@ import { resolveElectionId } from './base'
 import { useSite } from './site'
 import type {
   Baselines, CandidatesFile, MeasuresFile, ContestResults, CountyTrends, Demographics, ElectionModel, ElectionSummary, ElectionTimeline,
-  NationalPolls, PlaceLabel, Poll, PollAverages, Ratings, ResultsIndex,
+  NationalPolls, NeedleFile, PlaceLabel, Poll, PollAverages, Ratings, ResultsIndex,
 } from '../types/data'
 
 /** undefined = loading, null = unavailable, otherwise the data. */
@@ -122,4 +122,9 @@ export function useGeo<P = Record<string, unknown>>(name: string | null | undefi
   }, [name])
   if (!name) return null
   return (state.name === name ? state.data : undefined) as Loaded<Geo<P>>
+}
+
+export const useNeedle = (election: string | null) => {
+  const live = useIsLive(election ?? '')
+  return useJson<NeedleFile>(election ? resultsPath(election, 'needle.json') : null, live)
 }

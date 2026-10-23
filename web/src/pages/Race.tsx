@@ -10,6 +10,7 @@ import { PartyChip } from '../components/PartyChip'
 import { RatingChip, RatingStrip } from '../components/RatingChip'
 import { ChoroplethMap } from '../components/ChoroplethMap'
 import { DemoCompare } from '../components/DemoCompare'
+import { NeedlePanel } from '../components/NeedlePanel'
 import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
 import { fmtInt, fmtMargin } from '../lib/format'
@@ -113,6 +114,8 @@ export function RacePage() {
           </Gate>
         </Section>
       )}
+
+      <NeedlePanel electionId={currentElection} contestId={contestId} />
 
       <Section title={mode === 'pre' ? 'Election night results' : 'Results'} id="results">
         {mode === 'pre' ? (

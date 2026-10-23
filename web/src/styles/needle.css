@@ -1,0 +1,40 @@
+.needle { margin: 0; text-align: center; }
+.needle-svg { display: block; width: 100%; max-width: 560px; margin: 0 auto; overflow: visible; }
+.needle-edge { stroke: #fff; stroke-width: 2; }
+.needle-tick { stroke: var(--ink-3); stroke-width: 1.2; }
+.needle-tick-label { font-size: 11px; fill: var(--ink-3); font-weight: 600; }
+.needle-band-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.01em; }
+.needle-side-label { font-size: 15px; font-weight: 700; }
+.needle-pointer { transition: transform 1.15s cubic-bezier(0.25, 0.8, 0.3, 1); }
+.needle-blade { fill: var(--ink); }
+.needle-hub { fill: var(--ink); stroke: #fff; stroke-width: 3; }
+.needle-text { margin-top: -6px; }
+.needle-headline { font-family: var(--font-serif); font-size: clamp(24px, 3.6vw, 34px); font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; margin: 4px auto 6px; max-width: 24em; }
+.needle-headline.toss { color: var(--ink); }
+.needle-sub { font-size: 15px; color: var(--ink-2); margin-bottom: 4px; }
+.needle-margin { font-size: 16px; font-weight: 600; color: var(--ink-2); }
+.needle-margin.sm { font-size: 12.5px; font-weight: 500; color: var(--ink-3); }
+.needle-caption { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
+.needle-caption.strong { font-size: 14px; color: var(--ink-2); font-weight: 600; background: var(--wash); display: inline-block; padding: 6px 12px; border-radius: var(--radius); }
+.needle-jitter-btn { font-size: 12.5px; margin-top: 8px; color: var(--ink-3); }
+.needle-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 36px; align-items: start; }
+.needle-panel:not(:has(.needle-panel-history)) { grid-template-columns: minmax(0, 1fr); max-width: 620px; margin: 0 auto; }
+.needle-history { display: grid; gap: 22px; }
+@media (max-width: 860px) { .needle-panel { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+
+.needle-compact .needle-svg { max-width: 220px; }
+.needle-compact .needle-text { margin-top: -2px; }
+.needle-compact .needle-headline { display: flex; flex-direction: column; align-items: center; margin: 0; font-family: var(--font-ui); }
+.needle-compact .needle-pct { font-size: 26px; line-height: 1.1; font-family: var(--font-serif); }
+.needle-compact .needle-who { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.needle-compact .needle-caption { font-size: 11.5px; margin-top: 2px; }
+
+.race-card-needle { border-top: 1px solid var(--rule); padding-top: 8px; margin-top: 2px; }
+.needle-strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px 14px; }
+.needle-strip-item { text-decoration: none; text-align: center; border: 1px solid var(--rule); border-radius: var(--radius); padding: 10px 8px 12px; display: block; }
+.needle-strip-item:hover { border-color: var(--ink-3); }
+.needle-strip-item > b { display: block; font-size: 13px; margin-bottom: 2px; }
+@media (max-width: 1000px) { .needle-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .needle-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .needle-band-label { font-size: 12.5px; } .needle-tick-label { font-size: 12px; } }
+.needle-strip-section { padding-top: 12px; }
+.needle-history > div, .needle-panel > * { min-width: 0; }
