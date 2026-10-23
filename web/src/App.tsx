@@ -9,6 +9,7 @@ import { RacePage } from './pages/Race'
 import { ForecastsPage } from './pages/Forecasts'
 import { HistoryPage } from './pages/History'
 import { DemographicsPage } from './pages/Demographics'
+import { StatePage } from './pages/StatePage'
 import { MethodologyPage } from './pages/Methodology'
 
 function ScrollTop() {
@@ -29,6 +30,7 @@ export function App() {
             <Route path="/results/:electionId/:contestId" element={<ResultsPage />} />
             <Route path="/polls" element={<PollsPage />} />
             <Route path="/race/:contestId" element={<RacePage />} />
+            <Route path="/state" element={<StatePage />} />
             <Route path="/forecasts" element={<ForecastsPage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/demographics" element={<DemographicsPage />} />

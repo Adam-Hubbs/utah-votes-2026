@@ -18,7 +18,7 @@ const HOLDOVER = '#d4d4d0'
 // Salt Lake / Davis / Utah County core, where most districts are too small to click on a statewide map.
 const WASATCH: F = {
   type: 'Feature', properties: {},
-  geometry: { type: 'Polygon', coordinates: [[[-112.16, 40.05], [-111.62, 40.05], [-111.62, 41.12], [-112.16, 41.12], [-112.16, 40.05]]] },
+  geometry: { type: 'Polygon', coordinates: [[[-112.16, 40.05], [-112.16, 41.12], [-111.62, 41.12], [-111.62, 40.05], [-112.16, 40.05]]] },
 }
 
 export function LegislatureMap({ chamber, states, started }: { chamber: 'house' | 'senate'; states: SeatState[]; started: boolean }) {

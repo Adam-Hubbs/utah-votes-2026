@@ -200,3 +200,31 @@ Proportions are 0–1. For `cd2026` units the id is the district number as a str
 * R: tidyverse, base pipe `|>`, `\(x)` lambdas, `if_else`/`case_when`/`purrr::map*` (never `ifelse`/`sapply`/`lapply`/`vapply`),
   httr2 for HTTP, sf for geometry. S7/R6 only if OOP is genuinely needed. Comments only to explain *why*.
 * TypeScript/React: function components, hooks, strict TS, small focused components, comments only for *why*.
+
+## State races (`/state`)
+
+Hand-maintained inputs: `pipeline/config/legislature_seats.csv` (all 75 House + 29 Senate seats: holder, party, `up_2026`,
+`incumbent_running`, `running_for`, `uncontested`, `note`; seeded from `https://le.utah.gov/data/legislators.json` plus the 2026 contest list,
+`Rscript pipeline/scripts/build_legislature.R --refresh-seats` re-seeds and overwrites manual edits) and `pipeline/config/judges.csv`
+(judge, court, JPEC recommendation). `Rscript pipeline/scripts/build_legislature.R` writes the two files below. Party codes: `REP`, `DEM`, `FWD` (Forward).
+
+`legislature.json`
+```json
+{ "updated_at": "...", "roster_source": "...",
+  "chambers": { "house": { "seats": 75, "majority": 38, "supermajority": 50,
+      "current": {"REP": 60, "DEM": 14}, "holdovers": {}, "up_2026": {"REP": 60, "DEM": 14}, "vacant": 1,
+      "seats_list": [ { "district": 1, "contest_id": "state-house-1", "holder": "Thomas W. Peterson", "holder_party": "REP",
+         "holder_since": "...", "vacant": false, "up": true, "incumbent_running": true, "running_for": null,
+         "uncontested": false, "pres24_margin": 0.64, "note": null } ] },
+    "senate": { "seats": 29, "majority": 15, "supermajority": 20, "...": "same shape; holdovers = seats not on the 2026 ballot" } } }
+```
+`contest_id` is null for holdover seats and for seats whose contest is not in `results/2026-general/summary.json`; `incumbent_running`/`uncontested`
+are null when unknown/not applicable. `pres24_margin` = (Trump − Harris) / total votes in the 2024 presidential race re-aggregated to the
+district via the 2020-block VAP crosswalk (block → district by internal point, block → 2024 precinct); positive = R. Supermajority = two thirds
+(veto override).
+
+`judges.json`: `{ "updated_at", "jpec_source", "judges": { "<contest_id>": { "judge", "title", "court", "court_level": "supreme|appeals|district|juvenile|justice",
+"jpec_recommendation", "jpec_score_summary", "appointing_governor", "appointed_year" } } }`. Retention needs more than 50% yes.
+
+Front end: `pages/StatePage.tsx`, `components/state/*`, `lib/legislature.ts`, `data/legislature.ts`, `styles/state.css`. A seat counts as "won" only when the
+contest has a candidate with `winner: true`; otherwise it is "leading". Seats without a contest are shown as not yet decided.

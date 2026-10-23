@@ -6,6 +6,7 @@ import { useSite } from '../data/site'
 import { RaceCard } from '../components/RaceCard'
 import { ChoroplethMap } from '../components/ChoroplethMap'
 import { Countdown, LastUpdated } from '../components/LastUpdated'
+import { LegislatureCard } from '../components/state/LegislatureCard'
 import { Section, Stat } from '../components/Ui'
 import { Sparkline } from '../components/Sparkline'
 import { LatestPolls } from '../components/PollList'
@@ -152,6 +153,9 @@ export function Overview() {
                 )
               })}
             </div>
+          </Section>
+          <Section title="State races">
+            <LegislatureCard />
           </Section>
           <Section title="National backdrop">
             {national ? (

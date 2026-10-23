@@ -10,6 +10,7 @@ const NAV = [
   { to: '/results', label: 'Results' },
   { to: '/polls', label: 'Polls' },
   { to: '/race/us-house-1', label: 'Races', match: '/race' },
+  { to: '/state', label: 'State races' },
   { to: '/forecasts', label: 'Forecasts' },
   { to: '/history', label: 'History' },
   { to: '/demographics', label: 'Demographics' },
