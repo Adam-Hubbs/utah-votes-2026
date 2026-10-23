@@ -1,5 +1,6 @@
 import type { LegChamber, LegSeat } from '../types/legislature'
-import type { SummaryCandidate, SummaryContest } from '../types/data'
+import type { NeedleFile, SummaryCandidate, SummaryContest } from '../types/data'
+import { rateSeat, type SeatRating } from './competitiveness'
 
 export type Bucket = 'DEM' | 'REP' | 'OTH'
 export type SeatStatus = 'won' | 'leading' | 'holder' | 'holdover' | 'pending' | 'untracked' | 'vacant'
@@ -18,12 +19,13 @@ export interface SeatState {
   flip: boolean
   pctCounted: number
   called: boolean
+  rating: SeatRating
 }
 
-export function seatStates(chamber: 'house' | 'senate', data: LegChamber, byId: Map<string, SummaryContest>, started: boolean): SeatState[] {
+export function seatStates(chamber: 'house' | 'senate', data: LegChamber, byId: Map<string, SummaryContest>, started: boolean, needle?: NeedleFile | null): SeatState[] {
   return data.seats_list.map((seat) => {
     const contest = seat.contest_id ? (byId.get(seat.contest_id) ?? null) : null
-    const base = { seat, chamber, contest, leader: null, margin: 0, flip: false, pctCounted: contest?.reporting.pct_expected ?? 0, called: false }
+    const base = { seat, chamber, contest, leader: null, margin: 0, flip: false, pctCounted: contest?.reporting.pct_expected ?? 0, called: false, rating: rateSeat(seat, contest?.candidates, needle) }
     const holder = bucketOf(seat.holder_party)
     if (!seat.up) return { ...base, status: 'holdover' as const, bucket: holder }
     if (started) {
