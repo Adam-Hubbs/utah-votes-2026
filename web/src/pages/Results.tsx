@@ -104,7 +104,7 @@ function ContestList({ summary, office, electionId }: { summary: ElectionSummary
             {offices.map((o) => <option key={o} value={o}>{OFFICE_LABEL[o] ?? o}</option>)}
           </select>
         </label>
-        <LastUpdated iso={summary.updated_at} />
+        <LastUpdated iso={summary.updated_at} status={summary.status} />
       </div>
       <div className="contest-list">
         {rows.map((c) => {

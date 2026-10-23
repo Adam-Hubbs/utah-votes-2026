@@ -97,7 +97,7 @@ write_site_json(
 
 trends <- map(pvs, county_trend_rows, contest_names = contest_names) |>
   list_rbind() |>
-  arrange(county_fips, desc(election_id), match(contest_id, statewide_contests))
+  arrange(county_fips, election_id, match(contest_id, statewide_contests))
 write_site_json(
   list(
     margin_definition = "(REP - DEM) / total votes; two_party_margin = (REP - DEM) / (REP + DEM)",
@@ -106,6 +106,7 @@ write_site_json(
       set_names(map_chr(group_split(trends, county_fips), \(g) g$county_fips[[1]])) |>
       map(\(g) pmap(g, \(election_id, contest_id, name, REP, DEM, OTH, total, margin, two_party_margin, ...) list(
         election_id = election_id, contest_id = contest_id, name = name,
+        year = as.integer(str_sub(election_id, 1, 4)), turnout = NULL,
         votes = list(REP = REP, DEM = DEM, OTH = OTH), total = total,
         margin = round(margin, 4), two_party_margin = round(two_party_margin, 4)
       )))
