@@ -136,3 +136,15 @@ build_national <- function(house, approval_avg, today, cfg) {
     )
   )
 }
+
+# Rewrites only when the content changed apart from the timestamp, so scheduled runs do not
+# create empty commits (and deploys) when nothing moved.
+write_polls_json <- function(x, file) {
+  path <- data_dir("polls", file)
+  tmp <- tempfile(fileext = ".json")
+  write_json(x, tmp, auto_unbox = TRUE, null = "null", na = "null", digits = NA, pretty = FALSE)
+  strip_stamp <- \(p) str_replace(read_file(p), '"updated_at":"[^"]*"', '"updated_at":""')
+  if (file.exists(path) && identical(strip_stamp(path), strip_stamp(tmp))) return(invisible(path))
+  file.copy(tmp, path, overwrite = TRUE)
+  invisible(path)
+}

@@ -1,0 +1,27 @@
+{
+  "state": "UT",
+  "cycle": 2026,
+  "state_average": {
+    "half_life_days": 21,
+    "reference_sample": 600,
+    "partisan_penalty": 0.5,
+    "design_effect": 1.3,
+    "house_sd_candidate": 2.5,
+    "house_sd_margin": 3.5,
+    "floor_halfwidth_candidate": 4,
+    "floor_halfwidth_margin": 6,
+    "floor_max_polls": 2
+  },
+  "national_average": {
+    "half_life_days": 10,
+    "series_start": "2025-01-01",
+    "max_age_days": 120,
+    "reference_sample": 1000,
+    "partisan_penalty": 0.5,
+    "design_effect": 1.3,
+    "house_sd_margin": 2
+  },
+  "text_fixes": {
+    "Comission": "Commission"
+  }
+}

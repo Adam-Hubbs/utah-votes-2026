@@ -4,7 +4,7 @@ script_file <- sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = 
 r_dir <- file.path(dirname(normalizePath(script_file)), "..", "R")
 source(file.path(r_dir, "utils.R"))
 walk(c("polls_load.R", "polls_utah.R", "polls_average.R", "polls_build.R"), \(f) source(file.path(r_dir, f)))
-cfg <- yaml::read_yaml(file.path(project_root(), "pipeline", "config", "polls.yml"))
+cfg <- jsonlite::read_json(file.path(project_root(), "pipeline", "config", "polls.json"))
 
 synthetic <- tribble(
   ~question_id, ~pollster, ~end_date, ~sample_size, ~numeric_grade, ~partisan, ~internal, ~candidate_id, ~name, ~party, ~pct,
