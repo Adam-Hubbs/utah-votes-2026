@@ -446,6 +446,7 @@ first_ts <- \(year, contest_id, from, to) {
 real_runs <- tribble(
   ~year , ~prior_year , ~contest_id , ~from , ~to ,
   2022L , 2020L , "451556070" , "20221109030000" , "20221112000000" ,
+  2022L , 2018L , "451556070" , "20221109030000" , "20221112000000" ,
   2020L , 2016L , "399789495" , "20201104030000" , "20201110000000"
 ) |>
   mutate(ts = pmap_chr(list(year, contest_id, from, to), first_ts), hours = hours_since(ts, year))
@@ -458,7 +459,7 @@ replay_real <- map(names(PARAM_SETS), \(nm) {
       replay(cty, hours, "as deployed prior", p = p),
       replay(cty, hours, "prior centred on true shift", p = p, mu_delta = realized_delta(year, prior_year))
     ) |>
-      mutate(year = year, params = nm)
+      mutate(year = year, prior_year = prior_year, params = nm)
   }) |>
     list_rbind()
 }) |>
