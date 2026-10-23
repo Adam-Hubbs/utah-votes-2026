@@ -37,16 +37,20 @@ needle_params <- function() {
     leg_min_contests = 5,
     missing_baseline_extra_sd = 0.3,
     size_prior_votes = 20,
+    # Third-party share of the vote in U.S. House races 2016-2024 by number of minor-party/unaffiliated candidates on the ballot
+    # (0: 0%, 1: 4.7%, 2: 7.4%, 3: 6.1%; mean 4.8%); entry k+1 is used for k minor candidates, capped at 2.
+    house_other_by_minor = c(0.01, 0.047, 0.074),
     # Legislative pre-election prior re-centred on 2018-2024 results (pipeline/tests/eval_legislative_spec.R):
-    # logit(share) = intercept + slope * logit(fundamentals) + incumbency + non-Democratic challenger.
+    # logit(share) = intercept + slope * logit(fundamentals WITHOUT the generic-ballot shift) + incumbency + non-Democratic challenger.
+    # The shift is left out on purpose: it did not reduce historical error and no sourced historical generic-ballot series exists in the repo.
     # sd_* are TOTAL prior sds on the logit scale; extra_sd is what needle_simulate adds on top (late-ballot misfit, county noise).
     leg_spec = list(
       enabled = TRUE,
-      intercept = -0.064,
-      slope = 0.872,
-      inc_rep = -0.168,
-      inc_challenger = 0.161,
-      non_dem = -0.396,
+      intercept = -0.037,
+      slope = 0.867,
+      inc_rep = -0.176,
+      inc_challenger = 0.152,
+      non_dem = -0.413,
       sd_dem = 0.30,
       sd_other = 0.50,
       extra_sd = 0.184
@@ -467,7 +471,7 @@ needle_contest_inputs <- function(ct, sm, model, baseline, polls, env, p) {
     mutate(x = z - zbar) |>
     select(pid, fips, cty, va, vb, vo, x, z, w, miss)
 
-  prior <- needle_prior(ids, pair, type, prec, sm, polls, p)
+  prior <- needle_prior(ids, pair, type, prec, sm, polls, p, env)
   list(
     type = type,
     ids = ids,
@@ -478,7 +482,7 @@ needle_contest_inputs <- function(ct, sm, model, baseline, polls, env, p) {
   )
 }
 
-needle_prior <- function(ids, pair, type, prec, sm, polls, p) {
+needle_prior <- function(ids, pair, type, prec, sm, polls, p, env = 0) {
   other <- if (type == "measure") 0 else p$other_prior
   if (type == "measure") {
     return(list(
@@ -510,9 +514,10 @@ needle_prior <- function(ids, pair, type, prec, sm, polls, p) {
     ls <- p$leg_spec
     is_inc <- \(id) any(map_lgl(sm$candidates, \(c) identical(c$candidate_id, id) && isTRUE(c$incumbent)))
     non_dem <- pair$kind == "other_vs_r"
+    m_f_noenv <- sum(prec$w * plogis(prec$x + weighted.mean(prec$z, prec$w) - env)) / sum(prec$w)
     m_leg <- plogis(
       ls$intercept +
-        ls$slope * qlogis(m_f) +
+        ls$slope * qlogis(m_f_noenv) +
         ls$inc_rep * is_inc(ids[2]) +
         ls$inc_challenger * is_inc(ids[1]) +
         ls$non_dem * non_dem
@@ -553,10 +558,12 @@ needle_prior <- function(ids, pair, type, prec, sm, polls, p) {
       m <- (m_p * w_p + m_f * w_f) / (w_p + w_f)
       s <- sqrt(1 / (w_p + w_f))
       src <- "poll average blended with 2024 fundamentals"
-      other <- max(0, 1 - (ra$avg + rb$avg) / 100)
-      other <- max(other, 0.01)
-      other <- min(other, 0.2)
     }
+  }
+  if (str_starts(contest_id, "us-house")) {
+    # Poll shortfalls are mostly undecideds, not third-party votes, so the history-based share is used instead.
+    n_minor <- sum(map_lgl(sm$candidates, \(c) !((c$party %||% "") %in% c("REP", "DEM")) && c$candidate_id != "write-in"))
+    other <- p$house_other_by_minor[min(n_minor, 2L) + 1L]
   }
   sol <- solve_alpha(prec$x, prec$w, 1, m)
   list(
@@ -745,6 +752,8 @@ run_needle <- function(
       prior = list(share_a = inp$prior$share, source = inp$prior$source),
       scatter_sd = r$sim$sigma_eps
     )
+    # Measures have no public polling, so before any votes are counted the 50% prior carries no information.
+    out$forecast <- !(stage == "pre" && inp$type == "measure")
     if (featured) out$history <- if (stage == "pre") list() else hist
     round_list(out)
   })

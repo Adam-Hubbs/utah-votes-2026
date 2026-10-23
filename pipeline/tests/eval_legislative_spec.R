@@ -1,4 +1,6 @@
 #!/usr/bin/env Rscript
+# The adopted specification uses the presidential baseline WITHOUT the generic-ballot shift: no historical generic-ballot data is
+# available in the repo, and the typed-in values in eval_prior_forecast.R are used only for the diagnostic 'with environment' variants.
 # Diagnoses the legislative pre-election prior (bias vs the presidential baseline, incumbency, non-Democratic
 # challengers, generic-ballot shift) and back-tests a corrected specification with leave-one-year-out validation.
 #   Rscript pipeline/tests/eval_legislative_spec.R      (needs eval_prior_contests.csv from eval_prior_forecast.R)
@@ -161,10 +163,10 @@ specs <- list(
   offset_only = \(tr) lm(y - x ~ 1, data = tr),
   slope = \(tr) lm(y ~ x, data = tr),
   slope_inc = \(tr) lm(y ~ x + inc_R + inc_a, data = tr),
-  proposed_noenv = \(tr) lm(y ~ x + inc_R + inc_a + nonD, data = tr),
+  proposed = \(tr) lm(y ~ x + inc_R + inc_a + nonD, data = tr),
   proposed_senate = \(tr) lm(y ~ x + inc_R + inc_a + nonD + senate, data = tr),
   proposed_plus_env = \(tr) lm(y ~ x + inc_R + inc_a + nonD + env_l, data = tr),
-  proposed = \(tr) lm(y ~ x_env + inc_R + inc_a + nonD, data = tr)
+  proposed_on_env_baseline = \(tr) lm(y ~ x_env + inc_R + inc_a + nonD, data = tr)
 )
 t_df <- 6
 evaluate_spec <- function(name, fit_fn) {
@@ -262,7 +264,7 @@ write_csv(cal, file.path(out_dir, "eval_legislative_spec_calibration.csv"))
 section(
   "7. Final corrected coefficients (all four cycles) and 2026 implied corrections"
 )
-fit_final <- lm(y ~ x_env + inc_R + inc_a + nonD, data = known)
+fit_final <- lm(y ~ x + inc_R + inc_a + nonD, data = known)
 print(round(summary(fit_final)$coefficients, 3))
 cat("sigma:", round(sigma(fit_final), 3), "\n")
 print(known |> mutate(r = resid(fit_final)) |> summarise(n = n(), sd_resid = sd(r), mad_resid = mad(r), .by = nonD))
