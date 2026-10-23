@@ -31,8 +31,8 @@ export const rampFor = (g: PartyGroup): string[] =>
   g === 'REP' || g === 'DEM' || g === 'THIRD' ? RAMPS[g] : g === 'FOR' || g === 'AGAINST' ? MEASURE[g] : []
 
 export const NO_DATA = '#ececec'
-/** Precinct polygons with no residents: nothing to report, so near-background. */
-export const NO_RESIDENTS = '#f6f5f2'
+/** Precinct polygons with no residents: a visible neutral so they never read as a rendering gap. */
+export const NO_RESIDENTS = '#e6e4de'
 /** Populated precincts without a result of their own (reported with another precinct). */
 export const NO_PRECINCT_RESULT = '#e3e3e3'
 
