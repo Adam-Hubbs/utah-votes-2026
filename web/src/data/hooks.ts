@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { feature } from 'topojson-client'
+import { geoArea } from 'd3-geo'
 import type { Feature, FeatureCollection, Geometry } from 'geojson'
 import type { Topology } from 'topojson-specification'
 import { getJson } from './api'
@@ -72,6 +73,23 @@ export const usePlaces = () => useJson<PlaceLabel[]>('geo/places.json')
 export type Geo<P = Record<string, unknown>> = FeatureCollection<Geometry, P>
 export type Feat<P = Record<string, unknown>> = Feature<Geometry, P>
 
+const reverseRings = <T,>(rings: T[][]): T[][] => rings.map((ring) => [...ring].reverse())
+
+/** A polygon wound the wrong way makes d3 fill the whole sphere (area > 2π); reversing its rings fixes it. */
+function fixWinding(fc: Geo): Geo {
+  return {
+    ...fc,
+    features: fc.features.map((f) => {
+      const g = f.geometry
+      if (!g || (g.type !== 'Polygon' && g.type !== 'MultiPolygon') || geoArea(g) <= 2 * Math.PI) return f
+      const geometry: Geometry = g.type === 'Polygon'
+        ? { ...g, coordinates: reverseRings(g.coordinates) }
+        : { ...g, coordinates: g.coordinates.map(reverseRings) }
+      return { ...f, geometry }
+    }),
+  }
+}
+
 const geoCache = new Map<string, Promise<Geo | null>>()
 
 function loadGeo(file: string, object: string): Promise<Geo | null> {
@@ -81,7 +99,7 @@ function loadGeo(file: string, object: string): Promise<Geo | null> {
     p = getJson<Topology>(`geo/${file}.topo.json`).then((t) => {
       const obj = t?.objects?.[object]
       if (!t || !obj) return null
-      return feature(t, obj) as unknown as Geo
+      return fixWinding(feature(t, obj) as unknown as Geo)
     })
     geoCache.set(key, p)
   }
