@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useAverages, useNational, usePolls, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { Gate, Section, Segmented } from '../components/Ui'
@@ -17,7 +18,8 @@ export function PollsPage() {
   const averages = useAverages()
   const national = useNational()
   const summary = useSummary(currentElection)
-  const [contest, setContest] = useState(house(1))
+  const [params] = useSearchParams()
+  const [contest, setContest] = useState(params.get('contest') ?? house(1))
   const ids = useMemo(() => {
     const s = new Set<string>([...Object.keys(averages?.contests ?? {}), ...(polls ?? []).filter((p) => p.stage !== 'primary').map((p) => p.contest_id)])
     return [...s].sort()
@@ -28,9 +30,10 @@ export function PollsPage() {
   return (
     <div className="page">
       <header className="page-head">
-        <div className="kicker">Polls</div>
+        <div className="kicker">Polls · not election results</div>
         <h1 className="headline sm">Poll tracker</h1>
         <p className="dek">Every public poll of Utah’s 2026 races, combined into a running average. Few races are polled often, so averages here can rest on a handful of surveys.</p>
+        <p className="callout-small">These are poll numbers, not election results, and not our forecast. For the model’s projection see <Link to="/forecasts">Forecasts</Link>; votes appear on <Link to="/results">Results</Link> once counting starts.</p>
       </header>
 
       <Section title="General election" aside={

@@ -9,10 +9,10 @@ import { NationalTicker } from '../national/NationalTicker'
 const NAV = [
   { to: '/', label: 'Overview', end: true },
   { to: '/results', label: 'Results' },
-  { to: '/polls', label: 'Polls' },
+  { to: '/forecasts', label: 'Forecasts' },
   { to: '/race/us-house-1', label: 'Races', match: '/race' },
   { to: '/state', label: 'State races' },
-  { to: '/forecasts', label: 'Forecasts' },
+  { to: '/polls', label: 'Polls' },
   { to: '/history', label: 'History' },
   { to: '/demographics', label: 'Demographics' },
   { to: '/national', label: 'National' },
@@ -75,7 +75,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <div className="footer-cols">
             <div>
               <div className="brand-name small">Utah Votes <span>2026</span></div>
-              <p>Poll averages, race ratings and election-night results for Utah. Independent and non-partisan.</p>
+              <p>Election-night results, our forecast, race ratings and poll averages for Utah. Independent and non-partisan.</p>
             </div>
             <div>
               <h4>Data</h4>

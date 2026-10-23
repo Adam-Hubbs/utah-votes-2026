@@ -20,9 +20,15 @@ export function MethodologyPage() {
       </header>
 
       <article className="prose">
+        <h2>Polls, forecast and results are different things</h2>
+        <ul>
+          <li><b>Polling average:</b> what surveys say. It is not a vote count and not a prediction by itself.</li>
+          <li><b>Our forecast:</b> a model’s projection of the final result, built from the polling average, 2024 results re-assigned to the new districts and the national environment. It is shown as a chance of winning and a projected margin with a range.</li>
+          <li><b>Results:</b> only counted votes. On election night the forecast becomes a live projection of the final result; it is always labelled separately from the votes counted so far.</li>
+        </ul>
+
         <h2>Poll averages</h2>
-        <p>Poll averages combine every public Utah poll found in The New York Times poll database for a given race. Newer polls and polls with larger samples count for more, and each poll’s weight fades over a few weeks. The shaded band around each line is a 95% uncertainty range that widens when there are few polls or they are old.</p>
-        <p>Many Utah races are polled only a handful of times, so we say so: a chart marked “Based on 1 poll” is that poll and nothing more. Primary polls are kept separate from general election polls, and the dots on each chart are the individual surveys, sized by sample size.</p>
+        <p>Poll averages combine every public Utah poll found in The New York Times poll database for a given race. Newer polls and polls with larger samples count for more, and each poll’s weight fades over a few weeks. The shaded band around each line is a 95% uncertainty range that widens when there are few polls or they are old. Many Utah races are polled only a handful of times, so we say so: an average marked “Based on 1 poll” is that poll and nothing more. Primary polls are kept separate from general election polls.</p>
         {averages && <p className="callout-small"><b>Current averaging method:</b> {averages.method} <span className="muted">(updated {fmtDayYear(averages.updated_at)})</span></p>}
 
         <h2>Race ratings</h2>
@@ -53,8 +59,8 @@ export function MethodologyPage() {
           <li><b>Election night:</b> results, the turnout model and the vote timeline refresh about every three minutes; this page checks for new data every minute.</li>
           <li><b>After election night:</b> county canvasses continue for roughly two weeks, with updates every 30 minutes until certification.</li>
         </ul>
-        <h2>The needle: chance of winning</h2>
-        <p>The needle projects the <em>final</em> result of each U.S. House race, each amendment and each legislative contest. It is not a call and it does not use the percent counted alone: counted votes are exact, and the ballots still to come are simulated 5,000 times (2,500 for legislative contests).</p>
+        <h2>Our forecast and the needle: chance of winning</h2>
+        <p>Before votes arrive, the needle shows our forecast (faded); once counting starts it is a live projection. It projects the <em>final</em> result of each U.S. House race, each amendment and each legislative contest. It is not a call and it does not use the percent counted alone: counted votes are exact, and the ballots still to come are simulated 5,000 times (2,500 for legislative contests).</p>
         <ul>
           <li><b>Before votes arrive</b> the starting estimate blends the poll average with a fundamentals baseline: 2024 presidential results re-assigned to the 2026 precincts, nudged by how far the national generic ballot has moved since 2024 (damped by half for Utah). Legislative contests and amendments have no polls, so they use the baseline (legislature) or a deliberately wide range around 50% (amendments). The needle is shown faded until results arrive.</li>
           <li><b>As precincts report</b>, each counted precinct is compared with its 2024 baseline. Those differences show how this contest is running relative to 2024 in each county and statewide; the more precincts are in, the less the starting estimate matters. For amendments the model learns how support varies with a precinct’s 2024 partisanship from the precincts already counted.</li>

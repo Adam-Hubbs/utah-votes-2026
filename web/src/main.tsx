@@ -6,6 +6,7 @@ import './styles/base.css'
 import './styles/components.css'
 import './styles/pages.css'
 import './styles/needle.css'
+import './styles/forecast.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

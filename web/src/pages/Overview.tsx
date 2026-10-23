@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, useNeedle, usePolls, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, useNeedle, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { RaceCard } from '../components/RaceCard'
 import { ChoroplethMap } from '../components/ChoroplethMap'
@@ -9,7 +9,6 @@ import { Countdown, LastUpdated } from '../components/LastUpdated'
 import { LegislatureCard } from '../components/state/LegislatureCard'
 import { Section, Stat } from '../components/Ui'
 import { Sparkline } from '../components/Sparkline'
-import { LatestPolls } from '../components/PollList'
 import { ReportingMeter } from '../components/ReportingMeter'
 import { ResultsBar } from '../components/ResultsBar'
 import { RATING_FILL, NO_DATA, leaderFill } from '../lib/colors'
@@ -30,7 +29,6 @@ export function Overview() {
   const candidates = useCandidates()
   const averages = useAverages()
   const ratings = useRatings()
-  const polls = usePolls()
   const national = useNational()
   const measures = useMeasures()
   const needle = useNeedle(currentElection)
@@ -81,7 +79,7 @@ export function Overview() {
         <p className="dek">
           {showLive
             ? 'Live results for the four U.S. House districts, both constitutional amendments, and every legislative and school board contest, with estimates of how much vote is still to come.'
-            : 'A court-ordered map creates a Salt Lake County–based district. Follow the polls, expert ratings and, on election night, live results with estimates of the vote still to be counted.'}
+            : 'A court-ordered map creates a Salt Lake County–based district. See our forecast and expert ratings now, and live results with estimates of the vote still to be counted on election night.'}
         </p>
         <div className="status-strip">
           {mode === 'pre' && (
@@ -159,21 +157,18 @@ export function Overview() {
           <Section title="State races">
             <LegislatureCard />
           </Section>
-          <Section title="National backdrop">
+          <Section title="National backdrop" dek="National polling that feeds our forecast.">
             {national ? (
               <div className="national-strip">
                 <NationalStat label="Generic ballot" series={national.generic_ballot.series.map((p) => Number(p.DEM) - Number(p.REP))} value={Number(national.generic_ballot.latest.DEM) - Number(national.generic_ballot.latest.REP)} fmt={(v) => (Math.abs(v) < 0.05 ? 'Even' : `${v > 0 ? 'D' : 'R'}+${Math.abs(v).toFixed(1)}`)} color="var(--dem)" />
                 <NationalStat label="Trump approval (net)" series={national.approval.series.map((p) => Number(p.approve) - Number(p.disapprove))} value={Number(national.approval.latest.approve) - Number(national.approval.latest.disapprove)} fmt={(v) => `${v > 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}`} color="var(--ink-2)" />
               </div>
             ) : <div className="unavailable">National polling not yet available.</div>}
-            <p className="note"><Link to="/polls">National trackers →</Link></p>
+            <p className="note">Poll averages, not election results. <Link to="/polls">Polls →</Link></p>
           </Section>
         </div>
       </div>
 
-      <Section title="Latest polls" aside={<Link to="/polls" className="more">Poll tracker →</Link>}>
-        {polls ? <LatestPolls polls={polls.filter((p) => p.stage === 'general')} limit={6} names={(id) => byId.get(id)?.name ?? id.replace('us-house-', 'U.S. House District ')} /> : <div className="unavailable">Polls not yet available.</div>}
-      </Section>
       <NationalCard />
     </div>
   )

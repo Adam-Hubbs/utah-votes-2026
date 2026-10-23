@@ -1,0 +1,39 @@
+/* Three visual languages: results = solid bars; forecast = boxed neutral interval; polls = dashed, hollow, hatched. */
+.forecast { border: 1px solid var(--rule-strong); border-left: 4px solid var(--ink); background: var(--wash); padding: 12px 16px 12px; display: grid; gap: 6px; }
+.forecast-tag, .poll-tag { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: var(--ink-2); }
+.forecast-tag span, .poll-tag span { color: var(--ink-3); font-weight: 600; }
+.forecast-head { font-family: var(--font-serif); font-size: 22px; font-weight: 700; line-height: 1.2; }
+.forecast-margin { font-size: 14px; font-weight: 600; } .forecast-margin span { color: var(--ink-3); font-weight: 400; }
+.forecast-note { font-size: 12.5px; color: var(--ink-3); margin: 2px 0 0; max-width: 48em; }
+.forecast.compact { padding: 8px 12px; gap: 3px; } .forecast.compact .forecast-head { font-size: 16px; } .forecast.compact .forecast-margin { font-size: 12.5px; }
+.forecast.is-live { border-left-color: var(--live); }
+.forecast-track { position: relative; height: 34px; margin-top: 8px; max-width: 520px; }
+.forecast-track > div { position: absolute; }
+.ft-axis { left: 0; right: 0; top: 8px; height: 1px; background: var(--rule-strong); }
+.ft-zero { top: 2px; height: 13px; width: 1px; background: var(--ink-3); }
+.ft-90 { top: 5px; height: 7px; background: #cfcfcb; }
+.ft-50 { top: 5px; height: 7px; background: #8c8c88; }
+.ft-med { top: 1px; height: 15px; width: 2px; margin-left: -1px; background: var(--ink); }
+.ft-ends { left: 0; right: 0; top: 19px; display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); }
+.forecast-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.forecast-card h3 { font-family: var(--font-serif); font-size: 19px; margin: 0 0 6px; } .forecast-card h3 a { text-decoration: none; }
+
+.poll-avg { border: 1px dashed var(--rule-strong); padding: 10px 14px; display: grid; gap: 7px; background: #fff; max-width: 560px; }
+.poll-avg.compact { padding: 6px 10px; }
+.pa-rows { display: grid; gap: 5px; }
+.pa-row { display: grid; grid-template-columns: 74px 1fr 92px; gap: 8px; align-items: center; font-size: 12.5px; color: var(--ink-2); }
+.pa-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pa-track { position: relative; height: 14px; background: linear-gradient(var(--rule), var(--rule)) center / 100% 1px no-repeat; }
+.pa-range { position: absolute; top: 3px; height: 8px; border: 1px dotted; background: repeating-linear-gradient(45deg, transparent 0 3px, rgba(0, 0, 0, 0.14) 3px 4px); }
+.pa-dot { position: absolute; top: 1px; width: 10px; height: 10px; margin-left: -6px; border: 2px solid; border-radius: 50%; background: #fff; }
+.pa-val { text-align: right; font-weight: 600; } .pa-val small { font-weight: 400; color: var(--ink-3); font-size: 11px; }
+.pa-meta { font-size: 12px; color: var(--ink-3); }
+
+.results-empty { border: 1px solid var(--rule); background: #fcfcfb; color: var(--ink-3); padding: 8px 12px; font-size: 13px; }
+.results-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: var(--ink-2); }
+.polls-disclosure { border-top: 1px solid var(--rule); padding-top: 8px; }
+.polls-disclosure > summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink-2); padding: 4px 0; }
+.polls-disclosure[open] > summary { margin-bottom: 10px; }
+.poll-caption { font-size: 12.5px; color: var(--ink-3); margin: 6px 0 10px; }
+.race-card .poll-link { font-size: 12.5px; }
+.legis-forecast td.fc-pct { font-weight: 700; }

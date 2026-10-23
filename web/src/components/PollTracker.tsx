@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
 import type { ContestAverage, Poll } from '../types/data'
 import { candidateColors } from '../lib/parties'
-import { fmtDateRange, fmtInt, parseDate, fmtDay } from '../lib/format'
+import { fmtDateRange, fmtInt, parseDate } from '../lib/format'
 import { lastName } from '../lib/results'
 import { PollChart, type TSeries } from './PollChart'
 import { SortableTable, type Column } from './SortableTable'
 import { PartyChip } from './PartyChip'
+import { PollingAverage } from './PollingAverage'
 import { pollMargin, popLabel } from './PollList'
 
 interface Props {
@@ -61,21 +62,9 @@ export function PollTracker({ contestId, avg, polls, height = 340, stage = 'gene
   if (!cands.length) return <div className="unavailable">No {stage} polls yet for this contest.</div>
   return (
     <div className="poll-tracker">
-      <div className="tracker-head">
-        <div className="tracker-latest">
-          {(avg?.latest ?? []).map((l) => (
-            <div key={l.candidate_id} className="tl-item">
-              <div className="tl-val" style={{ color: colors[l.candidate_id] === '#E3B505' ? '#8a6900' : colors[l.candidate_id] }}>{l.avg.toFixed(1)}<small>%</small></div>
-              <div className="tl-name">{l.name}</div>
-              <div className="tl-range">{l.lo.toFixed(0)}–{l.hi.toFixed(0)}</div>
-            </div>
-          ))}
-        </div>
-        <div className="tracker-meta">
-          {nPolls === 1 ? 'Based on 1 poll. Treat the average with caution.' : `Based on ${nPolls} polls.`}
-          {avg && avg.series.length > 0 && <> Latest through {fmtDay(avg.series[avg.series.length - 1].date)}.</>}
-        </div>
-      </div>
+      {avg && <PollingAverage avg={avg} polls={rows} />}
+      {avg && avg.n_polls === 1 && <p className="poll-caption">One poll is not an average. Treat it with caution.</p>}
+      <p className="poll-caption">These are poll numbers, not election results.</p>
       {series.some((x) => x.line.length > 0) && <PollChart series={series} height={height} marker={today ? { x: today, label: 'Today' } : undefined}
         yDomain={[0, Math.max(40, Math.ceil(Math.max(...series.flatMap((s) => [...s.line.map((p) => p.hi ?? p.y), ...(s.dots ?? []).map((d) => d.y)]), 0) / 10) * 10)]}
         hint={() => (nPolls === 1 ? 'Only one poll so far' : null)} ariaLabel={`Poll averages for ${contestId}`} />}

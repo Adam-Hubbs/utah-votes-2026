@@ -54,7 +54,9 @@ export function jitterRange(c: NeedleContest): [number, number] {
 
 export interface Side { id: string; name: string; short: string; group: PartyGroup; color: string }
 
-export function sideOf(id: string, cands: SummaryCandidate[], fallbackName?: string): Side {
+export type NamedCandidate = Pick<SummaryCandidate, 'candidate_id' | 'name' | 'party'>
+
+export function sideOf(id: string, cands: NamedCandidate[], fallbackName?: string): Side {
   const c = cands.find((x) => x.candidate_id === id)
   const group = partyGroup(c?.party ?? null, id)
   const name = c?.name ?? fallbackName ?? id
@@ -75,7 +77,7 @@ export interface NeedleText {
   caption: string
 }
 
-export function needleText(c: NeedleContest, cands: SummaryCandidate[], opts: { measure: boolean; title: string }): NeedleText {
+export function needleText(c: NeedleContest, cands: NamedCandidate[], opts: { measure: boolean; title: string }): NeedleText {
   const [a, b] = c.pair
   const pa = c.prob[a] ?? 0.5
   const aLeads = pa >= 0.5
