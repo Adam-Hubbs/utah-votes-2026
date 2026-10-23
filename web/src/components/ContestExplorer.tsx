@@ -102,7 +102,7 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
       {sections.counties !== false && (
         <Section title="Results by county" id="counties">
           <Gate data={results} what="County results">
-            {(r) => <CountyTable results={r} contest={contest} live={isLive} />}
+            {(r) => <CountyTable results={r} contest={contest} live={isLive} final={summary.status === 'final'} />}
           </Gate>
         </Section>
       )}
@@ -232,12 +232,12 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
       )}
       {view === 'precinct' && !precinctOk && precincts !== undefined && <p className="note">Precinct results are not available for this election{electionId ? '' : ''}.</p>}
       <MarginLegend groups={groupsPresent.length ? [...groupsPresent] : ['DEM', 'REP']} hatchNote={live} />
-      {effective === 'precinct' && summary.precinct_geo && <p className="note small">Precinct lines are those used for the {summary.precinct_geo.replace('precincts_', '')} election and are not comparable to other years.</p>}
+      {effective === 'precinct' && summary.precinct_geo && <p className="note small">Precinct lines are those used for the {summary.precinct_geo.replace('precincts_', '')} election and are not comparable to other years. Grey precincts cast no votes in this contest.</p>}
     </div>
   )
 }
 
-export function CountyTable({ results, contest, live }: { results: ContestResults; contest: SummaryContest; live: boolean }) {
+export function CountyTable({ results, contest, live, final = false }: { results: ContestResults; contest: SummaryContest; live: boolean; final?: boolean }) {
   const cands = results.candidates
   const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
   const rows = results.counties
@@ -262,7 +262,9 @@ export function CountyTable({ results, contest, live }: { results: ContestResult
     },
     { key: 'total', header: 'Votes', align: 'right', sort: (r) => r.total, render: (r) => <span className="num">{fmtInt(r.total)}</span> },
   ]
-  if (live || contest.total_votes > 0) {
+  if (final) {
+    // Certified results: every county is fully counted, so the counting columns would only show 100% and 0.
+  } else if (live || contest.total_votes > 0) {
     columns.push(
       { key: 'pct', header: 'Est. % counted', title: 'Estimated share of expected vote counted', sort: (r) => r.pct_expected, render: (r) => <ReportingMeter pct={r.pct_expected} lo={r.pct_expected_lo} hi={r.pct_expected_hi} size="sm" /> },
       { key: 'rem', header: 'Est. votes left', align: 'right', sort: (r) => estRemaining(r), render: (r) => <span className="num">{r.pct_expected >= 0.999 ? '0' : `~${fmtCompact(estRemaining(r))}`}</span> },

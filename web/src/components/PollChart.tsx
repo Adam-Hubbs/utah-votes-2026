@@ -45,6 +45,7 @@ export function PollChart({
   const [hover, setHover] = useState<Date | null>(null)
   const w = Math.max(280, width || 640)
   const narrow = w < 520
+  const shorten = (t: string) => (narrow && t.length > 7 ? `${t.slice(0, 6)}…` : t)
   const m = { t: 12, r: endLabels ? (narrow ? 92 : 128) : 16, b: 26, l: 38 }
   const iw = w - m.l - m.r
   const ih = height - m.t - m.b
@@ -166,7 +167,7 @@ export function PollChart({
                 <line x1={x(last.x) + 4} x2={iw + 6} y1={y(last.y)} y2={p.yPos} stroke={p.s.color} strokeOpacity={0.5} strokeWidth={0.8} />
                 <text x={iw + 9} y={p.yPos} dy="0.32em" className="end-label" fill={p.s.color === '#E3B505' || p.s.color === '#F0CB45' ? '#8a6900' : p.s.color}>
                   <tspan fontWeight={700}>{valueFormat(p.v)}</tspan>
-                  <tspan dx={4}>{p.s.endLabel ?? p.s.label}</tspan>
+                  <tspan dx={4}>{shorten(p.s.endLabel ?? p.s.label)}</tspan>
                 </text>
               </g>
             )

@@ -13,7 +13,7 @@ import { DemoCompare } from '../components/DemoCompare'
 import { NeedlePanel } from '../components/NeedlePanel'
 import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
-import { fmtInt, fmtMargin } from '../lib/format'
+import { fmtDayYear, fmtInt, fmtMargin } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 
 type F = Feature<Geometry, Record<string, unknown>>
@@ -119,7 +119,7 @@ export function RacePage() {
 
       <Section title={mode === 'pre' ? 'Election night results' : 'Results'} id="results">
         {mode === 'pre' ? (
-          <div className="callout">Results will appear here on election night. Polls close at 8 p.m. MST on {config.election_date}.</div>
+          <div className="callout">Results will appear here on election night. Polls close at 8 p.m. MST on {fmtDayYear(config.election_date)}.</div>
         ) : null}
         {mode !== 'pre' && <ContestExplorer electionId={currentElection} contestId={contestId} />}
       </Section>
