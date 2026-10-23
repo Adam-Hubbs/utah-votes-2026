@@ -29,10 +29,19 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
   const useLive = showLive && live && live.total_votes > 0
 
   type Row = { id: string; name: string; party: string | null; incumbent: boolean; value: number | null; winner?: boolean }
+  const preRank = (r: Row) => [-(needle?.prob[r.id] ?? -1), r.party === 'REP' || r.party === 'DEM' ? 0 : 1]
   const rows: Row[] = useLive && live
-    ? live.candidates.map((c) => ({ id: c.candidate_id, name: c.name, party: c.party, incumbent: c.incumbent, value: c.pct, winner: c.winner }))
+    ? live.candidates
+        .map((c) => ({ id: c.candidate_id, name: c.name, party: c.party, incumbent: c.incumbent, value: c.pct, winner: c.winner }))
+        .sort((a, b) => (b.value ?? 0) - (a.value ?? 0))
     : (roster.length ? roster : (avg?.latest ?? []).map((l) => ({ candidate_id: l.candidate_id, name: l.name, party: l.party, incumbent: false })))
       .map((c) => ({ id: c.candidate_id, name: c.name, party: c.party, incumbent: !!c.incumbent, value: null }))
+      // Ballot order would bury the major-party nominees behind minor candidates before any votes exist.
+      .sort((a, b) => {
+        const [pa, ma] = preRank(a)
+        const [pb, mb] = preRank(b)
+        return pa - pb || ma - mb
+      })
   const colors = candidateColors(rows.map((r) => ({ candidate_id: r.id, party: r.party })))
   const top = rows.slice(0, 2)
   const others = rows.slice(2)
