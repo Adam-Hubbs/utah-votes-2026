@@ -1,0 +1,65 @@
+name: Canvass scraper
+
+# After election night Utah counties keep counting and canvass for ~2 weeks. One scrape every 30 minutes, Nov 4-18 2026.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "5,35 * 4-18 11 *"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: canvass
+  cancel-in-progress: false
+
+env:
+  UTEL_RAW_DIR: ${{ github.workspace }}/pipeline/raw
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check window
+        id: window
+        run: |
+          now=$(date -u +%s)
+          # election-night.yml owns everything until 08:00 UTC Nov 5
+          night_end=$(date -u -d "2026-11-05T08:00:00Z" +%s)
+          final_end=$(date -u -d "2026-11-19T08:00:00Z" +%s)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || { [ "$now" -ge "$night_end" ] && [ "$now" -lt "$final_end" ]; }; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Not in canvass window; exiting cleanly."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.window.outputs.run == 'true'
+        with:
+          ref: main
+
+      - uses: r-lib/actions/setup-r@v2
+        if: steps.window.outputs.run == 'true'
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        if: steps.window.outputs.run == 'true'
+        with:
+          working-directory: pipeline
+          extra-packages: any::yaml
+          cache-version: 1
+
+      - name: Configure git
+        if: steps.window.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Single scrape
+        if: steps.window.outputs.run == 'true'
+        run: ONCE=1 pipeline/scripts/election_night_loop.sh

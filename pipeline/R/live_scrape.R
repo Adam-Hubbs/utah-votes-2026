@@ -64,7 +64,7 @@ inputs_hash <- function() {
 
 scrape_once <- function(force = FALSE, now = Sys.time()) {
   cfg <- live_config()
-  conn <- connectivity_check()
+  conn <- if (Sys.getenv("UTEL_SKIP_CONNCHECK") == "1") tibble(ok = TRUE) else connectivity_check()
   if (!any(conn$ok)) stop("No Utah results endpoint reachable (blocked network?). See pipeline/docs/live.md fallback.")
   dest <- results_path()
   prev <- read_json_safe(file.path(dest, "summary.json"))
