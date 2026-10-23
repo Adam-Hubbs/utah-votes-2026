@@ -1,5 +1,5 @@
 senate_max_poll_age_days <- 120
-tracker_count <- 6
+tracker_count <- 8
 
 load_senate_config <- function() {
   cfg_dir <- file.path(project_root(), "pipeline", "config")
