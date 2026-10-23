@@ -331,3 +331,33 @@ export interface MeasureInfo {
   source_url?: string
 }
 export type MeasuresFile = Record<string, MeasureInfo>
+
+// ---- Needle (ARCHITECTURE.md "Needle"): margins are a-minus-b as proportions of all votes (0-1) ----
+export interface NeedleInterval { median: number; lo50: number; hi50: number; lo90: number; hi90: number }
+export interface NeedleShare { median: number; lo90: number; hi90: number }
+export interface NeedleHistoryPoint {
+  t: string
+  pct_expected: number
+  prob: Record<string, number>
+  margin_median: number
+  margin_lo90: number
+  margin_hi90: number
+}
+export interface NeedleContest {
+  stage: 'pre' | 'early' | 'live' | 'final'
+  pct_expected: number
+  pair: [string, string]
+  prob: Record<string, number>
+  capped?: boolean
+  margin: NeedleInterval
+  shares: Record<string, NeedleShare>
+  prior?: { share_a: number; source: string }
+  history?: NeedleHistoryPoint[]
+}
+export interface NeedleFile {
+  updated_at: string
+  draws: number
+  method: string
+  environment_shift_logit?: number
+  contests: Record<string, NeedleContest>
+}

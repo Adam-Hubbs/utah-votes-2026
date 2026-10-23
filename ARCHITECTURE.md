@@ -250,3 +250,42 @@ Poll values are on the 0-100 scale, margins are in points (REP minus main oppone
 `call` is `{winner_party, winner_name, called_at, called_by}` once entered. `data/national/senate_polls.json` is `{updated_at, polls: Poll[], averages: {"senate-ME": ContestAverage}}` for the closest races.
 `data/national/house.json`: `{updated_at, composition: {current:{DEM,REP,IND,vacant}, majority:218, source}, ratings_tally: {via, url, sources:[{id, as_of, counts:{"Solid D":n,"Likely D","Lean D","Tilt D","Toss-up",...}}]}, generic_ballot: {date,DEM,REP,margin,...}, calls:[{state,district,winner_party,winner_name,called_at,called_by}], tally:{DEM_won,REP_won,IND_won,uncalled}}`.
 `data/national/sim/` has the same files built from `national_calls_sim.csv`, served when `?sim=1`.
+
+## Needle
+
+A live probabilistic projection of each contest's FINAL result (`pipeline/R/model_needle.R`, run by `scrape_live.R` right after the
+expected-vote model, by the simulator, by `build_2026_contests.R` for the pre-election file, or alone with
+`Rscript pipeline/scripts/model_needle.R [results_dir]`). Covers U.S. House 1-4, both amendments and every state House/Senate contest with two or
+more real candidates (~8 s total; 5,000 draws for featured contests, 2,500 for the rest).
+
+`data/results/{election_id}/needle.json`
+```json
+{ "updated_at": "...", "draws": 5000, "draws_other": 2500, "method": "...", "environment_shift_logit": 0.11,
+  "contests": { "us-house-1": {
+     "stage": "pre|early|live|final", "pct_expected": 0.42,
+     "pair": ["ben-mcadams", "riley-owen"],
+     "prob": { "ben-mcadams": 0.97, "riley-owen": 0.03 }, "capped": false,
+     "margin": { "median": 0.31, "lo50": 0.27, "hi50": 0.35, "lo90": 0.21, "hi90": 0.40 },
+     "shares": { "ben-mcadams": { "median": 0.63, "lo90": 0.58, "hi90": 0.68 }, "riley-owen": {}, "other": {} },
+     "prior": { "share_a": 0.71, "source": "poll average blended with 2024 fundamentals" },
+     "history": [ { "t": "...", "pct_expected": 0.1, "prob": {"ben-mcadams": 0.9}, "margin_median": 0.3, "margin_lo90": 0.1, "margin_hi90": 0.45 } ] } } }
+```
+* `pair` = the two candidates the margin is defined on (a minus b, as a proportion of ALL votes): DEM then REP when both run (otherwise the
+  non-REP candidate then the REP, or the first two); measures `["for","against"]`. `prob` is the chance a / b finishes ahead, **capped to
+  [0.01, 0.99]** (`capped` is true when the cap applied; the UI prints ">99%" / "<1%").
+* `stage`: `pre` nothing counted (prior only), `early` under 5% of expected vote counted (prior-dominated), `live`, `final` (all counties final or status final).
+  `history` exists only for featured contests and only while counting (one point per new timestamp).
+
+Method (details in the R file header and the Methodology page):
+* Precinct model: remaining share of a in precinct j is `logit = alpha + beta*x_j + eta_county + lambda + lambda_county + eps_j`, `x_j` = centred logit of the
+  2024 presidential two-party Democratic share on the 2026 precinct (`pipeline/config/needle_baseline_2026.csv`, built by `pipeline/scripts/build_needle_prep.R`
+  from the block crosswalk). (alpha, beta) have a Gaussian prior and are updated by a GLS fit over counted precincts with a compound-symmetric county effect;
+  county offsets are then calibrated so the model reproduces the vote-weighted counted totals. `lambda` (late-ballot shift, sd 0.15 logit, mean 0) plus an
+  `misfit` term (0.08) are NOT identified from counts; they are assumptions (no historical timing data in the repo).
+* Priors: U.S. House = poll average (two-party, with its band and 4 pts extra) blended by precision with fundamentals (2024 baseline shifted by the generic-ballot
+  change since 2024 vs the 2024 national House margin R+2.6, elasticity 0.5, capped at 0.3 logit; sd 6.5 pts). Legislature = fundamentals only (sd 8 pts) plus a leave-one-out
+  pooled statewide swing learned from the other legislative contests once at least 5 have counted votes. Amendments = 50% +/- 0.55 logit with a free slope on 2024 partisanship.
+* Remaining ballots: county expected ballots T_c are lognormal fitted to `model.json` (median, 90% interval), correlated across counties (rho 0.7); contest votes
+  in a county scale as counted contest votes / counted ballots * T_c (or ballot_share * 0.97 for counties with nothing counted) and are allocated to precincts by their baseline size and own count.
+* Back-test: `Rscript pipeline/tests/backtest_needle.R [reps] [draws]` replays 2024 (president, House 1-4 incl. forced close-race variants, Amendments B/C, 12 legislative contests) with partial
+  counts at 25/50/75/90%; results in `pipeline/tests/backtest_needle_results.csv` (summary) and `backtest_needle_runs.csv` (every run). With late shifts as assumed the 90% margin interval covers 83-93%; in a "stress" scenario 72-74%.

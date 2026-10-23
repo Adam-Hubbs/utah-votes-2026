@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, usePolls, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, useNeedle, usePolls, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { RaceCard } from '../components/RaceCard'
 import { ChoroplethMap } from '../components/ChoroplethMap'
@@ -33,6 +33,7 @@ export function Overview() {
   const polls = usePolls()
   const national = useNational()
   const measures = useMeasures()
+  const needle = useNeedle(currentElection)
   const districts = useGeo('cd2026')
   const counties = useGeo('counties')
 
@@ -108,7 +109,7 @@ export function Overview() {
           {houseIds.map((id) => (
             <RaceCard key={id} contestId={id} title={`District ${id.split('-').pop()}`}
               subtitle={id === 'us-house-1' ? 'Salt Lake County–based' : undefined}
-              roster={candidates?.[id]} avg={averages?.contests[id]} live={byId.get(id)} showLive={showLive} ratings={ratings} />
+              roster={candidates?.[id]} avg={averages?.contests[id]} live={byId.get(id)} showLive={showLive} ratings={ratings} needle={needle?.contests[id]} />
           ))}
         </div>
       </Section>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { AverageLatest, CandidateBio, ContestAverage, Ratings, SummaryContest } from '../types/data'
+import type { AverageLatest, CandidateBio, ContestAverage, NeedleContest, Ratings, SummaryContest } from '../types/data'
 import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
 import { fmtInt, fmtPct, fmtPts } from '../lib/format'
@@ -8,6 +8,7 @@ import { PartyChip } from './PartyChip'
 import { RatingChip } from './RatingChip'
 import { ReportingMeter } from './ReportingMeter'
 import { ResultsBar } from './ResultsBar'
+import { CompactNeedle } from './NeedlePanel'
 
 interface Props {
   contestId: string
@@ -18,9 +19,10 @@ interface Props {
   live?: SummaryContest
   showLive: boolean
   ratings?: Ratings | null
+  needle?: NeedleContest
 }
 
-export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, showLive, ratings }: Props) {
+export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, showLive, ratings, needle }: Props) {
   const cons = consensus(ratings, contestId)
   const useLive = showLive && live && live.total_votes > 0
 
@@ -63,6 +65,9 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
         )}
       </div>
       {barItems.length > 0 && <ResultsBar items={barItems} muted={!useLive} />}
+      {useLive && live && needle && needle.stage !== 'pre' && (
+        <div className="race-card-needle"><CompactNeedle nc={needle} candidates={live.candidates} title={title} measure={live.type === 'measure'} /></div>
+      )}
       {useLive && live ? (
         <div className="rc-foot">
           <ReportingMeter pct={live.reporting.pct_expected} lo={live.reporting.pct_expected_lo} hi={live.reporting.pct_expected_hi} size="sm" />
