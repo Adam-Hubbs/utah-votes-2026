@@ -3,15 +3,15 @@ import { fmtDateRange, fmtInt, parseDate } from '../lib/format'
 import { candidateColors } from '../lib/parties'
 import { lastName } from '../lib/results'
 
-export function pollMargin(p: Poll): { text: string; sign: number } | null {
+export function pollMargin(p: Poll): { text: string; sign: number; value: number | null } | null {
   const r = p.results.find((x) => x.party === 'REP')
   const d = p.results.find((x) => x.party === 'DEM')
   if (r && d) {
     const m = r.pct - d.pct
-    return { text: Math.abs(m) < 0.05 ? 'Even' : `${m > 0 ? 'R' : 'D'}+${Math.abs(m).toFixed(1)}`, sign: Math.sign(m) }
+    return { text: Math.abs(m) < 0.05 ? 'Even' : `${m > 0 ? 'R' : 'D'}+${Math.abs(m).toFixed(1)}`, sign: Math.sign(m), value: m }
   }
   const s = [...p.results].sort((a, b) => b.pct - a.pct)
-  if (s.length >= 2) return { text: `${lastName(s[0].name)} +${(s[0].pct - s[1].pct).toFixed(1)}`, sign: 0 }
+  if (s.length >= 2) return { text: `${lastName(s[0].name)} +${(s[0].pct - s[1].pct).toFixed(1)}`, sign: 0, value: null }
   return null
 }
 

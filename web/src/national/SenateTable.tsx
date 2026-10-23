@@ -75,9 +75,9 @@ export function SenateTable({ senate, selected, onSelect }: Props) {
       ),
     },
     { key: 'cands', header: 'Candidates', render: (r) => <CandidateLine race={r} />, className: 'hide-sm' },
-    { key: 'poll', header: 'Poll average', align: 'right', sort: (r) => (r.poll_avg.margin ? Math.abs(r.poll_avg.margin.value) : null), render: (r) => <PollChip race={r} /> },
+    { key: 'poll', header: 'Poll average', align: 'right', marginSort: { value: (r) => r.poll_avg.margin?.value ?? null }, render: (r) => <PollChip race={r} /> },
     {
-      key: 'rating', header: 'Rating', sort: (r) => Math.abs(consensusScore(r) ?? 9),
+      key: 'rating', header: 'Rating', marginSort: { value: (r) => consensusScore(r) },
       title: 'Consensus of Cook, Sabato and Inside Elections; dots show each source',
       render: (r) => <span className="rating-cell"><ConsensusChip race={r} /><RatingDots race={r} /></span>,
     },

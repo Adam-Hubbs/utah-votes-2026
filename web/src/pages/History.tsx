@@ -139,9 +139,9 @@ function Swing({ past }: { past: IndexElection[] }) {
   const map = useMemo(() => new Map((swings ?? []).map((s) => [s.fips, s])), [swings])
   const columns: Column<NonNullable<typeof swings>[number]>[] = [
     { key: 'name', header: 'County', sort: (r) => r.name, render: (r) => <b>{r.name}</b> },
-    { key: 'ma', header: 'First', align: 'right', sort: (r) => r.ma, render: (r) => <span className="num">{r.ma == null ? '–' : fmtMargin(r.ma)}</span> },
-    { key: 'mb', header: 'Second', align: 'right', sort: (r) => r.mb, render: (r) => <span className="num">{r.mb == null ? '–' : fmtMargin(r.mb)}</span> },
-    { key: 'swing', header: 'Swing', align: 'right', sort: (r) => r.swing, render: (r) => <span className={`num ${r.swing != null && r.swing > 0 ? 'r' : 'd'}`}>{r.swing == null ? '–' : `${r.swing > 0 ? 'R' : 'D'} ${Math.abs(r.swing * 100).toFixed(1)}`}</span> },
+    { key: 'ma', header: 'First', align: 'right', marginSort: { value: (r) => r.ma }, render: (r) => <span className="num">{r.ma == null ? '–' : fmtMargin(r.ma)}</span> },
+    { key: 'mb', header: 'Second', align: 'right', marginSort: { value: (r) => r.mb }, render: (r) => <span className="num">{r.mb == null ? '–' : fmtMargin(r.mb)}</span> },
+    { key: 'swing', header: 'Swing', align: 'right', marginSort: { value: (r) => r.swing }, render: (r) => <span className={`num ${r.swing != null && r.swing > 0 ? 'r' : 'd'}`}>{r.swing == null ? '–' : `${r.swing > 0 ? 'R' : 'D'} ${Math.abs(r.swing * 100).toFixed(1)}`}</span> },
   ]
   return (
     <div>

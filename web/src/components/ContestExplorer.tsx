@@ -5,7 +5,7 @@ import { useSite } from '../data/site'
 import type { ContestResults, CountyResult, ElectionModel, SummaryContest } from '../types/data'
 import { candidateColors, partyGroup } from '../lib/parties'
 import { NO_DATA, leaderFill } from '../lib/colors'
-import { estRemaining, leaderOf, marginText } from '../lib/results'
+import { estRemaining, leaderOf, marginText, signedMargin } from '../lib/results'
 import { fmtCompact, fmtInt, fmtMT, fmtMTFull, fmtPct } from '../lib/format'
 import { CandidateRow } from './CandidateRow'
 import { ChoroplethMap } from './ChoroplethMap'
@@ -235,6 +235,7 @@ export function CountyTable({ results, contest, live, final = false }: { results
   const cands = results.candidates
   const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
   const rows = results.counties
+  const measure = contest.candidates.some((c) => partyGroup(c.party, c.candidate_id) === 'FOR')
   const columns: Column<CountyResult>[] = [
     { key: 'name', header: 'County', sort: (r) => r.name, render: (r) => <b>{r.name}</b> },
     {
@@ -247,7 +248,7 @@ export function CountyTable({ results, contest, live, final = false }: { results
       },
     },
     {
-      key: 'margin', header: 'Margin', align: 'right', sort: (r) => leaderOf(r.votes, r.total, cands).margin,
+      key: 'margin', header: 'Margin', align: 'right', marginSort: { value: (r) => signedMargin(leaderOf(r.votes, r.total, cands)), kind: measure ? 'measure' : 'party' },
       render: (r) => {
         const l = leaderOf(r.votes, r.total, cands)
         if (!l.id) return '–'

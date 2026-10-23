@@ -94,7 +94,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
       : []),
     {
       key: 'pres', header: '2024 pres.', align: 'right', title: 'Donald Trump minus Kamala Harris margin in the district (2024), from precinct results.',
-      sort: (s) => (s.seat.pres24_margin == null ? null : Math.abs(s.seat.pres24_margin)),
+      marginSort: { value: (s) => s.seat.pres24_margin },
       render: (s) => {
         const m = s.seat.pres24_margin
         return (
