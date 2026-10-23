@@ -239,6 +239,7 @@ run_expected_vote_model <- function(
   registered_override = NULL,
   p = model_defaults()
 ) {
+  if (exists("live_config")) p <- utils::modifyList(p, live_config()$model %||% list())
   rd <- \(...) file.path(results_dir, ...)
   summary_path <- rd("summary.json")
   contest_files <- list.files(

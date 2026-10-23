@@ -1,0 +1,8 @@
+# Contest kinds that get precinct-level detail in the contest files (retention is county-only to keep commits small).
+precinct_kinds: [us-house, amendment, state-house, state-senate, school-board]
+featured_kinds: [us-house, amendment]
+timeline_kinds: [us-house, amendment]
+# Refuse to publish if total votes fall by more than this fraction versus the last published scrape.
+max_vote_drop_fraction: 0.2
+# Optional overrides of the expected-vote model priors (names as in model_defaults()).
+model: {}

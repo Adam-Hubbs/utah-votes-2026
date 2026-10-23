@@ -40,7 +40,7 @@ winners_to_ids <- function(winners, candidates) {
 fetch_parsed <- function() {
   url <- ev_export_url()
   head <- ev_export_etag(url)
-  if (head$status == 200) {
+  if (head$status == 200 && Sys.getenv("UTEL_FORCE_FALLBACK") != "1") {
     path <- ev_download_export(url)
     parsed <- tryCatch(
       parse_export(jsonlite::fromJSON(path, simplifyVector = FALSE)),
@@ -56,6 +56,12 @@ fetch_parsed <- function() {
   list(parsed = fetch_fallback_parsed(), etag = NA_character_, via = "data")
 }
 
+# Manual inputs that change the output without the source changing (calls, candidates, remaining-ballot overrides).
+inputs_hash <- function() {
+  files <- file.path(project_root(), "pipeline", "config", c("calls.csv", "candidates.csv", "remaining_ballots.csv", "live.yml"))
+  unname(tools::md5sum(files[file.exists(files)])) |> str_c(collapse = "")
+}
+
 scrape_once <- function(force = FALSE, now = Sys.time()) {
   cfg <- live_config()
   conn <- connectivity_check()
@@ -64,7 +70,7 @@ scrape_once <- function(force = FALSE, now = Sys.time()) {
   prev <- read_json_safe(file.path(dest, "summary.json"))
 
   head <- tryCatch(ev_export_etag(), error = \(e) list(status = NA, etag = NA_character_))
-  if (!force && !is.null(prev) && !is.na(head$etag) && identical(prev$source_etag, head$etag) && !isTRUE(prev$status == "pre")) {
+  if (!force && !is.null(prev) && !is.na(head$etag) && identical(prev$source_etag, head$etag) && identical(prev$inputs_hash, inputs_hash())) {
     message("[scrape] export unchanged (etag ", head$etag, "); re-running model only")
     refresh_model_only(dest, now)
     return(invisible("unchanged"))
@@ -83,6 +89,7 @@ scrape_once <- function(force = FALSE, now = Sys.time()) {
   status <- case_when(official ~ "final", results$max_votes > 0 ~ "live", .default = "pre")
   results$summary$status <- status
   results$summary$source_etag <- src$etag
+  results$summary$inputs_hash <- inputs_hash()
   validate_update(results, src$parsed, prev, cfg)
 
   staging <- file.path(tempdir(), "live")
