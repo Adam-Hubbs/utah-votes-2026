@@ -34,6 +34,15 @@ compares the ETag first, so an unchanged export is never re-downloaded.
 6. Registration: until the API publishes `voterRegistration` the model uses `pipeline/config/county_baselines.csv`
    (Lt. Governor active-voter report of 2026-10-19). Re-run `Rscript pipeline/scripts/build_live_baselines.R` to refresh it (needs `pdftotext`).
 
+## Precinct join check
+
+Every precinct name in the export must map to a `precincts_2026` polygon (`precinct_id = {fips}-{NAME UPPERCASED}`).
+`Rscript pipeline/tests/check_live_join.R [export.json]` runs the real parser on an export and lists names without a polygon; the scraper also logs
+`[scrape] N reported precincts have no polygon` on every pass. With the export of 2026-10-22: 3,152 names, 15 without a polygon, all with no residents or
+unlocatable: 14 federal-only precincts (UGRC has no area; they can carry a few votes, e.g. Utah County FED301/FED401 had 944 in 2024) and Cache `3UNKN`.
+Those votes count in county totals but cannot be drawn. `20 Fountain Green U` is mapped to the UGRC area `NS:U`. Box Elder-style reports of a parent
+precinct (`02PER1`) cover every unclaimed sub-area of that parent (`02PER1:M`), so populated sub-areas are not left blank.
+
 ## Election night
 
 Automatic: the `*/10` cron (and the 02:30Z start cron) launch `election-night.yml`; it loops about every 100 s, commits

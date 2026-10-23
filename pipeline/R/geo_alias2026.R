@@ -14,7 +14,7 @@ sanpete_codes <- c(
   "AXTELL SSD" = "AXT:SSD", "CENTERFIELD CITY" = "CEN:M", "EPHRAIM CITY 1" = "EPH:1M",
   "EPHRAIM CITY 2" = "EPH:2M", "EPHRAIM CITY 3" = "EPH:3M", "EPHRAIM U" = "EPH:U",
   "FAIRVIEW CITY" = "FRV:M", "FAIRVIEW U" = "FRV:U", "FAYETTE TOWN" = "FAY:M",
-  "FEDERAL ONLY" = "FED:1", "FOUNTAIN GREEN CITY" = "FTG:M", "GUNNISON CITY" = "GUN:M",
+  "FEDERAL ONLY" = "FED:1", "FOUNTAIN GREEN CITY" = "FTG:M", "FOUNTAIN GREEN U" = "NS:U", "GUNNISON CITY" = "GUN:M",
   "MANTI CITY 1" = "MAN:1M", "MANTI CITY 2" = "MAN:2M", "MANTI CITY 3" = "MAN:3M",
   "MAYFIELD TOWN" = "MAY:M", "MORONI CITY" = "MOR:M", "MORONI U" = "MOR:U",
   "MT PLEASANT 1 U" = "MTP:1U", "MT PLEASANT 2 U" = "MTP:2U", "MT PLEASANT CITY 1" = "MTP:1M",
@@ -126,9 +126,26 @@ alias_reported_2026 <- function(reported, vista) {
           inner_join(select(pool, VistaID, key = k_parent), by = "key", relationship = "many-to-many") |>
           mutate(tier = "parent")
         hit <- bind_rows(hit, distinct(generic, precinct, VistaID, tier))
+        # Reported without the sub-precinct colon (Summit "22FED3" for 22FED:3).
+        no_colon <- still |>
+          filter(!precinct %in% hit$precinct) |>
+          mutate(key = nk0(precinct)) |>
+          inner_join(select(pool, VistaID, key = k_full), by = "key", relationship = "many-to-many") |>
+          mutate(tier = "nocolon")
+        hit <- bind_rows(hit, distinct(no_colon, precinct, VistaID, tier))
       }
     }
-    hit
+    # A name without a colon covers every sub-area of that precinct that no other reported name claims
+    # (Box Elder reports "02PER1" for 02PER1, 02PER1:M, ...).
+    siblings <- hit |>
+      filter(!str_detect(precinct, ":")) |>
+      distinct(precinct, VistaID) |>
+      mutate(parent_key = nk0(str_remove(VistaID, ":.*$"))) |>
+      inner_join(select(pool, sib = VistaID, parent_key = k_parent), by = "parent_key", relationship = "many-to-many") |>
+      filter(!sib %in% hit$VistaID) |>
+      distinct(precinct, VistaID = sib) |>
+      mutate(tier = "sibling")
+    bind_rows(hit, siblings)
   }
 
   reported |>

@@ -9,6 +9,7 @@ import { Tooltip } from './Tooltip'
 import type { PlaceLabel } from '../types/data'
 
 type F = Feature<Geometry, Record<string, unknown>>
+export type UnitPattern = 'missing' | 'pending'
 
 interface Props {
   features: F[]
@@ -16,6 +17,8 @@ interface Props {
   fill: (f: F) => string
   /** Marks units with little counted vote; drawn with a hatch overlay. */
   hatch?: (f: F) => boolean
+  /** Marks units that are not simply colored by a result: no result at this level, or not yet reported. */
+  pattern?: (f: F) => UnitPattern | null
   tooltip?: (f: F) => ReactNode
   onSelect?: (f: F | null) => void
   selectedId?: string | null
@@ -39,11 +42,12 @@ interface PathLayerProps {
   features: F[]
   fills: string[]
   hatches: boolean[]
+  patterns: (UnitPattern | null)[]
   strokeWidth: number
   strokeColor: string
 }
 
-const PathLayer = memo(function PathLayer({ paths, features, fills, hatches, strokeWidth, strokeColor }: PathLayerProps) {
+const PathLayer = memo(function PathLayer({ paths, features, fills, hatches, patterns, strokeWidth, strokeColor }: PathLayerProps) {
   return (
     <g className="map-units">
       {paths.map((d, i) =>
@@ -54,13 +58,16 @@ const PathLayer = memo(function PathLayer({ paths, features, fills, hatches, str
       {paths.map((d, i) =>
         d && hatches[i] ? <path key={`h${i}`} d={d} fill="url(#hatch)" stroke="none" pointerEvents="none" /> : null,
       )}
+      {paths.map((d, i) =>
+        d && patterns[i] ? <path key={`p${i}`} d={d} fill={`url(#hatch-${patterns[i]})`} stroke="none" pointerEvents="none" /> : null,
+      )}
       <desc>{features.length} map areas</desc>
     </g>
   )
 })
 
 export function ChoroplethMap({
-  features, idOf, fill, hatch, tooltip, onSelect, selectedId, focusId, overlay, overlayWidth = 1, fitTo, labels, ariaLabel,
+  features, idOf, fill, hatch, pattern, tooltip, onSelect, selectedId, focusId, overlay, overlayWidth = 1, fitTo, labels, ariaLabel,
   aspect = 1.12, maxHeight = 640, strokeWidth = 0.5, strokeColor = '#fff', zoomable = true,
 }: Props) {
   const [wrapRef, { width }] = useSize<HTMLDivElement>()
@@ -96,6 +103,7 @@ export function ChoroplethMap({
   const overlayPaths = useMemo(() => (overlay ?? []).map((f) => path?.(f) ?? null), [overlay, path])
   const fills = useMemo(() => features.map(fill), [features, fill])
   const hatches = useMemo(() => features.map((f) => (hatch ? hatch(f) : false)), [features, hatch])
+  const patterns = useMemo(() => features.map((f) => (pattern ? pattern(f) : null)), [features, pattern])
   const ids = useMemo(() => features.map(idOf), [features, idOf])
 
   useEffect(() => {
@@ -174,9 +182,15 @@ export function ChoroplethMap({
             <rect width="5" height="5" fill="rgba(255,255,255,0.0)" />
             <line x1="0" y1="0" x2="0" y2="5" stroke="rgba(255,255,255,0.65)" strokeWidth="2.2" />
           </pattern>
+          <pattern id="hatch-missing" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="5" stroke="rgba(70,70,70,0.5)" strokeWidth="1.1" />
+          </pattern>
+          <pattern id="hatch-pending" width="6" height="6" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="0.9" fill="rgba(70,70,70,0.45)" />
+          </pattern>
         </defs>
         <g transform={tf.toString()}>
-          <PathLayer paths={paths} features={features} fills={fills} hatches={hatches} strokeWidth={strokeWidth} strokeColor={strokeColor} />
+          <PathLayer paths={paths} features={features} fills={fills} hatches={hatches} patterns={patterns} strokeWidth={strokeWidth} strokeColor={strokeColor} />
           {overlayPaths.map((d, i) => d && <path key={i} d={d} fill="none" stroke="#121212" strokeOpacity={0.55} strokeWidth={overlayWidth} vectorEffect="non-scaling-stroke" pointerEvents="none" strokeLinejoin="round" />)}
           {selIndex >= 0 && paths[selIndex] && <path d={paths[selIndex]!} fill="none" stroke="#121212" strokeWidth={2.2} vectorEffect="non-scaling-stroke" pointerEvents="none" />}
           {hover && paths[hover.i] && <path d={paths[hover.i]!} fill="none" stroke="#121212" strokeWidth={1.6} vectorEffect="non-scaling-stroke" pointerEvents="none" />}

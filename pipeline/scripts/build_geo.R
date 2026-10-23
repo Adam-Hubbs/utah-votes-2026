@@ -203,6 +203,21 @@ vest_out <- imap(vest, \(sf_y, yr) {
     transmute(precinct_id, county_fips, name, !!plan_col := district)
 })
 
+# ---- voting-age population per unit ------------------------------------------------------------------
+# Lets the map tell a polygon with no residents (legitimately empty) from a populated one without results.
+with_vap <- \(units, unit_col) {
+  vap <- blocks_tbl |>
+    summarise(vap = sum(vap), .by = all_of(unit_col)) |>
+    rename(precinct_id = all_of(unit_col))
+  units |>
+    left_join(vap, by = "precinct_id") |>
+    mutate(vap = as.integer(coalesce(vap, 0L)))
+}
+units_2026 <- with_vap(units_2026, "unit2026")
+units_2024 <- with_vap(units_2024, "unit2024")
+units_2022 <- with_vap(units_2022, "unit2022")
+vest_out <- imap(vest_out, \(x, yr) with_vap(x, str_c("unit", yr)))
+
 # ---- write precinct topojson -----------------------------------------------------------------------
 write_topojson(units_2026, geo_out("precincts_2026.topo.json"), "precincts", keep_pct = simplify_pct)
 write_topojson(units_2024, geo_out("precincts_2024.topo.json"), "precincts", keep_pct = simplify_pct)

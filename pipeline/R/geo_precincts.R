@@ -68,6 +68,34 @@ cluster_reported <- function(matches, votes) {
   list(members = members, vista_units = vista_units)
 }
 
+# A populated sub-area (e.g. LP01:1) whose reported row has no votes while a sibling sub-area of the same parent
+# precinct has them is almost always counted with that sibling by the clerk, so it joins the sibling's unit.
+merge_zero_vote_siblings <- function(cl, vista_vap) {
+  unit_votes <- cl$members |>
+    distinct(county_fips, precinct, unit_id, votes) |>
+    summarise(votes = sum(votes), .by = unit_id)
+  target <- cl$vista_units |>
+    mutate(parent = str_remove(vista_id, ":.*$")) |>
+    left_join(unit_votes, by = "unit_id") |>
+    left_join(vista_vap, by = c("county_fips", "vista_id")) |>
+    group_by(county_fips, parent) |>
+    mutate(
+      has_sibling_votes = any(votes > 0 & !is.na(votes)),
+      best_id = unit_id[which.max(coalesce(votes, 0))],
+      best_name = unit_name[which.max(coalesce(votes, 0))]
+    ) |>
+    ungroup() |>
+    filter(coalesce(votes, 0) == 0, coalesce(vap, 0) > 0, has_sibling_votes, str_detect(vista_id, ":"))
+  moved <- target |> distinct(old_id = unit_id, new_id = best_id, new_name = best_name)
+  # A zero-vote unit spanning several parents moves with the parent that has the most VAP.
+  moved <- moved |> distinct(old_id, .keep_all = TRUE)
+  remap_id <- \(id) coalesce(moved$new_id[match(id, moved$old_id)], id)
+  remap_name <- \(id, nm) coalesce(moved$new_name[match(id, moved$old_id)], nm)
+  cl$vista_units <- cl$vista_units |> mutate(unit_name = remap_name(unit_id, unit_name), unit_id = remap_id(unit_id))
+  cl$members <- cl$members |> mutate(unit_name = remap_name(unit_id, unit_name), unit_id = remap_id(unit_id))
+  cl
+}
+
 unit_geometry <- function(vista_geom, vista_units) {
   vista_geom |>
     inner_join(vista_units |> select(county_fips, vista_id, unit_id, unit_name), by = c("county_fips", "vista_id")) |>
@@ -116,6 +144,10 @@ crosswalk_weights <- function(blocks_tbl, from_col, to_col) {
 build_reported_vintage <- function(votes, vista, vista_geom, blocks_tbl, plan_polys, plan_col) {
   matches <- match_precincts_to_vista(votes, vista)
   cl <- cluster_reported(matches, votes)
+  vista_vap <- blocks_tbl |>
+    summarise(vap = sum(vap), .by = vista_key) |>
+    separate_wider_delim(vista_key, "|", names = c("county_fips", "vista_id"), too_many = "merge")
+  cl <- merge_zero_vote_siblings(cl, vista_vap)
   geom <- unit_geometry(vista_geom, cl$vista_units)
   vista_unit <- cl$vista_units |>
     transmute(vista_key = str_c(county_fips, "|", vista_id), unit = unit_id)

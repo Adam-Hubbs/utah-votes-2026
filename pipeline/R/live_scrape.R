@@ -27,6 +27,26 @@ validate_update <- function(results, parsed, prev, cfg) {
   invisible(TRUE)
 }
 
+# Reported precinct ids that have votes but no polygon in precincts_2026 would silently vanish from the map, so say so in the log.
+report_unjoined_precincts <- function(results) {
+  topo <- read_json_safe(data_dir("geo", "precincts_2026.topo.json"))
+  if (is.null(topo)) return(invisible(NULL))
+  polygon_ids <- map_chr(topo$objects$precincts$geometries, \(g) g$properties$precinct_id)
+  unjoined <- results$contests |>
+    map(\(x) tibble(precinct_id = map_chr(x$precincts, "precinct_id"), votes = map_dbl(x$precincts, "total"))) |>
+    list_rbind() |>
+    summarise(votes = sum(votes), .by = precinct_id) |>
+    filter(!precinct_id %in% polygon_ids)
+  if (nrow(unjoined) > 0) {
+    message(sprintf(
+      "[scrape] %d reported precincts have no polygon (%s votes): %s",
+      nrow(unjoined), format(sum(unjoined$votes), big.mark = ","),
+      str_c(head(unjoined$precinct_id, 8), collapse = ", ")
+    ))
+  }
+  invisible(unjoined)
+}
+
 winners_to_ids <- function(winners, candidates) {
   if (is.null(winners) || nrow(winners) == 0) return(NULL)
   winners |>
@@ -90,6 +110,7 @@ scrape_once <- function(force = FALSE, now = Sys.time()) {
   results$summary$source_etag <- src$etag
   results$summary$inputs_hash <- inputs_hash()
   validate_update(results, src$parsed, prev, cfg)
+  try(report_unjoined_precincts(results), silent = TRUE)
 
   staging <- file.path(tempdir(), "live")
   unlink(staging, recursive = TRUE)
