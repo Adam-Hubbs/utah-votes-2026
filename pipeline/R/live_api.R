@@ -232,18 +232,11 @@ split_party_prefix <- function(ballot_name) {
 }
 
 party_from_text <- function(x) {
-  case_match(
+  recode_values(
     str_to_lower(str_squish(x)),
-    "republican" ~ "REP",
-    "democratic" ~ "DEM",
-    "libertarian" ~ "LIB",
-    "constitution" ~ "CON",
-    "independent american" ~ "IAP",
-    "unaffiliated" ~ "UNA",
-    "forward" ~ "FWD",
-    "green" ~ "GRN",
-    "united utah" ~ "UUP",
-    .default = if_else(is.na(x) | x == "", NA_character_, "OTH")
+    from = c("republican", "democratic", "libertarian", "constitution", "independent american", "unaffiliated", "nonpartisan", "forward", "forward party", "green", "united utah"),
+    to = c("REP", "DEM", "LIB", "CON", "IAP", "UNA", "UNA", "FWD", "FWD", "GRN", "UUP"),
+    default = if_else(is.na(x) | x == "", NA_character_, "OTH")
   )
 }
 
