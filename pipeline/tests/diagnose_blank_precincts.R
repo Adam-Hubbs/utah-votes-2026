@@ -4,6 +4,7 @@
 #   c_combined     : populated, no votes, and a same-prefix neighbour in the county has more votes than residents,
 #                    i.e. the clerk very likely counted these voters with that precinct
 #   d_other        : populated with no votes and no such neighbour (group quarters, tiny areas, unexplained)
+# Ballot areas no reported name matched (matched: false) are published for coverage only and are excluded here.
 # Failed name matches (b) cannot be blank polygons (polygons are built from matches); they show up as reported
 # precincts with votes but no polygon, counted separately as b_unmatched_votes.
 #   UTEL_RAW_DIR=... Rscript pipeline/tests/diagnose_blank_precincts.R
@@ -18,8 +19,9 @@ classify_year <- \(yr) {
   contest <- read_json(data_dir("results", str_c(yr, "-general"), "contests", str_c(statewide[[yr]], ".json")))
   rows <- tibble(precinct_id = map_chr(contest$precincts, "precinct_id"), total = map_dbl(contest$precincts, "total"))
   polys <- read_json(data_dir("geo", str_c("precincts_", yr, ".topo.json")))$objects$precincts$geometries |>
-    map(\(g) as_tibble(g$properties[c("precinct_id", "county_fips", "name", "vap")])) |>
+    map(\(g) as_tibble(g$properties[c("precinct_id", "county_fips", "name", "vap")]) |> mutate(open_area = isFALSE(g$properties$matched))) |>
     list_rbind() |>
+    filter(!open_area) |>
     left_join(rows, by = "precinct_id") |>
     mutate(
       total = coalesce(total, 0),
