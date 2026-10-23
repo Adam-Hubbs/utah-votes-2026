@@ -1,0 +1,13 @@
+scenario,close,covered_by_p,n,wrong_calls,mean_conf
+base,FALSE,confident (95-99%),14,0,0.975
+base,FALSE,decided (<=1% / >=99%),729,0,0.9999
+base,FALSE,uncertain,17,0,0.8389
+base,TRUE,confident (95-99%),21,1,0.9724
+base,TRUE,decided (<=1% / >=99%),44,0,0.9988
+base,TRUE,uncertain,95,26,0.7468
+stress,FALSE,confident (95-99%),18,0,0.9744
+stress,FALSE,decided (<=1% / >=99%),718,0,0.9999
+stress,FALSE,uncertain,24,5,0.7819
+stress,TRUE,confident (95-99%),19,2,0.9686
+stress,TRUE,decided (<=1% / >=99%),60,3,0.998
+stress,TRUE,uncertain,81,23,0.7484

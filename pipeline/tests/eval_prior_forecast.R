@@ -485,3 +485,41 @@ print(
   width = 250
 )
 print(calibration)
+
+# ---- naive baselines on the same contests -------------------------------------------------------------------------------
+# Probabilities for the baselines use a normal on the two-party share whose sd is the baseline's own in-sample RMSE
+# (generous to the baselines). Restricted to contests where every predictor exists so the comparison is like for like.
+baseline_cmp <- contests |>
+  filter(kind == "d_vs_r", !is.na(prev_two_party)) |>
+  mutate(p_model = prob_a)
+score_pred <- \(label, pred, d) {
+  rmse <- sqrt(mean((d$actual_two_party - pred)^2))
+  pr <- pmin(pmax(pnorm((pred - 0.5) / rmse), 0.01), 0.99)
+  tibble(
+    predictor = label,
+    n = nrow(d),
+    mae_share = mean(abs(d$actual_two_party - pred)),
+    bias_share = mean(d$actual_two_party - pred),
+    brier = mean((pr - d$a_wins)^2),
+    logloss = -mean(d$a_wins * log(pr) + (1 - d$a_wins) * log(1 - pr)),
+    wrong_favourites = sum((pred > 0.5) != (d$a_wins == 1))
+  )
+}
+baselines <- bind_rows(
+  baseline_cmp |>
+    summarise(
+      predictor = "needle prior as deployed (sd 8 pts, win-prob capped)",
+      n = n(), mae_share = mean(abs(err_share)), bias_share = mean(err_share),
+      brier = mean((prob_a - a_wins)^2), logloss = -mean(a_wins * log(prob_a) + (1 - a_wins) * log(1 - prob_a)),
+      wrong_favourites = sum(favourite_wrong)
+    ),
+  score_pred("previous presidential (no environment shift)", baseline_cmp$m_noenv, baseline_cmp),
+  score_pred("needle fundamentals, share only, calibrated sd", baseline_cmp$m_env, baseline_cmp),
+  score_pred("previous same-district result", baseline_cmp$prev_two_party, baseline_cmp),
+  score_pred("average of the two", (baseline_cmp$prev_two_party + baseline_cmp$m_env) / 2, baseline_cmp),
+  tibble(predictor = "always Republican", n = nrow(baseline_cmp), mae_share = NA, bias_share = NA, brier = mean((0.01 - baseline_cmp$a_wins)^2), logloss = -mean(baseline_cmp$a_wins * log(0.01) + (1 - baseline_cmp$a_wins) * log(0.99)), wrong_favourites = sum(baseline_cmp$a_wins == 1)),
+  tibble(predictor = "coin flip", n = nrow(baseline_cmp), mae_share = NA, bias_share = NA, brier = 0.25, logloss = log(2), wrong_favourites = NA)
+) |>
+  mutate(across(where(is.double), \(x) round(x, 4)))
+write_csv(baselines, file.path(out_dir, "eval_prior_baselines.csv"))
+print(baselines)

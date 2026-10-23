@@ -1,0 +1,8 @@
+predictor,n,mae_share,bias_share,brier,logloss,wrong_favourites
+"needle prior as deployed (sd 8 pts, win-prob capped)",133,0.0346,-0.0172,0.0828,0.265,16
+previous presidential (no environment shift),133,0.0335,-0.0062,0.0794,0.2599,14
+"needle fundamentals, share only, calibrated sd",133,0.0346,-0.0172,0.0866,0.2822,16
+previous same-district result,133,0.0391,0.0073,0.0524,0.1763,9
+average of the two,133,0.0295,-0.0049,0.0531,0.1691,8
+always Republican,133,NA,NA,0.2801,1.3229,38
+coin flip,133,NA,NA,0.25,0.6931,NA
