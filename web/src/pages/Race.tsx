@@ -43,7 +43,7 @@ export function RacePage() {
     <div className="page">
       <nav className="race-tabs" aria-label="Races">
         {featured.map((id) => (
-          <Link key={id} to={`/race/${id}`} className={id === contestId ? 'on' : ''}>{id.replace('us-house-', 'District ').replace('amendment-', 'Amendment ').replace(/^./, (c) => c.toUpperCase())}</Link>
+          <Link key={id} to={`/race/${id}`} className={id === contestId ? 'on' : ''}>{id.startsWith('amendment-') ? `Amendment ${id.slice(10).toUpperCase()}` : id.replace('us-house-', 'District ')}</Link>
         ))}
       </nav>
       <header className="page-head">

@@ -20,7 +20,7 @@ export function Scatter({ points, xLabel, yLabel, xFormat, yFormat, height = 380
   const [ref, { width }] = useSize<HTMLDivElement>()
   const [hover, setHover] = useState<string | null>(null)
   const w = Math.max(280, width || 640)
-  const m = { t: 12, r: 18, b: 44, l: 52 }
+  const m = { t: 12, r: 18, b: 44, l: 66 }
   const iw = w - m.l - m.r, ih = height - m.t - m.b
   const [x0, x1] = extent(points, (p) => p.x) as [number, number]
   const [y0, y1] = extent(points, (p) => p.y) as [number, number]
@@ -44,7 +44,7 @@ export function Scatter({ points, xLabel, yLabel, xFormat, yFormat, height = 380
           ))}
           <line x1={0} x2={iw} y1={zeroY} y2={zeroY} className="zero" />
           <text x={iw} y={ih + 36} textAnchor="end" className="axis-title">{xLabel} →</text>
-          <text transform={`translate(${-40},0) rotate(-90)`} x={-ih} textAnchor="start" className="axis-title" dy="0.8em">{yLabel}</text>
+          <text transform={`translate(${-56},0) rotate(-90)`} x={-ih} textAnchor="start" className="axis-title" dy="0.8em">{yLabel}</text>
           {[...points].sort((a, b) => b.r - a.r).map((p) => (
             <circle key={p.id} cx={xs(p.x)} cy={ys(p.y)} r={rs(p.r)} fill={p.color} fillOpacity={hover === p.id ? 0.9 : 0.5} stroke={p.color} strokeWidth={hover === p.id ? 2 : 1}
               tabIndex={0} aria-label={`${p.label}: ${xFormat(p.x)}, ${yFormat(p.y)}`}
