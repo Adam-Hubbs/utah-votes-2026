@@ -16,6 +16,7 @@ import { ReportingMeter } from './ReportingMeter'
 import { SortableTable, type Column } from './SortableTable'
 import { LastUpdated } from './LastUpdated'
 import { Gate, Section, Segmented, Stat, Unavailable } from './Ui'
+import { TooltipFoot, TooltipHeader, TooltipNote, TooltipRow } from './Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -176,28 +177,21 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
 
   const tooltip = useCallback((f: F) => {
     const u = unitVotes(f)
-    if (!u) return <div><b>{String(f.properties?.name ?? '')}</b><div className="tt-muted">Not in this contest</div></div>
+    if (!u) return <div><TooltipHeader title={String(f.properties?.name ?? '')} /><TooltipNote>Not in this contest</TooltipNote></div>
     const l = leaderOf(u.votes, u.total, cands)
     const rows = [...cands].sort((a, b) => (u.votes[b.candidate_id] ?? 0) - (u.votes[a.candidate_id] ?? 0)).slice(0, 4)
     return (
       <div>
-        <div className="tt-title">{u.name}</div>
+        <TooltipHeader title={u.name} subtitle={u.pct != null && live ? `Est. ${fmtPct(u.pct, 0)} counted` : undefined} />
         {u.total > 0 ? (
           <>
             {rows.map((c) => (
-              <div className="tt-row" key={c.candidate_id}>
-                <i style={{ background: colors[c.candidate_id] ?? '#999' }} />
-                <span>{c.name}</span>
-                <b>{fmtPct((u.votes[c.candidate_id] ?? 0) / u.total)}</b>
-                <em>{fmtInt(u.votes[c.candidate_id] ?? 0)}</em>
-              </div>
+              <TooltipRow key={c.candidate_id} color={colors[c.candidate_id] ?? '#999'} label={c.name}
+                value={fmtPct((u.votes[c.candidate_id] ?? 0) / u.total)} detail={fmtInt(u.votes[c.candidate_id] ?? 0)} />
             ))}
-            <div className="tt-foot">
-              {l.id && <span>Margin: <b>{marginText(l)}</b></span>}
-              {u.pct != null && live && <span>Est. {fmtPct(u.pct, 0)} counted</span>}
-            </div>
+            {l.id && <TooltipFoot><span>Margin</span><b>{marginText(l)}</b></TooltipFoot>}
           </>
-        ) : <div className="tt-muted">No votes counted yet</div>}
+        ) : <TooltipNote>No votes counted yet</TooltipNote>}
       </div>
     )
   }, [unitVotes, cands, colors, live])

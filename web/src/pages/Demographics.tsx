@@ -12,6 +12,7 @@ import { NO_DATA, SEQUENTIAL, sequentialFill } from '../lib/colors'
 import { fmtMargin } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 import type { DemographicKey, DemographicUnit } from '../types/data'
+import { TooltipHeader, TooltipRow } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -88,7 +89,7 @@ export function DemographicsPage() {
             <div className="two-col eq">
               <div>
                 <ChoroplethMap features={geoData.features as F[]} idOf={(f) => String(f.properties?.[idKey])} fill={fill} selectedId={selected} onSelect={(f) => setSelected(f ? String(f.properties?.[idKey]) : null)}
-                  tooltip={(f) => { const u = byId.get(String(f.properties?.[idKey])); const val = u ? valueOf(u, key) : null; return <div><div className="tt-title">{u?.name}</div><div className="tt-row"><span>{v.label}</span><b>{val == null ? '–' : v.fmt(val)}</b></div></div> }}
+                  tooltip={(f) => { const u = byId.get(String(f.properties?.[idKey])); const val = u ? valueOf(u, key) : null; return <div><TooltipHeader title={u?.name ?? ''} /><TooltipRow label={v.label} value={val == null ? '–' : v.fmt(val)} /></div> }}
                   zoomable={geo === 'counties'} aspect={1.1} maxHeight={560} ariaLabel={`Map of ${v.label} by ${geo === 'counties' ? 'county' : '2026 district'}`} />
                 <ContinuousLegend title={v.label} colors={SEQUENTIAL} lo={Number.isFinite(lo) ? v.fmt(lo) : ''} hi={Number.isFinite(hi) ? v.fmt(hi) : ''} />
               </div>

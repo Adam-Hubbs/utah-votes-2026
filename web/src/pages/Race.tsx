@@ -15,6 +15,7 @@ import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
 import { fmtDayYear, fmtInt, fmtMargin } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
+import { TooltipHeader } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -155,7 +156,7 @@ function DistrictProfile({ district }: { district: number }) {
             <ChoroplethMap features={districts.features as F[]} idOf={(f) => String(f.properties?.district)} fill={fill} overlay={(counties?.features as F[] | undefined)} overlayWidth={0.4}
               fitTo={(districts.features as F[]).filter((f) => Number(f.properties?.district) === district)}
               strokeWidth={1.2} zoomable={false} aspect={1} maxHeight={480} ariaLabel={`Map of 2026 congressional district ${district}`}
-              tooltip={(f) => <div className="tt-title">District {String(f.properties?.district)}</div>} />
+              tooltip={(f) => <TooltipHeader title={`District ${String(f.properties?.district)}`} />} />
           ) : <div className="map-placeholder">{districts === null ? 'District map not yet available.' : 'Loading map…'}</div>}
           <p className="note">2026 district lines, with county boundaries. Lines were redrawn by court order in 2025 and differ from the 2022–2024 districts.</p>
         </Section>
