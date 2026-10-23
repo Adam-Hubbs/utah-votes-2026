@@ -5,7 +5,7 @@ import { useSite } from '../data/site'
 import type { ContestResults, CountyResult, ElectionModel, SummaryContest } from '../types/data'
 import { candidateColors, partyGroup } from '../lib/parties'
 import { NO_DATA, leaderFill } from '../lib/colors'
-import { estRemaining, leaderOf, marginText } from '../lib/results'
+import { estRemaining, leaderOf, marginText, signedMargin } from '../lib/results'
 import { fmtCompact, fmtInt, fmtMT, fmtMTFull, fmtPct } from '../lib/format'
 import { CandidateRow } from './CandidateRow'
 import { ChoroplethMap } from './ChoroplethMap'
@@ -16,6 +16,7 @@ import { ReportingMeter } from './ReportingMeter'
 import { SortableTable, type Column } from './SortableTable'
 import { LastUpdated } from './LastUpdated'
 import { Gate, Section, Segmented, Stat, Unavailable } from './Ui'
+import { TooltipFoot, TooltipHeader, TooltipNote, TooltipRow } from './Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -57,7 +58,6 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
   const maxPct = Math.max(...contest.candidates.map((c) => c.pct), 0.0001)
   const hasVotes = contest.total_votes > 0
   const rep = contest.reporting
-  const call = contest.call
 
   return (
     <div className="contest-body">
@@ -69,7 +69,7 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
               <LastUpdated iso={summary.updated_at} status={summary.status} showRefresh={isLive} />
             </div>
             <div className="contest-status">
-              {call ? <span className="call-badge">Called {call.by === 'AP' ? 'by AP' : ''}</span> : hasVotes && summary.status !== 'final' ? <span className="status-pill live"><i />Counting</span> : !hasVotes && summary.status === 'pre' ? <span className="status-pill">No results yet</span> : null}
+              {summary.status === 'final' ? <span className="call-badge">Official results</span> : hasVotes ? <span className="status-pill live"><i />Counting</span> : !hasVotes && summary.status === 'pre' ? <span className="status-pill">No results yet</span> : null}
             </div>
           </div>
           <div className="cand-list">
@@ -176,28 +176,21 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
 
   const tooltip = useCallback((f: F) => {
     const u = unitVotes(f)
-    if (!u) return <div><b>{String(f.properties?.name ?? '')}</b><div className="tt-muted">Not in this contest</div></div>
+    if (!u) return <div><TooltipHeader title={String(f.properties?.name ?? '')} /><TooltipNote>Not in this contest</TooltipNote></div>
     const l = leaderOf(u.votes, u.total, cands)
     const rows = [...cands].sort((a, b) => (u.votes[b.candidate_id] ?? 0) - (u.votes[a.candidate_id] ?? 0)).slice(0, 4)
     return (
       <div>
-        <div className="tt-title">{u.name}</div>
+        <TooltipHeader title={u.name} subtitle={u.pct != null && live ? `Est. ${fmtPct(u.pct, 0)} counted` : undefined} />
         {u.total > 0 ? (
           <>
             {rows.map((c) => (
-              <div className="tt-row" key={c.candidate_id}>
-                <i style={{ background: colors[c.candidate_id] ?? '#999' }} />
-                <span>{c.name}</span>
-                <b>{fmtPct((u.votes[c.candidate_id] ?? 0) / u.total)}</b>
-                <em>{fmtInt(u.votes[c.candidate_id] ?? 0)}</em>
-              </div>
+              <TooltipRow key={c.candidate_id} color={colors[c.candidate_id] ?? '#999'} label={c.name}
+                value={fmtPct((u.votes[c.candidate_id] ?? 0) / u.total)} detail={fmtInt(u.votes[c.candidate_id] ?? 0)} />
             ))}
-            <div className="tt-foot">
-              {l.id && <span>Margin: <b>{marginText(l)}</b></span>}
-              {u.pct != null && live && <span>Est. {fmtPct(u.pct, 0)} counted</span>}
-            </div>
+            {l.id && <TooltipFoot><span>Margin</span><b>{marginText(l)}</b></TooltipFoot>}
           </>
-        ) : <div className="tt-muted">No votes counted yet</div>}
+        ) : <TooltipNote>No votes counted yet</TooltipNote>}
       </div>
     )
   }, [unitVotes, cands, colors, live])
@@ -241,6 +234,7 @@ export function CountyTable({ results, contest, live, final = false }: { results
   const cands = results.candidates
   const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
   const rows = results.counties
+  const measure = contest.candidates.some((c) => partyGroup(c.party, c.candidate_id) === 'FOR')
   const columns: Column<CountyResult>[] = [
     { key: 'name', header: 'County', sort: (r) => r.name, render: (r) => <b>{r.name}</b> },
     {
@@ -253,7 +247,7 @@ export function CountyTable({ results, contest, live, final = false }: { results
       },
     },
     {
-      key: 'margin', header: 'Margin', align: 'right', sort: (r) => leaderOf(r.votes, r.total, cands).margin,
+      key: 'margin', header: 'Margin', align: 'right', marginSort: { value: (r) => signedMargin(leaderOf(r.votes, r.total, cands)), kind: measure ? 'measure' : 'party' },
       render: (r) => {
         const l = leaderOf(r.votes, r.total, cands)
         if (!l.id) return '–'

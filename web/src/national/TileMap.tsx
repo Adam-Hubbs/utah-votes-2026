@@ -1,5 +1,7 @@
+import { useRef, useState } from 'react'
+import { Tooltip, TooltipHeader, TooltipNote, TooltipRow } from '../components/Tooltip'
 import type { SenateRace } from './types'
-import { INDEX_LABEL, SEAT_HEX, indexFill, indexText, raceIndex, shortRating } from './lib'
+import { INDEX_LABEL, indexFill, indexText, raceIndex, shortRating } from './lib'
 
 // [row, col] on an 11-column grid; one tile per state so small eastern states stay legible.
 const TILES: Record<string, [number, number]> = {
@@ -15,15 +17,22 @@ const TILES: Record<string, [number, number]> = {
 
 interface Props {
   races: SenateRace[]
-  election: boolean
   selected: string | null
   onSelect: (state: string) => void
 }
 
-export function TileMap({ races, election, selected, onSelect }: Props) {
+export function TileMap({ races, selected, onSelect }: Props) {
   const byState = new Map(races.map((r) => [r.state, r]))
+  const ref = useRef<HTMLDivElement>(null)
+  const [tip, setTip] = useState<{ race: SenateRace; x: number; y: number } | null>(null)
+  const show = (race: SenateRace, el: HTMLElement) => {
+    const box = ref.current?.getBoundingClientRect()
+    const r = el.getBoundingClientRect()
+    if (box) setTip({ race, x: r.left - box.left + r.width / 2, y: r.top - box.top + r.height / 2 })
+  }
+  const bounds = { width: ref.current?.clientWidth ?? 640, height: ref.current?.clientHeight ?? 400 }
   return (
-    <div className="tile-map" role="group" aria-label="2026 U.S. Senate races by state">
+    <div className="tile-map" ref={ref} role="group" aria-label="2026 U.S. Senate races by state" onMouseLeave={() => setTip(null)}>
       {Object.entries(TILES).map(([abbr, [row, col]]) => {
         const race = byState.get(abbr)
         const style = { gridRow: row + 1, gridColumn: col + 1 }
@@ -31,41 +40,40 @@ export function TileMap({ races, election, selected, onSelect }: Props) {
           return <div key={abbr} className={`tile tile-none${abbr === 'UT' ? ' tile-utah' : ''}`} style={style} aria-hidden><span className="tile-abbr">{abbr}</span>{abbr === 'UT' && <span className="tile-sub">No race</span>}</div>
         }
         const idx = raceIndex(race)
-        const called = race.call
-        const bg = called ? SEAT_HEX[called.winner_party] : election ? `color-mix(in srgb, ${indexFill(idx)} 38%, #fff)` : indexFill(idx)
-        const fg = called ? '#fff' : election ? '#222' : indexText(idx)
-        const sub = called ? `${called.winner_party === 'IND' ? 'I' : called.winner_party[0]} ✓` : shortRating(race.ratings.cook).replace('Solid ', '').replace('Toss-up', 'Toss')
+        const sub = shortRating(race.ratings.cook).replace('Solid ', '').replace('Toss-up', 'Toss')
         return (
-          <button key={abbr} type="button" className={`tile${selected === abbr ? ' sel' : ''}${called ? ' called' : ''}`} style={{ ...style, background: bg, color: fg }}
+          <button key={abbr} type="button" className={`tile${selected === abbr ? ' sel' : ''}`} style={{ ...style, background: indexFill(idx), color: indexText(idx) }}
             onClick={() => onSelect(abbr)} aria-pressed={selected === abbr}
-            aria-label={`${race.state_name}${race.special ? ' special election' : ''}: ${called ? `${called.winner_party} win called` : INDEX_LABEL[idx]}`}
-            title={`${race.state_name}${race.special ? ' (special)' : ''} · ${called ? `Called: ${called.winner_name ?? called.winner_party}` : INDEX_LABEL[idx]}`}>
+            aria-label={`${race.state_name}${race.special ? ' special election' : ''}: ${INDEX_LABEL[idx]}`}
+            onMouseEnter={(e) => show(race, e.currentTarget)} onFocus={(e) => show(race, e.currentTarget)} onBlur={() => setTip(null)}>
             <span className="tile-abbr">{abbr}</span>
             <span className="tile-sub">{sub}</span>
             {race.special && <span className="tile-flag">S</span>}
           </button>
         )
       })}
+      {tip && (
+        <Tooltip x={tip.x} y={tip.y} bounds={bounds}>
+          <TooltipHeader title={tip.race.state_name} subtitle={tip.race.special ? 'Special election' : undefined} />
+          <TooltipRow label="Consensus" value={INDEX_LABEL[raceIndex(tip.race)]} />
+          {(['cook', 'sabato', 'inside'] as const).map((k) => tip.race.ratings[k] && (
+            <TooltipRow key={k} label={{ cook: 'Cook', sabato: 'Sabato', inside: 'Inside Elections' }[k]} value={shortRating(tip.race.ratings[k])} />
+          ))}
+          <TooltipNote>Click for details</TooltipNote>
+        </Tooltip>
+      )}
     </div>
   )
 }
 
-export function MapLegend({ election }: { election: boolean }) {
+export function MapLegend() {
   return (
     <div className="legend tile-legend">
-      <div className="legend-title">{election ? 'Called races and consensus rating' : 'Consensus of Cook, Sabato and Inside Elections'}</div>
+      <div className="legend-title">Consensus rating (Cook, Sabato and Inside Elections), not results</div>
       <div className="rating-legend-bar">
         {[0, 1, 2, 3, 4, 5, 6].map((i) => <i key={i} style={{ background: indexFill(i) }} title={INDEX_LABEL[i]} />)}
       </div>
       <div className="legend-ends"><span>Solid D</span><span>Toss-up</span><span>Solid R</span></div>
-      {election && (
-        <div className="legend-calls">
-          <span><i style={{ background: SEAT_HEX.DEM }} /> D called</span>
-          <span><i style={{ background: SEAT_HEX.REP }} /> R called</span>
-          <span><i style={{ background: SEAT_HEX.IND }} /> Independent called</span>
-          <span className="muted">Pale tiles are not yet called.</span>
-        </div>
-      )}
       <div className="legend-calls"><span><b className="tile-flag-inline">S</b> special election</span><span className="muted">Grey: no Senate race in 2026</span></div>
     </div>
   )

@@ -14,6 +14,7 @@ import { rMargin } from '../lib/swing'
 import { fmtMargin } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 import type { IndexElection } from '../types/data'
+import { TooltipHeader, TooltipRow } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -138,9 +139,9 @@ function Swing({ past }: { past: IndexElection[] }) {
   const map = useMemo(() => new Map((swings ?? []).map((s) => [s.fips, s])), [swings])
   const columns: Column<NonNullable<typeof swings>[number]>[] = [
     { key: 'name', header: 'County', sort: (r) => r.name, render: (r) => <b>{r.name}</b> },
-    { key: 'ma', header: 'First', align: 'right', sort: (r) => r.ma, render: (r) => <span className="num">{r.ma == null ? '–' : fmtMargin(r.ma)}</span> },
-    { key: 'mb', header: 'Second', align: 'right', sort: (r) => r.mb, render: (r) => <span className="num">{r.mb == null ? '–' : fmtMargin(r.mb)}</span> },
-    { key: 'swing', header: 'Swing', align: 'right', sort: (r) => r.swing, render: (r) => <span className={`num ${r.swing != null && r.swing > 0 ? 'r' : 'd'}`}>{r.swing == null ? '–' : `${r.swing > 0 ? 'R' : 'D'} ${Math.abs(r.swing * 100).toFixed(1)}`}</span> },
+    { key: 'ma', header: 'First', align: 'right', marginSort: { value: (r) => r.ma }, render: (r) => <span className="num">{r.ma == null ? '–' : fmtMargin(r.ma)}</span> },
+    { key: 'mb', header: 'Second', align: 'right', marginSort: { value: (r) => r.mb }, render: (r) => <span className="num">{r.mb == null ? '–' : fmtMargin(r.mb)}</span> },
+    { key: 'swing', header: 'Swing', align: 'right', marginSort: { value: (r) => r.swing }, render: (r) => <span className={`num ${r.swing != null && r.swing > 0 ? 'r' : 'd'}`}>{r.swing == null ? '–' : `${r.swing > 0 ? 'R' : 'D'} ${Math.abs(r.swing * 100).toFixed(1)}`}</span> },
   ]
   return (
     <div>
@@ -153,7 +154,7 @@ function Swing({ past }: { past: IndexElection[] }) {
           <div>
             <ChoroplethMap features={counties.features as F[]} idOf={(f) => String(f.properties?.fips)} selectedId={selected} onSelect={(f) => setSelected(f ? String(f.properties?.fips) : null)}
               fill={(f) => { const s = map.get(String(f.properties?.fips)); return s?.swing == null ? NO_DATA : divergingFill(s.swing, 0.2) }}
-              tooltip={(f) => { const s = map.get(String(f.properties?.fips)); return <div><div className="tt-title">{s?.name} County</div><div className="tt-row"><span>First</span><b>{s?.ma == null ? '–' : fmtMargin(s.ma)}</b></div><div className="tt-row"><span>Second</span><b>{s?.mb == null ? '–' : fmtMargin(s.mb)}</b></div></div> }}
+              tooltip={(f) => { const s = map.get(String(f.properties?.fips)); return <div><TooltipHeader title={`${s?.name} County`} /><TooltipRow label="First" value={s?.ma == null ? '–' : fmtMargin(s.ma)} /><TooltipRow label="Second" value={s?.mb == null ? '–' : fmtMargin(s.mb)} /></div> }}
               aspect={1.1} maxHeight={520} ariaLabel="Map of change in county Republican margin" />
             <ContinuousLegend title="Swing in Republican margin" lo="More Democratic" hi="More Republican" colors={[...rampFor('DEM').slice().reverse(), '#f2f2f2', ...rampFor('REP')]} />
           </div>

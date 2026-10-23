@@ -5,6 +5,7 @@ import { bisector, extent, max, min } from 'd3-array'
 import { timeFormat } from 'd3-time-format'
 import { useSize } from '../lib/hooks'
 import { fmtDayYear } from '../lib/format'
+import { TooltipHeader, TooltipNote, TooltipRow } from './Tooltip'
 
 export interface TPoint { x: Date; y: number; lo?: number; hi?: number }
 export interface TDot { x: Date; y: number; n?: number; tip?: string }
@@ -184,15 +185,11 @@ export function PollChart({
       </svg>
       {hover && hoverRows.length > 0 && (
         <div className="chart-tip" style={{ left: Math.min(w - 190, Math.max(m.l, m.l + x(hover) + 12)), top: 8 }}>
-          <div className="chart-tip-date">{tipDateFormat(hover)}</div>
+          <TooltipHeader title={tipDateFormat(hover)} />
           {hoverRows.map((row) => (
-            <div key={row.s.id} className="chart-tip-row">
-              <i style={{ background: row.s.color }} />
-              <span>{row.s.label}</span>
-              <b>{valueFormat(row.p.y)}</b>
-            </div>
+            <TooltipRow key={row.s.id} color={row.s.color} label={row.s.label} value={valueFormat(row.p.y)} />
           ))}
-          {hint?.(hover) && <div className="chart-tip-hint">{hint(hover)}</div>}
+          {hint?.(hover) && <TooltipNote>{hint(hover)}</TooltipNote>}
         </div>
       )}
     </div>

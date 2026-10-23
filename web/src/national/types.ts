@@ -1,12 +1,5 @@
 export type SeatParty = 'DEM' | 'REP' | 'IND'
 
-export interface NatCall {
-  winner_party: SeatParty
-  winner_name: string | null
-  called_at: string | null
-  called_by: string | null
-}
-
 export interface NatCandidate { name: string; party: string }
 
 export interface NatPollAvg {
@@ -29,7 +22,6 @@ export interface SenateRace {
   poll_avg: NatPollAvg
   ratings: { cook: string | null; sabato: string | null; inside: string | null }
   tracker: boolean
-  call: NatCall | null
 }
 
 export interface Composition { DEM: number; REP: number; IND: number }
@@ -45,10 +37,7 @@ export interface SenateFile {
   poll_method: string
   poll_note: string
   races: SenateRace[]
-  tally: { DEM_won: number; REP_won: number; IND_won: number; uncalled: number }
 }
-
-export interface HouseCall extends NatCall { state: string; district: number | null }
 
 export interface HouseFile {
   updated_at: string
@@ -59,6 +48,4 @@ export interface HouseFile {
     sources: { id: 'cook' | 'sabato' | 'inside'; as_of: string; counts: Record<string, number> }[]
   }
   generic_ballot: { date: string; DEM: number; REP: number; margin: number; margin_lo: number; margin_hi: number; n_polls: number } | null
-  calls: HouseCall[]
-  tally: { DEM_won: number; REP_won: number; IND_won: number; uncalled: number }
 }

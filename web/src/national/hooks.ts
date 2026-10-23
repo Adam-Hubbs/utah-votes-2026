@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { getJson } from '../data/api'
-import { flags } from '../data/base'
 import { useSite } from '../data/site'
 import type { Loaded } from '../data/hooks'
 import type { ContestAverage, Poll } from '../types/data'
@@ -9,7 +8,7 @@ import type { HouseFile, SenateFile } from './types'
 function useNationalJson<T>(file: string): Loaded<T> {
   const { tick, mode } = useSite()
   const live = mode === 'live'
-  const rel = `national/${flags.sim ? 'sim/' : ''}${file}`
+  const rel = `national/${file}`
   const dep = live ? tick : 0
   const [state, setState] = useState<{ rel: string; data: Loaded<T> }>({ rel, data: undefined })
   useEffect(() => {

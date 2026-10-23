@@ -20,18 +20,29 @@ export function MethodologyPage() {
       </header>
 
       <article className="prose">
+        <h2>Polls, forecast and results are different things</h2>
+        <ul>
+          <li><b>Polling average:</b> what surveys say. It is not a vote count and not a prediction by itself.</li>
+          <li><b>Our forecast:</b> a model’s projection of the final result, built from the polling average, 2024 results re-assigned to the new districts and the national environment. It is shown as a chance of winning and a projected margin with a range.</li>
+          <li><b>Results:</b> only counted votes. On election night the forecast becomes a live projection of the final result; it is always labelled separately from the votes counted so far.</li>
+        </ul>
+
         <h2>Poll averages</h2>
-        <p>Poll averages combine every public Utah poll found in The New York Times poll database for a given race. Newer polls and polls with larger samples count for more, and each poll’s weight fades over a few weeks. The shaded band around each line is a 95% uncertainty range that widens when there are few polls or they are old.</p>
-        <p>Many Utah races are polled only a handful of times, so we say so: a chart marked “Based on 1 poll” is that poll and nothing more. Primary polls are kept separate from general election polls, and the dots on each chart are the individual surveys, sized by sample size.</p>
+        <p>Poll averages combine every public Utah poll found in The New York Times poll database for a given race. Newer polls and polls with larger samples count for more, and each poll’s weight fades over a few weeks. The shaded band around each line is a 95% uncertainty range that widens when there are few polls or they are old. Many Utah races are polled only a handful of times, so we say so: an average marked “Based on 1 poll” is that poll and nothing more. Primary polls are kept separate from general election polls.</p>
         {averages && <p className="callout-small"><b>Current averaging method:</b> {averages.method} <span className="muted">(updated {fmtDayYear(averages.updated_at)})</span></p>}
 
         <h2>Race ratings</h2>
         <p>Ratings are collected from independent forecasters. Each source uses its own words (Safe, Solid, Likely, Lean, Toss-up); we map them onto one seven-point scale from Solid Democratic to Solid Republican. The consensus is the average position of the sources, rounded to the nearest category.{ratings ? ` Sources: ${ratings.sources.map((s) => s.name).join(', ')}.` : ''}</p>
 
+        <h2>Legislative race ratings</h2>
+        <p>Each state House and Senate race gets a pre-election rating from the forecast model’s win probability for the favourite: Safe at 97% or higher, Likely at 85–97%, Lean at 65–85%, and Toss-up below 65%. Races with a single candidate are Uncontested. Where the model has no forecast, we use the absolute 2024 presidential margin in the district instead: 20 points or more is Safe, 10–20 Likely, 5–10 Lean and under 5 a Toss-up. Hovering a rating shows which source was used. The rating is fixed before votes are counted and does not change on election night.</p>
+
         <h2>Estimating how much vote is left</h2>
         <p>Utah votes almost entirely by mail, and counties report in batches over about two weeks. A precinct “reporting” therefore says little about how much of the vote is in. Instead we estimate the share of the <em>expected</em> final vote that has been counted.</p>
         <p>A Bayesian model predicts each county’s final number of ballots from its registration, past turnout and the ballots already counted, and simulates thousands of plausible outcomes. The percent shown is the median; the range is a 90% interval from the simulations. Statewide totals are the sum across simulated counties, so they are more certain than any single county. Estimates are least reliable early in the night and in small counties.</p>
-        <p>The model is a guide, not a call. Late-arriving ballots can differ in partisanship from those counted first, and the site does not project winners except where a result has been called and labelled.</p>
+        <p>The model is a guide, not a call. Late-arriving ballots can differ in partisanship from those counted first, and the site does not project winners.</p>
+        <h2>Winners and “leading”</h2>
+        <p>We do not make race calls. Winners are marked automatically once results are official: when the Lieutenant Governor’s office reports the election results as final, the top vote-getter (the top candidates, where several seats are open) is marked the winner, and a measure or judicial retention is decided by whether it clears its threshold (more than 50% yes). Until then, candidates are shown as leading. The national page shows pre-election context only (ratings and polls), not results.</p>
         {model && <p className="callout-small"><b>Current model:</b> {model.method}</p>}
 
         <h2>Data sources</h2>
@@ -53,8 +64,8 @@ export function MethodologyPage() {
           <li><b>Election night:</b> results, the turnout model and the vote timeline refresh about every three minutes; this page checks for new data every minute.</li>
           <li><b>After election night:</b> county canvasses continue for roughly two weeks, with updates every 30 minutes until certification.</li>
         </ul>
-        <h2>The needle: chance of winning</h2>
-        <p>The needle projects the <em>final</em> result of each U.S. House race, each amendment and each legislative contest. It is not a call and it does not use the percent counted alone: counted votes are exact, and the ballots still to come are simulated 5,000 times (2,500 for legislative contests).</p>
+        <h2>Our forecast and the needle: chance of winning</h2>
+        <p>Before votes arrive, the needle shows our forecast (faded); once counting starts it is a live projection. It projects the <em>final</em> result of each U.S. House race, each amendment and each legislative contest. It is not a call and it does not use the percent counted alone: counted votes are exact, and the ballots still to come are simulated 5,000 times (2,500 for legislative contests).</p>
         <ul>
           <li><b>Before votes arrive</b> the starting estimate blends the poll average with a fundamentals baseline: 2024 presidential results re-assigned to the 2026 precincts, nudged by how far the national generic ballot has moved since 2024 (damped by half for Utah). Legislative contests and amendments have no polls, so they use the baseline (legislature) or a deliberately wide range around 50% (amendments). The needle is shown faded until results arrive.</li>
           <li><b>As precincts report</b>, each counted precinct is compared with its 2024 baseline. Those differences show how this contest is running relative to 2024 in each county and statewide; the more precincts are in, the less the starting estimate matters. For amendments the model learns how support varies with a precinct’s 2024 partisanship from the precincts already counted.</li>

@@ -15,7 +15,7 @@ const cls = (s: SeatState): string => `seat seat-${(s.bucket ?? 'none').toLowerC
 
 const seatTitle = (s: SeatState, chamber: 'house' | 'senate'): string => {
   const head = `${seatLabel(chamber)} ${s.seat.district}`
-  if (s.leader) return `${head}: ${s.leader.name}${s.status === 'won' ? ' (called)' : ' leading'}${s.flip ? ', flip' : ''}`
+  if (s.leader) return `${head}: ${s.leader.name}${s.status === 'won' ? ' (won)' : ' leading'}${s.flip ? ', flip' : ''}`
   if (s.status === 'holdover') return `${head}: ${s.seat.holder ?? 'Vacant'} (not up in 2026)`
   if (s.status === 'vacant') return `${head}: vacant`
   if (s.status === 'untracked') return `${head}: contest not yet in results feed`
@@ -145,7 +145,7 @@ export function BalanceOfPower({ chamber, data, states, started }: Props) {
 function Legend({ started }: { started: boolean }) {
   const items: { c: string; label: string }[] = started
     ? [
-        { c: 'seat seat-dem st-won', label: 'Called' }, { c: 'seat seat-dem st-leading', label: 'Leading' },
+        { c: 'seat seat-dem st-won', label: 'Won (official)' }, { c: 'seat seat-dem st-leading', label: 'Leading' },
         { c: 'seat seat-dem st-holdover', label: 'Not up in 2026' }, { c: 'seat seat-none st-pending', label: 'No result yet' },
         { c: 'seat seat-rep st-won flip', label: 'Flip from current holder' },
       ]

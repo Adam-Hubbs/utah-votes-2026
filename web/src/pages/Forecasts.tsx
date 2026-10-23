@@ -1,28 +1,60 @@
 import { Link } from 'react-router-dom'
-import { useRatings, useSummary } from '../data/hooks'
+import { useCandidates, useNeedle, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
+import { ForecastSummary } from '../components/ForecastSummary'
+import { sideOf, signed, type NamedCandidate } from '../lib/needle'
 import { Gate, Section } from '../components/Ui'
 import { RatingChip, RatingStrip } from '../components/RatingChip'
 import { SortableTable, type Column } from '../components/SortableTable'
 import { consensus } from '../lib/ratings'
 import { fmtDayYear, fmtPct } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
-import type { Ratings } from '../types/data'
+import type { NeedleContest, Ratings } from '../types/data'
 
 export function ForecastsPage() {
   useDocTitle('Forecasts')
   const ratings = useRatings()
-  const { currentElection } = useSite()
+  const { currentElection, config, mode } = useSite()
   const summary = useSummary(currentElection)
-  const nameOf = (id: string) => summary?.contests.find((c) => c.contest_id === id)?.name ?? id.replace('us-house-', 'U.S. House District ')
+  const needle = useNeedle(currentElection)
+  const roster = useCandidates()
+  const nameOf = (id: string) => summary?.contests.find((c) => c.contest_id === id)?.name
+    ?? id.replace('us-house-', 'U.S. House District ').replace('state-senate-', 'State Senate ').replace('state-house-', 'State House ').replace('amendment-', 'Amendment ').replace('Amendment a', 'Amendment A').replace('Amendment b', 'Amendment B')
+  const candsOf = (id: string): NamedCandidate[] => {
+    const fromSummary = summary?.contests.find((c) => c.contest_id === id)?.candidates
+    if (fromSummary?.length) return fromSummary
+    return roster?.[id] ?? []
+  }
+  const featured = config.featured_contests.filter((id) => needle?.contests[id])
+  const others = Object.keys(needle?.contests ?? {}).filter((id) => !config.featured_contests.includes(id))
+  const nameFallback = (slug: string) => slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
   return (
     <div className="page">
       <header className="page-head">
         <div className="kicker">Forecasts</div>
-        <h1 className="headline sm">Race ratings</h1>
-        <p className="dek">How independent forecasters rate each Utah race. The consensus is the average of the sources, rounded to the nearest category.</p>
+        <h1 className="headline sm">Our forecast, and outside views</h1>
+        <p className="dek">Our model’s projection of each race, followed by what expert raters and prediction markets think. None of these are election results.</p>
       </header>
+      {needle && featured.length > 0 && (
+        <Section title={mode === 'pre' ? 'Our forecast' : 'Projection'} dek={mode === 'pre' ? 'Based on the polling average, 2024 results in the new district and the national environment. Updated ' + fmtDayYear(needle.updated_at) + '.' : 'During and after counting this is a live projection of the final result, not the count. Pre-election forecasts are replaced as votes arrive.'}
+          aside={<Link to="/methodology" className="more">Methodology →</Link>}>
+          <div className="forecast-grid">
+            {featured.map((id) => (
+              <div className="forecast-card" key={id}>
+                <h3><Link to={`/race/${id}`}>{nameOf(id)}</Link></h3>
+                <ForecastSummary needle={needle.contests[id]} candidates={candsOf(id)} title={nameOf(id)} measure={id.startsWith('amendment-')} showNote={false} />
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+      {needle && others.length > 0 && (
+        <Section title="Legislature" dek="Win probability for the contests our model covers. Click a column to sort.">
+          <LegislatureForecastTable ids={others} needle={needle.contests} nameOf={nameOf} candsOf={candsOf} nameFallback={nameFallback} />
+        </Section>
+      )}
+      <h2 className="section-title outside-views">Outside views</h2>
       <Gate data={ratings} what="Race ratings">
         {(r) => <RatingsTable ratings={r} nameOf={nameOf} />}
       </Gate>
@@ -46,7 +78,7 @@ function RatingsTable({ ratings, nameOf }: { ratings: Ratings; nameOf: (id: stri
   const marketSources = [...new Set(Object.values(odds ?? {}).flatMap((v) => v.map((x) => x.source)))]
   return (
     <>
-      <Section>
+      <Section title="Race ratings" dek="How independent forecasters rate each Utah race. The consensus is the average of the sources, rounded to the nearest category.">
         <SortableTable rows={rows} columns={columns} rowKey={(r) => r.id} initialSort={{ key: 'race', dir: 'asc' }} caption="Race ratings by source" />
         <p className="note">Ratings updated {fmtDayYear(ratings.updated_at)}. Safe, Solid, Likely, Lean and Toss-up are each source’s own wording, mapped to one seven-point scale.</p>
       </Section>
@@ -82,4 +114,26 @@ function RatingsTable({ ratings, nameOf }: { ratings: Ratings; nameOf: (id: stri
       )}
     </>
   )
+}
+
+interface FcRow { id: string; nc: NeedleContest }
+
+function LegislatureForecastTable({ ids, needle, nameOf, candsOf, nameFallback }: {
+  ids: string[]; needle: Record<string, NeedleContest>; nameOf: (id: string) => string; candsOf: (id: string) => NamedCandidate[]; nameFallback: (slug: string) => string
+}) {
+  const rows: FcRow[] = ids.map((id) => ({ id, nc: needle[id] }))
+  const fav = (r: FcRow) => {
+    const [a, b] = r.nc.pair
+    const pa = r.nc.prob[a] ?? 0.5
+    const id = pa >= 0.5 ? a : b
+    const side = sideOf(id, candsOf(r.id), nameFallback(id))
+    return { side, p: Math.max(pa, 1 - pa), lead: (pa >= 0.5 ? 1 : -1) * r.nc.margin.median }
+  }
+  const columns: Column<FcRow>[] = [
+    { key: 'race', header: 'Contest', className: 'nowrap', sort: (r) => r.id, render: (r) => <b>{nameOf(r.id)}</b> },
+    { key: 'fav', header: 'Favored', sort: (r) => fav(r).side.name, render: (r) => fav(r).side.name },
+    { key: 'p', header: 'Chance to win', align: 'right', className: 'fc-pct', sort: (r) => fav(r).p, render: (r) => { const p = fav(r).p; return p >= 0.99 ? '>99%' : `${Math.round(p * 100)}%` } },
+    { key: 'm', header: 'Projected margin', align: 'right', sort: (r) => fav(r).lead, render: (r) => `${signed(Math.round(fav(r).lead * 100))} pts` },
+  ]
+  return <div className="legis-forecast"><SortableTable rows={rows} columns={columns} rowKey={(r) => r.id} initialSort={{ key: 'p', dir: 'asc' }} caption="Legislative contests: our forecast" /></div>
 }

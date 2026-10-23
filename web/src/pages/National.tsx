@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNational } from '../data/hooks'
-import { useSite } from '../data/site'
 import { Gate, Section, Segmented } from '../components/Ui'
 import { PollTracker } from '../components/PollTracker'
 import { LastUpdated } from '../components/LastUpdated'
@@ -15,7 +14,6 @@ import '../national/national.css'
 
 export function NationalPage() {
   useDocTitle('National')
-  const { mode } = useSite()
   const senate = useSenate()
   const house = useHouse()
   const polls = useSenatePolls()
@@ -23,7 +21,6 @@ export function NationalPage() {
   const [selected, setSelected] = useState<string | null>(null)
   const [trackerState, setTrackerState] = useState<string | null>(null)
 
-  const election = mode !== 'pre' || (senate ? senate.tally.uncalled < senate.races.length : false)
   const race = senate?.races.find((r) => r.state === selected) ?? null
   const trackers = senate?.races.filter((r) => r.tracker && polls?.averages[`senate-${r.state}`]) ?? []
   const tState = trackerState ?? trackers[0]?.state ?? null
@@ -35,7 +32,7 @@ export function NationalPage() {
         <h1 className="headline sm">The U.S. Senate and House</h1>
         <p className="dek">
           Utah has no Senate race this year, and our focus stays on <Link to="/results">Utah’s races</Link>. This page tracks the national contests that decide control of Congress.
-          {election && ' Calls are entered by hand from news-organization projections, so they can lag the networks.'}
+ It shows pre-election context only (current composition, race ratings and poll averages); we do not report national results.
         </p>
       </header>
 
@@ -48,8 +45,8 @@ export function NationalPage() {
           {(s) => (
             <div className="two-col map-cols">
               <div>
-                <TileMap races={s.races} election={election} selected={selected} onSelect={(st) => setSelected(selected === st ? null : st)} />
-                <MapLegend election={election} />
+                <TileMap races={s.races} selected={selected} onSelect={(st) => setSelected(selected === st ? null : st)} />
+                <MapLegend />
               </div>
               <div>
                 {race ? <RaceDetail race={race} senate={s} /> : (

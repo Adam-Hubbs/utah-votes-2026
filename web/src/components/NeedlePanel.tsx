@@ -7,7 +7,7 @@ import { Section } from './Ui'
 import type { NeedleContest, SummaryCandidate, SummaryContest } from '../types/data'
 
 /** Full needle plus history for one contest; renders nothing unless the pipeline published a needle for it. */
-export function NeedlePanel({ electionId, contestId, headingId = 'needle' }: { electionId: string; contestId: string; headingId?: string }) {
+export function NeedlePanel({ electionId, contestId, headingId = 'needle', title = 'Who is likely to win' }: { electionId: string; contestId: string; headingId?: string; title?: string }) {
   const needle = useNeedle(electionId)
   const summary = useSummary(electionId)
   const [jitter, setJitter] = useJitterSetting()
@@ -16,7 +16,7 @@ export function NeedlePanel({ electionId, contestId, headingId = 'needle' }: { e
   if (!nc || !contest) return null
   const live = nc.stage !== 'pre'
   return (
-    <Section id={headingId} title="Who is likely to win" dek={live ? 'A statistical projection of the final result from votes counted so far and the ballots still expected.' : undefined}>
+    <Section id={headingId} title={title} dek={live ? 'Our model’s projection of the final result from votes counted so far and the ballots still expected. This is not the count.' : undefined}>
       <div className="needle-panel">
         <Needle needle={nc} candidates={contest.candidates} title={contest.name} measure={contest.type === 'measure'} updatedAt={needle?.updated_at} jitter={jitter} onToggleJitter={setJitter} />
         {live && (

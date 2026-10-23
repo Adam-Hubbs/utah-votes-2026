@@ -1,18 +1,19 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SortableTable, type Column } from '../SortableTable'
+import { CompetitivenessChip } from './CompetitivenessChip'
 import { PartyChip } from '../PartyChip'
 import { ReportingMeter } from '../ReportingMeter'
 import { Segmented } from '../Ui'
 import { useSite } from '../../data/site'
 import { fmtMargin, fmtPct } from '../../lib/format'
 import { lastName } from '../../lib/results'
+import { TIER_NAME, matchesTier, type TierFilter } from '../../lib/competitiveness'
 import { seatLabel, type SeatState } from '../../lib/legislature'
 
 type Chamber = 'all' | 'house' | 'senate'
-type Show = 'all' | 'competitive' | 'open' | 'flips' | 'uncontested'
+type Show = 'all' | 'open' | 'flips'
 
-const COMPETITIVE = 0.1
 const PARTY_ORDER: Record<string, number> = { REP: 0, DEM: 1 }
 
 const isOpen = (s: SeatState): boolean => s.seat.vacant || s.seat.incumbent_running === false
@@ -28,6 +29,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
   const { currentElection } = useSite()
   const [chamber, setChamber] = useState<Chamber>('all')
   const [show, setShow] = useState<Show>('all')
+  const [tier, setTier] = useState<TierFilter>('all')
   const [q, setQ] = useState('')
 
   const rows = useMemo(() => {
@@ -35,15 +37,14 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
     return states.filter((s) => {
       if (!s.seat.up) return false
       if (chamber !== 'all' && s.chamber !== chamber) return false
-      if (show === 'competitive' && !(s.seat.pres24_margin != null && Math.abs(s.seat.pres24_margin) < COMPETITIVE)) return false
+      if (!matchesTier(s.rating, tier)) return false
       if (show === 'open' && !isOpen(s)) return false
       if (show === 'flips' && !s.flip) return false
-      if (show === 'uncontested' && !s.seat.uncontested) return false
       if (!needle) return true
       const hay = [`${s.chamber} ${s.seat.district}`, s.seat.holder ?? '', ...(s.contest?.candidates.map((c) => c.name) ?? [])].join(' ').toLowerCase()
       return hay.includes(needle)
     })
-  }, [states, chamber, show, q])
+  }, [states, chamber, show, tier, q])
 
   const columns: Column<SeatState>[] = [
     {
@@ -84,7 +85,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
             render: (s) => s.leader ? (
               <div>
                 <PartyChip party={s.leader.party} /> <b>{lastName(s.leader.name)}</b> <span className="muted">{s.leader.party === 'REP' ? 'R' : s.leader.party === 'DEM' ? 'D' : ''}+{(s.margin * 100).toFixed(1)}</span>
-                <div className="sub">{s.called ? 'Called' : 'Leading'}</div>
+                <div className="sub">{s.called ? 'Won' : 'Leading'}</div>
               </div>
             ) : <span className="muted">–</span>,
           },
@@ -93,13 +94,18 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
         ] satisfies Column<SeatState>[])
       : []),
     {
+      key: 'rating', header: 'Pre-election rating', sort: (s) => s.rating.sortKey,
+      title: 'Rating from the pre-election forecast model, or from the 2024 presidential margin where there is no forecast. Hover a chip for its source.',
+      render: (s) => <CompetitivenessChip rating={s.rating} />,
+    },
+    {
       key: 'pres', header: '2024 pres.', align: 'right', title: 'Donald Trump minus Kamala Harris margin in the district (2024), from precinct results.',
-      sort: (s) => (s.seat.pres24_margin == null ? null : Math.abs(s.seat.pres24_margin)),
+      marginSort: { value: (s) => s.seat.pres24_margin },
       render: (s) => {
         const m = s.seat.pres24_margin
         return (
           <span className={`nowrap ${m != null && m > 0 ? 'rep-text' : 'dem-text'}`}>
-            {fmtMargin(m, 0)}{m != null && Math.abs(m) < COMPETITIVE && <span className="tag comp">Competitive</span>}
+            {fmtMargin(m, 0)}
           </span>
         )
       },
@@ -111,10 +117,12 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
       <div className="selectors race-filters">
         <Segmented<Chamber> label="Chamber" value={chamber} onChange={setChamber} options={[{ value: 'all', label: 'Both' }, { value: 'house', label: 'House' }, { value: 'senate', label: 'Senate' }]} />
         <Segmented<Show> label="Filter" value={show} onChange={setShow}
-          options={[{ value: 'all', label: 'All' }, { value: 'competitive', label: 'Competitive' }, { value: 'open', label: 'Open seats' }, ...(started ? [{ value: 'flips' as const, label: 'Flips' }] : []), { value: 'uncontested', label: 'Unopposed' }]} />
+          options={[{ value: 'all', label: 'All' }, { value: 'open', label: 'Open seats' }, ...(started ? [{ value: 'flips' as const, label: 'Flips' }] : [])]} />
+        <Segmented<TierFilter> label="Pre-election rating" value={tier} onChange={setTier}
+          options={[{ value: 'all', label: 'All' }, { value: 'competitive', label: 'Competitive' }, { value: 'toss-up', label: TIER_NAME['toss-up'] }, { value: 'lean', label: 'Lean' }, { value: 'likely', label: 'Likely' }, { value: 'safe', label: 'Safe' }, { value: 'uncontested', label: 'Uncontested' }]} />
         <input className="search" type="search" placeholder="Search district, name or candidate" aria-label="Search races" value={q} onChange={(e) => setQ(e.target.value)} />
       </div>
-      <p className="note small">{rows.length} race{rows.length === 1 ? '' : 's'}. “Competitive” means the 2024 presidential margin in the district was under 10 points.</p>
+      <p className="note small">{rows.length} race{rows.length === 1 ? '' : 's'}. Ratings are from before the election and do not change as votes come in; “Competitive” means Toss-up or Lean. See the methodology page for how they are set.</p>
       <SortableTable<SeatState> rows={rows} columns={columns} rowKey={rowKey} initialSort={{ key: 'seat', dir: 'asc' }} maxHeight={640}
         caption="State legislative races"
         onRowClick={(s) => { if (s.seat.contest_id) navigate(`/results/${currentElection}/${s.seat.contest_id}`) }} empty="No races match." />

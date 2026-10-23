@@ -56,9 +56,9 @@ fetch_parsed <- function() {
   list(parsed = fetch_fallback_parsed(), etag = NA_character_, via = "data")
 }
 
-# Manual inputs that change the output without the source changing (calls, candidates, remaining-ballot overrides).
+# Manual inputs that change the output without the source changing (candidates, remaining-ballot overrides).
 inputs_hash <- function() {
-  files <- file.path(project_root(), "pipeline", "config", c("calls.csv", "candidates.csv", "remaining_ballots.csv", "live.yml"))
+  files <- file.path(project_root(), "pipeline", "config", c("candidates.csv", "remaining_ballots.csv", "live.yml"))
   unname(tools::md5sum(files[file.exists(files)])) |> str_c(collapse = "")
 }
 
@@ -79,13 +79,12 @@ scrape_once <- function(force = FALSE, now = Sys.time()) {
   src <- fetch_parsed()
   state <- fetch_state_data()
   candidates <- read_candidates()
-  calls <- read_calls()
   official <- isTRUE(state$official)
   winners <- if (official) winners_to_ids(state$winners, candidates) else NULL
   t_iso <- format(as.POSIXct(now, tz = "UTC"), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
   as_of <- state$as_of %||% t_iso
 
-  results <- build_results(src$parsed, candidates, calls, status = "live", as_of = as_of, official_winners = winners, updated_at = t_iso, cfg = cfg)
+  results <- build_results(src$parsed, candidates, status = "live", as_of = as_of, official = official, official_winners = winners, updated_at = t_iso, cfg = cfg)
   status <- case_when(official ~ "final", results$max_votes > 0 ~ "live", .default = "pre")
   results$summary$status <- status
   results$summary$source_etag <- src$etag

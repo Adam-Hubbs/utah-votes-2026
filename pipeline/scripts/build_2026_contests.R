@@ -20,7 +20,7 @@ if (is.null(existing) || "--refresh-candidates" %in% args) {
 candidates <- read_candidates()
 write_site_json(candidates_json(candidates), "candidates.json")
 
-results <- build_results(parsed, candidates, read_calls(), status = "pre", as_of = j$createdAt, cfg = cfg)
+results <- build_results(parsed, candidates, status = "pre", as_of = j$createdAt, cfg = cfg)
 results$summary$source_etag <- ev_export_etag()$etag
 results$summary$inputs_hash <- inputs_hash()
 staging <- file.path(tempdir(), "pre")

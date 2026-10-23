@@ -54,8 +54,7 @@ maybe_deploy() {
 
 while :; do
   log "scrape start"
-  # National tallies come from hand-entered calls (pipeline/config/national_calls.csv); a failure here must not block Utah results.
-  [ "${PUSH:-1}" = "0" ] || git pull --rebase --autostash -q origin main || log "pull failed; using local calls"
+  # A failure here must not block Utah results.
   Rscript pipeline/scripts/build_national.R || log "national build failed (previous data left in place)"
   if Rscript pipeline/scripts/scrape_live.R; then
     export UTEL_SKIP_CONNCHECK=1

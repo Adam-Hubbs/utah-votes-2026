@@ -71,36 +71,10 @@ rating_score <- function(label) {
   )
 }
 
-read_calls <- function(file = "national_calls.csv") {
-  path <- file.path(project_root(), "pipeline", "config", file)
-  calls <- read_csv(path, col_types = cols(.default = "c"), show_col_types = FALSE) |>
-    mutate(across(everything(), \(x) na_if(str_squish(x), "")))
-  bad <- calls |> filter(!winner_party %in% c("DEM", "REP", "IND") | !chamber %in% c("senate", "house"))
-  if (nrow(bad) > 0) {
-    stop("Invalid rows in ", file, " (chamber must be senate|house, winner_party DEM|REP|IND): ", str_c(bad$state, bad$district, collapse = ", "), call. = FALSE)
-  }
-  calls
-}
-
-call_record <- function(calls) {
-  calls |>
-    transmute(
-      state, district = suppressWarnings(as.integer(district)),
-      winner_party, winner_name, called_at, called_by, note
-    )
-}
-
-party_tally <- function(called, total) {
-  counts <- called |> count(winner_party) |> deframe()
-  get <- \(p) as.integer(counts[p] |> unname() |> (\(v) if (is.na(v)) 0L else v)())
-  list(DEM_won = get("DEM"), REP_won = get("REP"), IND_won = get("IND"), uncalled = total - nrow(called))
-}
-
-build_senate <- function(cfg, calls, today, sa) {
+build_senate <- function(cfg, today, sa) {
   rows <- senate_poll_rows(cfg$candidates, cfg$races$state) |>
     filter(end_date >= today - senate_max_poll_age_days, end_date <= today)
 
-  senate_calls <- calls |> filter(chamber == "senate")
   averages <- cfg$races$state |>
     set_names() |>
     map(\(s) {
@@ -134,7 +108,6 @@ build_senate <- function(cfg, calls, today, sa) {
 
   races <- cfg$races |>
     pmap(\(state, state_name, special, incumbent, incumbent_party, open, status_note, cook, sabato, inside) {
-      call <- senate_calls |> filter(.data$state == .env$state) |> slice_head(n = 1)
       field <- cfg$candidates |> filter(.data$state == .env$state)
       opponent <- field |> filter(main_opponent | (party == "DEM" & !any(main_opponent))) |> slice_head(n = 1)
       avg <- averages[[state]]
@@ -145,8 +118,7 @@ build_senate <- function(cfg, calls, today, sa) {
         candidates = field |> transmute(name, party),
         poll_avg = if (is.null(avg)) list(n_polls = 0L, latest = list(), margin = NULL) else list_modify(avg, series = zap()),
         ratings = list(cook = cook, sabato = sabato, inside = inside),
-        tracker = str_c("senate-", state) %in% names(tracker),
-        call = if (nrow(call) == 1) as.list(call[c("winner_party", "winner_name", "called_at", "called_by")])
+        tracker = str_c("senate-", state) %in% names(tracker)
       )
     })
 
@@ -159,15 +131,13 @@ build_senate <- function(cfg, calls, today, sa) {
       ratings_via = cfg$meta$senate$ratings_via,
       poll_method = as.character(method_text(list(state_average = sa))),
       poll_note = str_glue("Polls from the New York Times poll database, general-election matchups between the nominees only, last {senate_max_poll_age_days} days."),
-      races = races,
-      tally = party_tally(senate_calls, nrow(cfg$races))
+      races = races
     ),
     tracker = list(updated_at = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), polls = tracker_polls, averages = tracker)
   )
 }
 
-build_house <- function(meta, calls) {
-  house_calls <- calls |> filter(chamber == "house")
+build_house <- function(meta) {
   ratings <- read_csv(file.path(project_root(), "pipeline", "config", "national_house_ratings.csv"), show_col_types = FALSE)
   generic <- read_json(data_dir("polls", "national.json"), simplifyVector = FALSE)$generic_ballot$latest
 
@@ -181,10 +151,7 @@ build_house <- function(meta, calls) {
         nest(counts = c(label, n), .by = c(source, as_of)) |>
         pmap(\(source, as_of, counts) list(id = source, as_of = as_of, counts = deframe(counts) |> as.list()))
     ),
-    generic_ballot = generic,
-    calls = call_record(house_calls) |> select(-note) |> transpose_rows(),
-    tally = party_tally(house_calls, 435L)
+    generic_ballot = generic
   )
 }
 
-transpose_rows <- function(df) pmap(df, list)

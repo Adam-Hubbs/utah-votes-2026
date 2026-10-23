@@ -116,10 +116,9 @@ Shares, percentages and margins are always proportions in 0–1 (e.g. `pct: 0.59
     "featured": true,
     "total_votes": 0,
     "candidates": [ { "candidate_id": "ben-mcadams", "name": "Ben McAdams", "party": "DEM",
-                      "incumbent": false, "votes": 0, "pct": 0.0, "winner": false } ],
+                      "incumbent": false, "votes": 0, "pct": 0.0, "winner": false } ],  // winner is true only once results are official (see pipeline/docs/live.md)
     "reporting": { "counties_reporting": 0, "counties_total": 7,
-                   "pct_expected": 0.0, "pct_expected_lo": 0.0, "pct_expected_hi": 0.0 },
-    "call": null                         // or { "candidate_id": "...", "called_at": "...", "by": "AP|manual" }
+                   "pct_expected": 0.0, "pct_expected_lo": 0.0, "pct_expected_hi": 0.0 }
   } ] }
 ```
 For measures, `candidates` holds options with `candidate_id` `for`/`against` (or `yes`/`no`) and `party: null`.
@@ -232,7 +231,7 @@ contest has a candidate with `winner: true`; otherwise it is "leading". Seats wi
 ## National (U.S. Senate and House)
 
 Context tab at `#/national` plus a ticker under the header on every page. Details: `pipeline/docs/national.md`.
-Built by `pipeline/scripts/build_national.R` (also in `polls.yml` and the election-night loop); calls are hand-entered in `pipeline/config/national_calls.csv`.
+Built by `pipeline/scripts/build_national.R` (also in `polls.yml` and the election-night loop). It carries no results or calls.
 Poll values are on the 0-100 scale, margins are in points (REP minus main opponent, positive = R lead); seat counts are integers.
 
 `data/national/senate.json`
@@ -243,13 +242,10 @@ Poll values are on the 0-100 scale, margins are in points (REP minus main oppone
     "candidates": [{"name","party"}], "tracker": true,
     "poll_avg": { "n_polls": 21, "last_poll_date": "...", "latest": [{"candidate_id","name","party","avg","lo","hi"}],
                   "margin": {"value": -1.7, "lo": 0, "hi": 0, "opponent": "...", "opponent_party": "DEM"} },
-    "ratings": {"cook":"Tossup","sabato":"Tossup","inside":"Tossup"},
-    "call": null } ],
-  "tally": {"DEM_won":0,"REP_won":0,"IND_won":0,"uncalled":35} }
+    "ratings": {"cook":"Tossup","sabato":"Tossup","inside":"Tossup"} } ] }
 ```
-`call` is `{winner_party, winner_name, called_at, called_by}` once entered. `data/national/senate_polls.json` is `{updated_at, polls: Poll[], averages: {"senate-ME": ContestAverage}}` for the closest races.
-`data/national/house.json`: `{updated_at, composition: {current:{DEM,REP,IND,vacant}, majority:218, source}, ratings_tally: {via, url, sources:[{id, as_of, counts:{"Solid D":n,"Likely D","Lean D","Tilt D","Toss-up",...}}]}, generic_ballot: {date,DEM,REP,margin,...}, calls:[{state,district,winner_party,winner_name,called_at,called_by}], tally:{DEM_won,REP_won,IND_won,uncalled}}`.
-`data/national/sim/` has the same files built from `national_calls_sim.csv`, served when `?sim=1`.
+`data/national/senate_polls.json` is `{updated_at, polls: Poll[], averages: {"senate-ME": ContestAverage}}` for the closest races.
+`data/national/house.json`: `{updated_at, composition: {current:{DEM,REP,IND,vacant}, majority:218, source}, ratings_tally: {via, url, sources:[{id, as_of, counts:{"Solid D":n,"Likely D","Lean D","Tilt D","Toss-up",...}}]}, generic_ballot: {date,DEM,REP,margin,...}}`.
 
 ## Needle
 

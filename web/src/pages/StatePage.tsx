@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useJudges, useLegislature } from '../data/legislature'
-import { useSummary } from '../data/hooks'
+import { useNeedle, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { BalanceOfPower } from '../components/state/BalanceOfPower'
 import { LegislatureMap } from '../components/state/LegislatureMap'
@@ -18,6 +18,7 @@ export function StatePage() {
   useDocTitle('State races')
   const { mode, currentElection } = useSite()
   const summary = useSummary(currentElection)
+  const needle = useNeedle(currentElection)
   const leg = useLegislature()
   const judges = useJudges()
   const [mapChamber, setMapChamber] = useState<'house' | 'senate'>('house')
@@ -29,10 +30,10 @@ export function StatePage() {
   const states = useMemo(() => {
     if (!leg) return null
     return {
-      house: seatStates('house', leg.chambers.house, byId, started),
-      senate: seatStates('senate', leg.chambers.senate, byId, started),
+      house: seatStates('house', leg.chambers.house, byId, started, needle),
+      senate: seatStates('senate', leg.chambers.senate, byId, started, needle),
     }
-  }, [leg, byId, started])
+  }, [leg, byId, started, needle])
 
   return (
     <div className="page state-page">
@@ -41,7 +42,7 @@ export function StatePage() {
         <h1 className="headline sm">The Legislature, judges and school board</h1>
         <p className="dek">
           {started
-            ? 'Which party controls each chamber, race by race. A seat counts as won only once it is called; until then it is shown as leading.'
+            ? 'Which party controls each chamber, race by race. A seat counts as won only once results are official; until then it is shown as leading.'
             : 'All 75 House seats and 15 of 29 Senate seats are on the ballot, along with judicial retention and the State School Board.'}
           {started && <> <LastUpdated iso={summary?.updated_at} /></>}
         </p>

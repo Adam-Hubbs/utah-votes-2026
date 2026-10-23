@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, useNeedle, usePolls, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, useNeedle, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { RaceCard } from '../components/RaceCard'
 import { ChoroplethMap } from '../components/ChoroplethMap'
@@ -9,7 +9,6 @@ import { Countdown, LastUpdated } from '../components/LastUpdated'
 import { LegislatureCard } from '../components/state/LegislatureCard'
 import { Section, Stat } from '../components/Ui'
 import { Sparkline } from '../components/Sparkline'
-import { LatestPolls } from '../components/PollList'
 import { ReportingMeter } from '../components/ReportingMeter'
 import { ResultsBar } from '../components/ResultsBar'
 import { RATING_FILL, NO_DATA, leaderFill } from '../lib/colors'
@@ -19,6 +18,7 @@ import { partyGroup } from '../lib/parties'
 import { fmtInt, fmtPct, fmtDayYear } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 import { NationalCard } from '../national/NationalCard'
+import { TooltipHeader, TooltipNote, TooltipRow } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 const HOUSE = ['us-house-1', 'us-house-2', 'us-house-3', 'us-house-4']
@@ -30,7 +30,6 @@ export function Overview() {
   const candidates = useCandidates()
   const averages = useAverages()
   const ratings = useRatings()
-  const polls = usePolls()
   const national = useNational()
   const measures = useMeasures()
   const needle = useNeedle(currentElection)
@@ -66,8 +65,8 @@ export function Overview() {
     const lead = c && c.total_votes > 0 ? leadingCandidate(c.candidates) : null
     return (
       <div>
-        <div className="tt-title">District {String(f.properties?.district)}</div>
-        {showLive && lead ? <div className="tt-row"><span>{lead.name} leads</span><b>{fmtPct(lead.pct)}</b></div> : cons ? <div className="tt-row"><span>Consensus</span><b>{cons.label}</b></div> : <div className="tt-muted">No rating yet</div>}
+        <TooltipHeader title={`District ${String(f.properties?.district)}`} />
+        {showLive && lead ? <TooltipRow label={`${lead.name} leads`} value={fmtPct(lead.pct)} /> : cons ? <TooltipRow label="Consensus" value={cons.label} /> : <TooltipNote>No rating yet</TooltipNote>}
         <div className="tt-muted">Click for the race page</div>
       </div>
     )
@@ -81,7 +80,7 @@ export function Overview() {
         <p className="dek">
           {showLive
             ? 'Live results for the four U.S. House districts, both constitutional amendments, and every legislative and school board contest, with estimates of how much vote is still to come.'
-            : 'A court-ordered map creates a Salt Lake County–based district. Follow the polls, expert ratings and, on election night, live results with estimates of the vote still to be counted.'}
+            : 'A court-ordered map creates a Salt Lake County–based district. See our forecast and expert ratings now, and live results with estimates of the vote still to be counted on election night.'}
         </p>
         <div className="status-strip">
           {mode === 'pre' && (
@@ -159,21 +158,18 @@ export function Overview() {
           <Section title="State races">
             <LegislatureCard />
           </Section>
-          <Section title="National backdrop">
+          <Section title="National backdrop" dek="National polling that feeds our forecast.">
             {national ? (
               <div className="national-strip">
                 <NationalStat label="Generic ballot" series={national.generic_ballot.series.map((p) => Number(p.DEM) - Number(p.REP))} value={Number(national.generic_ballot.latest.DEM) - Number(national.generic_ballot.latest.REP)} fmt={(v) => (Math.abs(v) < 0.05 ? 'Even' : `${v > 0 ? 'D' : 'R'}+${Math.abs(v).toFixed(1)}`)} color="var(--dem)" />
                 <NationalStat label="Trump approval (net)" series={national.approval.series.map((p) => Number(p.approve) - Number(p.disapprove))} value={Number(national.approval.latest.approve) - Number(national.approval.latest.disapprove)} fmt={(v) => `${v > 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}`} color="var(--ink-2)" />
               </div>
             ) : <div className="unavailable">National polling not yet available.</div>}
-            <p className="note"><Link to="/polls">National trackers →</Link></p>
+            <p className="note">Poll averages, not election results. <Link to="/polls">Polls →</Link></p>
           </Section>
         </div>
       </div>
 
-      <Section title="Latest polls" aside={<Link to="/polls" className="more">Poll tracker →</Link>}>
-        {polls ? <LatestPolls polls={polls.filter((p) => p.stage === 'general')} limit={6} names={(id) => byId.get(id)?.name ?? id.replace('us-house-', 'U.S. House District ')} /> : <div className="unavailable">Polls not yet available.</div>}
-      </Section>
       <NationalCard />
     </div>
   )

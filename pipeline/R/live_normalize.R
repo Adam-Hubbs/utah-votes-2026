@@ -33,25 +33,6 @@ read_candidates <- function() {
   )
 }
 
-read_calls <- function() {
-  path <- file.path(project_root(), "pipeline", "config", "calls.csv")
-  empty <- tibble(
-    contest_id = character(),
-    candidate_id = character(),
-    called_at = character(),
-    by = character()
-  )
-  if (!file.exists(path)) return(empty)
-  read_csv(
-    path,
-    col_types = cols(.default = col_character()),
-    comment = "#",
-    show_col_types = FALSE
-  ) |>
-    filter(!is.na(contest_id), !is.na(candidate_id)) |>
-    mutate(by = coalesce(by, "manual"))
-}
-
 MEASURE_LABELS <- c(`for` = "For", against = "Against", yes = "Yes", no = "No")
 
 kind_order <- c(
@@ -122,15 +103,35 @@ votes_list <- function(ids, votes) {
   as.list(set_names(votes, ids))
 }
 
+# Seats up in a contest (the export's voteFor); absent in the per-county fallback feed, where 1 is the safe default.
+contest_seats <- function(options, cid) {
+  if (!hasName(options, "vote_for")) return(1L)
+  seats <- options |>
+    filter(contest_id == cid) |>
+    pull(vote_for) |>
+    max(na.rm = TRUE)
+  if_else(is.finite(seats) && seats >= 1, as.integer(seats), 1L)
+}
+
+# Applied only once results are official. Top `seats` vote-getters win; measures and retention are a single
+# seat between For/Yes and Against/No, which is the same as clearing 50%. A tie at the cutoff awards nothing.
+auto_winners <- function(cand_rows, seats) {
+  ranked <- arrange(cand_rows, desc(votes))
+  if (nrow(ranked) == 0 || sum(ranked$votes) <= 0) return(character())
+  if (nrow(ranked) <= seats) return(ranked$candidate_id)
+  if (ranked$votes[seats] == ranked$votes[seats + 1]) return(character())
+  ranked$candidate_id[seq_len(seats)]
+}
+
 # Builds every output object from parsed options/precincts. Pure function: no I/O, so the same code serves the
 # live scrape, the pre-election zero file and the simulator.
 build_results <- function(
   parsed,
   candidates,
-  calls,
   election_id = ELECTION_ID,
   status = "pre",
   as_of = NA_character_,
+  official = FALSE,
   official_winners = NULL,
   updated_at = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
   cfg = live_config()
@@ -181,14 +182,13 @@ build_results <- function(
       )
     cand_rows <- cand_rows |> arrange(desc(votes), option_order)
     ids <- cand_rows$candidate_id
-    called <- filter(calls, contest_id == cid)
-    winner_id <- if (nrow(called) > 0) {
-      called$candidate_id[1]
-    } else if (!is.null(official_winners)) {
-      w <- filter(official_winners, contest_id == cid)
-      if (nrow(w) > 0) w$candidate_id[1] else NA_character_
+    seats <- contest_seats(parsed$options, cid)
+    winner_ids <- if (!is.null(official_winners) && any(official_winners$contest_id == cid)) {
+      filter(official_winners, contest_id == cid)$candidate_id
+    } else if (official) {
+      auto_winners(cand_rows, seats)
     } else {
-      NA_character_
+      character()
     }
     ct <- county_tot |>
       filter(contest_id == cid) |>
@@ -258,19 +258,10 @@ build_results <- function(
           incumbent = inc,
           votes = vt,
           pct = if_else(total_votes > 0, vt / total_votes, 0),
-          winner = identical(id, winner_id)
+          winner = id %in% winner_ids
         )
       }
     )
-    call <- if (nrow(called) > 0) {
-      list(
-        candidate_id = called$candidate_id[1],
-        called_at = called$called_at[1],
-        by = called$by[1]
-      )
-    } else {
-      NULL
-    }
     desc <- CONTEST_DESCRIPTIONS[[cid]] %||%
       if_else(
         cl$kind == "retention",
@@ -302,8 +293,7 @@ build_results <- function(
         pct_expected = 0,
         pct_expected_lo = 0,
         pct_expected_hi = 0
-      ),
-      call = call
+      )
     )
     if (!is.na(desc)) summary_entry$description <- desc
     file_entry <- list(

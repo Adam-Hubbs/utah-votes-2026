@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useBaselines, useCandidates, useDemographics, useGeo, useMeasures, usePolls, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useBaselines, useCandidates, useDemographics, useGeo, useMeasures, useNeedle, usePolls, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { ContestExplorer } from '../components/ContestExplorer'
 import { Gate, Section, Unavailable } from '../components/Ui'
@@ -11,10 +11,12 @@ import { RatingChip, RatingStrip } from '../components/RatingChip'
 import { ChoroplethMap } from '../components/ChoroplethMap'
 import { DemoCompare } from '../components/DemoCompare'
 import { NeedlePanel } from '../components/NeedlePanel'
+import { ForecastSummary } from '../components/ForecastSummary'
 import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
 import { fmtDayYear, fmtInt, fmtMargin } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
+import { TooltipHeader } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -27,6 +29,7 @@ export function RacePage() {
   const averages = useAverages()
   const polls = usePolls()
   const measures = useMeasures()
+  const needle = useNeedle(currentElection)
   const contest = summary?.contests.find((c) => c.contest_id === contestId)
   const isHouse = contestId.startsWith('us-house-')
   const district = isHouse ? Number(contestId.split('-').pop()) : null
@@ -37,15 +40,21 @@ export function RacePage() {
   const colors = useMemo(() => candidateColors(roster ?? []), [roster])
   const orderedCandidates = useMemo(() => {
     const list = [...(candidates?.[contestId] ?? [])]
-    const latest = averages?.contests[contestId]?.latest
-    if (latest?.length) {
-      const avgById = new Map(latest.map((l) => [l.candidate_id, l.avg]))
-      return list.sort((a, b) => (avgById.get(b.candidate_id) ?? -1) - (avgById.get(a.candidate_id) ?? -1))
-    }
     const partyRank = (p: string | null) => (p === 'REP' ? 0 : p === 'DEM' ? 1 : 2)
     return list.sort((a, b) => partyRank(a.party) - partyRank(b.party) || a.name.localeCompare(b.name))
-  }, [candidates, averages, contestId])
+  }, [candidates, contestId])
   const cons = consensus(ratings, contestId)
+  const needleContest = needle?.contests[contestId]
+  const forecastCands = contest?.candidates ?? roster ?? []
+  const preForecast = useMemo(() => {
+    const h = needleContest?.history?.[0]
+    if (!needleContest || !h) return null
+    const [a, b] = needleContest.pair
+    const pa = h.prob[a] ?? 0.5
+    const id = pa >= 0.5 ? a : b
+    const name = forecastCands.find((c) => c.candidate_id === id)?.name ?? id
+    return `${name} ${Math.round(Math.max(pa, 1 - pa) * 100)} in 100`
+  }, [needleContest, forecastCands])
   const ratingRow = ratings?.ratings?.[contestId]
   const info = measures?.[contestId]
   const featured = config.featured_contests
@@ -63,6 +72,19 @@ export function RacePage() {
         {isHouse && district === 1 && <p className="dek">The new District 1 is based in Salt Lake County and leans Democratic.</p>}
         {!isHouse && (info ? <p className="dek">{info.title}</p> : <p className="dek">{contest?.description ?? 'Utah voters decide this question on the November ballot.'}</p>)}
       </header>
+
+      {mode === 'pre' && needleContest && (
+        <Section title="Our forecast" dek="A model projection made before any votes are counted. It is not a poll and not a result." id="forecast">
+          <ForecastSummary needle={needleContest} candidates={forecastCands} title={title} measure={!isHouse} />
+        </Section>
+      )}
+      {mode === 'live' && <NeedlePanel electionId={currentElection} contestId={contestId} title="Live projection of the final result" />}
+
+      <Section title={mode === 'pre' ? 'Results' : mode === 'live' ? 'Votes counted so far' : 'Results'} id="results">
+        {mode === 'pre' ? (
+          <div className="results-empty">No votes counted yet. Polls close 8 p.m. MT on {fmtDayYear(config.election_date)}; results will appear here.</div>
+        ) : <ContestExplorer electionId={currentElection} contestId={contestId} />}
+      </Section>
 
       {!isHouse && (
         <Section title="What the amendment does">
@@ -115,21 +137,21 @@ export function RacePage() {
         </Section>
       )}
 
-      <NeedlePanel electionId={currentElection} contestId={contestId} />
+      {mode === 'final' && (
+        <details className="polls-disclosure">
+          <summary>Pre-election forecast and polls</summary>
+          {preForecast && <p className="poll-caption">Before the election our forecast gave {preForecast}. This is not the result.</p>}
+          {isHouse && <Gate data={polls} what="Polls">{(p) => <PollTracker contestId={contestId} avg={averages?.contests[contestId]} polls={p} today={new Date()} />}</Gate>}
+        </details>
+      )}
 
-      <Section title={mode === 'pre' ? 'Election night results' : 'Results'} id="results">
-        {mode === 'pre' ? (
-          <div className="callout">Results will appear here on election night. Polls close at 8 p.m. MST on {fmtDayYear(config.election_date)}.</div>
-        ) : null}
-        {mode !== 'pre' && <ContestExplorer electionId={currentElection} contestId={contestId} />}
-      </Section>
-
-      {isHouse && (
-        <Section title="Polling" id="polling">
+      {isHouse && mode !== 'final' && (
+        <details className="polls-disclosure" id="polling">
+          <summary>Polling average and individual polls</summary>
           <Gate data={polls} what="Polls">
             {(p) => <PollTracker contestId={contestId} avg={averages?.contests[contestId]} polls={p} today={new Date()} />}
           </Gate>
-        </Section>
+        </details>
       )}
 
       {isHouse && district != null && <DistrictProfile district={district} />}
@@ -155,7 +177,7 @@ function DistrictProfile({ district }: { district: number }) {
             <ChoroplethMap features={districts.features as F[]} idOf={(f) => String(f.properties?.district)} fill={fill} overlay={(counties?.features as F[] | undefined)} overlayWidth={0.4}
               fitTo={(districts.features as F[]).filter((f) => Number(f.properties?.district) === district)}
               strokeWidth={1.2} zoomable={false} aspect={1} maxHeight={480} ariaLabel={`Map of 2026 congressional district ${district}`}
-              tooltip={(f) => <div className="tt-title">District {String(f.properties?.district)}</div>} />
+              tooltip={(f) => <TooltipHeader title={`District ${String(f.properties?.district)}`} />} />
           ) : <div className="map-placeholder">{districts === null ? 'District map not yet available.' : 'Loading map…'}</div>}
           <p className="note">2026 district lines, with county boundaries. Lines were redrawn by court order in 2025 and differ from the 2022–2024 districts.</p>
         </Section>

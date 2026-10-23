@@ -68,7 +68,7 @@ export function Judges({ contests, judges, started }: { contests: SummaryContest
               </thead>
               <tbody>
                 {g.rows.map((r) => {
-                  const st = status(r, mode === 'final' || !!r.contest.call)
+                  const st = status(r, mode === 'final' || r.contest.candidates.some((c) => c.winner))
                   return (
                     <tr key={r.contest.contest_id}>
                       <td><Link to={`/results/${currentElection}/${r.contest.contest_id}`}><b>{r.name}</b></Link></td>
