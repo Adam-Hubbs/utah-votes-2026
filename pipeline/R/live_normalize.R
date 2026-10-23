@@ -2,19 +2,9 @@ ELECTION_ID <- "2026-general"
 ELECTION_NAME <- "2026 General Election"
 ELECTION_DATE <- "2026-11-03"
 
-CONTEST_DESCRIPTIONS <- list(
-  `amendment-a` = paste(
-    "Proposed amendment that removes the requirement to publish proposed constitutional amendments in newspapers",
-    "in every county for two months before the election. Instead, the Legislature would set how amendments are",
-    "published, provided the full text is posted on the state public notice website and the Lieutenant Governor's",
-    "website at least 60 days before the general election."
-  ),
-  `amendment-b` = paste(
-    "Proposed amendment requiring a 60 percent vote, rather than a simple majority, for any citizen-initiated",
-    "ballot measure that creates, changes, or expands a tax, including new taxes, tax rate increases, and certain",
-    "property tax changes. A simple majority would continue to be enough for other initiatives."
-  )
-)
+CONTEST_DESCRIPTIONS <- file.path(project_root(), "pipeline", "config", "measures.json") |>
+  read_json() |>
+  map(\(m) m$summary)
 
 live_config <- function() {
   path <- file.path(project_root(), "pipeline", "config", "live.yml")
