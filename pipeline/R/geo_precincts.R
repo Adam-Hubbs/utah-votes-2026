@@ -95,3 +95,22 @@ crosswalk_weights <- function(blocks_tbl, from_col, to_col) {
     mutate(weight = if_else(sum(basis) > 0, basis / sum(basis), 1 / n()), .by = from) |>
     select(from, to, weight)
 }
+
+# Reported precinct names for one election -> units on current UGRC geometry, plus the per-block unit id.
+build_reported_vintage <- function(votes, vista, vista_geom, blocks_tbl, plan_polys, plan_col) {
+  matches <- match_precincts_to_vista(votes, vista)
+  cl <- cluster_reported(matches, votes)
+  geom <- unit_geometry(vista_geom, cl$vista_units)
+  vista_unit <- cl$vista_units |>
+    transmute(vista_key = str_c(county_fips, "|", vista_id), unit = unit_id)
+  block_unit <- blocks_tbl |>
+    select(vista_key) |>
+    left_join(vista_unit, by = "vista_key") |>
+    pull(unit)
+  tmp <- blocks_tbl
+  tmp$unit_tmp <- block_unit
+  units <- geom |>
+    plurality_district(tmp, "unit_tmp", plan_col, plan_polys) |>
+    transmute(precinct_id = unit_id, county_fips, name = unit_name, !!plan_col := district)
+  list(matches = matches, members = cl$members, vista_units = cl$vista_units, units = units, block_unit = block_unit)
+}

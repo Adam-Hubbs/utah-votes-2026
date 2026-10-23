@@ -5,7 +5,7 @@
 suppressPackageStartupMessages(library(sf))
 sf_use_s2(FALSE)
 source("pipeline/R/utils.R")
-for (f in c("geo_sources", "geo_layers", "geo_blocks", "geo_match", "geo_precincts", "geo_vest", "history_ut_export")) {
+for (f in c("geo_sources", "geo_layers", "geo_blocks", "geo_match", "geo_precincts", "geo_vest", "history_ut_export", "history_medsl")) {
   source(file.path(project_root(), "pipeline", "R", str_c(f, ".R")))
 }
 if (Sys.getenv("UTEL_RAW_DIR") == "") message("UTEL_RAW_DIR not set; using ", raw_dir("x") |> dirname())
@@ -107,22 +107,20 @@ export_2024 <- download_cached(
 votes_2024 <- export_2024$local |>
   filter(item_id == "State-1") |>
   summarise(votes = sum(votes), .by = c(county_fips, precinct))
-matches_2024 <- match_precincts_to_vista(votes_2024, vista)
-cl_2024 <- cluster_reported(matches_2024, votes_2024)
+v24 <- build_reported_vintage(votes_2024, vista, vista_geom, blocks_tbl, cd2022 |> rename(district = district), "cd2022")
+matches_2024 <- v24$matches
+cl_2024 <- list(members = v24$members, vista_units = v24$vista_units)
+units_2024 <- v24$units
+blocks_tbl$unit2024 <- v24$block_unit
 
-units_2024_geom <- unit_geometry(vista_geom, cl_2024$vista_units)
-vista_unit_2024 <- cl_2024$vista_units |>
-  transmute(vista_key = str_c(county_fips, "|", vista_id), unit2024 = unit_id)
-blocks_tbl <- blocks_tbl |> left_join(vista_unit_2024, by = "vista_key")
-
-units_2024 <- units_2024_geom |>
-  plurality_district(blocks_tbl, "unit2024", "cd2022", cd2022) |>
-  transmute(
-    precinct_id = unit_id,
-    county_fips,
-    name = unit_name,
-    cd2022 = district
-  )
+# ---- 2022 reported precincts (MEDSL) -------------------------------------------------------------------
+medsl_2022 <- medsl_2022_long()
+votes_2022 <- medsl_2022 |>
+  filter(office == "US SENATE") |>
+  summarise(votes = sum(votes), .by = c(county_fips, precinct))
+v22 <- build_reported_vintage(votes_2022, vista, vista_geom, blocks_tbl, cd2022, "cd2022")
+units_2022 <- v22$units
+blocks_tbl$unit2022 <- v22$block_unit
 
 # ---- 2026 precincts: UGRC ballot areas as they stand now -------------------------------------------
 ownership <- matches_2024 |>
@@ -202,6 +200,7 @@ vest_out <- imap(vest, \(sf_y, yr) {
 # ---- write precinct topojson -----------------------------------------------------------------------
 write_topojson(units_2026, geo_out("precincts_2026.topo.json"), "precincts", keep_pct = simplify_pct)
 write_topojson(units_2024, geo_out("precincts_2024.topo.json"), "precincts", keep_pct = simplify_pct)
+write_topojson(units_2022, geo_out("precincts_2022.topo.json"), "precincts", keep_pct = simplify_pct)
 iwalk(vest_out, \(x, yr) write_topojson(x, geo_out(str_c("precincts_", yr, ".topo.json")), "precincts", keep_pct = simplify_pct))
 
 # ---- keep tables for the history build ------------------------------------------------------------
@@ -210,7 +209,10 @@ saveRDS(
     blocks = blocks_tbl,
     matches_2024 = matches_2024,
     reported_clusters_2024 = cl_2024$members,
+    matches_2022 = v22$matches,
+    reported_clusters_2022 = v22$members,
     units_2024_ids = units_2024 |> st_drop_geometry(),
+    units_2022_ids = units_2022 |> st_drop_geometry(),
     units_2026_ids = units_2026 |> st_drop_geometry()
   ),
   raw_dir("geo", "build_geo_state.rds")
