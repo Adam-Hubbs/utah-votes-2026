@@ -95,6 +95,8 @@ Shares, percentages and margins are always proportions in 0–1 (e.g. `pct: 0.59
 | `precincts_2024.topo.json` | `precincts` | `precinct_id`, `county_fips`, `name`, `cd2022`, `vap` |
 | `precincts_2016/2018/2020/2022.topo.json` | `precincts` | same, with `cd2012` (2016-2020) or `cd2022` (2022), and `vap` |
 | `places.json` | – | `[{name, lon, lat, rank}]` label points for major cities |
+`precincts_2022` and `precincts_2024` also publish every UGRC ballot area no reported precinct name matched, so the map has no holes: `matched: false`,
+`precinct_id` = `{fips}-~{VistaID}` (never in any results file), `name` = the UGRC id without the county prefix. They carry no votes and are not in the crosswalks.
 `vap` on every precinct polygon is the 2020 Census voting-age population inside it (block internal points), as an integer. `vap: 0` means nobody lives
 there, so a missing result is legitimate and the map draws it as an empty area ("No residents / no votes cast here"). A polygon with `vap > 0` and no
 result row (or a zero-vote row after the count is final) is drawn hatched as "Results not available at precinct level (reported with another precinct)";

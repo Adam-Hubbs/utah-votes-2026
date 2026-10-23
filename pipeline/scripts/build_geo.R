@@ -214,8 +214,8 @@ with_vap <- \(units, unit_col) {
     mutate(vap = as.integer(coalesce(vap, 0L)))
 }
 units_2026 <- with_vap(units_2026, "unit2026")
-units_2024 <- with_vap(units_2024, "unit2024")
-units_2022 <- with_vap(units_2022, "unit2022")
+units_2024 <- with_vap(units_2024, "unit2024") |> bind_rows(v24$unmatched)
+units_2022 <- with_vap(units_2022, "unit2022") |> bind_rows(v22$unmatched)
 vest_out <- imap(vest_out, \(x, yr) with_vap(x, str_c("unit", yr)))
 
 # ---- write precinct topojson -----------------------------------------------------------------------

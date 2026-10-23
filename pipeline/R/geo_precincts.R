@@ -160,5 +160,26 @@ build_reported_vintage <- function(votes, vista, vista_geom, blocks_tbl, plan_po
   units <- geom |>
     plurality_district(tmp, "unit_tmp", plan_col, plan_polys) |>
     transmute(precinct_id = unit_id, county_fips, name = unit_name, !!plan_col := district)
-  list(matches = matches, members = cl$members, vista_units = cl$vista_units, units = units, block_unit = block_unit)
+  # Ballot areas no reported name matched are still published so the map has no holes. They carry no votes and no
+  # block assignment (block_unit stays NA), so crosswalks and baselines never see them.
+  open_ids <- vista_geom |>
+    anti_join(cl$vista_units, by = c("county_fips", "vista_id")) |>
+    mutate(unit_id = precinct_key(county_fips, str_c("~", vista_id)), name = str_remove(vista_id, str_c("^0?", (as.integer(str_sub(county_fips, 3)) + 1L) %/% 2L)))
+  open_vap <- blocks_tbl |>
+    summarise(vap = sum(vap), .by = vista_key) |>
+    separate_wider_delim(vista_key, "|", names = c("county_fips", "vista_id"), too_many = "merge")
+  tmp$unit_tmp <- coalesce(
+    block_unit,
+    tibble(vista_key = blocks_tbl$vista_key) |>
+      left_join(
+        open_ids |> st_drop_geometry() |> transmute(vista_key = str_c(county_fips, "|", vista_id), open = unit_id),
+        by = "vista_key"
+      ) |>
+      pull(open)
+  )
+  unmatched <- open_ids |>
+    plurality_district(tmp, "unit_tmp", plan_col, plan_polys) |>
+    left_join(open_vap, by = c("county_fips", "vista_id")) |>
+    transmute(precinct_id = unit_id, county_fips, name, !!plan_col := district, vap = as.integer(coalesce(vap, 0L)), matched = FALSE)
+  list(matches = matches, members = cl$members, vista_units = cl$vista_units, units = units, block_unit = block_unit, unmatched = unmatched)
 }
