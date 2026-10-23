@@ -320,3 +320,13 @@ export interface PlaceLabel {
   lat: number
   rank: number
 }
+
+// ASSUMPTION: not in ARCHITECTURE.md. Optional `measures.json` supplying ballot-measure text.
+export interface MeasureInfo {
+  title: string
+  summary: string
+  for_means?: string
+  against_means?: string
+  source_url?: string
+}
+export type MeasuresFile = Record<string, MeasureInfo>

@@ -797,3 +797,9 @@ for (const f of ['geo/precincts_2026.topo.json', 'geo/precincts_2024.topo.json',
 void MST
 void dummyPrecinctFrac
 void geoContains
+
+// ---------- measures (MOCK text; not in ARCHITECTURE.md) ----------
+write('measures.json', {
+  'amendment-a': { title: 'Mock title: a proposed change to a state constitutional provision', summary: 'MOCK TEXT. Placeholder description of Constitutional Amendment A, standing in for the official ballot title and impartial analysis.', for_means: 'would adopt the proposed change.', against_means: 'would keep the constitution as it is.' },
+  'amendment-b': { title: 'Mock title: a second proposed constitutional change', summary: 'MOCK TEXT. Placeholder description of Constitutional Amendment B, standing in for the official ballot title and impartial analysis.', for_means: 'would adopt the proposed change.', against_means: 'would keep the constitution as it is.' },
+}, true)
