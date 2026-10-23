@@ -1,0 +1,41 @@
+contest_id,source_id,rating,as_of,url,note
+us-house-1,cook,Solid D,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-1,inside-elections,Solid D,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-1,sabato,Safe D,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-1,ddhq,Safe D,2026-07-14,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-1,silver-bulletin,Solid D,2026-08-20,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-1,split-ticket,,,,Could not verify a Utah rating
+us-house-1,race-to-the-wh,,,,Could not verify a Utah rating
+us-house-1,fox-news,,,,Could not verify a Utah rating
+us-house-1,cnalysis,,,,Could not verify a Utah rating
+us-house-1,elections-daily,,,,Could not verify a Utah rating
+us-house-2,cook,Solid R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-2,inside-elections,Solid R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-2,sabato,Safe R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-2,ddhq,Safe R,2026-07-14,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-2,silver-bulletin,Solid R,2026-08-20,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-2,split-ticket,,,,Could not verify a Utah rating
+us-house-2,race-to-the-wh,,,,Could not verify a Utah rating
+us-house-2,fox-news,,,,Could not verify a Utah rating
+us-house-2,cnalysis,,,,Could not verify a Utah rating
+us-house-2,elections-daily,,,,Could not verify a Utah rating
+us-house-3,cook,Solid R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-3,inside-elections,Solid R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-3,sabato,Safe R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-3,ddhq,Safe R,2026-07-14,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-3,silver-bulletin,Solid R,2026-08-20,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-3,split-ticket,,,,Could not verify a Utah rating
+us-house-3,race-to-the-wh,,,,Could not verify a Utah rating
+us-house-3,fox-news,,,,Could not verify a Utah rating
+us-house-3,cnalysis,,,,Could not verify a Utah rating
+us-house-3,elections-daily,,,,Could not verify a Utah rating
+us-house-4,cook,Solid R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-4,inside-elections,Solid R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-4,sabato,Safe R,2025-11-11,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-4,ddhq,Safe R,2026-07-14,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-4,silver-bulletin,Solid R,2026-08-20,https://en.wikipedia.org/wiki/2026_United_States_House_of_Representatives_elections_in_Utah,Verified via Wikipedia prediction table (publisher site paywalled/blocked); as_of is the date listed there
+us-house-4,split-ticket,,,,Could not verify a Utah rating
+us-house-4,race-to-the-wh,,,,Could not verify a Utah rating
+us-house-4,fox-news,,,,Could not verify a Utah rating
+us-house-4,cnalysis,,,,Could not verify a Utah rating
+us-house-4,elections-daily,,,,Could not verify a Utah rating

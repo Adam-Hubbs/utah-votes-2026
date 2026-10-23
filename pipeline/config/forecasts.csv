@@ -1,0 +1,9 @@
+contest_id,source,prob_dem,as_of,url
+us-house-1,Polymarket,0.96,2026-10-22,https://www.2026election.com/race/2026-house-ut-01
+us-house-1,Kalshi,0.963,2026-10-22,https://www.2026election.com/race/2026-house-ut-01
+us-house-2,Polymarket,0.059,2026-10-22,https://www.2026election.com/race/2026-house-ut-02
+us-house-2,Kalshi,0.071,2026-10-22,https://www.2026election.com/race/2026-house-ut-02
+us-house-3,Polymarket,0.037,2026-10-22,https://www.2026election.com/race/2026-house-ut-03
+us-house-3,Kalshi,0.06,2026-10-22,https://www.2026election.com/race/2026-house-ut-03
+us-house-4,Polymarket,0.038,2026-10-22,https://www.2026election.com/race/2026-house-ut-04
+us-house-4,Kalshi,0.044,2026-10-22,https://www.2026election.com/race/2026-house-ut-04
