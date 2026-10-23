@@ -11,6 +11,7 @@ import { HistoryPage } from './pages/History'
 import { DemographicsPage } from './pages/Demographics'
 import { StatePage } from './pages/StatePage'
 import { MethodologyPage } from './pages/Methodology'
+import { NationalPage } from './pages/National'
 
 function ScrollTop() {
   const { pathname } = useLocation()
@@ -34,6 +35,7 @@ export function App() {
             <Route path="/forecasts" element={<ForecastsPage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/demographics" element={<DemographicsPage />} />
+            <Route path="/national" element={<NationalPage />} />
             <Route path="/methodology" element={<MethodologyPage />} />
             <Route path="*" element={<Overview />} />
           </Routes>

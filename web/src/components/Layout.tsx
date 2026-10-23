@@ -4,6 +4,7 @@ import { useSite } from '../data/site'
 import { flags } from '../data/base'
 import { Countdown } from './LastUpdated'
 import { fmtDayYear } from '../lib/format'
+import { NationalTicker } from '../national/NationalTicker'
 
 const NAV = [
   { to: '/', label: 'Overview', end: true },
@@ -14,6 +15,7 @@ const NAV = [
   { to: '/forecasts', label: 'Forecasts' },
   { to: '/history', label: 'History' },
   { to: '/demographics', label: 'Demographics' },
+  { to: '/national', label: 'National' },
   { to: '/methodology', label: 'Methodology' },
 ]
 
@@ -66,6 +68,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </nav>
         </div>
       </header>
+      <NationalTicker />
       <main id="main" className="wrap main">{children}</main>
       <footer className="site-footer">
         <div className="wrap">

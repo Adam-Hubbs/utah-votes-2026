@@ -1,0 +1,36 @@
+state,state_name,special,incumbent,incumbent_party,open,status_note,cook,sabato,inside
+AL,Alabama,false,Tommy Tuberville,REP,true,Running for governor,Solid R,Safe R,Solid R
+AK,Alaska,false,Dan Sullivan,REP,false,,Tossup,Lean D,Tossup
+AR,Arkansas,false,Tom Cotton,REP,false,,Solid R,Safe R,Solid R
+CO,Colorado,false,John Hickenlooper,DEM,false,,Solid D,Safe D,Solid D
+DE,Delaware,false,Chris Coons,DEM,false,,Solid D,Safe D,Solid D
+FL,Florida,true,Ashley Moody,REP,false,Appointed in 2025,Solid R,Safe R,Likely R
+GA,Georgia,false,Jon Ossoff,DEM,false,,Likely D,Likely D,Lean D
+ID,Idaho,false,Jim Risch,REP,false,,Solid R,Safe R,Solid R
+IL,Illinois,false,Dick Durbin,DEM,true,Retiring,Solid D,Safe D,Solid D
+IA,Iowa,false,Joni Ernst,REP,true,Retiring,Tossup,Tossup,Tilt R
+KS,Kansas,false,Roger Marshall,REP,false,,Tossup,Tossup,Tilt R
+KY,Kentucky,false,Mitch McConnell,REP,true,Retiring,Solid R,Safe R,Solid R
+LA,Louisiana,false,Bill Cassidy,REP,true,Lost renomination,Solid R,Safe R,Solid R
+ME,Maine,false,Susan Collins,REP,false,,Tossup,Tossup,Tossup
+MA,Massachusetts,false,Ed Markey,DEM,false,,Solid D,Safe D,Solid D
+MI,Michigan,false,Gary Peters,DEM,true,Retiring,Tossup,Lean D,Tilt D
+MN,Minnesota,false,Tina Smith,DEM,true,Retiring,Lean D,Lean D,Lean D
+MS,Mississippi,false,Cindy Hyde-Smith,REP,false,,Likely R,Likely R,Solid R
+MT,Montana,false,Steve Daines,REP,true,Retiring,Solid R,Safe R,Solid R
+NE,Nebraska,false,Pete Ricketts,REP,false,,Likely R,Lean R,Lean R
+NH,New Hampshire,false,Jeanne Shaheen,DEM,true,Retiring,Lean D,Likely D,Tilt D
+NJ,New Jersey,false,Cory Booker,DEM,false,,Solid D,Safe D,Solid D
+NM,New Mexico,false,Ben Ray Luján,DEM,false,,Solid D,Safe D,Solid D
+NC,North Carolina,false,Thom Tillis,REP,true,Retiring,Likely D,Lean D,Lean D
+OH,Ohio,true,Jon Husted,REP,false,Appointed in 2025,Tossup,Tossup,Tossup
+OK,Oklahoma,false,Alan Armstrong,REP,true,Appointed in 2026; not a candidate,Solid R,Safe R,Solid R
+OR,Oregon,false,Jeff Merkley,DEM,false,,Solid D,Safe D,Solid D
+RI,Rhode Island,false,Jack Reed,DEM,false,,Solid D,Safe D,Solid D
+SC,South Carolina,false,Darline Graham,REP,false,Appointed in 2026 after the death of Lindsey Graham,Lean R,Likely R,Lean R
+SD,South Dakota,false,Mike Rounds,REP,false,,Solid R,Safe R,Solid R
+TN,Tennessee,false,Bill Hagerty,REP,false,,Solid R,Safe R,Solid R
+TX,Texas,false,John Cornyn,REP,true,Lost renomination,Tossup,Tossup,Tossup
+VA,Virginia,false,Mark Warner,DEM,false,,Solid D,Safe D,Solid D
+WV,West Virginia,false,Shelley Moore Capito,REP,false,,Solid R,Safe R,Solid R
+WY,Wyoming,false,Cynthia Lummis,REP,true,Retiring,Solid R,Safe R,Solid R

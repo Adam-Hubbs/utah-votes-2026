@@ -18,6 +18,7 @@ import { leadingCandidate } from '../lib/results'
 import { partyGroup } from '../lib/parties'
 import { fmtInt, fmtPct, fmtDayYear } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
+import { NationalCard } from '../national/NationalCard'
 
 type F = Feature<Geometry, Record<string, unknown>>
 const HOUSE = ['us-house-1', 'us-house-2', 'us-house-3', 'us-house-4']
@@ -172,6 +173,7 @@ export function Overview() {
       <Section title="Latest polls" aside={<Link to="/polls" className="more">Poll tracker →</Link>}>
         {polls ? <LatestPolls polls={polls.filter((p) => p.stage === 'general')} limit={6} names={(id) => byId.get(id)?.name ?? id.replace('us-house-', 'U.S. House District ')} /> : <div className="unavailable">Polls not yet available.</div>}
       </Section>
+      <NationalCard />
     </div>
   )
 }

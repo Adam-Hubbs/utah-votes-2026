@@ -228,3 +228,25 @@ district via the 2020-block VAP crosswalk (block → district by internal point,
 
 Front end: `pages/StatePage.tsx`, `components/state/*`, `lib/legislature.ts`, `data/legislature.ts`, `styles/state.css`. A seat counts as "won" only when the
 contest has a candidate with `winner: true`; otherwise it is "leading". Seats without a contest are shown as not yet decided.
+
+## National (U.S. Senate and House)
+
+Context tab at `#/national` plus a ticker under the header on every page. Details: `pipeline/docs/national.md`.
+Built by `pipeline/scripts/build_national.R` (also in `polls.yml` and the election-night loop); calls are hand-entered in `pipeline/config/national_calls.csv`.
+Poll values are on the 0-100 scale, margins are in points (REP minus main opponent, positive = R lead); seat counts are integers.
+
+`data/national/senate.json`
+```json
+{ "updated_at": "...", "composition": { "current": {"DEM":45,"REP":53,"IND":2}, "not_up": {"DEM":32,"REP":31,"IND":2}, "majority": 51, "vp_tiebreak": "REP" },
+  "composition_source": {"name","url","as_of"}, "ratings_sources": [{"id":"cook","name","as_of","url"}], "poll_note": "...",
+  "races": [ { "state": "ME", "state_name": "Maine", "special": false, "incumbent": "...", "incumbent_party": "REP", "open": false, "status_note": null,
+    "candidates": [{"name","party"}], "tracker": true,
+    "poll_avg": { "n_polls": 21, "last_poll_date": "...", "latest": [{"candidate_id","name","party","avg","lo","hi"}],
+                  "margin": {"value": -1.7, "lo": 0, "hi": 0, "opponent": "...", "opponent_party": "DEM"} },
+    "ratings": {"cook":"Tossup","sabato":"Tossup","inside":"Tossup"},
+    "call": null } ],
+  "tally": {"DEM_won":0,"REP_won":0,"IND_won":0,"uncalled":35} }
+```
+`call` is `{winner_party, winner_name, called_at, called_by}` once entered. `data/national/senate_polls.json` is `{updated_at, polls: Poll[], averages: {"senate-ME": ContestAverage}}` for the closest races.
+`data/national/house.json`: `{updated_at, composition: {current:{DEM,REP,IND,vacant}, majority:218, source}, ratings_tally: {via, url, sources:[{id, as_of, counts:{"Solid D":n,"Likely D","Lean D","Tilt D","Toss-up",...}}]}, generic_ballot: {date,DEM,REP,margin,...}, calls:[{state,district,winner_party,winner_name,called_at,called_by}], tally:{DEM_won,REP_won,IND_won,uncalled}}`.
+`data/national/sim/` has the same files built from `national_calls_sim.csv`, served when `?sim=1`.
