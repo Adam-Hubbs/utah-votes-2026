@@ -103,7 +103,7 @@ court_from_description <- function(desc) {
     str_detect(office, "^Court of Appeals") ~ "Court of Appeals",
     str_detect(office, "^District Court") ~ str_c("District Court ", num),
     str_detect(office, "^Juvenile Court") ~ str_c("Juvenile Court ", num),
-    str_detect(office, "Justice Court") ~ str_c("Justice Court: ", str_remove(office, "^Springville Municipal Justice Court\\? ")),
+    str_detect(office, "Justice Court") ~ str_c("Justice Court (", str_remove(office, "\\?.*$") |> str_remove("\\s*Justice Court$"), ")"),
     .default = office
   )
 }
