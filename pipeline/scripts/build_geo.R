@@ -203,6 +203,69 @@ write_topojson(units_2024, geo_out("precincts_2024.topo.json"), "precincts", kee
 write_topojson(units_2022, geo_out("precincts_2022.topo.json"), "precincts", keep_pct = simplify_pct)
 iwalk(vest_out, \(x, yr) write_topojson(x, geo_out(str_c("precincts_", yr, ".topo.json")), "precincts", keep_pct = simplify_pct))
 
+# ---- match tiers and metadata -----------------------------------------------------------------------
+tier_votes <- \(matches, votes) {
+  matches |>
+    filter(!is.na(vista_id)) |>
+    mutate(rank = tier_rank[tier]) |>
+    summarise(tier = first(tier[rank == min(rank)]), .by = c(county_fips, precinct)) |>
+    right_join(votes, by = c("county_fips", "precinct")) |>
+    mutate(tier = coalesce(tier, "unmatched")) |>
+    summarise(precincts = n(), votes = sum(votes), .by = tier) |>
+    mutate(pct_votes = round(votes / sum(votes), 4)) |>
+    arrange(desc(votes))
+}
+tiers_json <- \(tbl) pmap(tbl, \(tier, precincts, votes, pct_votes) list(tier = tier, precincts = precincts, votes = votes, pct_votes = pct_votes))
+
+meta <- list(
+  generated = format(Sys.Date()),
+  projection = "WGS84 (EPSG:4326); built in NAD83 / UTM 12N, simplified with mapshaper (Visvalingam, keep-shapes), TopoJSON quantization 1e5",
+  simplification = list(precincts = str_c(simplify_pct, "% of vertices retained"), districts_counties = "10% of vertices retained"),
+  boundaries = list(
+    counties = list(source = "UGRC UtahCountyBoundaries (services1.arcgis.com/99lidPhWCzftIe9K)", vintage = "current"),
+    cd2026 = list(
+      source = "UGRC political_us_congress_districts_2026_to_2032 (court-ordered map, Nov 2025)",
+      note = "District 1 lies entirely in Salt Lake County (verified at build time)"
+    ),
+    cd2022 = list(source = "UGRC political_us_congress_districts_2022_to_2026", used_for = "2022-2024 elections"),
+    cd2012 = list(source = "UGRC USCongressDistricts2012", used_for = "2016-2020 elections"),
+    state_house = list(source = "UGRC UtahHouseDistricts2022to2032"),
+    state_senate = list(source = "UGRC UtahSenateDistricts2022to2032"),
+    places = list(source = "UGRC UtahMunicipalBoundaries; 25 largest by 2020 census population; point on surface of boundary")
+  ),
+  precincts = list(
+    precincts_2026 = list(
+      source = "UGRC VistaBallotAreas FeatureServer, retrieved on the build date; one feature per VistaID (sub-precinct level where UGRC has sub-precincts)",
+      vintage = "2026 ballot areas (UGRC edits dated 2025-04 to 2026-09)",
+      naming = "precinct_id uses the name reported in 2024 when exactly one 2024 reported precinct maps one-to-one onto the feature, otherwise the VistaID without its county prefix; `vista_id` is the UGRC id",
+      cd2026 = "plurality of block voting-age population (internal points) within the feature"
+    ),
+    precincts_2024 = list(
+      source = "RECONSTRUCTED. No archived 2024 precinct boundaries are openly available (VEST 2024 is fee-for-service at the UF Election Lab; UGRC publishes only the current layer and a 2011 archive). Names reported in the official 2024 media export were matched to the current UGRC ballot areas and the matched areas merged into one geometry per reported precinct.",
+      vintage = "2026 UGRC geometry grouped to 2024 reported precincts; boundaries may differ from the 2024 originals where counties redrew precincts after the 2024 election (notably Summit and Utah counties, where numbering changed)",
+      match_tiers = tiers_json(tier_votes(matches_2024, votes_2024)),
+      cd2022 = "plurality of block voting-age population within the unit"
+    ),
+    precincts_2022 = list(
+      source = "RECONSTRUCTED the same way as precincts_2024 from MEDSL 2022 precinct names (Harvard Dataverse doi:10.7910/DVN/UYQIEP)",
+      vintage = "2026 UGRC geometry grouped to 2022 reported precincts (approximate)",
+      match_tiers = tiers_json(tier_votes(v22$matches, votes_2022))
+    ),
+    precincts_2020 = list(source = "VEST 2020 Precinct-Level Election Results (Harvard Dataverse doi:10.7910/DVN/K7760H)", vintage = "2020 originals"),
+    precincts_2018 = list(source = "VEST 2018 Precinct-Level Election Results (doi:10.7910/DVN/UBKYRU)", vintage = "2018 originals"),
+    precincts_2016 = list(source = "VEST 2016 Precinct-Level Election Results (doi:10.7910/DVN/NH5S2I)", vintage = "2016 originals")
+  ),
+  crosswalks = list(
+    method = "2020 Census blocks (TIGER/Line tabblock20) with P.L. 94-171 total population (P1_001N) and voting-age population (P3_001N, ut2020.pl). Each block's internal point (point on surface) is assigned to a precinct of each vintage and to each congressional plan; weight(source s -> target t) = VAP(s and t) / VAP(s). Precincts with no VAP fall back to total population, then to equal split.",
+    blocks = nrow(blocks_tbl),
+    total_population = sum(blocks_tbl$pop),
+    voting_age_population = sum(blocks_tbl$vap),
+    files = c("history/crosswalks/precinct_2024_to_cd2026.json", "history/crosswalks/precinct_2024_to_precinct_2026.json"),
+    unmatched_votes = "Votes in reported precincts that could not be matched to geometry are spread over the county's uncovered blocks by VAP when building district baselines"
+  )
+)
+write_site_json(meta, "geo", "meta.json")
+
 # ---- keep tables for the history build ------------------------------------------------------------
 saveRDS(
   list(
