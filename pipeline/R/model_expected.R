@@ -8,19 +8,19 @@ VOTE_PER_BALLOT <- 0.97
 model_defaults <- function() {
   list(
     draws = 4000L,
-    sigma_delta = 0.25, # scale of the statewide turnout shift, logit scale
+    sigma_delta = 0.45, # scale of the statewide turnout shift, logit scale
     df_delta = 3, # Student-t df: Utah midterm turnout swings between cycles (2018 surge) are far heavier-tailed than a normal
     df_eta = 3, # same for the statewide pace shift
     mu_delta = 0.10, # 2026 is expected to run a bit hotter than 2022 (new map, high-profile House race)
     sigma_eps = 0.17, # county-specific turnout deviation for large counties, logit scale
     sigma_eps_small = 0.6, # extra deviation scale for small counties: sd_c = sqrt(sigma_eps^2 + (this / sqrt(registered/1000))^2)
     sigma_eta = 0.7, # scale of statewide uncertainty in count completeness at poll close, logit scale
-    sigma_eta_late = 0.35, # same scale once counting has converged (late ballots are mostly cures, so pace matters less)
+    sigma_eta_late = 0.5, # same scale once counting has converged (late ballots are mostly cures, so pace matters less)
     tau_eta_hours = 24, # how fast the pace uncertainty decays towards sigma_eta_late
     m0 = 0.62, # prior mean fraction of final ballots counted at the first post-8pm drop
     m_inf = 0.975, # fraction counted once only cures/provisionals are outstanding
     tau_hours = 22,
-    likelihood_power = 0.5, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
+    likelihood_power = 0.4, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
     returned_valid = 0.97, # share of returned ballots that end up counted
     concentration = 12, # Beta concentration of a county's counted fraction around the stage mean (counties differ a lot in processing speed)
     remaining_sd = 0.05, # relative sd of an officially reported "ballots remaining"
