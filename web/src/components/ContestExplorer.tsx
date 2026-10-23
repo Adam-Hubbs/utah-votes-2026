@@ -66,7 +66,7 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
           <div className="contest-head">
             <div>
               <h2 className="contest-title">{contest.name}</h2>
-              <LastUpdated iso={summary.updated_at} showRefresh={isLive} />
+              <LastUpdated iso={summary.updated_at} status={summary.status} showRefresh={isLive} />
             </div>
             <div className="contest-status">
               {call ? <span className="call-badge">Called {call.by === 'AP' ? 'by AP' : ''}</span> : hasVotes && summary.status !== 'final' ? <span className="status-pill live"><i />Counting</span> : !hasVotes && summary.status === 'pre' ? <span className="status-pill">No results yet</span> : null}

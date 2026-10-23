@@ -85,10 +85,11 @@ function TrendGrid({ fips, data, names }: { fips: string[]; data: Record<string,
   }).filter((r) => r.entries.length > 1)
   const vals = rows.flatMap((r) => r.entries.map((e) => (metric === 'margin' ? e.margin : (e.turnout ?? 0))))
   const lo = Math.min(...vals), hi = Math.max(...vals)
+  const hasTurnout = Object.values(data).some((entries) => entries.some((e) => e.turnout != null))
   return (
     <>
       <div className="chart-toolbar">
-        <Segmented label="Metric" value={metric} onChange={setMetric} options={[{ value: 'margin', label: 'R–D margin' }, { value: 'turnout', label: 'Turnout' }]} />
+        <Segmented label="Metric" value={metric} onChange={setMetric} options={hasTurnout ? [{ value: 'margin', label: 'R–D margin' }, { value: 'turnout', label: 'Turnout' }] : [{ value: 'margin', label: 'R–D margin' }]} />
         <Segmented label="Contests" value={contest} onChange={setContest} options={[{ value: 'president', label: 'President' }, { value: 'all', label: 'All contests' }]} />
       </div>
       <div className="trend-grid">

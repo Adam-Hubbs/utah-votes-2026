@@ -130,7 +130,7 @@ write_election <- function(el, out_root = "results") {
     mutate(votes = coalesce(votes, 0L)) |>
     mutate(
       total = sum(votes),
-      pct = if_else(total > 0, votes / total * 100, 0),
+      pct = if_else(total > 0, votes / total, 0),
       winner = votes == max(votes) & votes > 0,
       .by = contest_id
     )
@@ -156,7 +156,7 @@ write_election <- function(el, out_root = "results") {
           cs |> arrange(desc(votes)),
           \(candidate_id, name, party, incumbent, votes, pct, winner, ...) list(
             candidate_id = candidate_id, name = name, party = party,
-            incumbent = incumbent, votes = votes, pct = round(pct, 3), winner = winner
+            incumbent = incumbent, votes = votes, pct = round(pct, 5), winner = winner
           )
         ),
         reporting = list(
