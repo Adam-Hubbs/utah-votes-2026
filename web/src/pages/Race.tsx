@@ -50,7 +50,7 @@ export function RacePage() {
         <div className="kicker">{isHouse ? 'U.S. House · 2026 map' : 'Constitutional amendment'}</div>
         <h1 className="headline sm">{title}</h1>
         {isHouse && district === 1 && <p className="dek">The new District 1 is based in Salt Lake County and leans Democratic.</p>}
-        {!isHouse && (info ? <p className="dek">{info.title}</p> : <p className="dek">Utah voters decide this question on the November ballot.</p>)}
+        {!isHouse && (info ? <p className="dek">{info.title}</p> : <p className="dek">{contest?.description ?? 'Utah voters decide this question on the November ballot.'}</p>)}
       </header>
 
       {!isHouse && (
@@ -62,7 +62,7 @@ export function RacePage() {
               {info.against_means && <p><b className="against-text">A vote against</b> {info.against_means}</p>}
               {info.source_url && <p className="note"><a href={info.source_url} target="_blank" rel="noreferrer">Official ballot language</a></p>}
             </div>
-          ) : <Unavailable what="The amendment description" />}
+          ) : contest?.description ? <p>{contest.description}</p> : <Unavailable what="The amendment description" />}
         </Section>
       )}
 

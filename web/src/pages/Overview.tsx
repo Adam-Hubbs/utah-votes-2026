@@ -132,20 +132,20 @@ export function Overview() {
             <div className="measure-cards">
               {measureIds.map((id) => {
                 const c = byId.get(id)
-                const info = measures?.[id]
+                const blurb = measures?.[id]?.title ?? c?.description
                 const items = c?.candidates ?? []
                 const live = showLive && c && c.total_votes > 0
                 return (
                   <article className="measure-card" key={id}>
                     <h3><Link to={`/race/${id}`}>{c?.name ?? id.replace('amendment-', 'Amendment ').toUpperCase().replace('AMENDMENT', 'Amendment')}</Link></h3>
-                    {info && <p>{info.title}</p>}
+                    {blurb && <p>{blurb}</p>}
                     {live ? (
                       <>
                         <ResultsBar items={items.map((i) => ({ candidate_id: i.candidate_id, name: i.name, party: null, pct: i.pct }))} />
                         <div className="measure-vals">{items.map((i) => <span key={i.candidate_id}>{i.name} <b>{fmtPct(i.pct)}</b></span>)}</div>
                         {c && <div className="rc-foot-text">Est. {fmtPct(c.reporting.pct_expected, 0)} of expected vote counted</div>}
                       </>
-                    ) : <div className="rc-foot-text">No public polling. {info ? '' : 'Description pending.'}</div>}
+                    ) : <div className="rc-foot-text">No public polling. {blurb ? '' : 'Description pending.'}</div>}
                   </article>
                 )
               })}
