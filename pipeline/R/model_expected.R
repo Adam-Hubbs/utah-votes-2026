@@ -236,6 +236,7 @@ run_expected_vote_model <- function(
   now = Sys.time(),
   seed = 2026,
   is_official = FALSE,
+  registered_override = NULL,
   p = model_defaults()
 ) {
   rd <- \(...) file.path(results_dir, ...)
@@ -259,6 +260,12 @@ run_expected_vote_model <- function(
     show_col_types = FALSE
   )
   overrides <- read_remaining_overrides()
+  if (!is.null(registered_override) && sum(registered_override$registered) > 1e6) {
+    base <- base |>
+      left_join(registered_override, by = "fips") |>
+      mutate(registered_2026 = coalesce(registered, registered_2026)) |>
+      select(-registered)
+  }
 
   county_rows <- contests |>
     map(

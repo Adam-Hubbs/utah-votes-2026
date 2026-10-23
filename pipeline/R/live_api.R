@@ -325,11 +325,13 @@ parse_export <- function(j, keep_precincts = TRUE) {
 }
 
 parse_state_data <- function(d) {
+  winners <- tryCatch(parse_official_winners(d), error = \(e) tibble(contest_id = character(), ballot_name = character()))
   e <- d$election %||% list()
   list(
     as_of = e$asOf %||% NA_character_,
     last_updated = e$lastUpdated %||% NA_character_,
     official = isTRUE(e$isOfficialResults),
+    winners = winners,
     next_update_at = e$nextUpdateAt %||% NA_character_,
     ballots_cast = as_int0(e$ballotsCast),
     registered = d$voterRegistration |>
@@ -357,4 +359,68 @@ fetch_state_data <- function(election_id = ev_election_id()) {
       NULL
     }
   )
+}
+
+ev_text <- function(x) x[[1]]$text %||% NA_character_
+
+parse_county_data <- function(d, county_name) {
+  fips <- county_fips_from_name(county_name)
+  items <- d$ballotItems %||% list()
+  cls <- classify_contest(map_chr(items, \(b) ev_text(b$name)))
+  map(which(!is.na(cls$contest_id)), \(i) {
+    b <- items[[i]]
+    opts <- b$summaryResults$ballotOptions %||% list()
+    tibble(
+      fips = fips,
+      county = normalize_county_name(county_name),
+      contest_id = cls$contest_id[i],
+      raw_name = str_squish(ev_text(b$name)),
+      option_id = map_chr(opts, \(o) o$id %||% NA_character_),
+      ballot_name = map_chr(opts, \(o) str_squish(ev_text(o$name))),
+      party_raw = map_chr(opts, \(o) o$party$name[[1]]$text %||% NA_character_),
+      option_order = seq_along(opts),
+      votes = map_dbl(opts, \(o) as_int0(o$voteCount)),
+      precincts_total = as_int0(b$reportingStatus$totalUnits),
+      precincts_reporting = as_int0(b$reportingStatus$reportingUnits)
+    )
+  }) |>
+    list_rbind()
+}
+
+# Fallback when the media export is unavailable: one /data call per county (no precinct detail).
+fetch_fallback_parsed <- function(election_id = ev_election_id()) {
+  jur <- ev_get_json(str_c(EV_BASE, "/results/public/api/jurisdictions/Utah"))
+  kids <- jur$childLocalities |>
+    map(\(k) tibble(short = k$shortName, name = ev_text(k$name))) |>
+    list_rbind()
+  options <- map2(kids$short, kids$name, \(s, nm) {
+    parse_county_data(ev_get_json(ev_data_url(election_id, s)), nm)
+  }) |>
+    list_rbind() |>
+    mutate(
+      pp = split_party_prefix(ballot_name),
+      ballot_name = pp$ballot_name,
+      party = coalesce(party_from_text(party_raw), pp$prefix_party)
+    ) |>
+    select(-pp)
+  classes <- options |>
+    distinct(contest_id, raw_name) |>
+    mutate(cls = classify_contest(raw_name)) |>
+    unnest(cls, names_sep = "_") |>
+    transmute(contest_id, kind = cls_kind, district = cls_district, display = cls_display, measure = cls_measure, judge = cls_judge, court = cls_court, raw = raw_name) |>
+    distinct(contest_id, .keep_all = TRUE)
+  list(classes = classes, options = options, precincts = NULL, created_at = NA_character_)
+}
+
+# Official winners (isWinner) are only trusted from the statewide /data once the election is certified.
+parse_official_winners <- function(d) {
+  items <- d$ballotItems %||% list()
+  cls <- classify_contest(map_chr(items, \(b) ev_text(b$name)))
+  map(which(!is.na(cls$contest_id)), \(i) {
+    opts <- items[[i]]$summaryResults$ballotOptions %||% list()
+    win <- keep(opts, \(o) isTRUE(o$isWinner))
+    if (length(win) == 0) return(NULL)
+    tibble(contest_id = cls$contest_id[i], ballot_name = map_chr(win, \(o) str_squish(ev_text(o$name))))
+  }) |>
+    list_rbind()
 }
