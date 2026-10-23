@@ -28,12 +28,37 @@ reconstructed: each precinct name in the results is matched (county-specific rul
 ballot areas, and matched areas are unioned into one geometry per reported precinct. Where several reported names fall into one
 UGRC area they are merged into one unit (the results file uses the highest-vote name as `precinct_id`).
 
-Match tiers (share of 2024 presidential votes): exact name 88.0%, abbreviation rule 4.8%, parent precinct 2.8%, approximate (Summit
-County, letters-only) 1.6%, alias 1.2%, unmatched 1.6%. Statewide 98.4% of 2024 votes (94.8% of precincts) and 97.9% of 2022 votes
-carry a geometry; per-county rates are in `data/geo/match_rates.json` and `geo/meta.json`.
-Weak spots: Utah County (95.3% of votes; district-digit rule on names such as AF301 -> AF01), Washington (95.3%), Summit (94.7%),
-Tooele (96.4%), Wayne (82.6%), and 2022 Emery (0%), Juab (73%), Duchesne (90.5%). Even exact-name matches can differ in shape from the
-true 2024 precinct where a county redrew lines after 2024. Unmatched precincts have votes in the county totals but no geometry.
+Match tiers (share of 2024 presidential votes): exact name 88.1%, abbreviation rule 4.8%, parent precinct 2.8%, approximate (Summit
+letters-only, Washington "CO..." county areas, federal-only) 1.9%, alias 1.2%, unmatched 1.1%. Statewide 98.9% of 2024 votes (95.7% of precincts) and
+98.9% of 2022 votes (92.3% of precincts) carry a geometry; per-county rates are in `data/geo/match_rates.json` and `geo/meta.json`.
+Weak spots that remain: Utah County (95.3% of 2024 votes; 98 reported precincts incl. SQ410, OR360-363, PR367-369 have no 2026 counterpart, the
+"N..." and most "U..." names are zero-vote), Summit (SSE13, SSS11, SSW22, NSN24 have no UGRC area), Tooele (ST02, LC01, TE01, IB01, DG02 have no
+UGRC area), Carbon and Utah in 2022. Even exact-name matches can differ in shape from the true 2024 precinct where a county redrew lines after 2024.
+Unmatched precincts have votes in the county totals but no geometry.
+
+Matching rules added for blank-precinct work (`geo_match.R`): Washington "CO"+code county areas -> "X"+code (CODAV -> XDAV:01, CONH28 -> XNHS:28);
+Cache "MEN02:I" -> "MEN:I"; Emery 2022 "Ferron #2" -> parent 2; Juab 2022 "MO" -> MO1+MO2, "CA11" -> CA1; Wayne "Torrey" prefers TO06 over
+TE05; reported "Federal" -> a UGRC FED area when the county has one. After clustering, a populated sub-area (`:1`, `:2U`, ...) whose reported row has zero
+votes while a sibling of the same parent precinct has votes joins the sibling's unit (`merge_zero_vote_siblings`, e.g. Tooele LP01:1 + LP01:2).
+
+## Blank precinct polygons
+
+`Rscript pipeline/tests/diagnose_blank_precincts.R` classifies polygons with no votes in a statewide contest (a: no residents, c: populated and a
+same-prefix neighbour has more votes than residents, d: other) and counts reported precincts that matched nothing (b). Polygons come from matches, so a
+failed match shows up as missing area and missing votes (b), not as a blank polygon.
+
+| year | polygons | blank before | blank after | a no residents | c combined | d other | b unmatched precincts / votes |
+|---|---|---|---|---|---|---|---|
+| 2016 | 2296 | 101 | 101 | 75 | 7 | 19 | VEST, none |
+| 2018 | 2337 | 121 | 121 | 86 | 7 | 28 | VEST, none |
+| 2020 | 2423 | 161 | 161 | 122 | 16 | 23 | VEST, none |
+| 2022 | 2509 | 105 | 91 | 76 | 7 | 8 | 220 / 12,337 (was 258 / 22,615) |
+| 2024 | 2792 | 281 | 228 | 164 | 29 | 35 | 133 / 16,928 (was 163 / 23,277) |
+
+Category d includes group quarters (2024 Draper DRP901 holds the state prison, 3,151 VAP and no voters). The 2022 geometry also has units whose number was reused
+by a different area in 2026 (Nephi NE1/NE2 have votes but no residents inside the polygon); those cannot be fixed without 2022 boundaries.
+
+`vap` (2020 voting-age population) is written on every precinct polygon so the map can separate legitimately empty areas from populated ones with no result.
 
 ## Crosswalks and baselines
 

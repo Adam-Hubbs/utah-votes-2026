@@ -183,6 +183,11 @@
 .legend-cell { flex: 1; text-align: center; } .legend-cell i { display: block; height: 10px; } .legend-cell em { font-style: normal; font-size: 10px; }
 .legend-hatch { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
 .legend-hatch i { width: 22px; height: 10px; background: repeating-linear-gradient(45deg, #9aa 0 2px, #e8e8e8 2px 5px); border: 1px solid var(--rule); }
+.legend-precinct { margin-top: 4px; font-size: 12px; }
+.legend-precinct .legend-hatch { margin-top: 4px; }
+.legend-hatch i.key-empty { background: #f6f5f2; }
+.legend-hatch i.key-missing { background: repeating-linear-gradient(45deg, rgba(70,70,70,0.5) 0 1px, #e3e3e3 1px 5px); }
+.legend-hatch i.key-pending { background: radial-gradient(rgba(70,70,70,0.45) 0.9px, #ececec 1.2px) 0 0 / 6px 6px; }
 .legend-continuous { display: flex; align-items: center; gap: 8px; } .legend-bar { flex: 1; max-width: 280px; height: 10px; }
 .rating-legend-bar { display: flex; gap: 2px; max-width: 360px; } .rating-legend-bar i { flex: 1; height: 10px; }
 .legend-ends { display: flex; justify-content: space-between; max-width: 360px; font-size: 10.5px; }

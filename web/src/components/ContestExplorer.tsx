@@ -4,12 +4,12 @@ import { useContestResults, useGeo, useModel, usePlaces, useSummary, useTimeline
 import { useSite } from '../data/site'
 import type { ContestResults, CountyResult, ElectionModel, SummaryContest } from '../types/data'
 import { candidateColors, partyGroup } from '../lib/parties'
-import { NO_DATA, leaderFill } from '../lib/colors'
+import { NO_DATA, NO_PRECINCT_RESULT, NO_RESIDENTS, leaderFill } from '../lib/colors'
 import { estRemaining, leaderOf, marginText } from '../lib/results'
 import { fmtCompact, fmtInt, fmtMT, fmtMTFull, fmtPct } from '../lib/format'
 import { CandidateRow } from './CandidateRow'
-import { ChoroplethMap } from './ChoroplethMap'
-import { MarginLegend } from './MapLegend'
+import { ChoroplethMap, type UnitPattern } from './ChoroplethMap'
+import { MarginLegend, PrecinctKey } from './MapLegend'
 import { PartyChip } from './PartyChip'
 import { PollChart, type TSeries } from './PollChart'
 import { ReportingMeter } from './ReportingMeter'
@@ -121,6 +121,11 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
   )
 }
 
+type PrecinctKind = 'data' | 'empty' | 'pending' | 'missing' | 'none'
+
+const DISTRICT_KINDS = new Set(['us-house', 'state-house', 'state-senate', 'school-board', 'retention'])
+const CD_PROPERTY: Record<string, string> = { precincts_2026: 'cd2026', precincts_2024: 'cd2022', precincts_2022: 'cd2022' }
+
 function ContestMapPanel({ electionId, summary, contest, results, live }: { electionId: string; summary: BodyProps['summary']; contest: SummaryContest; results: BodyProps['results']; live: boolean }) {
   const precinctGeoName = summary.precinct_geo
   const counties = useGeo('counties')
@@ -139,10 +144,17 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
   const hasData = contest.total_votes > 0
 
   const countyFeatures = useMemo(() => (counties ? (counties.features as F[]) : []), [counties])
+  // Polygons without a result row are still drawn (as empty or unavailable) when the contest covers their area.
   const precinctFeatures = useMemo(() => {
     if (!precincts) return []
-    return (precincts.features as F[]).filter((f) => byPrecinct.has(String(f.properties?.precinct_id)))
-  }, [precincts, byPrecinct])
+    const cdKey = CD_PROPERTY[precinctGeoName ?? ''] ?? 'cd2012'
+    return (precincts.features as F[]).filter((f) => {
+      if (byPrecinct.has(String(f.properties?.precinct_id))) return true
+      if (contest.office === 'us-house') return f.properties?.[cdKey] === contest.district
+      if (DISTRICT_KINDS.has(contest.office)) return false
+      return byFips.has(String(f.properties?.county_fips))
+    })
+  }, [precincts, byPrecinct, byFips, contest.office, contest.district, precinctGeoName])
   const features = effective === 'precinct' ? precinctFeatures : countyFeatures
   const fitTo = useMemo(() => {
     const inRace = countyFeatures.filter((f) => byFips.has(String(f.properties?.fips)))
@@ -161,12 +173,30 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
     return p ? { votes: p.votes, total: p.total, pct: c?.pct_expected ?? null, name: `Precinct ${String(f.properties?.name)} · ${c?.name ?? ''} County` } : null
   }, [effective, byFips, byPrecinct])
 
+  const counting = summary.status === 'live'
+  const kindOf = useCallback((f: F): PrecinctKind => {
+    const u = unitVotes(f)
+    if (u && u.total > 0) return 'data'
+    if (effective !== 'precinct') return 'none'
+    if (f.properties?.vap === 0) return 'empty'
+    if (summary.status === 'pre') return 'none'
+    return u && counting ? 'pending' : 'missing'
+  }, [unitVotes, effective, summary.status, counting])
+
   const fill = useCallback((f: F) => {
+    const kind = kindOf(f)
+    if (kind === 'empty') return NO_RESIDENTS
+    if (kind === 'missing') return NO_PRECINCT_RESULT
     const u = unitVotes(f)
     if (!u || u.total <= 0) return NO_DATA
     const l = leaderOf(u.votes, u.total, cands)
     return l.id ? leaderFill(l.group, l.margin) : NO_DATA
-  }, [unitVotes, cands])
+  }, [kindOf, unitVotes, cands])
+
+  const pattern = useCallback((f: F): UnitPattern | null => {
+    const kind = kindOf(f)
+    return kind === 'missing' || kind === 'pending' ? kind : null
+  }, [kindOf])
 
   const hatch = useCallback((f: F) => {
     if (!live) return false
@@ -176,6 +206,19 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
 
   const tooltip = useCallback((f: F) => {
     const u = unitVotes(f)
+    const kind = kindOf(f)
+    if (effective === 'precinct' && (kind === 'empty' || kind === 'missing' || kind === 'pending')) {
+      const county = byFips.get(String(f.properties?.county_fips))?.name
+      const note = kind === 'empty' ? 'No residents / no votes cast here'
+        : kind === 'pending' ? 'Not yet reported'
+        : 'Results not available at precinct level (reported with another precinct)'
+      return (
+        <div>
+          <div className="tt-title">{`Precinct ${String(f.properties?.name)}${county ? ` · ${county} County` : ''}`}</div>
+          <div className="tt-muted">{note}</div>
+        </div>
+      )
+    }
     if (!u) return <div><b>{String(f.properties?.name ?? '')}</b><div className="tt-muted">Not in this contest</div></div>
     const l = leaderOf(u.votes, u.total, cands)
     const rows = [...cands].sort((a, b) => (u.votes[b.candidate_id] ?? 0) - (u.votes[a.candidate_id] ?? 0)).slice(0, 4)
@@ -200,7 +243,7 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
         ) : <div className="tt-muted">No votes counted yet</div>}
       </div>
     )
-  }, [unitVotes, cands, colors, live])
+  }, [unitVotes, kindOf, effective, byFips, cands, colors, live])
 
   const onSelect = useCallback((f: F | null) => {
     if (!f) { setSelected(null); return }
@@ -225,14 +268,15 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
       ) : counties === null ? (
         <Unavailable what="Map geometry" />
       ) : (
-        <ChoroplethMap features={features} idOf={idOf} fill={fill} hatch={hatch} tooltip={tooltip} onSelect={onSelect} selectedId={selected}
+        <ChoroplethMap features={features} idOf={idOf} fill={fill} hatch={hatch} pattern={pattern} tooltip={tooltip} onSelect={onSelect} selectedId={selected}
           focusId={effective === 'county' ? selected : undefined} fitTo={fitTo} overlay={effective === 'precinct' ? countyFeatures.filter((f) => byFips.has(String(f.properties?.fips))) : undefined}
           labels={places ?? undefined} strokeWidth={effective === 'precinct' ? 0.25 : 0.8}
           ariaLabel={`Map of ${contest.name} results by ${effective}${hasData ? '' : '. No results yet.'}`} />
       )}
       {view === 'precinct' && !precinctOk && precincts !== undefined && <p className="note">Precinct results are not available for this election{electionId ? '' : ''}.</p>}
       <MarginLegend groups={groupsPresent.length ? [...groupsPresent] : ['DEM', 'REP']} hatchNote={live} />
-      {effective === 'precinct' && summary.precinct_geo && <p className="note small">Precinct lines are those used for the {summary.precinct_geo.replace('precincts_', '')} election and are not comparable to other years. Grey precincts cast no votes in this contest.</p>}
+      {effective === 'precinct' && <PrecinctKey counting={counting} />}
+      {effective === 'precinct' && summary.precinct_geo && <p className="note small">Precinct lines are those used for the {summary.precinct_geo.replace('precincts_', '')} election and are not comparable to other years. Where a clerk reported several precincts together, or a precinct name could not be tied to a boundary, the area is shown without a result.</p>}
     </div>
   )
 }
