@@ -49,7 +49,7 @@
 .legend-swatches i { display: inline-block; width: 14px; height: 12px; margin-right: 5px; vertical-align: -2px; }
 
 .race-filters { align-items: center; }
-.cand-list { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 13.5px; } .cand-list .lead { font-weight: 700; }
+td .cand-list { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 13.5px; border-top: 0; } td .cand-list .lead { font-weight: 700; }
 .flip-tag { font-weight: 700; font-size: 12.5px; background: #121212; color: #fff; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
 .tag.comp { color: #8a6900; border-color: #e3b505; }
 
