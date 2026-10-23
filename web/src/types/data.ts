@@ -73,6 +73,7 @@ export interface SummaryContest {
   district?: number | null
   type: 'candidate' | 'measure'
   featured?: boolean
+  description?: string
   total_votes: number
   candidates: SummaryCandidate[]
   reporting: Reporting

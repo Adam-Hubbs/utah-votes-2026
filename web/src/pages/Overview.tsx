@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useCandidates, useGeo, useMeasures, useNational, usePolls, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, usePolls, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { RaceCard } from '../components/RaceCard'
 import { ChoroplethMap } from '../components/ChoroplethMap'
@@ -40,6 +40,8 @@ export function Overview() {
   const houseIds = config.featured_contests.filter((c) => c.startsWith('us-house')).length ? config.featured_contests.filter((c) => c.startsWith('us-house')) : HOUSE
   const measureIds = config.featured_contests.filter((c) => c.startsWith('amendment'))
   const turnout = summary?.turnout
+  const stateReg = useDemographics('state')?.units[0]?.registration
+  const registered = turnout?.registered || stateReg?.total
 
   const districtFill = (f: F): string => {
     const id = `us-house-${String(f.properties?.district)}`
@@ -82,7 +84,7 @@ export function Overview() {
           {mode === 'pre' && (
             <>
               <Stat label="Polls close in" value={<Countdown target={config.polls_close_utc} />} sub={`Election Day · ${fmtDayYear(config.election_date)} · 8 p.m. MST`} />
-              <Stat label="Registered voters" value={turnout?.registered ? fmtInt(turnout.registered) : '–'} sub="Utah votes almost entirely by mail" />
+              <Stat label="Registered voters" value={registered ? fmtInt(registered) : '–'} sub={turnout?.registered || !stateReg?.as_of ? 'Utah votes almost entirely by mail' : `Active voters as of ${fmtDayYear(stateReg.as_of)}`} />
             </>
           )}
           {showLive && turnout && (
@@ -132,20 +134,20 @@ export function Overview() {
             <div className="measure-cards">
               {measureIds.map((id) => {
                 const c = byId.get(id)
-                const info = measures?.[id]
+                const blurb = measures?.[id]?.title ?? c?.description
                 const items = c?.candidates ?? []
                 const live = showLive && c && c.total_votes > 0
                 return (
                   <article className="measure-card" key={id}>
                     <h3><Link to={`/race/${id}`}>{c?.name ?? id.replace('amendment-', 'Amendment ').toUpperCase().replace('AMENDMENT', 'Amendment')}</Link></h3>
-                    {info && <p>{info.title}</p>}
+                    {blurb && <p>{blurb}</p>}
                     {live ? (
                       <>
                         <ResultsBar items={items.map((i) => ({ candidate_id: i.candidate_id, name: i.name, party: null, pct: i.pct }))} />
                         <div className="measure-vals">{items.map((i) => <span key={i.candidate_id}>{i.name} <b>{fmtPct(i.pct)}</b></span>)}</div>
                         {c && <div className="rc-foot-text">Est. {fmtPct(c.reporting.pct_expected, 0)} of expected vote counted</div>}
                       </>
-                    ) : <div className="rc-foot-text">No public polling. {info ? '' : 'Description pending.'}</div>}
+                    ) : <div className="rc-foot-text">No public polling. {blurb ? '' : 'Description pending.'}</div>}
                   </article>
                 )
               })}

@@ -74,6 +74,7 @@ Party colour group: `REP` → red, `DEM` → blue, everything else → yellow (t
 ## Output files (`web/public/data/…`) — the contract between pipeline and front end
 
 All JSON, UTF-8, numbers as numbers, dates ISO-8601 (`YYYY-MM-DD`), timestamps ISO with `Z`.
+Shares, percentages and margins are always proportions in 0–1 (e.g. `pct: 0.594`), never 0–100 — except poll `pct`/`avg`, which follow the NYT files and are 0–100.
 
 ### Site configuration
 `config.json`

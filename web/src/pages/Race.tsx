@@ -34,6 +34,16 @@ export function RacePage() {
 
   const roster = candidates?.[contestId]
   const colors = useMemo(() => candidateColors(roster ?? []), [roster])
+  const orderedCandidates = useMemo(() => {
+    const list = [...(candidates?.[contestId] ?? [])]
+    const latest = averages?.contests[contestId]?.latest
+    if (latest?.length) {
+      const avgById = new Map(latest.map((l) => [l.candidate_id, l.avg]))
+      return list.sort((a, b) => (avgById.get(b.candidate_id) ?? -1) - (avgById.get(a.candidate_id) ?? -1))
+    }
+    const partyRank = (p: string | null) => (p === 'REP' ? 0 : p === 'DEM' ? 1 : 2)
+    return list.sort((a, b) => partyRank(a.party) - partyRank(b.party) || a.name.localeCompare(b.name))
+  }, [candidates, averages, contestId])
   const cons = consensus(ratings, contestId)
   const ratingRow = ratings?.ratings?.[contestId]
   const info = measures?.[contestId]
@@ -50,7 +60,7 @@ export function RacePage() {
         <div className="kicker">{isHouse ? 'U.S. House · 2026 map' : 'Constitutional amendment'}</div>
         <h1 className="headline sm">{title}</h1>
         {isHouse && district === 1 && <p className="dek">The new District 1 is based in Salt Lake County and leans Democratic.</p>}
-        {!isHouse && (info ? <p className="dek">{info.title}</p> : <p className="dek">Utah voters decide this question on the November ballot.</p>)}
+        {!isHouse && (info ? <p className="dek">{info.title}</p> : <p className="dek">{contest?.description ?? 'Utah voters decide this question on the November ballot.'}</p>)}
       </header>
 
       {!isHouse && (
@@ -62,16 +72,16 @@ export function RacePage() {
               {info.against_means && <p><b className="against-text">A vote against</b> {info.against_means}</p>}
               {info.source_url && <p className="note"><a href={info.source_url} target="_blank" rel="noreferrer">Official ballot language</a></p>}
             </div>
-          ) : <Unavailable what="The amendment description" />}
+          ) : contest?.description ? <p>{contest.description}</p> : <Unavailable what="The amendment description" />}
         </Section>
       )}
 
       {isHouse && (
         <Section title="Candidates">
           <Gate data={candidates} what="Candidates">
-            {(c) => (
+            {() => (
               <div className="cand-cards">
-                {(c[contestId] ?? []).map((x) => (
+                {orderedCandidates.map((x) => (
                   <div className="cand-card" key={x.candidate_id}>
                     <div className="cand-card-bar" style={{ background: colors[x.candidate_id] }} />
                     <div className="cand-card-name">{x.name}</div>
@@ -131,9 +141,9 @@ function DistrictProfile({ district }: { district: number }) {
   const state = useDemographics('state')
   const baselines = useBaselines('cd2026')
   const unit = demo?.units.find((u) => u.id === String(district))
-  const entries = baselines?.districts?.[String(district)]
+  const entries = baselines?.districts?.[String(district)]?.filter((e) => (e.votes.REP ?? 0) > 0 && (e.votes.DEM ?? 0) > 0)
 
-  const fill = (f: F) => (Number(f.properties?.district) === district ? 'var(--ink)' : '#e4e4e4')
+  const fill = (f: F) => (Number(f.properties?.district) === district ? '#5b5b5b' : '#e4e4e4')
   return (
     <>
       <div className="two-col">
@@ -166,6 +176,7 @@ function DistrictProfile({ district }: { district: number }) {
                   </div>
                 ))}
               </div>
+              <p className="note">Races without both a Democrat and a Republican are omitted.</p>
               <p className="note">Method: {b.method}. Labelled “re-aggregated to the new district lines.”</p>
             </>
           ) : <Unavailable what="District history" />}
