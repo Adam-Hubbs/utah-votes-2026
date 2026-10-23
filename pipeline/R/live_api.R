@@ -141,11 +141,11 @@ classify_contest <- function(name, contest_type = NA_character_) {
         str_detect(nm, regex("^U\\.?S\\.? House", ignore_case = TRUE)) ~
           "us-house",
         !is.na(amend) ~ "amendment",
-        str_detect(nm, regex("^State House", ignore_case = TRUE)) ~
+        str_detect(nm, regex("^(Utah )?State House", ignore_case = TRUE)) ~
           "state-house",
-        str_detect(nm, regex("^State Senate", ignore_case = TRUE)) ~
+        str_detect(nm, regex("^(Utah )?State Senate", ignore_case = TRUE)) ~
           "state-senate",
-        str_detect(nm, regex("^State School Board", ignore_case = TRUE)) ~
+        str_detect(nm, regex("^(Utah )?State School Board", ignore_case = TRUE)) ~
           "school-board",
         retention ~ "retention",
         .default = NA_character_
@@ -233,7 +233,7 @@ split_party_prefix <- function(ballot_name) {
 
 party_from_text <- function(x) {
   recode_values(
-    str_to_lower(str_squish(x)),
+    str_to_lower(str_squish(x)) |> str_remove("\\s+party$"),
     from = c("republican", "democratic", "libertarian", "constitution", "independent american", "unaffiliated", "nonpartisan", "forward", "forward party", "green", "united utah"),
     to = c("REP", "DEM", "LIB", "CON", "IAP", "UNA", "UNA", "FWD", "FWD", "GRN", "UUP"),
     default = if_else(is.na(x) | x == "", NA_character_, "OTH")
