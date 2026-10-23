@@ -48,7 +48,11 @@ county_rule_keys <- function(county_fips, reported) {
   rn <- nk(r)
   out <- switch(
     county_fips,
-    "49005" = str_replace(ru, "^LOG", "LG") |> str_replace("^UNINHC", "UNHC") |> str_replace("(?<=:U)[0-9]+$", ""),
+    "49005" = {
+      base <- str_replace(ru, "^LOG", "LG") |> str_replace("^UNINHC", "UNHC") |> str_replace("(?<=:U)[0-9]+$", "")
+      # UGRC keeps single-area towns (e.g. Mendon) without a precinct number: MEN02:I -> MEN:I.
+      c(base, str_replace(base, "^([A-Z]+)[0-9]+(?=:)", "\\1"))
+    },
     "49057" = {
       pre <- str_sub(ru, 1, 3)
       if (pre %in% names(weber_prefix)) str_c(weber_prefix[[pre]], str_sub(ru, 4)) else NA_character_
@@ -56,7 +60,7 @@ county_rule_keys <- function(county_fips, reported) {
     "49049" = str_replace(ru, "^([A-Z]+)[34]([0-9]{2})", "\\1\\2"),
     "49051" = str_extract(r, "^[0-9]{3}"),
     "49007" = str_extract(r, "^[0-9]+"),
-    "49015" = str_extract(r, "^[0-9]+"),
+    "49015" = coalesce(str_extract(r, "^[0-9]+"), str_extract(r, "(?<=#)[0-9]+$")),
     "49031" = unname(piute_precinct[rn]),
     "49009" = case_when(
       rn == "DUTCHJOHN" ~ "1001",
@@ -76,6 +80,7 @@ abbreviation_match <- function(county_fips, reported, vista_k) {
   r <- str_squish(reported)
   r_clean <- r |>
     str_remove_all("(?i)\\binside/outside\\b") |>
+    str_remove("(?<=[0-9])[a-z]$") |>
     str_remove("\\s*:.*$") |>
     str_replace_all(",.*$", "")
   num <- str_extract(r_clean, "[0-9]+\\s*U?$") |> str_remove("\\s*U$") |> str_remove("^0+")
@@ -104,12 +109,44 @@ abbreviation_match <- function(county_fips, reported, vista_k) {
     return(by_num$parent_np[which.max(str_length(by_num$code))])
   }
   if (is.na(num) && nrow(cand) == 1) return(cand$parent_np)
+  if (is.na(num) && nrow(cand) > 1) {
+    # Wayne "Torrey" fits both TO06 and TE05 as a subsequence; the name starting with the code wins.
+    starts <- cand |> filter(str_starts(words, str_to_upper(code)))
+    if (n_distinct(starts$code) == 1 && nrow(starts) > 0) return(starts$parent_np)
+    # Several numbered areas of one town reported as a single precinct (Juab "MO" = MO1 + MO2).
+    if (n_distinct(cand$code) == 1) return(cand$parent_np)
+  }
+  if (county_fips == "49023" && nchar(want_num) > 1) {
+    # Juab 2022 "CA11"/"RR13": first digit is the precinct, the rest a district suffix.
+    by_first <- cand |> filter(digits == str_sub(want_num, 1, 1))
+    if (nrow(by_first) == 1) return(by_first$parent_np)
+  }
   if (county_fips == "49047" && !is.na(num)) {
     n <- parents |> filter(str_detect(parent_np, str_c(num, "$|", str_pad(num, 2, pad = "0"), "$")))
     # Uintah numbers precincts uniquely, so the number alone identifies the area.
     if (nrow(n) == 1) return(n$parent_np)
   }
   character()
+}
+
+# Washington County reports county-run areas as "CO" + letters (CODAV, CONH28, COHS72) while UGRC names them "X" + a
+# code (XDAV:01, XNHS:28, XHS:72). The codes are abbreviations of each other in either direction.
+washington_county_match <- function(reported, pool) {
+  rest <- str_remove(nk(reported), "^CO")
+  letters_part <- str_extract(rest, "^[A-Z]+")
+  digits <- str_extract(rest, "[0-9]+$")
+  if (is.na(letters_part)) return(character())
+  cands <- pool |>
+    filter(str_starts(parent_np, "X")) |>
+    mutate(code = str_remove(parent_np, "^X")) |>
+    filter(
+      str_sub(code, 1, 1) == str_sub(letters_part, 1, 1),
+      map_lgl(code, \(cd) subsequence_of(cd, letters_part) || subsequence_of(letters_part, cd)),
+      is.na(digits) | nk0(sub_np) == nk0(digits)
+    ) |>
+    mutate(gap = abs(nchar(code) - nchar(letters_part))) |>
+    filter(gap == min(gap, Inf))
+  cands$VistaID
 }
 
 match_precincts_to_vista <- function(reported, vista) {
@@ -157,6 +194,14 @@ match_precincts_to_vista <- function(reported, vista) {
         }
         return(tibble(vista_id = hit$VistaID, tier = "abbrev"))
       }
+    }
+    if (cf == "49053" && str_detect(nk(p), "^CO[A-Z]")) {
+      hit <- washington_county_match(p, pool)
+      if (length(hit) > 0) return(tibble(vista_id = hit, tier = "approx"))
+    }
+    if (str_detect(nk(p), "^FED")) {
+      hit <- pool |> filter(str_starts(parent_np, "FED")) |> pull(VistaID)
+      if (length(hit) > 0) return(tibble(vista_id = hit, tier = "approx"))
     }
     if (cf == "49043") {
       letters_only <- str_extract(nk(p), "^[A-Z]+")
