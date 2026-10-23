@@ -60,12 +60,6 @@ export interface Reporting {
   pct_expected_hi: number
 }
 
-export interface ContestCall {
-  candidate_id: string
-  called_at: string
-  by: string
-}
-
 export interface SummaryContest {
   contest_id: string
   name: string
@@ -77,7 +71,6 @@ export interface SummaryContest {
   total_votes: number
   candidates: SummaryCandidate[]
   reporting: Reporting
-  call: ContestCall | null
 }
 
 export interface ElectionSummary {

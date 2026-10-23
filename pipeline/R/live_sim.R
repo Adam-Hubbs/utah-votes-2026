@@ -321,12 +321,6 @@ run_simulation <- function(
     res <- build_results(
       revealed,
       candidates,
-      tibble(
-        contest_id = character(),
-        candidate_id = character(),
-        called_at = character(),
-        by = character()
-      ),
       election_id = "2026-sim",
       status = "live",
       as_of = t_iso,

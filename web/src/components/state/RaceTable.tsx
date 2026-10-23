@@ -85,7 +85,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
             render: (s) => s.leader ? (
               <div>
                 <PartyChip party={s.leader.party} /> <b>{lastName(s.leader.name)}</b> <span className="muted">{s.leader.party === 'REP' ? 'R' : s.leader.party === 'DEM' ? 'D' : ''}+{(s.margin * 100).toFixed(1)}</span>
-                <div className="sub">{s.called ? 'Called' : 'Leading'}</div>
+                <div className="sub">{s.called ? 'Won' : 'Leading'}</div>
               </div>
             ) : <span className="muted">–</span>,
           },

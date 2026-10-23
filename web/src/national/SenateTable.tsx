@@ -58,7 +58,7 @@ export function SenateTable({ senate, selected, onSelect }: Props) {
   const [view, setView] = useState<'close' | 'all'>('close')
   const rows = useMemo(() => {
     const all = senate.races
-    return view === 'all' ? all : all.filter((r) => r.call || Math.abs(consensusScore(r) ?? 0) < 2.5)
+    return view === 'all' ? all : all.filter((r) => Math.abs(consensusScore(r) ?? 0) < 2.5)
   }, [senate, view])
 
   const columns: Column<SenateRace>[] = [
@@ -81,19 +81,13 @@ export function SenateTable({ senate, selected, onSelect }: Props) {
       title: 'Consensus of Cook, Sabato and Inside Elections; dots show each source',
       render: (r) => <span className="rating-cell"><ConsensusChip race={r} /><RatingDots race={r} /></span>,
     },
-    {
-      key: 'call', header: 'Call', sort: (r) => (r.call ? r.call.winner_party : 'zzz'),
-      render: (r) => r.call
-        ? <span className="call-cell"><span className={`call-pill ${r.call.winner_party.toLowerCase()}`}>{SEAT_LETTER[r.call.winner_party]} win</span><span className="sub">{r.call.winner_name}</span></span>
-        : <span className="muted">–</span>,
-    },
   ]
 
   return (
     <div>
       <div className="list-toolbar">
         <Segmented label="Races shown" value={view} onChange={setView} options={[
-          { value: 'close', label: 'Competitive and called' }, { value: 'all', label: `All ${senate.races.length} races` },
+          { value: 'close', label: 'Competitive races' }, { value: 'all', label: `All ${senate.races.length} races` },
         ]} />
       </div>
       <SortableTable rows={rows} columns={columns} rowKey={(r) => r.state} initialSort={{ key: 'rating', dir: 'asc' }}

@@ -59,8 +59,8 @@ Full runbook: [`pipeline/docs/live.md`](pipeline/docs/live.md). In short:
 * The `election-night.yml` workflow runs one long job that loops scrape → model → commit → deploy every few minutes,
   with a cron watchdog that restarts it if it dies. `canvass.yml` keeps updating every 30 minutes for two weeks.
 * If GitHub's runners can't reach the results site, run `pipeline/scripts/election_night_loop.sh` on a laptop.
-* Races are only called by hand (`pipeline/config/calls.csv`); national calls go in
-  `pipeline/config/national_calls.csv` (see [`pipeline/docs/national.md`](pipeline/docs/national.md)).
+* There are no race calls. Winners are marked automatically once Utah's results are official; until then candidates are
+  shown as leading. The national tab is pre-election context only (see [`pipeline/docs/national.md`](pipeline/docs/national.md)).
 * If a county announces how many ballots it still has to count, enter it in `pipeline/config/remaining_ballots.csv`.
 
 ## Hosting (not set up yet)

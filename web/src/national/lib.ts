@@ -48,18 +48,14 @@ export const leadClass = (value: number, opponentParty: string): 'r' | 'd' | 'i'
   Math.abs(value) < 0.5 ? '' : value > 0 ? 'r' : opponentParty === 'DEM' ? 'd' : 'i'
 
 export interface SeatCounts {
-  dHold: number; rHold: number; calledD: number; calledR: number; calledI: number
+  dHold: number; rHold: number
   ratedD: number; tossup: number; ratedR: number
 }
 
 export function seatCounts(not_up: { DEM: number; REP: number; IND: number }, races: SenateRace[]): SeatCounts {
-  const open = races.filter((r) => !r.call)
-  const idx = open.map(raceIndex)
+  const idx = races.map(raceIndex)
   return {
     dHold: not_up.DEM + not_up.IND, rHold: not_up.REP,
-    calledD: races.filter((r) => r.call?.winner_party === 'DEM').length,
-    calledR: races.filter((r) => r.call?.winner_party === 'REP').length,
-    calledI: races.filter((r) => r.call?.winner_party === 'IND').length,
     ratedD: idx.filter((i) => i < 3).length, tossup: idx.filter((i) => i === 3).length, ratedR: idx.filter((i) => i > 3).length,
   }
 }
