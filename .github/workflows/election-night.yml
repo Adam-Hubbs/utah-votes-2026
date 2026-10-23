@@ -64,7 +64,7 @@ jobs:
         if: steps.window.outputs.run == 'true'
         with:
           working-directory: pipeline
-          extra-packages: any::yaml
+          dependencies: '"hard"'
           cache-version: 1
 
       - name: Connectivity check

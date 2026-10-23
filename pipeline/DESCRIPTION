@@ -12,9 +12,8 @@ Imports:
     lubridate,
     jsonlite,
     httr2,
-    rvest,
-    sf,
     yaml
 Suggests:
+    sf,
     testthat
 Encoding: UTF-8

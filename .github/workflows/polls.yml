@@ -29,6 +29,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: pipeline
+          dependencies: '"hard"'
 
       - name: Build polls
         run: Rscript pipeline/scripts/build_polls.R
