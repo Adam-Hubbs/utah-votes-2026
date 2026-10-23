@@ -1,0 +1,16 @@
+scenario,stage,cover_county,cover_state,mape_state,width_state,width_county,frac_counted
+sim_2022_from_2024_pattern_miss_plus,first_drop,0.771,0.85,0.153,0.445,0.395,0.604
+sim_2022_from_2024_pattern_miss_plus,next_morning,0.911,1,0.084,0.4,0.361,0.671
+sim_2022_from_2024_pattern_miss_plus,day_two,0.98,1,0.03,0.33,0.305,0.731
+sim_2024_from_2022_pattern_miss_minus,first_drop,0.944,1,0.019,0.204,0.184,0.603
+sim_2024_from_2022_pattern_miss_minus,next_morning,0.961,1,0.012,0.193,0.176,0.647
+sim_2024_from_2022_pattern_miss_minus,day_two,0.974,0.975,0.037,0.153,0.147,0.728
+midterm_like_2022_noisy_pattern,first_drop,0.934,1,0.074,0.408,0.373,0.625
+midterm_like_2022_noisy_pattern,next_morning,0.965,1,0.036,0.343,0.326,0.66
+midterm_like_2022_noisy_pattern,day_two,0.984,1,0.042,0.264,0.26,0.721
+surge_2018_style_plus25,first_drop,0.997,1,0.033,0.292,0.255,0.595
+surge_2018_style_plus25,next_morning,0.998,1,0.043,0.244,0.218,0.645
+surge_2018_style_plus25,day_two,0.978,0.95,0.066,0.165,0.158,0.724
+slump_minus25,first_drop,0.815,1,0.195,0.704,0.625,0.599
+slump_minus25,next_morning,0.951,1,0.055,0.571,0.527,0.676
+slump_minus25,day_two,0.997,1,0.065,0.377,0.363,0.72

@@ -49,20 +49,20 @@ scenarios$slump_minus25 <- make_shift_scenario(0.75)
 
 stage_hours <- c(first_drop = 1, next_morning = 14, day_two = 36)
 
-simulate_counted <- function(truth, stage) {
+# Fake nights follow the pace seen in archived 2016-2022 counts (statewide share of the final vote ~62% at close, ~70% at +22h, ~87% at +97h:
+# exponential with tau 90h), with a logit-normal statewide shift, a size gradient of 0.4 per log unit (the model uses 0.6) and
+# logit-normal county noise. The previous generator (uniform 50-85% at the first drop, geometric catch-up) was faster than any archived election.
+simulate_counted <- function(truth, stage, registered = NULL) {
   n <- length(truth)
-  g <- runif(1, 0.50, 0.85)
-  f1 <- pmin(g * exp(rnorm(n, 0, 0.18)), 0.97)
-  f <- switch(stage,
-    first_drop = f1,
-    next_morning = 1 - (1 - f1) * runif(n, 0.35, 0.6),
-    day_two = 1 - (1 - f1) * runif(n, 0.10, 0.30)
-  )
-  round(truth * f)
+  h <- stage_hours[[stage]]
+  g <- plogis(qlogis(1 - 0.38 * exp(-h / 90)) + rnorm(1, 0, 0.35))
+  size <- log(registered) - weighted.mean(log(registered), registered)
+  f <- plogis(qlogis(g) - 0.4 * size + rnorm(n, 0, 0.7))
+  round(truth * pmin(f, 0.995))
 }
 
 one_rep <- function(sc, stage, p) {
-  counted <- simulate_counted(sc$truth, stage)
+  counted <- simulate_counted(sc$truth, stage, sc$registered)
   cty <- sc |> mutate(counted = counted, final = FALSE, remaining = NA_real_, fixed = FALSE)
   fit <- fit_expected_ballots(cty, stage_hours[[stage]], p)
   s <- summarise_draws(fit$T, counted) |> left_join(select(sc, fips, truth), by = "fips")
@@ -94,3 +94,4 @@ report <- res |>
   mutate(across(where(is.numeric), \(x) round(x, 3)))
 print(report, n = 20, width = Inf)
 if (!nzchar(overrides)) write_csv(report, file.path(project_root(), "pipeline", "tests", "backtest_results.csv"))
+if (nzchar(Sys.getenv("UTEL_BACKTEST_OUT"))) write_csv(report, Sys.getenv("UTEL_BACKTEST_OUT"))

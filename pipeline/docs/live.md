@@ -112,13 +112,18 @@ Utah votes by mail, so precincts-reporting is meaningless. For each county c:
 * Eventual ballots `T_c = R_c * p_c`, `R_c` = active registered voters, `logit p_c = logit(turnout_2022_c) + delta + eps_c`;
   `delta = 0.10 + 0.6 t_3` (Student-t, 3 df: heavy-tailed because Utah midterm turnout swings a lot between cycles, e.g. the 2018 surge),
   `eps_c ~ N(0, s_c^2)` with `s_c^2 = 0.17^2 + (0.6 / sqrt(R_c/1000))^2` (small counties are noisier).
-* Counted fraction `f_c = counted_c / T_c ~ Beta(m k, (1-m) k)`, `k = 12` (counties differ a lot in processing speed),
-  `logit m = logit m(h) + eta`, `m(h) = 0.975 - 0.355 exp(-h/22h)` with h = hours since the 8 pm MT close (0.62 at close).
-  `eta = s(h) t_3` is a heavy-tailed statewide pace shift with `s(h) = 0.5 + 0.2 exp(-h/24h)`, so early on a low count can be
-  explained by either low turnout or slow pace; the split is decided by the priors, which keeps early intervals honest.
-  Since 2025's HB 300 mail ballots must be *received* by 8 pm Election Day, so a large share (drop-box ballots) is counted after the first report.
+* Eventual ballots `T_c = R_c * p_c`, `R_c` = active registered voters, `logit p_c = logit(turnout_2022_c) + delta + eps_c` (2026 is a midterm following the
+  2022 midterm, so the base year is already the comparable one; `mu_delta = 0.10`, `delta = 0.10 + 0.6 t_3`, Student-t with 3 df: Utah turnout swings between cycles
+  by 0.4-1.5 logit). `eps_c ~ N(0, s_c^2)`, `s_c^2 = 0.22^2 + (0.7 / sqrt(R_c/1000))^2` (small counties are noisier).
+* Counted fraction `f_c = counted_c / T_c ~ Beta(m_c k, (1-m_c) k)`, `k = 6`, `logit m_c = logit m(h) + eta - 0.6 (ln R_c - mean_R(ln R))`,
+  `m(h) = 0.99 - 0.37 exp(-h/70h)` with h = hours since the 8 pm MT close (0.62 at close). `eta = s(h) t_3` is a heavy-tailed statewide pace shift,
+  `s(h) = 0.6 + 0.3 exp(-h/24h)`. The size term makes large counties count more slowly than small ones (in every archived capture the logit of the
+  counted share falls 0.3-0.8 per log unit of size); it is centred on the registration-weighted mean so `m(h)` stays the statewide curve.
+  Pace parameters come from archived Utah counts (`pipeline/data/timing`, evaluation in `pipeline/tests/eval_turnout_model.R`): about 70 % of the final vote
+  is counted at +22 h and 87 % at +97 h in 2016-2022 (2025's one post-HB 300 point at +19 h: 75 %), with the last ballots arriving over the second week.
+  Early on a low count can be explained by either low turnout or slow pace; the split is decided by the priors, which keeps early intervals honest.
 * Posterior: exact 2-D grid over (delta, eta) with eps_c integrated out per county on a 1-D grid, then 4000 joint Monte Carlo
-  draws (counties inform each other through delta/eta). The county log-likelihood is multiplied by 0.35 (`likelihood_power`)
+  draws (counties inform each other through delta/eta). The county log-likelihood is multiplied by 0.25 (`likelihood_power`)
   because counties are not independent evidence about the statewide shift/pace. ~0.5 s per fit. Counties with no votes yet use the prior.
   `counted <= T` holds by construction.
 * Optional `pipeline/config/ballots_returned.csv` (`fips,returned`; absent by default - no official per-county returned-ballot feed
@@ -130,32 +135,45 @@ Utah votes by mail, so precincts-reporting is meaningless. For each county c:
 
 Intervals are 5th-95th percentiles (90 %).
 
-### Back-test (`Rscript pipeline/tests/backtest_expected_vote.R 40`)
+### Evaluation against real counts (2016-2025 archive)
 
-Truth = real county totals (2022 ballots; 2024 top-of-ticket votes / 0.97). Fake nights use a *different* process than the model
-(logit-normal county noise, uniform statewide pace in 0.50-0.85 at the first drop, then geometric catch-up). Priors are built from the *other*
+`Rscript pipeline/tests/eval_turnout_model.R` replays the model through the archived timelines (full report: `pipeline/tests/report/`, built by
+`build_turnout_report.R`). Before/after the 2026-10-23 recalibration (old: tau 22 h, k 12, no size term, scales 0.7/0.5, 0.17/0.6, power 0.35):
+
+| check | before | after |
+|---|---|---|
+| observed statewide share counted vs model median, 9 early points (median PIT; 0.5 = calibrated) | 0.17 | 0.46 |
+| warped real patterns, statewide bias of expected ballots at +24 h (prior as deployed / centred) | +11.9 % / +5.7 % | +5.0 % / +2.6 % |
+| warped real patterns, county 90 % cover of small / mid / large at +24 h | 36 % / 58 % / 55 % | 100 % / 86 % / 78 % |
+
+Re-run the script for current numbers; the report lists them. Caveats: only two full county vectors (2022 +22 h, 2020 +97 h) and one 2025
+vector exist; 2025 and later elections run under HB 300 (ballots must arrive by 8 pm Election Day), which may count faster than 2016-2022.
+
+### Synthetic back-test (`Rscript pipeline/tests/backtest_expected_vote.R 40`)
+
+Truth = real county totals (2022 ballots; 2024 top-of-ticket votes / 0.97). Fake nights follow the archived pace (statewide share of the final vote
+`1 - 0.38 exp(-h/90h)` with a logit-normal statewide shift, size gradient 0.4 and logit-normal county noise); the earlier generator (uniform
+50-85 % at the first drop, geometric catch-up) was faster than any archived election and flattered the old model. Priors are built from the *other*
 election's county pattern with a +-0.2 logit statewide miss. 40 replicates per cell; coverage = share of true values inside the 90 % interval.
 
 | scenario | stage | counted | county cover | statewide cover | statewide MAPE | width state (rel.) | width county (rel.) |
 |---|---|---|---|---|---|---|---|
-| 2022 truth, 2024 pattern, +0.2 miss | first drop (1h) | 69 % | 0.91 | 0.93 | 10.0 % | 45 % | 45 % |
-|  | next morning (14h) | 84 % | 0.96 | 1.00 | 5.0 % | 32 % | 34 % |
-|  | day two (36h) | 93 % | 0.98 | 0.97 | 2.4 % | 18 % | 22 % |
-| 2024 truth, 2022 pattern, -0.2 miss | first drop (1h) | 66 % | 0.94 | 0.93 | 4.9 % | 24 % | 24 % |
-|  | next morning (14h) | 85 % | 0.98 | 1.00 | 2.4 % | 16 % | 17 % |
-|  | day two (36h) | 94 % | 0.97 | 1.00 | 1.7 % | 8 % | 11 % |
-| 2022 truth, noisy own pattern, +0.2 miss | first drop (1h) | 68 % | 0.93 | 0.88 | 8.1 % | 42 % | 44 % |
-|  | next morning (14h) | 85 % | 0.98 | 0.95 | 3.7 % | 27 % | 31 % |
-|  | day two (36h) | 94 % | 0.99 | 0.88 | 4.1 % | 16 % | 21 % |
-| surge: +25 % ballots vs 2022 | first drop (1h) | 66 % | 0.94 | 0.90 | 8.8 % | 29 % | 30 % |
-|  | next morning (14h) | 85 % | 0.95 | 0.90 | 5.0 % | 17 % | 19 % |
-|  | day two (36h) | 94 % | 0.98 | 0.97 | 2.0 % | 8 % | 12 % |
-| slump: -25 % ballots vs 2022 | first drop (1h) | 73 % | 0.91 | 0.95 | 13.0 % | 63 % | 65 % |
-|  | next morning (14h) | 85 % | 0.97 | 1.00 | 4.2 % | 38 % | 43 % |
-|  | day two (36h) | 94 % | 0.98 | 0.93 | 2.8 % | 18 % | 26 % |
+| 2022 truth, 2024 pattern, +0.2 miss | first drop (1h) | 60 % | 0.98 | 1.00 | 4.1 % | 32 % | 34 % |
+|  | next morning (14h) | 67 % | 0.98 | 1.00 | 3.2 % | 29 % | 31 % |
+|  | day two (36h) | 70 % | 0.99 | 1.00 | 3.5 % | 27 % | 29 % |
+| 2024 truth, 2022 pattern, -0.2 miss | first drop (1h) | 61 % | 0.98 | 1.00 | 6.2 % | 19 % | 20 % |
+|  | next morning (14h) | 64 % | 0.93 | 0.95 | 6.2 % | 17 % | 18 % |
+|  | day two (36h) | 72 % | 0.95 | 0.97 | 4.8 % | 14 % | 15 % |
+| 2022 truth, noisy own pattern, +0.2 miss | first drop (1h) | 63 % | 1.00 | 1.00 | 3.2 % | 30 % | 32 % |
+|  | next morning (14h) | 67 % | 1.00 | 1.00 | 3.9 % | 28 % | 30 % |
+|  | day two (36h) | 69 % | 0.99 | 1.00 | 3.5 % | 26 % | 27 % |
+| surge: +25 % ballots vs 2022 | first drop (1h) | 58 % | 0.92 | 0.85 | 9.1 % | 21 % | 21 % |
+|  | next morning (14h) | 62 % | 0.88 | 0.82 | 8.5 % | 19 % | 19 % |
+|  | day two (36h) | 72 % | 0.96 | 0.95 | 5.3 % | 15 % | 16 % |
+| slump: -25 % ballots vs 2022 | first drop (1h) | 64 % | 1.00 | 1.00 | 4.0 % | 46 % | 48 % |
+|  | next morning (14h) | 63 % | 1.00 | 1.00 | 4.2 % | 44 % | 44 % |
+|  | day two (36h) | 71 % | 1.00 | 1.00 | 3.3 % | 37 % | 38 % |
 
-Honest reading: with 40 replicates per cell, coverage has a standard error of about 0.05 statewide, so every cell is within noise of
-or above 0.85-0.90. The price is width: at the first drop the statewide 90 % interval is 25-65 % of the truth (the turnout/pace split is
-not identifiable from counts alone), narrowing to 8-18 % by day two. Before this recalibration (normal priors, `k = 25`) the first-drop
-statewide coverage was 0.45-0.55 in two scenarios with widths of 10-22 %. Only a "ballots remaining" statement
-(`remaining_ballots.csv`) removes the ambiguity. `UTEL_MODEL_OVERRIDES="sigma_delta=0.5"` lets the back-test try other priors.
+Read with a standard error of about 0.05 statewide. The price of honest coverage is width: 25-45 % of the truth at the first drop, still 14-37 % at day two,
+because the counted share is a long way from complete. Only a "ballots remaining" statement (`remaining_ballots.csv`) removes the turnout/pace
+ambiguity. `UTEL_MODEL_OVERRIDES="sigma_delta=0.5"` lets the back-test try other priors.

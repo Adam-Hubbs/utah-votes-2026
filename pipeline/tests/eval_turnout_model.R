@@ -427,11 +427,28 @@ replay <- \(cty, hours, label, p = model_defaults(), mu_delta = NULL) {
 
 realized_delta <- \(year, prior_year) a_state$realized_delta[a_state$year == year & a_state$prev == prior_year]
 
-PARAM_SETS <- list(
-  deployed = list(),
-  `slower pace` = list(m0 = 0.62, m_inf = 0.99, tau_hours = 90),
-  `slower pace, k = 6` = list(m0 = 0.62, m_inf = 0.99, tau_hours = 90, concentration = 6)
+# "before" is the model as deployed until 2026-10-23; "after" is model_defaults(). Others are candidates for the recalibration.
+OLD <- list(m_inf = 0.975, tau_hours = 22, concentration = 12, pace_size_slope = 0, sigma_eps = 0.17, sigma_eps_small = 0.6, sigma_eta = 0.7, sigma_eta_late = 0.5, likelihood_power = 0.35)
+ALL_SETS <- list(
+  before = OLD,
+  after = list(),
+  after_slope0.3 = list(pace_size_slope = 0.3),
+  after_slope0.75 = list(pace_size_slope = 0.75),
+  after_tau50 = list(tau_hours = 50),
+  after_tau95 = list(tau_hours = 95),
+  after_k4 = list(concentration = 4),
+  slower_pace_only = modifyList(OLD, list(m_inf = 0.99, tau_hours = 70)),
+  size_slope_only = modifyList(OLD, list(pace_size_slope = 0.5)),
+  k6_only = modifyList(OLD, list(concentration = 6)),
+  cand_A = list(pace_size_slope = 0.6),
+  cand_B = list(pace_size_slope = 0.6, sigma_eta = 0.9, sigma_eta_late = 0.6),
+  cand_C = list(pace_size_slope = 0.6, sigma_eta = 0.9, sigma_eta_late = 0.6, sigma_eps = 0.22, sigma_eps_small = 0.7),
+  cand_D = list(pace_size_slope = 0.6, sigma_eta = 0.9, sigma_eta_late = 0.6, sigma_eps = 0.22, sigma_eps_small = 0.7, concentration = 5),
+  cand_E = list(pace_size_slope = 0.6, sigma_eta = 0.9, sigma_eta_late = 0.6, sigma_eps = 0.22, sigma_eps_small = 0.7, likelihood_power = 0.25)
 )
+SET_NAMES <- strsplit(Sys.getenv("UTEL_EVAL_SETS", "before,after"), ",")[[1]]
+PARAM_SETS <- ALL_SETS[SET_NAMES]
+OUT_TAG <- Sys.getenv("UTEL_EVAL_TAG", "")
 PRIOR_PAIRS <- tribble(~year, ~prior_year, 2018L, 2016L, 2020L, 2016L, 2022L, 2020L, 2024L, 2022L)
 
 # real county vectors (the only ones in the archive: 2022 +22h and 2020 +97h)
@@ -506,8 +523,8 @@ replay_warp <- expand_grid(nm = names(PARAM_SETS), centred = c(FALSE, TRUE)) |>
   }) |>
   list_rbind() |>
   mutate(kind = "warped real pattern")
-write_csv(replay_real, file.path(OUT, "replays_real.csv"))
-write_csv(replay_warp, file.path(OUT, "replays_warped.csv"))
+write_csv(replay_real, file.path(OUT, str_c("replays_real", OUT_TAG, ".csv")))
+write_csv(replay_warp, file.path(OUT, str_c("replays_warped", OUT_TAG, ".csv")))
 
 # ---- console summary ------------------------------------------------------------------------------------------------
 options(width = 200)

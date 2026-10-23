@@ -12,17 +12,23 @@ model_defaults <- function() {
     df_delta = 3, # Student-t df: Utah midterm turnout swings between cycles (2018 surge) are far heavier-tailed than a normal
     df_eta = 3, # same for the statewide pace shift
     mu_delta = 0.10, # 2026 is expected to run a bit hotter than 2022 (new map, high-profile House race)
-    sigma_eps = 0.17, # county-specific turnout deviation for large counties, logit scale
-    sigma_eps_small = 0.6, # extra deviation scale for small counties: sd_c = sqrt(sigma_eps^2 + (this / sqrt(registered/1000))^2)
-    sigma_eta = 0.7, # scale of statewide uncertainty in count completeness at poll close, logit scale
-    sigma_eta_late = 0.5, # same scale once counting has converged (late ballots are mostly cures, so pace matters less)
+    sigma_eps = 0.22, # county-specific turnout deviation for large counties, logit scale (0.17 gave 70-75% county coverage of 90% intervals in real-pattern replays)
+    sigma_eps_small = 0.7, # extra deviation scale for small counties: sd_c = sqrt(sigma_eps^2 + (this / sqrt(registered/1000))^2)
+    sigma_eta = 0.9, # scale of statewide uncertainty in count completeness at poll close, logit scale
+    sigma_eta_late = 0.6, # same scale once counting has converged (late ballots are mostly cures, so pace matters less)
     tau_eta_hours = 24, # how fast the pace uncertainty decays towards sigma_eta_late
     m0 = 0.62, # prior mean fraction of final ballots counted at the first post-8pm drop
-    m_inf = 0.975, # fraction counted once only cures/provisionals are outstanding
-    tau_hours = 22,
-    likelihood_power = 0.35, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
+    m_inf = 0.99, # fraction counted once only cures/provisionals are outstanding
+    # Archived 2016-2022 counts reach ~70% of the final total at +22h and ~87% at +97h; an exponential fit gives tau ~97h
+    # (2025's single post-HB 300 point at +19h argues for ~60h), so 70h is used and the pace uncertainty stays wide.
+    tau_hours = 70,
+    # Small counties finish on night one, the big ones lag: the logit of the counted fraction falls by 0.3-0.8 per unit of
+    # log county size in every capture. 0.6 is the pooled value of the four captures (0.3-0.8). Size is centred on the registration-weighted
+    # mean so the statewide curve above stays the statewide curve.
+    pace_size_slope = 0.6,
+    likelihood_power = 0.25, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
     returned_valid = 0.97, # share of returned ballots that end up counted
-    concentration = 12, # Beta concentration of a county's counted fraction around the stage mean (counties differ a lot in processing speed)
+    concentration = 6, # Beta concentration of a county's counted fraction around the stage mean; archived captures imply 3-14 (median ~5)
     remaining_sd = 0.05, # relative sd of an officially reported "ballots remaining"
     grid_range = 6, # statewide grids span +-6 scale units to cover the t tails
     grid_delta = 49L,
@@ -90,7 +96,7 @@ fit_expected_ballots <- function(
   seed = NULL
 ) {
   if (!is.null(seed)) set.seed(seed)
-  counties <- add_eps_sd(counties, p)
+  counties <- add_eps_sd(counties, p) |> add_pace_shift(p)
   if (!"returned" %in% names(counties)) counties$returned <- NA_real_
   counties$floor <- coalesce(counties$returned, 0) * p$returned_valid
   n <- nrow(counties)
@@ -147,6 +153,13 @@ fit_expected_ballots <- function(
   list(T = T_draws, delta = delta_d, eta = eta_d)
 }
 
+# Logit shift of a county's expected counted fraction relative to the statewide curve (large counties count more slowly).
+add_pace_shift <- function(counties, p) {
+  size <- log(pmax(counties$registered, 100))
+  counties$pace_shift <- -p$pace_size_slope * (size - weighted.mean(size, pmax(counties$registered, 100)))
+  counties
+}
+
 # Small counties' turnout moves around much more between elections than the big urban ones.
 add_eps_sd <- function(counties, p) {
   counties |>
@@ -163,7 +176,7 @@ log_marginal_county <- function(
   p
 ) {
   mu <- qlogis(row$prior_turnout) + delta_g
-  m <- plogis(m_base + eta_g)
+  m <- plogis(m_base + row$pace_shift + eta_g)
   k <- p$concentration
   lt <- outer(mu, row$eps_sd * eps_grid, `+`)
   total <- row$registered * plogis(lt)
@@ -179,7 +192,7 @@ sample_county_total <- function(row, mu_logit, eta_d, m_base, eps_grid, p) {
   if (row$counted <= 0) {
     return(pmax(row$registered * plogis(mu_logit + eps_sd * rnorm(D)), row$floor))
   }
-  m <- plogis(m_base + eta_d)
+  m <- plogis(m_base + row$pace_shift + eta_d)
   k <- p$concentration
   lt <- outer(mu_logit, eps_sd * eps_grid, `+`)
   total <- row$registered * plogis(lt)
@@ -370,7 +383,8 @@ run_expected_vote_model <- function(
     method = str_c(
       "Bayesian expected-ballots model. Eventual county ballots = active registered voters x turnout, with turnout ",
       "centred on the county's 2022 midterm rate plus a heavy-tailed (Student-t) statewide shift and county deviations (logit scale). ",
-      "The counted fraction of each county follows a Beta whose mean rises with hours since the 8pm MT poll close, ",
+      "The counted fraction of each county follows a Beta whose mean rises with hours since the 8pm MT poll close (large counties count more slowly than small ones; ",
+      "archived Utah counts show about 70% of the final vote a day after close), ",
       "with a heavy-tailed statewide pace shift whose uncertainty shrinks as counting converges, so early counts can be explained ",
       "by either high turnout or fast pace. County likelihood is tempered for dependence between counties. Posterior by grid integration + Monte Carlo (",
       p$draws,
