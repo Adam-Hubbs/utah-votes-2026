@@ -1,0 +1,2068 @@
+{
+ "updated_at": "2026-10-23T03:00:39.246Z",
+ "method": "MOCK. Recency- and sample-size-weighted average with a normal-approximation band.",
+ "contests": {
+  "us-house-1": {
+   "n_polls": 5,
+   "latest": [
+    {
+     "candidate_id": "ben-mcadams",
+     "name": "Ben McAdams",
+     "party": "DEM",
+     "avg": 68.2,
+     "lo": 65,
+     "hi": 71.4
+    },
+    {
+     "candidate_id": "riley-owen",
+     "name": "Riley Owen",
+     "party": "REP",
+     "avg": 21.7,
+     "lo": 18.7,
+     "hi": 24.7
+    },
+    {
+     "candidate_id": "jesse-west",
+     "name": "Jesse West",
+     "party": "LIB",
+     "avg": 4.1,
+     "lo": 2.1,
+     "hi": 6.2
+    },
+    {
+     "candidate_id": "elias-montgomery",
+     "name": "Elias Montgomery",
+     "party": "NPA",
+     "avg": 3,
+     "lo": 1.1,
+     "hi": 4.9
+    }
+   ],
+   "series": [
+    {
+     "date": "2026-09-10",
+     "candidate_id": "ben-mcadams",
+     "avg": 62.7,
+     "lo": 55.5,
+     "hi": 69.9
+    },
+    {
+     "date": "2026-09-10",
+     "candidate_id": "riley-owen",
+     "avg": 21.2,
+     "lo": 14.8,
+     "hi": 27.6
+    },
+    {
+     "date": "2026-09-10",
+     "candidate_id": "jesse-west",
+     "avg": 4.7,
+     "lo": 0.2,
+     "hi": 9.2
+    },
+    {
+     "date": "2026-09-10",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.3,
+     "lo": 0,
+     "hi": 7.5
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.2,
+     "lo": 60.4,
+     "hi": 71.9
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "riley-owen",
+     "avg": 22.6,
+     "lo": 17.2,
+     "hi": 28
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "jesse-west",
+     "avg": 6.4,
+     "lo": 2.2,
+     "hi": 10.6
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "elias-montgomery",
+     "avg": 2.4,
+     "lo": 0,
+     "hi": 6
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.2,
+     "lo": 60.4,
+     "hi": 71.9
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "riley-owen",
+     "avg": 22.6,
+     "lo": 17.2,
+     "hi": 28
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "jesse-west",
+     "avg": 6.4,
+     "lo": 2.2,
+     "hi": 10.6
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "elias-montgomery",
+     "avg": 2.4,
+     "lo": 0,
+     "hi": 6
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.2,
+     "lo": 60.4,
+     "hi": 71.9
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "riley-owen",
+     "avg": 22.6,
+     "lo": 17.2,
+     "hi": 28
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "jesse-west",
+     "avg": 6.4,
+     "lo": 2.2,
+     "hi": 10.6
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "elias-montgomery",
+     "avg": 2.4,
+     "lo": 0,
+     "hi": 6
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.2,
+     "lo": 60.4,
+     "hi": 71.9
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "riley-owen",
+     "avg": 22.6,
+     "lo": 17.2,
+     "hi": 28
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "jesse-west",
+     "avg": 6.4,
+     "lo": 2.2,
+     "hi": 10.6
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "elias-montgomery",
+     "avg": 2.4,
+     "lo": 0,
+     "hi": 6
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.5,
+     "lo": 62.6,
+     "hi": 70.4
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "riley-owen",
+     "avg": 21.2,
+     "lo": 17.6,
+     "hi": 24.7
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "jesse-west",
+     "avg": 5.6,
+     "lo": 3.1,
+     "hi": 8.2
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.5,
+     "lo": 1.3,
+     "hi": 5.8
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.5,
+     "lo": 62.6,
+     "hi": 70.4
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "riley-owen",
+     "avg": 21.2,
+     "lo": 17.6,
+     "hi": 24.7
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "jesse-west",
+     "avg": 5.6,
+     "lo": 3.1,
+     "hi": 8.2
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.5,
+     "lo": 1.3,
+     "hi": 5.8
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.8,
+     "lo": 63.4,
+     "hi": 70.3
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "riley-owen",
+     "avg": 22.1,
+     "lo": 18.9,
+     "hi": 25.3
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "jesse-west",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.4,
+     "lo": 1.3,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.8,
+     "lo": 63.4,
+     "hi": 70.3
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "riley-owen",
+     "avg": 22.1,
+     "lo": 18.9,
+     "hi": 25.3
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "jesse-west",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.4,
+     "lo": 1.3,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.8,
+     "lo": 63.4,
+     "hi": 70.3
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "riley-owen",
+     "avg": 22.1,
+     "lo": 18.9,
+     "hi": 25.3
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "jesse-west",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.4,
+     "lo": 1.3,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.8,
+     "lo": 63.4,
+     "hi": 70.3
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "riley-owen",
+     "avg": 22.1,
+     "lo": 18.9,
+     "hi": 25.3
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "jesse-west",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.4,
+     "lo": 1.3,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "ben-mcadams",
+     "avg": 66.8,
+     "lo": 63.4,
+     "hi": 70.3
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "riley-owen",
+     "avg": 22.1,
+     "lo": 18.9,
+     "hi": 25.3
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "jesse-west",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "elias-montgomery",
+     "avg": 3.4,
+     "lo": 1.3,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "ben-mcadams",
+     "avg": 68.2,
+     "lo": 65,
+     "hi": 71.4
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "riley-owen",
+     "avg": 21.7,
+     "lo": 18.7,
+     "hi": 24.7
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "jesse-west",
+     "avg": 4.1,
+     "lo": 2.1,
+     "hi": 6.2
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "elias-montgomery",
+     "avg": 3,
+     "lo": 1.1,
+     "hi": 4.9
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "ben-mcadams",
+     "avg": 68.2,
+     "lo": 65,
+     "hi": 71.4
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "riley-owen",
+     "avg": 21.7,
+     "lo": 18.7,
+     "hi": 24.7
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "jesse-west",
+     "avg": 4.1,
+     "lo": 2.1,
+     "hi": 6.2
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "elias-montgomery",
+     "avg": 3,
+     "lo": 1.1,
+     "hi": 4.9
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "ben-mcadams",
+     "avg": 68.2,
+     "lo": 65,
+     "hi": 71.4
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "riley-owen",
+     "avg": 21.7,
+     "lo": 18.7,
+     "hi": 24.7
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "jesse-west",
+     "avg": 4.1,
+     "lo": 2.1,
+     "hi": 6.2
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "elias-montgomery",
+     "avg": 3,
+     "lo": 1.1,
+     "hi": 4.9
+    }
+   ]
+  },
+  "us-house-2": {
+   "n_polls": 7,
+   "latest": [
+    {
+     "candidate_id": "blake-moore",
+     "name": "Blake Moore",
+     "party": "REP",
+     "avg": 42.4,
+     "lo": 39.4,
+     "hi": 45.4
+    },
+    {
+     "candidate_id": "peter-crosby",
+     "name": "Peter Crosby",
+     "party": "DEM",
+     "avg": 36.2,
+     "lo": 33.3,
+     "hi": 39.2
+    },
+    {
+     "candidate_id": "daniel-cottam",
+     "name": "Daniel Cottam",
+     "party": "LIB",
+     "avg": 6.4,
+     "lo": 4.3,
+     "hi": 8.5
+    },
+    {
+     "candidate_id": "carlton-bowen",
+     "name": "Carlton Bowen",
+     "party": "IAP",
+     "avg": 3.9,
+     "lo": 2,
+     "hi": 5.8
+    },
+    {
+     "candidate_id": "robert-moesinger",
+     "name": "Robert Moesinger",
+     "party": "NPA",
+     "avg": 5.8,
+     "lo": 3.8,
+     "hi": 7.9
+    }
+   ],
+   "series": [
+    {
+     "date": "2026-09-09",
+     "candidate_id": "blake-moore",
+     "avg": 38.2,
+     "lo": 30.7,
+     "hi": 45.7
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "peter-crosby",
+     "avg": 32.7,
+     "lo": 25.4,
+     "hi": 40
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "daniel-cottam",
+     "avg": 2.8,
+     "lo": 0,
+     "hi": 7
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.9,
+     "lo": 0.2,
+     "hi": 9.6
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "robert-moesinger",
+     "avg": 4.7,
+     "lo": 0,
+     "hi": 9.4
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "blake-moore",
+     "avg": 38.6,
+     "lo": 32.7,
+     "hi": 44.5
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "peter-crosby",
+     "avg": 33.4,
+     "lo": 27.6,
+     "hi": 39.2
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "daniel-cottam",
+     "avg": 3.9,
+     "lo": 0,
+     "hi": 7.8
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.5,
+     "lo": 0.5,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "robert-moesinger",
+     "avg": 4.8,
+     "lo": 0.8,
+     "hi": 8.8
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "blake-moore",
+     "avg": 41.4,
+     "lo": 37.5,
+     "hi": 45.2
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "peter-crosby",
+     "avg": 35.8,
+     "lo": 32,
+     "hi": 39.6
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.4,
+     "lo": 3.8,
+     "hi": 8.9
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "carlton-bowen",
+     "avg": 5.9,
+     "lo": 3.5,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "robert-moesinger",
+     "avg": 4.4,
+     "lo": 2.1,
+     "hi": 6.8
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "blake-moore",
+     "avg": 41.4,
+     "lo": 37.5,
+     "hi": 45.2
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "peter-crosby",
+     "avg": 35.8,
+     "lo": 32,
+     "hi": 39.6
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.4,
+     "lo": 3.8,
+     "hi": 8.9
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "carlton-bowen",
+     "avg": 5.9,
+     "lo": 3.5,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "robert-moesinger",
+     "avg": 4.4,
+     "lo": 2.1,
+     "hi": 6.8
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "blake-moore",
+     "avg": 41.4,
+     "lo": 37.5,
+     "hi": 45.2
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "peter-crosby",
+     "avg": 35.8,
+     "lo": 32,
+     "hi": 39.6
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.4,
+     "lo": 3.8,
+     "hi": 8.9
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "carlton-bowen",
+     "avg": 5.9,
+     "lo": 3.5,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "robert-moesinger",
+     "avg": 4.4,
+     "lo": 2.1,
+     "hi": 6.8
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "blake-moore",
+     "avg": 41.4,
+     "lo": 37.5,
+     "hi": 45.2
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "peter-crosby",
+     "avg": 35.8,
+     "lo": 32,
+     "hi": 39.6
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.4,
+     "lo": 3.8,
+     "hi": 8.9
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "carlton-bowen",
+     "avg": 5.9,
+     "lo": 3.5,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "robert-moesinger",
+     "avg": 4.4,
+     "lo": 2.1,
+     "hi": 6.8
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "blake-moore",
+     "avg": 41.5,
+     "lo": 37.9,
+     "hi": 45.1
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "peter-crosby",
+     "avg": 35.1,
+     "lo": 31.5,
+     "hi": 38.6
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.5,
+     "lo": 4.1,
+     "hi": 8.9
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "carlton-bowen",
+     "avg": 6.6,
+     "lo": 4.2,
+     "hi": 9
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.4,
+     "lo": 3.1,
+     "hi": 7.7
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "blake-moore",
+     "avg": 41.5,
+     "lo": 37.9,
+     "hi": 45.1
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "peter-crosby",
+     "avg": 35.1,
+     "lo": 31.5,
+     "hi": 38.6
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.5,
+     "lo": 4.1,
+     "hi": 8.9
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "carlton-bowen",
+     "avg": 6.6,
+     "lo": 4.2,
+     "hi": 9
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.4,
+     "lo": 3.1,
+     "hi": 7.7
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "blake-moore",
+     "avg": 42.8,
+     "lo": 39.4,
+     "hi": 46.2
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "peter-crosby",
+     "avg": 36.5,
+     "lo": 33.1,
+     "hi": 39.8
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.3,
+     "lo": 4,
+     "hi": 8.6
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.6,
+     "lo": 2.5,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "robert-moesinger",
+     "avg": 6.1,
+     "lo": 3.8,
+     "hi": 8.3
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "blake-moore",
+     "avg": 42.8,
+     "lo": 39.4,
+     "hi": 46.2
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "peter-crosby",
+     "avg": 36.5,
+     "lo": 33.1,
+     "hi": 39.8
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.3,
+     "lo": 4,
+     "hi": 8.6
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.6,
+     "lo": 2.5,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "robert-moesinger",
+     "avg": 6.1,
+     "lo": 3.8,
+     "hi": 8.3
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "blake-moore",
+     "avg": 42.4,
+     "lo": 39.2,
+     "hi": 45.6
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "peter-crosby",
+     "avg": 35.6,
+     "lo": 32.5,
+     "hi": 38.8
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "daniel-cottam",
+     "avg": 6,
+     "lo": 3.9,
+     "hi": 8.2
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.6,
+     "lo": 2.5,
+     "hi": 6.6
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.1,
+     "lo": 3,
+     "hi": 7.2
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "blake-moore",
+     "avg": 42.4,
+     "lo": 39.2,
+     "hi": 45.6
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "peter-crosby",
+     "avg": 35.6,
+     "lo": 32.5,
+     "hi": 38.8
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "daniel-cottam",
+     "avg": 6,
+     "lo": 3.9,
+     "hi": 8.2
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.6,
+     "lo": 2.5,
+     "hi": 6.6
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.1,
+     "lo": 3,
+     "hi": 7.2
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "blake-moore",
+     "avg": 42.4,
+     "lo": 39.2,
+     "hi": 45.6
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "peter-crosby",
+     "avg": 35.6,
+     "lo": 32.5,
+     "hi": 38.8
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "daniel-cottam",
+     "avg": 6,
+     "lo": 3.9,
+     "hi": 8.2
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "carlton-bowen",
+     "avg": 4.6,
+     "lo": 2.5,
+     "hi": 6.6
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.1,
+     "lo": 3,
+     "hi": 7.2
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "blake-moore",
+     "avg": 42.4,
+     "lo": 39.4,
+     "hi": 45.4
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "peter-crosby",
+     "avg": 36.2,
+     "lo": 33.3,
+     "hi": 39.2
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.4,
+     "lo": 4.3,
+     "hi": 8.5
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "carlton-bowen",
+     "avg": 3.9,
+     "lo": 2,
+     "hi": 5.8
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.8,
+     "lo": 3.8,
+     "hi": 7.9
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "blake-moore",
+     "avg": 42.4,
+     "lo": 39.4,
+     "hi": 45.4
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "peter-crosby",
+     "avg": 36.2,
+     "lo": 33.3,
+     "hi": 39.2
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "daniel-cottam",
+     "avg": 6.4,
+     "lo": 4.3,
+     "hi": 8.5
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "carlton-bowen",
+     "avg": 3.9,
+     "lo": 2,
+     "hi": 5.8
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "robert-moesinger",
+     "avg": 5.8,
+     "lo": 3.8,
+     "hi": 7.9
+    }
+   ]
+  },
+  "us-house-3": {
+   "n_polls": 6,
+   "latest": [
+    {
+     "candidate_id": "celeste-maloy",
+     "name": "Celeste Maloy",
+     "party": "REP",
+     "avg": 47.9,
+     "lo": 44.6,
+     "hi": 51.1
+    },
+    {
+     "candidate_id": "kent-udell",
+     "name": "Kent Udell",
+     "party": "DEM",
+     "avg": 28.2,
+     "lo": 25.1,
+     "hi": 31.2
+    },
+    {
+     "candidate_id": "michael-stoddard",
+     "name": "Michael Stoddard",
+     "party": "LIB",
+     "avg": 6.5,
+     "lo": 4.3,
+     "hi": 8.7
+    },
+    {
+     "candidate_id": "cassie-easley",
+     "name": "Cassie Easley",
+     "party": "CON",
+     "avg": 3.1,
+     "lo": 1.2,
+     "hi": 5
+    },
+    {
+     "candidate_id": "ayden-scott",
+     "name": "Ayden Scott",
+     "party": "NPA",
+     "avg": 4.7,
+     "lo": 2.6,
+     "hi": 6.7
+    }
+   ],
+   "series": [
+    {
+     "date": "2026-09-09",
+     "candidate_id": "celeste-maloy",
+     "avg": 46.4,
+     "lo": 38.5,
+     "hi": 54.3
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "kent-udell",
+     "avg": 27.6,
+     "lo": 20.3,
+     "hi": 34.9
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "michael-stoddard",
+     "avg": 9.8,
+     "lo": 4.1,
+     "hi": 15.5
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "cassie-easley",
+     "avg": 1,
+     "lo": 0,
+     "hi": 4.6
+    },
+    {
+     "date": "2026-09-09",
+     "candidate_id": "ayden-scott",
+     "avg": 2.9,
+     "lo": 0,
+     "hi": 7.2
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "celeste-maloy",
+     "avg": 45.4,
+     "lo": 39.3,
+     "hi": 51.5
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "kent-udell",
+     "avg": 27,
+     "lo": 21.3,
+     "hi": 32.6
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 3.6,
+     "hi": 12.5
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "cassie-easley",
+     "avg": 1.9,
+     "lo": 0,
+     "hi": 5.3
+    },
+    {
+     "date": "2026-09-12",
+     "candidate_id": "ayden-scott",
+     "avg": 2.8,
+     "lo": 0,
+     "hi": 6.5
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "celeste-maloy",
+     "avg": 45.4,
+     "lo": 39.3,
+     "hi": 51.5
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "kent-udell",
+     "avg": 27,
+     "lo": 21.3,
+     "hi": 32.6
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 3.6,
+     "hi": 12.5
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "cassie-easley",
+     "avg": 1.9,
+     "lo": 0,
+     "hi": 5.3
+    },
+    {
+     "date": "2026-09-15",
+     "candidate_id": "ayden-scott",
+     "avg": 2.8,
+     "lo": 0,
+     "hi": 6.5
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.8,
+     "lo": 43.7,
+     "hi": 51.9
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "kent-udell",
+     "avg": 28.3,
+     "lo": 24.5,
+     "hi": 32.1
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 5.3,
+     "hi": 10.8
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "cassie-easley",
+     "avg": 2.4,
+     "lo": 0.3,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-09-18",
+     "candidate_id": "ayden-scott",
+     "avg": 2.1,
+     "lo": 0.1,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.8,
+     "lo": 43.7,
+     "hi": 51.9
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "kent-udell",
+     "avg": 28.3,
+     "lo": 24.5,
+     "hi": 32.1
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 5.3,
+     "hi": 10.8
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "cassie-easley",
+     "avg": 2.4,
+     "lo": 0.3,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-09-21",
+     "candidate_id": "ayden-scott",
+     "avg": 2.1,
+     "lo": 0.1,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.8,
+     "lo": 43.7,
+     "hi": 51.9
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "kent-udell",
+     "avg": 28.3,
+     "lo": 24.5,
+     "hi": 32.1
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 5.3,
+     "hi": 10.8
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "cassie-easley",
+     "avg": 2.4,
+     "lo": 0.3,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-09-24",
+     "candidate_id": "ayden-scott",
+     "avg": 2.1,
+     "lo": 0.1,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.8,
+     "lo": 43.7,
+     "hi": 51.9
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "kent-udell",
+     "avg": 28.3,
+     "lo": 24.5,
+     "hi": 32.1
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 5.3,
+     "hi": 10.8
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "cassie-easley",
+     "avg": 2.4,
+     "lo": 0.3,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-09-27",
+     "candidate_id": "ayden-scott",
+     "avg": 2.1,
+     "lo": 0.1,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.8,
+     "lo": 43.7,
+     "hi": 51.9
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "kent-udell",
+     "avg": 28.3,
+     "lo": 24.5,
+     "hi": 32.1
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "michael-stoddard",
+     "avg": 8,
+     "lo": 5.3,
+     "hi": 10.8
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "cassie-easley",
+     "avg": 2.4,
+     "lo": 0.3,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-09-30",
+     "candidate_id": "ayden-scott",
+     "avg": 2.1,
+     "lo": 0.1,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "celeste-maloy",
+     "avg": 46.8,
+     "lo": 43.1,
+     "hi": 50.5
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "kent-udell",
+     "avg": 28.4,
+     "lo": 25,
+     "hi": 31.9
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "michael-stoddard",
+     "avg": 7.2,
+     "lo": 4.7,
+     "hi": 9.8
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "cassie-easley",
+     "avg": 2.5,
+     "lo": 0.5,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-10-03",
+     "candidate_id": "ayden-scott",
+     "avg": 3.3,
+     "lo": 1.2,
+     "hi": 5.4
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "celeste-maloy",
+     "avg": 46.8,
+     "lo": 43.1,
+     "hi": 50.5
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "kent-udell",
+     "avg": 28.4,
+     "lo": 25,
+     "hi": 31.9
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "michael-stoddard",
+     "avg": 7.2,
+     "lo": 4.7,
+     "hi": 9.8
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "cassie-easley",
+     "avg": 2.5,
+     "lo": 0.5,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-10-06",
+     "candidate_id": "ayden-scott",
+     "avg": 3.3,
+     "lo": 1.2,
+     "hi": 5.4
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "celeste-maloy",
+     "avg": 46.8,
+     "lo": 43.1,
+     "hi": 50.5
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "kent-udell",
+     "avg": 28.4,
+     "lo": 25,
+     "hi": 31.9
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "michael-stoddard",
+     "avg": 7.2,
+     "lo": 4.7,
+     "hi": 9.8
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "cassie-easley",
+     "avg": 2.5,
+     "lo": 0.5,
+     "hi": 4.5
+    },
+    {
+     "date": "2026-10-09",
+     "candidate_id": "ayden-scott",
+     "avg": 3.3,
+     "lo": 1.2,
+     "hi": 5.4
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "celeste-maloy",
+     "avg": 46.9,
+     "lo": 43.5,
+     "hi": 50.4
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "kent-udell",
+     "avg": 28.1,
+     "lo": 24.9,
+     "hi": 31.3
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "michael-stoddard",
+     "avg": 5.6,
+     "lo": 3.4,
+     "hi": 7.8
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "cassie-easley",
+     "avg": 2.2,
+     "lo": 0.4,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-10-12",
+     "candidate_id": "ayden-scott",
+     "avg": 3.5,
+     "lo": 1.5,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "celeste-maloy",
+     "avg": 46.9,
+     "lo": 43.5,
+     "hi": 50.4
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "kent-udell",
+     "avg": 28.1,
+     "lo": 24.9,
+     "hi": 31.3
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "michael-stoddard",
+     "avg": 5.6,
+     "lo": 3.4,
+     "hi": 7.8
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "cassie-easley",
+     "avg": 2.2,
+     "lo": 0.4,
+     "hi": 4.1
+    },
+    {
+     "date": "2026-10-15",
+     "candidate_id": "ayden-scott",
+     "avg": 3.5,
+     "lo": 1.5,
+     "hi": 5.5
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.9,
+     "lo": 44.6,
+     "hi": 51.1
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "kent-udell",
+     "avg": 28.2,
+     "lo": 25.1,
+     "hi": 31.2
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "michael-stoddard",
+     "avg": 6.5,
+     "lo": 4.3,
+     "hi": 8.7
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "cassie-easley",
+     "avg": 3.1,
+     "lo": 1.2,
+     "hi": 5
+    },
+    {
+     "date": "2026-10-18",
+     "candidate_id": "ayden-scott",
+     "avg": 4.7,
+     "lo": 2.6,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "celeste-maloy",
+     "avg": 47.9,
+     "lo": 44.6,
+     "hi": 51.1
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "kent-udell",
+     "avg": 28.2,
+     "lo": 25.1,
+     "hi": 31.2
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "michael-stoddard",
+     "avg": 6.5,
+     "lo": 4.3,
+     "hi": 8.7
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "cassie-easley",
+     "avg": 3.1,
+     "lo": 1.2,
+     "hi": 5
+    },
+    {
+     "date": "2026-10-21",
+     "candidate_id": "ayden-scott",
+     "avg": 4.7,
+     "lo": 2.6,
+     "hi": 6.7
+    }
+   ]
+  },
+  "us-house-4": {
+   "n_polls": 6,
+   "latest": [
+    {
+     "candidate_id": "mike-kennedy",
+     "name": "Mike Kennedy",
+     "party": "REP",
+     "avg": 44.4,
+     "lo": 41.3,
+     "hi": 47.5
+    },
+    {
+     "candidate_id": "jonny-larsen",
+     "name": "Jonny Larsen",
+     "party": "DEM",
+     "avg": 34.7,
+     "lo": 31.7,
+     "hi": 37.7
+    },
+    {
+     "candidate_id": "steven-burt",
+     "name": "Steven Burt",
+     "party": "NPA",
+     "avg": 6,
+     "lo": 3.8,
+     "hi": 8.1
+    },
+    {
+     "candidate_id": "taylor-wright",
+     "name": "Taylor Wright",
+     "party": "LIB",
+     "avg": 5.4,
+     "lo": 3.3,
+     "hi": 7.5
+    }
+   ],
+   "series": [
+    {
+     "date": "2026-09-10",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.2,
+     "lo": 38.5,
+     "hi": 50
+    },
+    {
+     "date": "2026-09-10",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 29,
+     "hi": 40.3
+    },
+    {
+     "date": "2026-09-10",
+     "candidate_id": "steven-burt",
+     "avg": 5.4,
+     "lo": 1.5,
+     "hi": 9.4
+    },
+    {
+     "date": "2026-09-10",
+     "candidate_id": "taylor-wright",
+     "avg": 5.6,
+     "lo": 1.6,
+     "hi": 9.6
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.2,
+     "lo": 38.5,
+     "hi": 50
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 29,
+     "hi": 40.3
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "steven-burt",
+     "avg": 5.4,
+     "lo": 1.5,
+     "hi": 9.4
+    },
+    {
+     "date": "2026-09-13",
+     "candidate_id": "taylor-wright",
+     "avg": 5.6,
+     "lo": 1.6,
+     "hi": 9.6
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.6,
+     "lo": 40.6,
+     "hi": 48.5
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.8,
+     "lo": 31,
+     "hi": 38.7
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "steven-burt",
+     "avg": 5.9,
+     "lo": 3.4,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-16",
+     "candidate_id": "taylor-wright",
+     "avg": 5.2,
+     "lo": 2.8,
+     "hi": 7.7
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.6,
+     "lo": 40.6,
+     "hi": 48.5
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.8,
+     "lo": 31,
+     "hi": 38.7
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "steven-burt",
+     "avg": 5.9,
+     "lo": 3.4,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-19",
+     "candidate_id": "taylor-wright",
+     "avg": 5.2,
+     "lo": 2.8,
+     "hi": 7.7
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.6,
+     "lo": 40.6,
+     "hi": 48.5
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.8,
+     "lo": 31,
+     "hi": 38.7
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "steven-burt",
+     "avg": 5.9,
+     "lo": 3.4,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-22",
+     "candidate_id": "taylor-wright",
+     "avg": 5.2,
+     "lo": 2.8,
+     "hi": 7.7
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.6,
+     "lo": 40.6,
+     "hi": 48.5
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.8,
+     "lo": 31,
+     "hi": 38.7
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "steven-burt",
+     "avg": 5.9,
+     "lo": 3.4,
+     "hi": 8.4
+    },
+    {
+     "date": "2026-09-25",
+     "candidate_id": "taylor-wright",
+     "avg": 5.2,
+     "lo": 2.8,
+     "hi": 7.7
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "mike-kennedy",
+     "avg": 43.9,
+     "lo": 40.3,
+     "hi": 47.4
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.2,
+     "hi": 38.1
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "steven-burt",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-09-28",
+     "candidate_id": "taylor-wright",
+     "avg": 4.9,
+     "lo": 2.7,
+     "hi": 7.1
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "mike-kennedy",
+     "avg": 43.9,
+     "lo": 40.3,
+     "hi": 47.4
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.2,
+     "hi": 38.1
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "steven-burt",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-01",
+     "candidate_id": "taylor-wright",
+     "avg": 4.9,
+     "lo": 2.7,
+     "hi": 7.1
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "mike-kennedy",
+     "avg": 43.9,
+     "lo": 40.3,
+     "hi": 47.4
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.2,
+     "hi": 38.1
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "steven-burt",
+     "avg": 4.5,
+     "lo": 2.3,
+     "hi": 6.7
+    },
+    {
+     "date": "2026-10-04",
+     "candidate_id": "taylor-wright",
+     "avg": 4.9,
+     "lo": 2.7,
+     "hi": 7.1
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "mike-kennedy",
+     "avg": 43.9,
+     "lo": 40.6,
+     "hi": 47.2
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.4,
+     "lo": 31.2,
+     "hi": 37.7
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "steven-burt",
+     "avg": 4.4,
+     "lo": 2.4,
+     "hi": 6.5
+    },
+    {
+     "date": "2026-10-07",
+     "candidate_id": "taylor-wright",
+     "avg": 5,
+     "lo": 2.8,
+     "hi": 7.1
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "mike-kennedy",
+     "avg": 43.9,
+     "lo": 40.6,
+     "hi": 47.2
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.4,
+     "lo": 31.2,
+     "hi": 37.7
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "steven-burt",
+     "avg": 4.4,
+     "lo": 2.4,
+     "hi": 6.5
+    },
+    {
+     "date": "2026-10-10",
+     "candidate_id": "taylor-wright",
+     "avg": 5,
+     "lo": 2.8,
+     "hi": 7.1
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.4,
+     "lo": 41.3,
+     "hi": 47.5
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.7,
+     "hi": 37.7
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "steven-burt",
+     "avg": 6,
+     "lo": 3.8,
+     "hi": 8.1
+    },
+    {
+     "date": "2026-10-13",
+     "candidate_id": "taylor-wright",
+     "avg": 5.4,
+     "lo": 3.3,
+     "hi": 7.5
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.4,
+     "lo": 41.3,
+     "hi": 47.5
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.7,
+     "hi": 37.7
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "steven-burt",
+     "avg": 6,
+     "lo": 3.8,
+     "hi": 8.1
+    },
+    {
+     "date": "2026-10-16",
+     "candidate_id": "taylor-wright",
+     "avg": 5.4,
+     "lo": 3.3,
+     "hi": 7.5
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.4,
+     "lo": 41.3,
+     "hi": 47.5
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.7,
+     "hi": 37.7
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "steven-burt",
+     "avg": 6,
+     "lo": 3.8,
+     "hi": 8.1
+    },
+    {
+     "date": "2026-10-19",
+     "candidate_id": "taylor-wright",
+     "avg": 5.4,
+     "lo": 3.3,
+     "hi": 7.5
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "mike-kennedy",
+     "avg": 44.4,
+     "lo": 41.3,
+     "hi": 47.5
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "jonny-larsen",
+     "avg": 34.7,
+     "lo": 31.7,
+     "hi": 37.7
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "steven-burt",
+     "avg": 6,
+     "lo": 3.8,
+     "hi": 8.1
+    },
+    {
+     "date": "2026-10-22",
+     "candidate_id": "taylor-wright",
+     "avg": 5.4,
+     "lo": 3.3,
+     "hi": 7.5
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,244 @@
+{
+ "elections": [
+  {
+   "election_id": "2026-general",
+   "name": "2026 General Election",
+   "date": "2026-11-03",
+   "status": "pre",
+   "precinct_geo": "precincts_2026",
+   "cd_plan": "cd2026",
+   "contests": [
+    {
+     "contest_id": "us-house-1",
+     "name": "U.S. House District 1",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-2",
+     "name": "U.S. House District 2",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-3",
+     "name": "U.S. House District 3",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-4",
+     "name": "U.S. House District 4",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "amendment-a",
+     "name": "Constitutional Amendment A",
+     "office": "amendment"
+    },
+    {
+     "contest_id": "amendment-b",
+     "name": "Constitutional Amendment B",
+     "office": "amendment"
+    },
+    {
+     "contest_id": "state-house-1",
+     "name": "Utah House District 1",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-4",
+     "name": "Utah House District 4",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-9",
+     "name": "Utah House District 9",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-14",
+     "name": "Utah House District 14",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-20",
+     "name": "Utah House District 20",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-23",
+     "name": "Utah House District 23",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-31",
+     "name": "Utah House District 31",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-38",
+     "name": "Utah House District 38",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-44",
+     "name": "Utah House District 44",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-52",
+     "name": "Utah House District 52",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-60",
+     "name": "Utah House District 60",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-house-68",
+     "name": "Utah House District 68",
+     "office": "state-house"
+    },
+    {
+     "contest_id": "state-senate-3",
+     "name": "Utah Senate District 3",
+     "office": "state-senate"
+    },
+    {
+     "contest_id": "state-senate-11",
+     "name": "Utah Senate District 11",
+     "office": "state-senate"
+    },
+    {
+     "contest_id": "state-senate-17",
+     "name": "Utah Senate District 17",
+     "office": "state-senate"
+    },
+    {
+     "contest_id": "state-senate-25",
+     "name": "Utah Senate District 25",
+     "office": "state-senate"
+    },
+    {
+     "contest_id": "school-board-2",
+     "name": "State Board of Education District 2",
+     "office": "school-board"
+    },
+    {
+     "contest_id": "school-board-6",
+     "name": "State Board of Education District 6",
+     "office": "school-board"
+    },
+    {
+     "contest_id": "school-board-9",
+     "name": "State Board of Education District 9",
+     "office": "school-board"
+    },
+    {
+     "contest_id": "retention-justice-diane-park",
+     "name": "Retention: Justice Diane Park",
+     "office": "retention"
+    },
+    {
+     "contest_id": "retention-judge-robert-hale",
+     "name": "Retention: Judge Robert Hale",
+     "office": "retention"
+    },
+    {
+     "contest_id": "retention-judge-elena-ruiz",
+     "name": "Retention: Judge Elena Ruiz",
+     "office": "retention"
+    },
+    {
+     "contest_id": "retention-judge-marcus-trent",
+     "name": "Retention: Judge Marcus Trent",
+     "office": "retention"
+    }
+   ]
+  },
+  {
+   "election_id": "2024-general",
+   "name": "2024 General Election",
+   "date": "2024-11-05",
+   "status": "final",
+   "precinct_geo": "precincts_2024",
+   "cd_plan": "cd2022",
+   "contests": [
+    {
+     "contest_id": "president",
+     "name": "President",
+     "office": "president"
+    },
+    {
+     "contest_id": "us-senate",
+     "name": "U.S. Senate",
+     "office": "us-senate"
+    },
+    {
+     "contest_id": "governor",
+     "name": "Governor",
+     "office": "governor"
+    },
+    {
+     "contest_id": "amendment-d",
+     "name": "Constitutional Amendment D",
+     "office": "amendment"
+    },
+    {
+     "contest_id": "us-house-1",
+     "name": "U.S. House District 1",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-2",
+     "name": "U.S. House District 2",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-3",
+     "name": "U.S. House District 3",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-4",
+     "name": "U.S. House District 4",
+     "office": "us-house"
+    }
+   ]
+  },
+  {
+   "election_id": "2022-general",
+   "name": "2022 General Election",
+   "date": "2022-11-08",
+   "status": "final",
+   "precinct_geo": null,
+   "cd_plan": "cd2022",
+   "contests": [
+    {
+     "contest_id": "us-senate",
+     "name": "U.S. Senate",
+     "office": "us-senate"
+    },
+    {
+     "contest_id": "us-house-1",
+     "name": "U.S. House District 1",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-2",
+     "name": "U.S. House District 2",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-3",
+     "name": "U.S. House District 3",
+     "office": "us-house"
+    },
+    {
+     "contest_id": "us-house-4",
+     "name": "U.S. House District 4",
+     "office": "us-house"
+    }
+   ]
+  }
+ ]
+}

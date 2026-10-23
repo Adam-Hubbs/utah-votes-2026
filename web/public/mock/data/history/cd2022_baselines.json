@@ -1,0 +1,157 @@
+{
+ "method": "Actual 2022-2024 district lines (mock results).",
+ "districts": {
+  "1": [
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "votes": {
+     "REP": 254455,
+     "DEM": 121024,
+     "OTH": 11091
+    },
+    "total": 386570,
+    "margin": 0.3452
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "us-senate",
+    "name": "2024 U.S. Senate",
+    "votes": {
+     "REP": 263628,
+     "DEM": 97169,
+     "OTH": 25784
+    },
+    "total": 386581,
+    "margin": 0.4306
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "governor",
+    "name": "2024 Governor",
+    "votes": {
+     "REP": 268282,
+     "DEM": 89744,
+     "OTH": 28544
+    },
+    "total": 386570,
+    "margin": 0.4619
+   }
+  ],
+  "2": [
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "votes": {
+     "REP": 267445,
+     "DEM": 194970,
+     "OTH": 13766
+    },
+    "total": 476181,
+    "margin": 0.1522
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "us-senate",
+    "name": "2024 U.S. Senate",
+    "votes": {
+     "REP": 282872,
+     "DEM": 161156,
+     "OTH": 32145
+    },
+    "total": 476173,
+    "margin": 0.2556
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "governor",
+    "name": "2024 Governor",
+    "votes": {
+     "REP": 292066,
+     "DEM": 148578,
+     "OTH": 35550
+    },
+    "total": 476194,
+    "margin": 0.3013
+   }
+  ],
+  "3": [
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "votes": {
+     "REP": 174411,
+     "DEM": 82955,
+     "OTH": 7605
+    },
+    "total": 264971,
+    "margin": 0.3452
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "us-senate",
+    "name": "2024 U.S. Senate",
+    "votes": {
+     "REP": 180813,
+     "DEM": 66521,
+     "OTH": 17647
+    },
+    "total": 264981,
+    "margin": 0.4313
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "governor",
+    "name": "2024 Governor",
+    "votes": {
+     "REP": 183711,
+     "DEM": 61310,
+     "OTH": 19944
+    },
+    "total": 264965,
+    "margin": 0.462
+   }
+  ],
+  "4": [
+   {
+    "election_id": "2024-general",
+    "contest_id": "president",
+    "name": "2024 President",
+    "votes": {
+     "REP": 180359,
+     "DEM": 158967,
+     "OTH": 10046
+    },
+    "total": 349372,
+    "margin": 0.0612
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "us-senate",
+    "name": "2024 U.S. Senate",
+    "votes": {
+     "REP": 193906,
+     "DEM": 132284,
+     "OTH": 23182
+    },
+    "total": 349372,
+    "margin": 0.1764
+   },
+   {
+    "election_id": "2024-general",
+    "contest_id": "governor",
+    "name": "2024 Governor",
+    "votes": {
+     "REP": 201578,
+     "DEM": 121619,
+     "OTH": 26146
+    },
+    "total": 349343,
+    "margin": 0.2289
+   }
+  ]
+ }
+}

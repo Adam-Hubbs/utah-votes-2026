@@ -1,0 +1,98 @@
+[
+ {
+  "name": "Salt Lake City",
+  "lon": -111.891,
+  "lat": 40.761,
+  "rank": 1
+ },
+ {
+  "name": "Provo",
+  "lon": -111.658,
+  "lat": 40.234,
+  "rank": 2
+ },
+ {
+  "name": "Ogden",
+  "lon": -111.973,
+  "lat": 41.223,
+  "rank": 2
+ },
+ {
+  "name": "St. George",
+  "lon": -113.584,
+  "lat": 37.096,
+  "rank": 2
+ },
+ {
+  "name": "Logan",
+  "lon": -111.834,
+  "lat": 41.737,
+  "rank": 3
+ },
+ {
+  "name": "Park City",
+  "lon": -111.498,
+  "lat": 40.646,
+  "rank": 3
+ },
+ {
+  "name": "Moab",
+  "lon": -109.55,
+  "lat": 38.573,
+  "rank": 3
+ },
+ {
+  "name": "Cedar City",
+  "lon": -113.061,
+  "lat": 37.677,
+  "rank": 3
+ },
+ {
+  "name": "Vernal",
+  "lon": -109.528,
+  "lat": 40.455,
+  "rank": 3
+ },
+ {
+  "name": "Price",
+  "lon": -110.81,
+  "lat": 39.6,
+  "rank": 4
+ },
+ {
+  "name": "Richfield",
+  "lon": -112.084,
+  "lat": 38.772,
+  "rank": 4
+ },
+ {
+  "name": "Orem",
+  "lon": -111.694,
+  "lat": 40.297,
+  "rank": 3
+ },
+ {
+  "name": "Tooele",
+  "lon": -112.298,
+  "lat": 40.531,
+  "rank": 4
+ },
+ {
+  "name": "Blanding",
+  "lon": -109.479,
+  "lat": 37.624,
+  "rank": 5
+ },
+ {
+  "name": "Delta",
+  "lon": -112.577,
+  "lat": 39.352,
+  "rank": 5
+ },
+ {
+  "name": "Heber City",
+  "lon": -111.413,
+  "lat": 40.507,
+  "rank": 5
+ }
+]
