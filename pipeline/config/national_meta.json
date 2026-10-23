@@ -1,0 +1,34 @@
+{
+  "senate": {
+    "composition": {
+      "current": { "DEM": 45, "REP": 53, "IND": 2 },
+      "not_up": { "DEM": 32, "REP": 31, "IND": 2 },
+      "majority": 51,
+      "vp_tiebreak": "REP",
+      "note": "The two independents (Sanders, King) caucus with the Democrats. Seats up: 33 Class 2 plus the Florida and Ohio specials."
+    },
+    "composition_source": {
+      "name": "Wikipedia: 2026 United States Senate elections",
+      "url": "https://en.wikipedia.org/wiki/2026_United_States_Senate_elections",
+      "as_of": "2026-10-22"
+    },
+    "ratings_sources": [
+      { "id": "cook", "name": "Cook Political Report", "as_of": "2026-10-20", "url": "https://www.cookpolitical.com/ratings/senate-race-ratings" },
+      { "id": "sabato", "name": "Sabato's Crystal Ball", "as_of": "2026-10-14", "url": "https://centerforpolitics.org/crystalball/2026-senate/" },
+      { "id": "inside", "name": "Inside Elections", "as_of": "2026-10-15", "url": "https://insideelections.com/ratings/senate" }
+    ],
+    "ratings_via": "Wikipedia: 2026 United States Senate elections (predictions table)"
+  },
+  "house": {
+    "composition": {
+      "current": { "DEM": 214, "REP": 218, "IND": 1, "vacant": 2 },
+      "majority": 218,
+      "note": "The independent is Kevin Kiley (California), who left the Republican Party on March 9, 2026. Vacancies: FL-20 and TX-23."
+    },
+    "composition_source": {
+      "name": "Wikipedia: 119th United States Congress",
+      "url": "https://en.wikipedia.org/wiki/119th_United_States_Congress",
+      "as_of": "2026-09-02"
+    }
+  }
+}
