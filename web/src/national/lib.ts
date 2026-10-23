@@ -40,7 +40,7 @@ export const raceIndex = (race: SenateRace) => scoreIndex(consensusScore(race))
 export function fmtLead(value: number, opponentParty: string, opponent: string): string {
   const v = Math.abs(value)
   if (v < 0.5) return 'Even'
-  const label = value > 0 ? 'R' : opponentParty === 'DEM' ? 'D' : (opponent.split(' ').pop() ?? 'I')
+  const label = value > 0 ? 'R' : opponentParty === 'DEM' ? 'D' : ((opponent ?? '').split(' ').pop() || 'I')
   return `${label}+${v.toFixed(1)}`
 }
 

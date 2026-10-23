@@ -28,7 +28,7 @@ export function BalanceBar({ senate, compact = false }: { senate: SenateFile; co
       {!compact && (
         <div className="balance-heads">
           <div className="bh bh-d"><div className="bh-n">{dSecured}</div><div className="bh-l">Democrats and independents{election ? ' secured' : ' safe'}</div></div>
-          <div className="bh bh-mid"><div className="bh-n">{c.ratedD + c.ratedR + c.tossup + c.calledI * 0}</div><div className="bh-l">races undecided</div></div>
+          <div className="bh bh-mid"><div className="bh-n">{c.ratedD + c.ratedR + c.tossup}</div><div className="bh-l">races undecided</div></div>
           <div className="bh bh-r"><div className="bh-n">{rSecured}</div><div className="bh-l">Republicans{election ? ' secured' : ' safe'}</div></div>
         </div>
       )}
