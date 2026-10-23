@@ -34,7 +34,7 @@ function RatingsTable({ ratings, nameOf }: { ratings: Ratings; nameOf: (id: stri
   const ids = Object.keys(ratings.ratings)
   const rows = ids.map((id) => ({ id, cons: consensus(ratings, id) }))
   const columns: Column<{ id: string; cons: ReturnType<typeof consensus> }>[] = [
-    { key: 'race', header: 'Race', sort: (r) => r.id, render: (r) => <Link to={`/race/${r.id}`}><b>{nameOf(r.id)}</b></Link> },
+    { key: 'race', header: 'Race', className: 'nowrap', sort: (r) => r.id, render: (r) => <Link to={`/race/${r.id}`}><b>{nameOf(r.id)}</b></Link> },
     ...ratings.sources.map((s): Column<{ id: string; cons: ReturnType<typeof consensus> }> => ({
       key: s.id, header: s.url ? <a href={s.url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>{s.name}</a> : s.name, align: 'center',
       sort: (r) => ratings.scale.findIndex((l) => l === ratings.ratings[r.id]?.[s.id]),
