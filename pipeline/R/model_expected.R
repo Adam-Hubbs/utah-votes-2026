@@ -8,18 +8,25 @@ VOTE_PER_BALLOT <- 0.97
 model_defaults <- function() {
   list(
     draws = 4000L,
-    sigma_delta = 0.25, # statewide turnout shift, logit scale
+    sigma_delta = 0.25, # scale of the statewide turnout shift, logit scale
+    df_delta = 3, # Student-t df: Utah midterm turnout swings between cycles (2018 surge) are far heavier-tailed than a normal
+    df_eta = 3, # same for the statewide pace shift
     mu_delta = 0.10, # 2026 is expected to run a bit hotter than 2022 (new map, high-profile House race)
     sigma_eps = 0.17, # county-specific turnout deviation for large counties, logit scale
     sigma_eps_small = 0.6, # extra deviation scale for small counties: sd_c = sqrt(sigma_eps^2 + (this / sqrt(registered/1000))^2)
-    sigma_eta = 0.5, # statewide uncertainty in how complete the count is at a given hour
+    sigma_eta = 0.7, # scale of statewide uncertainty in count completeness at poll close, logit scale
+    sigma_eta_late = 0.35, # same scale once counting has converged (late ballots are mostly cures, so pace matters less)
+    tau_eta_hours = 24, # how fast the pace uncertainty decays towards sigma_eta_late
     m0 = 0.62, # prior mean fraction of final ballots counted at the first post-8pm drop
     m_inf = 0.975, # fraction counted once only cures/provisionals are outstanding
     tau_hours = 22,
-    concentration = 25, # Beta concentration of a county's counted fraction around the stage mean
+    likelihood_power = 0.5, # tempers the county likelihood: counties are not independent draws of the statewide shift/pace (shared processing, shared vote-method mix)
+    returned_valid = 0.97, # share of returned ballots that end up counted
+    concentration = 12, # Beta concentration of a county's counted fraction around the stage mean (counties differ a lot in processing speed)
     remaining_sd = 0.05, # relative sd of an officially reported "ballots remaining"
-    grid_delta = 31L,
-    grid_eta = 31L,
+    grid_range = 6, # statewide grids span +-6 scale units to cover the t tails
+    grid_delta = 49L,
+    grid_eta = 41L,
     grid_eps = 31L
   )
 }
@@ -27,6 +34,10 @@ model_defaults <- function() {
 stage_mean <- function(hours, p = model_defaults()) {
   h <- pmax(hours, 0)
   p$m_inf - (p$m_inf - p$m0) * exp(-h / p$tau_hours)
+}
+
+eta_scale <- function(hours, p = model_defaults()) {
+  p$sigma_eta_late + (p$sigma_eta - p$sigma_eta_late) * exp(-pmax(hours, 0) / p$tau_eta_hours)
 }
 
 read_remaining_overrides <- function(
@@ -57,6 +68,18 @@ read_remaining_overrides <- function(
     select(fips, remaining, final)
 }
 
+# Optional pre-election ballots-returned counts by county (fips, returned). No official per-county feed is known to exist,
+# so the file is absent by default; when present, returned ballots (net of a few percent rejected) lower-bound T_c.
+read_ballots_returned <- function(
+  path = file.path(project_root(), "pipeline", "config", "ballots_returned.csv")
+) {
+  empty <- tibble(fips = character(), returned = numeric())
+  if (!file.exists(path)) return(empty)
+  read_csv(path, col_types = cols(fips = col_character(), returned = col_double(), .default = col_character()), comment = "#", show_col_types = FALSE) |>
+    filter(!is.na(fips), !is.na(returned)) |>
+    select(fips, returned)
+}
+
 # Posterior over county eventual ballots T_c. Works on a 2-D grid for the two statewide latent
 # parameters (turnout shift delta, completeness shift eta) with the county deviation eps_c integrated out
 # on a 1-D grid, then draws joint samples. Everything is vectorized; ~1s for 4000 draws x 29 counties.
@@ -68,18 +91,21 @@ fit_expected_ballots <- function(
 ) {
   if (!is.null(seed)) set.seed(seed)
   counties <- add_eps_sd(counties, p)
+  if (!"returned" %in% names(counties)) counties$returned <- NA_real_
+  counties$floor <- coalesce(counties$returned, 0) * p$returned_valid
   n <- nrow(counties)
   D <- p$draws
   m_base <- qlogis(stage_mean(hours, p))
   eps_grid <- seq(-3.5, 3.5, length.out = p$grid_eps)
   eps_w <- dnorm(eps_grid)
   eps_w <- eps_w / sum(eps_w)
-  dgrid <- seq(-3.5, 3.5, length.out = p$grid_delta)
-  egrid <- seq(-3.5, 3.5, length.out = p$grid_eta)
+  dgrid <- seq(-p$grid_range, p$grid_range, length.out = p$grid_delta)
+  egrid <- seq(-p$grid_range, p$grid_range, length.out = p$grid_eta)
   grid <- expand_grid(zd = dgrid, ze = egrid)
   delta_g <- p$mu_delta + p$sigma_delta * grid$zd
-  eta_g <- p$sigma_eta * grid$ze
-  logprior_g <- dnorm(grid$zd, log = TRUE) + dnorm(grid$ze, log = TRUE)
+  sd_eta <- eta_scale(hours, p)
+  eta_g <- sd_eta * grid$ze
+  logprior_g <- dt(grid$zd, p$df_delta, log = TRUE) + dt(grid$ze, p$df_eta, log = TRUE)
 
   informative <- counties$counted > 0 & !counties$fixed
   loglik_grid <- rep(0, nrow(grid))
@@ -95,13 +121,13 @@ fit_expected_ballots <- function(
         p
       )
   }
-  lw <- logprior_g + loglik_grid
+  lw <- logprior_g + p$likelihood_power * loglik_grid
   w <- exp(lw - max(lw))
   w <- w / sum(w)
   idx <- sample.int(nrow(grid), D, replace = TRUE, prob = w)
   # jitter inside the cell so draws are continuous rather than 961 repeated points
   step_d <- p$sigma_delta * (dgrid[2] - dgrid[1])
-  step_e <- p$sigma_eta * (egrid[2] - egrid[1])
+  step_e <- sd_eta * (egrid[2] - egrid[1])
   delta_d <- delta_g[idx] + runif(D, -0.5, 0.5) * step_d
   eta_d <- eta_g[idx] + runif(D, -0.5, 0.5) * step_e
 
@@ -143,7 +169,7 @@ log_marginal_county <- function(
   total <- row$registered * plogis(lt)
   f <- row$counted / total
   dens <- exp(dbeta(f, m * k, (1 - m) * k, log = TRUE)) / total
-  dens[!is.finite(dens)] <- 0
+  dens[!is.finite(dens) | total < row$floor] <- 0
   log(pmax(as.vector(dens %*% eps_w), 1e-300))
 }
 
@@ -151,7 +177,7 @@ sample_county_total <- function(row, mu_logit, eta_d, m_base, eps_grid, p) {
   D <- length(mu_logit)
   eps_sd <- row$eps_sd
   if (row$counted <= 0) {
-    return(row$registered * plogis(mu_logit + eps_sd * rnorm(D)))
+    return(pmax(row$registered * plogis(mu_logit + eps_sd * rnorm(D)), row$floor))
   }
   m <- plogis(m_base + eta_d)
   k <- p$concentration
@@ -161,7 +187,7 @@ sample_county_total <- function(row, mu_logit, eta_d, m_base, eps_grid, p) {
   dens <- exp(dbeta(f, m * k, (1 - m) * k, log = TRUE)) /
     total *
     matrix(dnorm(eps_grid), D, length(eps_grid), byrow = TRUE)
-  dens[!is.finite(dens)] <- 0
+  dens[!is.finite(dens) | total < row$floor] <- 0
   # Rows with no mass (county far outside any plausible fraction) fall back to the nearest feasible total.
   dead <- rowSums(dens) <= 0
   dens[dead, ] <- 1
@@ -172,7 +198,7 @@ sample_county_total <- function(row, mu_logit, eta_d, m_base, eps_grid, p) {
   step <- eps_sd * (eps_grid[2] - eps_grid[1])
   eps <- eps_sd * eps_grid[j] + runif(D, -0.5, 0.5) * step
   tot <- row$registered * plogis(mu_logit + eps)
-  pmax(tot, row$counted * 1.001)
+  pmax(tot, row$counted * 1.001, row$floor)
 }
 
 summarise_draws <- function(T_draws, counted, lo = 0.05, hi = 0.95) {
@@ -283,6 +309,7 @@ run_expected_vote_model <- function(
   cty <- base |>
     left_join(county_rows, by = "fips") |>
     left_join(overrides, by = "fips") |>
+    left_join(read_ballots_returned(), by = "fips") |>
     mutate(
       counted = coalesce(counted, 0),
       registered = registered_2026,
