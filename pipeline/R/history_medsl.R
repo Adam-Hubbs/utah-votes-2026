@@ -19,7 +19,7 @@ medsl_2022_long <- function() {
       district = as.integer(district),
       candidate = str_squish(candidate),
       party = party_simplified,
-      votes = as.integer(votes)
+      votes = coalesce(as.integer(votes), 0L)
     ) |>
     summarise(votes = sum(votes), .by = c(county_fips, precinct, office, district, candidate, party))
 }

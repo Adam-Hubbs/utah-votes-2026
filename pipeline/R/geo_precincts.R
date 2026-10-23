@@ -36,10 +36,27 @@ cluster_reported <- function(matches, votes) {
     lab <- nxt
   }
 
-  members <- lab |>
+  # Reported names that lost every feature to a better-tier match (e.g. "COV01:X" next to "COV01") belong
+  # to the area of the winning unit; their votes are attributed to it.
+  vista_cluster <- edges |>
+    left_join(lab, by = c("county_fips", "precinct")) |>
+    distinct(county_fips, vista_id, cluster)
+  orphans <- matches |>
+    filter(!is.na(vista_id)) |>
+    distinct(county_fips, precinct, vista_id) |>
+    anti_join(lab, by = c("county_fips", "precinct")) |>
+    inner_join(vista_cluster, by = c("county_fips", "vista_id")) |>
+    count(county_fips, precinct, cluster) |>
+    arrange(county_fips, precinct, desc(n), cluster) |>
+    distinct(county_fips, precinct, .keep_all = TRUE) |>
+    select(county_fips, precinct, cluster)
+  lab_all <- bind_rows(lab, orphans)
+
+  members <- lab_all |>
     left_join(votes, by = c("county_fips", "precinct")) |>
     mutate(votes = coalesce(votes, 0L))
   rep_name <- members |>
+    semi_join(lab, by = c("county_fips", "precinct")) |>
     arrange(cluster, desc(votes), precinct) |>
     distinct(cluster, .keep_all = TRUE) |>
     transmute(cluster, unit_name = precinct, unit_id = precinct_key(county_fips, precinct))
@@ -88,11 +105,10 @@ crosswalk_weights <- function(blocks_tbl, from_col, to_col) {
     filter(!is.na(.data[[from_col]]), !is.na(.data[[to_col]])) |>
     summarise(vap = sum(vap), pop = sum(pop), .by = c(all_of(from_col), all_of(to_col))) |>
     rename(from = all_of(from_col), to = all_of(to_col)) |>
-    mutate(
-      basis = if_else(sum(vap) > 0, vap, pop),
-      .by = from
-    ) |>
-    mutate(weight = if_else(sum(basis) > 0, basis / sum(basis), 1 / n()), .by = from) |>
+    mutate(use_vap = sum(vap) > 0, .by = from) |>
+    mutate(basis = as.double(if_else(use_vap, vap, pop))) |>
+    mutate(has_basis = sum(basis) > 0, .by = from) |>
+    mutate(weight = if_else(has_basis, basis / sum(basis), 1 / n()), .by = from) |>
     select(from, to, weight)
 }
 
