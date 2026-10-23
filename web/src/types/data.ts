@@ -342,6 +342,8 @@ export interface NeedleContest {
   pair: [string, string]
   prob: Record<string, number>
   capped?: boolean
+  /** False for measures before any votes are counted: there is no public polling, so no pre-election forecast is shown. */
+  forecast?: boolean
   margin: NeedleInterval
   shares: Record<string, NeedleShare>
   prior?: { share_a: number; source: string }

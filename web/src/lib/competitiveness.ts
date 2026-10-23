@@ -42,7 +42,7 @@ function tierFromMargin(m: number): Tier {
 
 /** Earliest forecast for the contest, so the rating stays the pre-election one once votes are counted. */
 function preElectionProb(n: NeedleContest | undefined): Record<string, number> | null {
-  if (!n) return null
+  if (!n || n.forecast === false) return null
   if (n.stage === 'pre') return n.prob
   return n.history?.[0]?.prob ?? null
 }

@@ -23,6 +23,19 @@ const inHundred = (p: number): string => (p >= 0.99 ? 'more than 99' : p <= 0.01
 
 /** Our model's projection. Deliberately neutral-ink and boxed so it reads as neither a result nor a poll. */
 export function ForecastSummary({ needle, candidates, title, measure = false, compact = false, showNote = true }: Props) {
+  if (needle.stage === 'pre' && needle.forecast === false) {
+    return (
+      <div className={`forecast${compact ? ' compact' : ''}`}>
+        <div className="forecast-tag">No pre-election forecast<span> · model, not votes</span></div>
+        <div className="forecast-head">No forecast — there is no public polling</div>
+        {!compact && showNote && (
+          <p className="forecast-note">
+            We will show a live projection once votes are counted. <Link to="/methodology">How the forecast works</Link>.
+          </p>
+        )}
+      </div>
+    )
+  }
   const [a, b] = needle.pair
   const pa = needle.prob[a] ?? 0.5
   const aLeads = pa >= 0.5

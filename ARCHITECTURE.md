@@ -269,6 +269,7 @@ more real candidates (~8 s total; 5,000 draws for featured contests, 2,500 for t
 * `pair` = the two candidates the margin is defined on (a minus b, as a proportion of ALL votes): DEM then REP when both run (otherwise the
   non-REP candidate then the REP, or the first two); measures `["for","against"]`. `prob` is the chance a / b finishes ahead, **capped to
   [0.01, 0.99]** (`capped` is true when the cap applied; the UI prints ">99%" / "<1%").
+* `forecast` (boolean): `false` only on a measure at stage `pre`. There is no public polling for amendments, so the 50% prior carries no information; the UI shows "No forecast — there is no public polling" instead of a probability (`ForecastSummary`, `competitiveness.ts` ignores it). Once votes are counted it is `true`.
 * `stage`: `pre` nothing counted (prior only), `early` under 5% of expected vote counted (prior-dominated), `live`, `final` (all counties final or status final).
   `history` exists only for featured contests and only while counting (one point per new timestamp).
 
@@ -279,7 +280,9 @@ Method (details in the R file header and the Methodology page):
   county offsets are then calibrated so the model reproduces the vote-weighted counted totals. `lambda` (late-ballot shift, sd 0.15 logit, mean 0) plus an
   `misfit` term (0.08) are NOT identified from counts; they are assumptions (no historical timing data in the repo).
 * Priors: U.S. House = poll average (two-party, with its band and 4 pts extra) blended by precision with fundamentals (2024 baseline shifted by the generic-ballot
-  change since 2024 vs the 2024 national House margin R+2.6, elasticity 0.5, capped at 0.3 logit; sd 6.5 pts). Legislature = fundamentals only (sd 8 pts) plus a leave-one-out
+  change since 2024 vs the 2024 national House margin R+2.6, elasticity 0.5, capped at 0.3 logit; sd 6.5 pts). The third-party share of the House vote is set from history by number of minor candidates (`house_other_by_minor`: 0 -> 1%, 1 -> 4.7%, 2+ -> 7.4%; 2016-2024), not from poll undecideds.
+  Legislature = fundamentals WITHOUT the generic-ballot shift, corrected by `leg_spec` (fitted on 2018-2024: logit share = -0.037 + 0.867 x logit baseline - 0.176 [R incumbent] + 0.152 [challenger-side incumbent] - 0.413 [non-Democratic
+  challenger]; total prior sd 0.30 logit, 0.50 for non-Democratic challengers; `pipeline/tests/eval_legislative_spec.R`), plus a leave-one-out
   pooled statewide swing learned from the other legislative contests once at least 5 have counted votes. Amendments = 50% +/- 0.55 logit with a free slope on 2024 partisanship.
 * Remaining ballots: county expected ballots T_c are lognormal fitted to `model.json` (median, 90% interval), correlated across counties (rho 0.7); contest votes
   in a county scale as counted contest votes / counted ballots * T_c (or ballot_share * 0.97 for counties with nothing counted) and are allocated to precincts by their baseline size and own count.
