@@ -1,0 +1,411 @@
+<title>Turnout Model Evaluation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+/* Layout: one 920px reading column; figures sit full width inside it, tables scroll inside their own box. */
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --ink: #14181f;
+  --ink-2: #4a5362;
+  --ink-3: #6b7482;
+  --rule: #d9dde4;
+  --grid: #e6e9ee;
+  --accent: #1c5cab;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --s4: #eda100;
+  --s5: #e87ba4;
+  --bad: #c0392b;
+  --good: #1f7a4d;
+  --band: rgba(42, 120, 214, 0.14);
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "IBM Plex Serif", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151a; --surface: #1a1e25; --ink: #eceff4; --ink-2: #b9c0cc; --ink-3: #8f98a6; --rule: #2e3540; --grid: #262c36;
+    --accent: #6da7ec; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --bad: #ef8072; --good: #5fc796;
+    --band: rgba(57, 135, 229, 0.2); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151a; --surface: #1a1e25; --ink: #eceff4; --ink-2: #b9c0cc; --ink-3: #8f98a6; --rule: #2e3540; --grid: #262c36;
+  --accent: #6da7ec; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --bad: #ef8072; --good: #5fc796;
+  --band: rgba(57, 135, 229, 0.2); color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; padding-block: 32px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { max-width: 920px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: 30px; }
+h2 { font-size: 22px; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rule); }
+h3 { font-size: 16px; margin-top: 28px; font-family: var(--font-body); }
+p { max-width: 70ch; margin: 12px 0 0; }
+.sub { color: var(--ink-2); max-width: 70ch; margin-top: 8px; }
+.eyebrow { font: 500 11px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.verdict { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 20px; margin-top: 24px; }
+.verdict ul { margin: 10px 0 0; padding-left: 20px; }
+.verdict li { margin-top: 6px; max-width: 75ch; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 16px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; min-width: 0; }
+.card b { display: block; font: 500 24px var(--font-mono); font-variant-numeric: tabular-nums; }
+.card span { color: var(--ink-3); font-size: 13px; }
+.fig { margin-top: 20px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 14px 10px; }
+.fig h3 { margin: 0 0 2px; }
+.fig .cap { color: var(--ink-3); font-size: 13px; margin: 4px 0 0; max-width: none; }
+.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+.scroll { overflow-x: auto; margin-top: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font: 500 11px var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); position: sticky; top: 0; background: var(--bg); }
+td.bad { color: var(--bad); } td.good { color: var(--good); }
+code, .mono { font-family: var(--font-mono); font-size: 0.9em; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--ink-2); margin: 6px 0 0; }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 5px; vertical-align: -1px; }
+.recs { counter-reset: r; padding: 0; list-style: none; }
+.recs li { counter-increment: r; margin-top: 14px; padding-left: 34px; position: relative; max-width: 75ch; }
+.recs li::before { content: counter(r); position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--bg); font: 500 12px/24px var(--font-mono); text-align: center; }
+.tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 12px; padding: 5px 8px; border-radius: 4px; z-index: 20; max-width: 260px; display: none; }
+@media (max-width: 520px) { h1 { font-size: 24px; } .fig { padding: 10px 8px 8px; } }
+</style>
+
+<main id="top">
+  <div class="eyebrow">Utah 2026 election site / expected-vote model</div>
+  <h1 style="margin-top:8px">How good is our turnout model?</h1>
+  <p class="sub">An out-of-sample check of the two parts of <code>model_expected.R</code>: the pre-election turnout prior and the live estimate of eventual ballots, using vote counts recovered from archived Utah results pages for 2016 to 2025. Prepared 23 Oct 2026, eleven days before the election.</p>
+
+  <section class="verdict" aria-labelledby="verdict-h">
+    <h2 id="verdict-h" style="margin:0;border:0;padding:0;font-size:18px">Verdict</h2>
+    <ul>
+      <li><b>The pace curve is the main problem, and it is too fast.</b> Real Utah counts reached about 70% of the final total by 22 to 29 hours after close in 2018, 2020 and 2022. The deployed curve says 84% at 22 hours. Every early observation sits below the model's median. Full ballots were not in until about day 9.</li>
+      <li><b>Live accuracy is only adequate, and the intervals are too narrow where it matters.</b> Replaying real county completion patterns, the statewide median of expected ballots runs high (mean +12% at 24 hours) and the 90% statewide interval covers about 7 in 10 cases, not 9. At county level, small counties are covered only 4 in 10 times at 24 hours because they finish earlier than the model assumes.</li>
+      <li><b>The pre-election prior is reasonable for what it can know.</b> The statewide 90% interval held the truth in 5 of 6 back-tests, but it is wide (34% to 71% of the total), and the point estimate missed by 4% to 40%. The county pattern given the right statewide level is good (weighted error 1.5% to 9%).</li>
+      <li><b>Data answer:</b> county-by-time counts do exist for 2022 (one full 29-county vector at +22 h plus statewide points from +12 h), 2020 (+97 h onward), 2016 and 2018, and a single post-HB 300 point from 2025. Nothing usable survives for 2024. That is thin, so the conclusions about pace rest on about ten statewide points from four elections.</li>
+    </ul>
+  </section>
+
+  <div class="cards" id="cards"></div>
+
+  <h2>1. Do we have county-by-time data?</h2>
+  <p>Yes, for the elections before 2023 and one in 2025, but only as sparse Wayback Machine captures, not complete logs. The old Lt. Governor site (<code>electionresults.utah.gov/elections/countyCount/&lt;contest&gt;</code>, used through 2022) published a table of every county's votes for each contest. The Internet Archive crawled those pages at irregular times. We parsed every capture into <code>pipeline/data/timing/county_count_timeline.csv</code> (built by <code>pipeline/scripts/build_count_timeline.R</code>).</p>
+  <div class="scroll"><table id="inv"></table></div>
+  <h3>What did not work</h3>
+  <p>Clarity ENR (<code>results.enr.clarityelections.com/UT/...</code>) returns 403 for every path now, and the Wayback Machine holds it only for Salt Lake County (2019 to 2022, three 2022 versions). The new results site has no early captures for 2024: its <code>turnout</code> and <code>stats</code> endpoints are empty and the general-election export was first captured on 17 Nov 2024. The county API pages for 2024 were crawled on 19 Nov or later. The 2025 export has three captures (one before close, one at +19 h, one final) and covers municipal contests only, so counts there are sums of votes across all contests in a county. A "County Completion Report" page, which shows when each county last released results, was also captured and parsed.</p>
+
+  <h2>2. Pace of the count</h2>
+  <p>The model assumes that on average a fraction <span class="mono">m(h) = 0.975 &minus; 0.355 e<sup>&minus;h/22</sup></span> of eventual ballots is counted <span class="mono">h</span> hours after the 8 pm Mountain close. Figure 1 compares that with the share of the final top-of-ticket total in every archived statewide capture.</p>
+  <div class="fig"><h3>Figure 1. Share of final vote counted vs hours since close</h3>
+    <div id="f-pace"></div>
+    <div class="legend" id="l-pace"></div>
+    <p class="cap">Shaded band: the model's own 90% predictive range for the statewide counted share (including county dispersion and the pace shift), using 2022 county weights. Dashed: least-squares exponential through the 2016 to 2022 points. Hover a point for the value. The 2025 point is a sum over municipal contests in 26 counties.</p></div>
+  <p id="pace-text"></p>
+
+  <div class="fig"><h3>Figure 2. Counties finish at very different speeds, and size explains much of it</h3>
+    <div id="f-size"></div>
+    <div class="legend" id="l-size"></div>
+    <p class="cap">Share of final votes counted by county, one dot per county per capture, against active registered voters (log scale). The model draws every county's pace from the same Beta distribution around <span class="mono">m(h)</span>; the data show a systematic gradient instead.</p></div>
+  <p id="size-text"></p>
+  <div class="scroll"><table id="disp"></table></div>
+
+  <h2>3. The pre-election turnout prior</h2>
+  <p>The prior sets eventual ballots in county <span class="mono">c</span> to <span class="mono">R<sub>c</sub> &times; expit(logit(turnout<sub>prev,c</sub>) + &delta; + &epsilon;<sub>c</sub>)</span> with <span class="mono">&delta; ~ 0.10 + 0.6 t<sub>3</sub></span>. To test it, each election year is predicted from an earlier one with the unmodified model code, with no counts observed. Truth is top-of-ticket votes (President or Senate). County registration is known only for 2022 and 2026, so other years scale the statewide active-voter total by a county share extrapolated from the 2022 to 2026 trend. Active-roll definitions changed between 2018 and 2020 (statewide active voters rose from 1.39 million to 1.68 million), so pairs that cross that line, and any pair where the election type changes, are poor analogues for 2026-from-2022. They are shown for completeness.</p>
+  <div class="fig"><h3>Figure 3. Statewide prediction vs actual, top-of-ticket votes</h3>
+    <div id="f-prior"></div>
+    <p class="cap">Dot: model median. Thick bar: 50% interval. Thin bar: 90% interval. Diamond: actual.</p></div>
+  <div class="scroll"><table id="prior-t"></table></div>
+  <p id="prior-text"></p>
+  <div class="scroll"><table id="prior-size"></table></div>
+
+  <h2>4. Live estimate of eventual ballots</h2>
+  <h3>4a. Replays of real county vectors</h3>
+  <p>We have two usable full county vectors: the 2022 Senate race at +22.2 h (70% counted) and the 2020 presidential race at +97 h (87% counted). Each is pushed through <code>fit_expected_ballots()</code> at its real timestamp, with a prior from an earlier cycle, once as deployed (<span class="mono">mu_delta</span> = 0.10) and once with the prior centred on the true statewide shift to isolate the live component.</p>
+  <div class="scroll"><table id="real-t"></table></div>
+  <p id="real-text"></p>
+
+  <h3>4b. Warped real patterns across hours since close</h3>
+  <p>To see accuracy by time, a real completion pattern (2022 at +22 h, 2020 at +97 h, 2025 at +19 h, with its county-by-county gradient) is shifted in logit space until the statewide weighted share equals the empirical curve from Figure 1, then applied to other years' true county totals. This yields 10 combinations at each of eight hours. It uses real county heterogeneity but a pace curve fitted to the same points, so it favours a recalibrated model; it does not favour the deployed one. Three parameter sets are compared with no change to model code: the deployed defaults, a slower pace (<span class="mono">m0 = 0.62, m_inf = 0.99, tau = 90 h</span>), and the slower pace with county concentration <span class="mono">k = 6</span>.</p>
+  <div class="fig"><h3>Figure 4. Statewide bias and 90% coverage by hours since close</h3>
+    <div id="f-warp" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px"></div>
+    <div class="legend" id="l-warp"></div>
+    <p class="cap">Each point averages 10 replays (3 patterns times up to 4 election-year totals). Positive bias means the expected-ballots median is above the final total, so the displayed "percent of expected vote counted" is too low. Solid: prior as deployed. Dashed: prior centred on the true statewide shift. Dotted line in the right panel: nominal 90%.</p></div>
+  <div class="scroll"><table id="warp-t"></table></div>
+  <p id="warp-text"></p>
+  <div class="fig"><h3>Figure 5. County-level 90% coverage by county size at 24 hours</h3>
+    <div id="f-cty"></div>
+    <p class="cap">Share of county-replays whose final total lies inside the model's 90% interval. Size groups: small under 10k active voters (13 counties), mid 10k to 50k (10), large over 50k (6). Dashed line: nominal 90%.</p></div>
+
+  <h3>4c. Comparison with the synthetic back-test</h3>
+  <p>The existing back-test (<code>backtest_results.csv</code>) reports county 90% coverage of 0.91 to 0.99 and statewide coverage of 0.88 to 1.00 at 1, 14 and 36 hours. It generates fake nights with a uniform statewide pace of 50% to 85% at the first drop and a geometric catch-up, and gives the model a prior within &plusmn;0.2 logit of the truth. Real nights differ in three ways that matter: the count is slower than that process after the first day (about 72% to 76% at 29 to 36 hours, not 93%), small counties finish far ahead of large ones, and the priors in this evaluation missed the statewide level by more than 0.2 logit in every pair. The synthetic coverage figures should be read as an upper bound.</p>
+
+  <h2>5. Strengths and weaknesses</h2>
+  <h3>Strengths</h3>
+  <ul>
+    <li>The heavy-tailed statewide shift is justified. Realised shifts ranged from &minus;1.5 to +1.0 logit across pairs, and 5 of 6 statewide 90% intervals held the truth.</li>
+    <li>Given the right statewide level, county ordering is good: weighted error 1.5% to 9%, within a factor of the model's county noise term (standardised residual sd 0.7 to 1.4).</li>
+    <li>By +97 h the live model is accurate (2020 replay: statewide error about 1.5%, county coverage 97%).</li>
+    <li>The code guarantees <code>counted &le; T</code> and degrades to the prior when nothing is counted.</li>
+  </ul>
+  <h3>Weaknesses</h3>
+  <ul>
+    <li>Pace curve: too fast by 10 to 15 points between 12 and 100 hours (Figure 1).</li>
+    <li>Exchangeable counties: small counties finish early and large ones late, so the Beta draws are mis-specified, and county intervals under-cover (Figure 5).</li>
+    <li>Early statewide level is not identified. At +6 h, a 20% to 30% error in the turnout prior survives into the posterior.</li>
+    <li>County concentration <span class="mono">k = 12</span> is higher than the dispersion in the data implies (implied <span class="mono">k</span> of 3 to 14, median about 5).</li>
+    <li>Evidence base is small: two county vectors, about ten statewide points, one post-HB 300 observation. Counts after HB 300 (ballots must arrive by 8 pm Election Day) may be faster than 2016 to 2022; 2025 at +19 h was 74.8%, versus 70% at +22 h in 2022.</li>
+  </ul>
+
+  <h2>6. Recommendations</h2>
+  <ol class="recs">
+    <li><b>Slow the statewide pace curve.</b> Keep <span class="mono">m0 = 0.62</span>, raise <span class="mono">m_inf</span> to 0.99 and set <span class="mono">tau_hours</span> between 60 (consistent with the 2025 point) and 90 (2016 to 2022 fit; unrestricted fit 97 h). Alone this does not reduce replay bias (Figure 4, "slower pace"), because the exchangeable-county structure is the larger problem, so ship it together with recommendation 2.</li>
+    <li><b>Make pace depend on county size.</b> Use <span class="mono">logit m<sub>c</sub> = logit m(h) + &eta; &minus; &gamma; log(R<sub>c</sub>/10,000)</span> with &gamma; about 0.3 to 0.75 (Figure 2 slopes). This needs a code change, which was out of scope here; the replay harness in <code>pipeline/tests/eval_turnout_model.R</code> will score it.</li>
+    <li><b>Lower the Beta concentration to about 6.</b> It cut early statewide MAPE from 16% to 12.5% at 3 hours and from 14% to 9% with a correctly centred prior (Figure 4, third line), and moves county coverage towards nominal.</li>
+    <li><b>Do not present early percent-of-expected as precise.</b> Before about 36 hours, show the interval or a range and say that the estimate is prior-driven. Statewide 90% coverage before 24 hours was 50% to 60% in the replays.</li>
+    <li><b>Use any ballots-remaining statement.</b> <code>remaining_ballots.csv</code> removes the turnout/pace ambiguity and the evidence shows no other input does.</li>
+    <li><b>Log the 2026 night.</b> The scraper already stores a timeline; keep every version, then refit <span class="mono">m(h)</span> and the size gradient on the first post-HB 300 midterm, which will be the best evidence available.</li>
+    <li><b>Leave the turnout prior roughly as is.</b> Do not narrow <span class="mono">sigma_delta</span>; realised shifts were as large as the prior allows. Consider a wider county term only if size-dependent pace is not adopted.</li>
+  </ol>
+
+  <h2>7. Methods and limitations</h2>
+  <ul>
+    <li><b>Truth.</b> Top-of-ticket votes: OpenElections (2016 precinct file, 2018 county file), Wayback captures of the official county table taken weeks after close (2020, 2022), and the project's <code>county_baselines.csv</code> (2024). Votes stand in for ballots; the shortfall (about 1%) is the same in prior and truth.</li>
+    <li><b>Registration.</b> County registration exists in the repo for 2022 and 2026 only. Earlier and 2024 values are the statewide active total from Utah's weekly registration series times an extrapolated county share, so county prior errors for those years include share-drift error.</li>
+    <li><b>Capture times.</b> Wayback times are when the page was crawled, not when results were published; the site refreshed every 60 seconds. Utah counties usually post once or twice a day after election night, so the staircase shape of the count is real but its timing is approximate.</li>
+    <li><b>Partial finals.</b> Final totals for 2018 and 2020 are from OpenElections and the last archived capture (about 10+ days after close). The 2016 point at +43 h used a county table whose final capture was 11 days after close.</li>
+    <li><b>Salt Lake Clarity series</b> stops at 263,191 ballots on 11 Nov 2022 although canvass was about 381,000, which independently shows that Salt Lake had counted only 69% at +66 h.</li>
+    <li><b>Small samples.</b> Replays reuse the same few patterns, so the 10 combinations per cell are not independent; read coverage figures as indicative, with a standard error of at least 0.15.</li>
+    <li><b>Not tested.</b> Contest-level propagation (<code>pct_expected</code> for individual races), the needle model, and the effect of <code>ballots_returned.csv</code>.</li>
+  </ul>
+  <p class="cap" style="color:var(--ink-3);font-size:13px">Files: <code>pipeline/scripts/build_count_timeline.R</code>, <code>pipeline/data/timing/</code>, <code>pipeline/tests/eval_turnout_model.R</code>, <code>pipeline/tests/eval_history.R</code>, <code>pipeline/tests/eval_turnout/*.csv</code>, <code>pipeline/tests/build_turnout_report.R</code>.</p>
+</main>
+<div class="tip" id="tip"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const $ = (s) => document.querySelector(s);
+const fmt = { p0: (x) => (100 * x).toFixed(0) + "%", p1: (x) => (100 * x).toFixed(1) + "%", sp1: (x) => (x >= 0 ? "+" : "") + (100 * x).toFixed(1) + "%", n0: (x) => Math.round(x).toLocaleString("en-US") };
+const cssv = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SVGNS = "http://www.w3.org/2000/svg";
+const tip = $("#tip");
+function showTip(e, html) { tip.innerHTML = html; tip.style.display = "block"; const x = Math.min(e.clientX + 12, innerWidth - 270); tip.style.left = x + "px"; tip.style.top = e.clientY + 14 + "px"; }
+function hideTip() { tip.style.display = "none"; }
+const yearColor = { 2016: "--s1", 2018: "--s2", 2020: "--s3", 2022: "--s4", 2025: "--s5" };
+const yearShape = { 2016: "circle", 2018: "square", 2020: "diamond", 2022: "tri", 2025: "cross" };
+function mark(shape, x, y, r, color, attrs) {
+  const a = `fill="${color}" stroke="var(--surface)" stroke-width="1.5" ${attrs || ""}`;
+  if (shape === "circle") return `<circle cx="${x}" cy="${y}" r="${r}" ${a}/>`;
+  if (shape === "square") return `<rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" ${a}/>`;
+  if (shape === "diamond") return `<path d="M${x} ${y - r * 1.3}L${x + r * 1.3} ${y}L${x} ${y + r * 1.3}L${x - r * 1.3} ${y}Z" ${a}/>`;
+  if (shape === "tri") return `<path d="M${x} ${y - r * 1.2}L${x + r * 1.15} ${y + r * 0.9}L${x - r * 1.15} ${y + r * 0.9}Z" ${a}/>`;
+  return `<path d="M${x - r} ${y}h${2 * r}M${x} ${y - r}v${2 * r}" stroke="${color}" stroke-width="3" fill="none" ${attrs || ""}/>`;
+}
+const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" font-size="${o.size || 11}" fill="${o.fill || "var(--ink-3)"}" text-anchor="${o.anchor || "middle"}" ${o.rot ? `transform="rotate(${o.rot} ${x} ${y})"` : ""} font-family="var(--font-mono)">${s}</text>`;
+
+/* Cards */
+(function () {
+  const f = DATA.facts, p = DATA.pace;
+  const at22 = p.find((r) => r.year === 2022 && Math.abs(r.hours - 22.2) < 0.5);
+  const cards = [
+    [at22 ? fmt.p0(at22.frac) : "n/a", "of 2022 final vote counted at +22 h (model expects " + fmt.p0(at22 ? at22.model_m : 0) + ")"],
+    [f.early_below_median + " of " + f.n_early, "early pace observations (up to +100 h) below the model median; " + f.early_outside90 + " outside its 90% range"],
+    [fmt.p0(0.4) + " vs 90%", "county 90% coverage of small counties at 24 h in warped real-pattern replays"],
+    ["5 of 6", "pre-election statewide 90% intervals that held the truth (wide: 34% to 71% of total)"],
+  ];
+  $("#cards").innerHTML = cards.map((c) => `<div class="card"><b>${c[0]}</b><span>${c[1]}</span></div>`).join("");
+})();
+
+/* Inventory table */
+(function () {
+  const rows = DATA.inventory.slice().sort((a, b) => a.election_id.localeCompare(b.election_id) || a.source.localeCompare(b.source));
+  $("#inv").innerHTML = "<tr><th>Election</th><th>Source</th><th>Counties</th><th>Captures</th><th>Earliest (h)</th><th>Latest (h)</th></tr>" +
+    rows.map((r) => `<tr><td>${r.election_id}</td><td>${r.source.replace(/_/g, " ")}</td><td>${r.counties}</td><td>${r.snapshots}</td><td>${(+r.hmin).toFixed(1)}</td><td>${(+r.hmax).toFixed(0)}</td></tr>`).join("");
+})();
+
+/* Figure 1 */
+(function () {
+  const W = 860, H = 420, m = { l: 52, r: 20, t: 14, b: 44 };
+  const x0 = Math.log(2), x1 = Math.log(1600);
+  const X = (h) => m.l + ((Math.log(h) - x0) / (x1 - x0)) * (W - m.l - m.r);
+  const Y = (v) => m.t + (1 - (v - 0.4) / 0.62) * (H - m.t - m.b);
+  let s = "";
+  for (let v = 0.4; v <= 1.0001; v += 0.1) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/>` + T(m.l - 8, Y(v) + 4, Math.round(v * 100) + "%", { anchor: "end" });
+  [3, 6, 12, 24, 48, 96, 200, 500, 1000].forEach((h) => (s += `<line x1="${X(h)}" x2="${X(h)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--grid)"/>` + T(X(h), H - m.b + 16, h + "h")));
+  s += T((W + m.l) / 2, H - 6, "hours since 8 pm Mountain close (log scale)");
+  const band = DATA.band_dep;
+  const path = (k) => band.map((r) => `${X(r.h)},${Y(r[k])}`);
+  s += `<polygon points="${path("hi").join(" ")} ${path("lo").reverse().join(" ")}" fill="var(--band)"/>`;
+  s += `<polyline points="${band.map((r) => X(r.h) + "," + Y(r.m)).join(" ")}" fill="none" stroke="var(--ink-2)" stroke-width="2"/>`;
+  const fit = DATA.band_fit;
+  s += `<polyline points="${fit.map((r) => X(r.h) + "," + Y(r.m)).join(" ")}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>`;
+  s += T(X(300), Y(0.9), "deployed m(h)", { anchor: "start", fill: "var(--ink-2)" }).replace('x="' + X(300), 'x="' + (X(500)));
+  s += T(X(5), Y(0.8) - 4, "model 90% range", { anchor: "start" });
+  s += T(X(70), Y(0.605), "empirical fit", { anchor: "start", fill: "var(--accent)" });
+  DATA.pace.forEach((r, i) => {
+    if (r.hours < 2) return;
+    const y = r.year, c = `var(${yearColor[y]})`;
+    s += mark(yearShape[y], X(r.hours), Y(Math.min(r.frac, 1)), 5, c, `data-i="${i}" style="cursor:pointer"`);
+  });
+  $("#f-pace").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Share of final vote counted versus hours since close, observed points below the model band">${s}</svg>`;
+  $("#l-pace").innerHTML = Object.keys(yearColor).map((y) => `<span><i style="background:var(${yearColor[y]})"></i>${y}</span>`).join("") + `<span><i style="background:var(--ink-2);height:2px;vertical-align:3px"></i>deployed m(h)</span><span><i style="background:var(--accent);height:2px;vertical-align:3px"></i>empirical fit</span>`;
+  document.querySelectorAll("#f-pace [data-i]").forEach((el) => {
+    const r = DATA.pace[+el.dataset.i];
+    el.addEventListener("mousemove", (e) => showTip(e, `${r.year}, +${(+r.hours).toFixed(1)} h<br>observed ${fmt.p1(r.frac)}<br>model median ${fmt.p1(r.model_m)}, 90% ${fmt.p0(r.lo90)} to ${fmt.p0(r.hi90)}<br>${r.source}`));
+    el.addEventListener("mouseleave", hideTip);
+  });
+  const f = DATA.facts, fitr = DATA.band_fit;
+  const at22 = DATA.pace.find((r) => r.year === 2022 && Math.abs(r.hours - 22.2) < 0.5);
+  $("#pace-text").innerHTML = `Of the ${f.n_early} observations up to +100 hours, ${f.early_below_median} fall below the model's median and ${f.early_outside90} fall outside its 90% range, all on the slow side. At +22 hours in 2022 the count stood at ${fmt.p1(at22.frac)} against a deployed expectation of ${fmt.p1(at22.model_m)}. An exponential fitted to the 2016 to 2022 points has m0 = ${(+f.fit_m0).toFixed(2)} (the deployed 0.62 is fine) but a time constant near ${Math.round(f.fit_tau)} hours, not 22 (RMSE ${(100 * f.fit_rmse).toFixed(1)} points). The first drop is therefore about right and the long tail is missing. Late ballots (cures, mail postmarked by Election Day in the pre-HB 300 years) arrived through the second week.`;
+})();
+
+/* Figure 2 */
+(function () {
+  const W = 860, H = 380, m = { l: 52, r: 20, t: 14, b: 44 };
+  const x0 = Math.log(500), x1 = Math.log(450000);
+  const X = (v) => m.l + ((Math.log(v) - x0) / (x1 - x0)) * (W - m.l - m.r);
+  const Y = (v) => m.t + (1 - v) * (H - m.t - m.b);
+  let s = "";
+  for (let v = 0; v <= 1.001; v += 0.2) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/>` + T(m.l - 8, Y(v) + 4, Math.round(v * 100) + "%", { anchor: "end" });
+  [1000, 3000, 10000, 30000, 100000, 300000].forEach((v) => (s += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--grid)"/>` + T(X(v), H - m.b + 16, v >= 1000 ? v / 1000 + "k" : v)));
+  s += T((W + m.l) / 2, H - 6, "active registered voters (log scale)");
+  const groups = [[2022, 22.2], [2025, 19.2], [2016, 42.9], [2020, 97]];
+  const cols = { 2022: "var(--s4)", 2025: "var(--s5)", 2016: "var(--s1)", 2020: "var(--s3)" };
+  const pts = [];
+  groups.forEach(([y, h]) => DATA.cobs.filter((r) => r.year === y && Math.abs(r.hours - h) < 1 && r.registered > 0).forEach((r) => {
+    pts.push(r);
+    s += mark(yearShape[y], X(r.registered), Y(r.frac), 4.5, cols[y], `data-k="${pts.length - 1}" style="cursor:pointer" fill-opacity="0.9"`);
+  }));
+  $("#f-size").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="County completion share versus county size">${s}</svg>`;
+  $("#l-size").innerHTML = groups.map(([y, h]) => `<span><i style="background:${cols[y]}"></i>${y} at +${h.toFixed(0)} h</span>`).join("");
+  document.querySelectorAll("#f-size [data-k]").forEach((el) => {
+    const r = pts[+el.dataset.k];
+    el.addEventListener("mousemove", (e) => showTip(e, `${r.year} +${(+r.hours).toFixed(0)} h<br>${fmt.n0(r.registered)} registered<br>${fmt.p1(r.frac)} counted`));
+    el.addEventListener("mouseleave", hideTip);
+  });
+  $("#disp").innerHTML = "<tr><th>Capture</th><th>Counties</th><th>Mean share</th><th>Weighted share</th><th>sd of logit</th><th>Implied k</th><th>Slope vs ln(size)</th></tr>" +
+    DATA.disp.filter((r, i, a) => i === 0 || !(r.year === a[i - 1].year && Math.abs(r.hours - a[i - 1].hours) < 15)).map((r) => `<tr><td>${r.year} +${(+r.hours).toFixed(0)} h</td><td>${r.n}</td><td>${fmt.p0(r.mean_frac)}</td><td>${fmt.p0(r.weighted_frac)}</td><td>${(+r.sd_logit).toFixed(2)}</td><td>${(+r.k_implied).toFixed(1)}</td><td>${(+r.slope_logit_on_log_size).toFixed(2)}</td></tr>`).join("");
+  $("#size-text").innerHTML = "At each moment the average county is far ahead of the vote-weighted statewide share (for example 88% against 70% at +22 h in 2022) because small counties finish on the first day while Salt Lake, Utah, Davis, Cache and Weber lag. Each unit of log size lowers the completion logit by 0.3 to 0.8. The model's Beta concentration of 12 implies a county-to-county spread of about 0.7 on the logit scale; the observed spread is 1.1 to 1.8. The table's implied k is the concentration that would reproduce the observed variance of county shares.";
+})();
+
+/* Prior */
+(function () {
+  const rows = DATA.a_state.map((r) => ({ ...r, lab: `${r.year} from ${r.prev}`, sub: r.kind.replace(" (same roll definition)", "*") }));
+  const W = 860, rh = 44, m = { l: 190, r: 24, t: 12, b: 40 }, H = m.t + m.b + rh * rows.length;
+  const lo = 0.5, hi = 2.3;
+  const X = (v) => m.l + ((v / 1e6 - lo) / (hi - lo)) * (W - m.l - m.r);
+  let s = "";
+  for (let v = 0.6; v <= 2.21; v += 0.2) s += `<line x1="${X(v * 1e6)}" x2="${X(v * 1e6)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--grid)"/>` + T(X(v * 1e6), H - m.b + 16, v.toFixed(1) + "M");
+  s += T((W + m.l) / 2, H - 6, "top-of-ticket votes, millions");
+  rows.forEach((r, i) => {
+    const y = m.t + rh * i + rh / 2;
+    s += T(m.l - 10, y - 2, r.lab, { anchor: "end", fill: "var(--ink)", size: 12 }) + T(m.l - 10, y + 12, r.sub, { anchor: "end", size: 10 });
+    s += `<line x1="${X(r.lo90)}" x2="${X(r.hi90)}" y1="${y}" y2="${y}" stroke="var(--s1)" stroke-width="2"/>`;
+    s += `<line x1="${X(r.lo50)}" x2="${X(r.hi50)}" y1="${y}" y2="${y}" stroke="var(--s1)" stroke-width="8" stroke-linecap="butt"/>`;
+    s += `<circle cx="${X(r.median)}" cy="${y}" r="4" fill="var(--surface)" stroke="var(--s1)" stroke-width="2"/>`;
+    const ok = r.truth >= r.lo90 && r.truth <= r.hi90;
+    s += `<path d="M${X(r.truth)} ${y - 9}l7 9l-7 9l-7 -9z" fill="${ok ? "var(--ink)" : "var(--bad)"}" stroke="var(--surface)" stroke-width="1.5" data-r="${i}" style="cursor:pointer"/>`;
+  });
+  $("#f-prior").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Statewide prior intervals versus actual for six election pairs">${s}</svg>`;
+  document.querySelectorAll("#f-prior [data-r]").forEach((el) => {
+    const r = rows[+el.dataset.r];
+    el.addEventListener("mousemove", (e) => showTip(e, `${r.lab}<br>actual ${fmt.n0(r.truth)}<br>median ${fmt.n0(r.median)} (${fmt.sp1(r.median / r.truth - 1)})<br>realised shift ${(+r.realized_delta).toFixed(2)} logit, prior percentile ${fmt.p0(r.delta_percentile)}`));
+    el.addEventListener("mouseleave", hideTip);
+  });
+  const sum = Object.fromEntries(DATA.a_sum.map((r) => [r.year + "-" + r.prev, r]));
+  const orc = Object.fromEntries(DATA.a_oracle.map((r) => [r.year + "-" + r.prev, r]));
+  $("#prior-t").innerHTML = "<tr><th>Pair</th><th>Statewide error</th><th>90% width</th><th>In 90%</th><th>Realised shift</th><th>County wMAPE</th><th>County 90% cover</th><th>County 50% cover</th><th>wMAPE, shift known</th><th>90% cover, shift known</th></tr>" +
+    DATA.a_state.map((r) => {
+      const k = r.year + "-" + r.prev, s2 = sum[k], o = orc[k], e = r.median / r.truth - 1, ok = r.truth >= r.lo90 && r.truth <= r.hi90;
+      return `<tr><td>${r.year} from ${r.prev}</td><td class="${Math.abs(e) > 0.15 ? "bad" : ""}">${fmt.sp1(e)}</td><td>${fmt.p0((r.hi90 - r.lo90) / r.truth)}</td><td class="${ok ? "good" : "bad"}">${ok ? "yes" : "no"}</td><td>${(+r.realized_delta).toFixed(2)}</td><td>${fmt.p1(s2.wmape)}</td><td>${fmt.p0(s2.cover90)}</td><td>${fmt.p0(s2.cover50)}</td><td>${fmt.p1(o.wmape)}</td><td>${fmt.p0(o.c90)}</td></tr>`;
+    }).join("");
+  $("#prior-text").innerHTML = "Statewide, the prior missed the level by -21% to +40%; it contained the truth in 5 of 6 cases. The miss is almost entirely the statewide shift: the 2022 midterm turned out 1.5 logit below 2020 (a presidential year) and about 0.6 below 2018, far more than the prior mean of +0.10. County intervals look excellent (100% coverage in five pairs) only because they inherit that wide statewide uncertainty (median width 30% to 70% of the total); with the shift known the county 90% intervals cover 72% to 93%, so the county term is slightly too tight. The asterisk marks pairs in the same active-roll definition. 2026 from 2022 is the only pair that is both midterm to midterm and same-definition, and it cannot be back-tested yet.";
+  const sz = DATA.a_sum_size.filter((r) => r.year === 2024 && r.prev === 2020 || r.year === 2022 && r.prev === 2018 || r.year === 2024 && r.prev === 2022);
+  $("#prior-size").innerHTML = "<tr><th>Pair</th><th>Size group</th><th>wMAPE</th><th>Median county APE</th><th>sd of residual (logit)</th><th>sd of z</th></tr>" +
+    sz.sort((a, b) => a.year - b.year || a.prev - b.prev).map((r) => `<tr><td>${r.year} from ${r.prev}</td><td>${r.group}</td><td>${fmt.p1(r.wmape)}</td><td>${fmt.p1(r.median_ape)}</td><td>${(+r.sd_resid_logit).toFixed(2)}</td><td>${(+r.sd_z).toFixed(2)}</td></tr>`).join("");
+})();
+
+/* Real replays */
+(function () {
+  const ctyKey = (r) => r.year + "-" + r.prior_year + "-" + r.label + "-" + r.params;
+  const ct = {};
+  DATA.real_cty.forEach((r) => ((ct[ctyKey(r)] = ct[ctyKey(r)] || {})[r.group] = r));
+  const rows = DATA.real_state.filter((r) => r.params === "deployed");
+  $("#real-t").innerHTML = "<tr><th>Replay</th><th>Hour</th><th>Counted</th><th>Prior</th><th>Statewide error</th><th>90% width</th><th>In 50%</th><th>In 90%</th><th>County bias</th><th>County 90% cover</th><th>Small / large cover</th></tr>" +
+    rows.map((r) => {
+      const c = ct[ctyKey(r)], all = Object.values(c);
+      const avg = (k) => all.reduce((a, b) => a + b[k] * (b.group === "small" ? 13 : b.group === "mid" ? 10 : 6), 0) / 29;
+      return `<tr><td>${r.year} from ${r.prior_year}</td><td>+${(+r.hours).toFixed(0)} h</td><td>${fmt.p0(r.frac_counted)}</td><td>${r.label.includes("centred") ? "centred" : "deployed"}</td><td class="${Math.abs(r.err) > 0.1 ? "bad" : ""}">${fmt.sp1(r.err)}</td><td>${fmt.p0(r.width)}</td><td class="${r.c50 ? "good" : "bad"}">${r.c50 ? "yes" : "no"}</td><td class="${r.c90 ? "good" : "bad"}">${r.c90 ? "yes" : "no"}</td><td>${fmt.sp1(avg("bias"))}</td><td>${fmt.p0(avg("c90"))}</td><td>${fmt.p0(c.small.c90)} / ${fmt.p0(c.large.c90)}</td></tr>`;
+    }).join("");
+  const r22 = rows.filter((r) => r.year === 2022);
+  $("#real-text").innerHTML = `At +97 h in 2020 the live model is accurate and calibrated: statewide error ${fmt.sp1(rows.find((r) => r.year === 2020).err)}, and county intervals hold the truth about 97% of the time. At +22 h in 2022 it fails: with the prior as deployed the statewide median is ${r22.map((r) => fmt.sp1(r.err)).join(" and ")} off (priors from 2020 and 2018 respectively), and with the prior centred on the true shift it is still ${r22.filter((r) => r.label.includes("centred")).map((r) => fmt.sp1(r.err)).join(" and ")} high, and the truth falls outside the 90% interval in three of the four 2022 replays. The prior miss and the pace error stack: a wrong prior is not corrected because the model reads the low counted share as slow counting plus high turnout.`;
+})();
+
+/* Warp figure */
+(function () {
+  const sets = [["deployed", "var(--ink-2)"], ["slower pace", "var(--s2)"], ["slower pace, k = 6", "var(--s3)"]];
+  const hs = [3, 6, 12, 24, 36, 48, 72, 120];
+  const rows = DATA.warp_h.filter((r) => r.subset === "all pairs");
+  function panel(key, title, yr, nominal) {
+    const W = 420, H = 300, m = { l: 46, r: 12, t: 26, b: 38 };
+    const X = (h) => m.l + ((Math.log(h) - Math.log(3)) / (Math.log(120) - Math.log(3))) * (W - m.l - m.r);
+    const Y = (v) => m.t + (1 - (v - yr[0]) / (yr[1] - yr[0])) * (H - m.t - m.b);
+    let s = T(m.l, 14, title, { anchor: "start", fill: "var(--ink)", size: 12 });
+    const step = (yr[1] - yr[0]) / 5;
+    for (let v = yr[0]; v <= yr[1] + 1e-9; v += step) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/>` + T(m.l - 6, Y(v) + 4, Math.round(v * 100) + "%", { anchor: "end", size: 10 });
+    hs.forEach((h) => (s += T(X(h), H - m.b + 15, h, { size: 10 })));
+    s += T((W + m.l) / 2, H - 6, "hours since close (log)", { size: 10 });
+    if (nominal) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(nominal)}" y2="${Y(nominal)}" stroke="var(--ink-3)" stroke-dasharray="2 3"/>`;
+    sets.forEach(([nm, col]) => ["as deployed prior", "prior centred on true shift"].forEach((pr) => {
+      const d = hs.map((h) => rows.find((r) => r.params === nm && r.prior === pr && r.hours === h));
+      s += `<polyline points="${d.map((r, i) => X(hs[i]) + "," + Y(r[key])).join(" ")}" fill="none" stroke="${col}" stroke-width="2" ${pr.startsWith("prior") ? 'stroke-dasharray="5 4"' : ""}/>`;
+      d.forEach((r, i) => (s += `<circle cx="${X(hs[i])}" cy="${Y(r[key])}" r="3.2" fill="${col}" stroke="var(--surface)" stroke-width="1" data-t="${nm}|${pr}|${hs[i]}|${key}" style="cursor:pointer"/>`));
+    }));
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}">${s}</svg>`;
+  }
+  $("#f-warp").innerHTML = panel("bias", "Statewide bias of expected ballots", [-0.05, 0.2]) + panel("c90", "Statewide 90% interval coverage", [0, 1], 0.9);
+  $("#l-warp").innerHTML = sets.map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join("") + "<span>solid: deployed prior / dashed: prior centred</span>";
+  document.querySelectorAll("#f-warp circle[data-t]").forEach((el) => {
+    const [nm, pr, h, key] = el.dataset.t.split("|");
+    const r = rows.find((x) => x.params === nm && x.prior === pr && x.hours === +h);
+    el.addEventListener("mousemove", (e) => showTip(e, `${nm}, ${pr}<br>+${h} h: bias ${fmt.sp1(r.bias)}, MAPE ${fmt.p1(r.mape)}<br>90% coverage ${fmt.p0(r.c90)}, 50% ${fmt.p0(r.c50)}, width ${fmt.p0(r.width)}`));
+    el.addEventListener("mouseleave", hideTip);
+  });
+  const hsShow = [6, 24, 72];
+  $("#warp-t").innerHTML = "<tr><th>Parameters</th><th>Prior</th><th>Hour</th><th>Bias</th><th>MAPE</th><th>50% cover</th><th>90% cover</th><th>90% width</th><th>MAPE excl. 2022 totals</th></tr>" +
+    sets.flatMap(([nm]) => ["as deployed prior", "prior centred on true shift"].flatMap((pr) => hsShow.map((h) => {
+      const r = rows.find((x) => x.params === nm && x.prior === pr && x.hours === h);
+      const e = DATA.warp_h.find((x) => x.subset !== "all pairs" && x.params === nm && x.prior === pr && x.hours === h);
+      return `<tr><td>${nm}</td><td>${pr.startsWith("prior") ? "centred" : "deployed"}</td><td>+${h} h</td><td>${fmt.sp1(r.bias)}</td><td>${fmt.p1(r.mape)}</td><td>${fmt.p0(r.c50)}</td><td class="${r.c90 < 0.8 ? "bad" : ""}">${fmt.p0(r.c90)}</td><td>${fmt.p0(r.width)}</td><td>${fmt.p1(e.mape)}</td></tr>`;
+    }))).join("");
+  const d24 = rows.find((r) => r.params === "deployed" && r.prior === "as deployed prior" && r.hours === 24);
+  const c24 = rows.find((r) => r.params === "deployed" && r.prior === "prior centred on true shift" && r.hours === 24);
+  const k24 = rows.find((r) => r.params === "slower pace, k = 6" && r.prior === "prior centred on true shift" && r.hours === 24);
+  $("#warp-text").innerHTML = `At 24 hours the deployed model has a mean bias of ${fmt.sp1(d24.bias)} and covers ${fmt.p0(d24.c90)} of cases with its 90% interval; with a perfectly centred prior the bias is still ${fmt.sp1(c24.bias)}. The bias shrinks by 120 hours, as the count nears completion. Slowing the statewide curve alone raises bias, since the model then infers a larger eventual total from the same counts while county structure still misleads it. Lowering the concentration to 6 helps most (bias ${fmt.sp1(k24.bias)}, coverage ${fmt.p0(k24.c90)} at 24 hours with a centred prior). Replays that use 2022 totals with a 2020 or 2025-style pattern are the worst, driven by the prior (a midterm predicted from a presidential year); the last column drops them.`;
+  /* Figure 5 */
+  const W = 860, H = 280, m = { l: 52, r: 20, t: 22, b: 40 };
+  const groups = ["small", "mid", "large"];
+  const bars = [["deployed", "as deployed prior", "var(--ink-2)"], ["deployed", "prior centred on true shift", "var(--accent)"], ["slower pace, k = 6", "prior centred on true shift", "var(--s3)"]];
+  const gw = (W - m.l - m.r) / 3, bw = Math.min(70, gw / 4);
+  const Y = (v) => m.t + (1 - v) * (H - m.t - m.b);
+  let s = "";
+  for (let v = 0; v <= 1.001; v += 0.25) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/>` + T(m.l - 8, Y(v) + 4, Math.round(v * 100) + "%", { anchor: "end" });
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(0.9)}" y2="${Y(0.9)}" stroke="var(--ink-3)" stroke-dasharray="3 3"/>` + T(W - m.r, Y(0.9) - 5, "nominal 90%", { anchor: "end", size: 10 });
+  groups.forEach((g, gi) => {
+    bars.forEach(([nm, pr, col], bi) => {
+      const r = DATA.warp_cty.find((x) => x.params === nm && x.prior === pr && x.hours === 24 && x.group === g);
+      const x = m.l + gi * gw + gw / 2 + (bi - 1) * (bw + 4) - bw / 2;
+      s += `<rect x="${x}" y="${Y(r.c90)}" width="${bw}" height="${Y(0) - Y(r.c90)}" fill="${col}" rx="2" data-g="${g}|${nm}|${pr}" style="cursor:pointer"/>` + T(x + bw / 2, Y(r.c90) - 5, fmt.p0(r.c90), { size: 11, fill: "var(--ink)" });
+    });
+    s += T(m.l + gi * gw + gw / 2, H - 20, g === "small" ? "small (13 counties)" : g === "mid" ? "mid (10)" : "large (6)", { size: 12, fill: "var(--ink-2)" });
+  });
+  $("#f-cty").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="County interval coverage by size group">${s}</svg><div class="legend">${bars.map((b) => `<span><i style="background:${b[2]}"></i>${b[0]}, ${b[1].startsWith("prior") ? "centred prior" : "deployed prior"}</span>`).join("")}</div>`;
+  document.querySelectorAll("#f-cty rect[data-g]").forEach((el) => {
+    const [g, nm, pr] = el.dataset.g.split("|");
+    const r = DATA.warp_cty.find((x) => x.params === nm && x.prior === pr && x.hours === 24 && x.group === g);
+    el.addEventListener("mousemove", (e) => showTip(e, `${g} counties, +24 h<br>bias ${fmt.sp1(r.bias)}, MAPE ${fmt.p1(r.mape)}<br>90% cover ${fmt.p0(r.c90)}, 50% ${fmt.p0(r.c50)}`));
+    el.addEventListener("mouseleave", hideTip);
+  });
+})();
+</script>
