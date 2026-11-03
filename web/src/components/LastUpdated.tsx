@@ -5,7 +5,8 @@ import type { LiveMode } from '../types/data'
 export function LastUpdated({ iso, status, showRefresh = true }: { iso?: string | null; status?: LiveMode; showRefresh?: boolean }) {
   const { mode, now, nextRefreshMs, paused, setPaused, refreshNow } = useSite()
   if (status === 'final') return <div className="last-updated" aria-live="off"><span>Final results</span></div>
-  if (!iso) return null
+  // Before counting starts the export rarely changes, so "Updated 11 days ago" would read as a stale site.
+  if (!iso || (status === 'pre' && mode === 'pre')) return null
   const secs = Math.ceil(nextRefreshMs / 1000)
   const next = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`
   return (
