@@ -4,6 +4,7 @@ import { useSite } from '../data/site'
 import { ForecastSummary } from '../components/ForecastSummary'
 import { sideOf, signed, type NamedCandidate } from '../lib/needle'
 import { Gate, Section } from '../components/Ui'
+import { PartyChip } from '../components/PartyChip'
 import { RatingChip, RatingStrip } from '../components/RatingChip'
 import { SortableTable, type Column } from '../components/SortableTable'
 import { consensus } from '../lib/ratings'
@@ -126,12 +127,14 @@ function LegislatureForecastTable({ ids, needle, nameOf, candsOf, nameFallback }
     const [a, b] = r.nc.pair
     const pa = r.nc.prob[a] ?? 0.5
     const id = pa >= 0.5 ? a : b
-    const side = sideOf(id, candsOf(r.id), nameFallback(id))
-    return { side, p: Math.max(pa, 1 - pa), lead: (pa >= 0.5 ? 1 : -1) * r.nc.margin.median }
+    const cands = candsOf(r.id)
+    const side = sideOf(id, cands, nameFallback(id))
+    const party = cands.find((c) => c.candidate_id === id)?.party ?? null
+    return { side, party, p: Math.max(pa, 1 - pa), lead: (pa >= 0.5 ? 1 : -1) * r.nc.margin.median }
   }
   const columns: Column<FcRow>[] = [
     { key: 'race', header: 'Contest', className: 'nowrap', sort: (r) => r.id, render: (r) => <b>{nameOf(r.id)}</b> },
-    { key: 'fav', header: 'Favored', sort: (r) => fav(r).side.name, render: (r) => fav(r).side.name },
+    { key: 'fav', header: 'Favored', sort: (r) => fav(r).side.name, render: (r) => { const f = fav(r); return <>{f.side.name} <PartyChip party={f.party} id={f.side.id} /></> } },
     { key: 'p', header: 'Chance to win', align: 'right', className: 'fc-pct', sort: (r) => fav(r).p, render: (r) => { const p = fav(r).p; return p >= 0.99 ? '>99%' : `${Math.round(p * 100)}%` } },
     { key: 'm', header: 'Projected margin', align: 'right', sort: (r) => fav(r).lead, render: (r) => `${signed(Math.round(fav(r).lead * 100))} pts` },
   ]
