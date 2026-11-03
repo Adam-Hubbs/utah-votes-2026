@@ -38,9 +38,10 @@ interface Props {
 }
 
 const tickFmt = timeFormat('%b %-d')
+const tickFmtYear = timeFormat('%b %Y')
 
 export function PollChart({
-  series, height = 340, yDomain, yFormat = (v) => `${v}%`, valueFormat = (v) => v.toFixed(1), xDomain, marker, ariaLabel, endLabels = true, hint, minSpanDays = 14, xTickFormat = tickFmt, tipDateFormat = fmtDayYear,
+  series, height = 340, yDomain, yFormat = (v) => `${v}%`, valueFormat = (v) => v.toFixed(1), xDomain, marker, ariaLabel, endLabels = true, hint, minSpanDays = 14, xTickFormat, tipDateFormat = fmtDayYear,
 }: Props) {
   const [ref, { width }] = useSize<HTMLDivElement>()
   const [hover, setHover] = useState<Date | null>(null)
@@ -73,6 +74,8 @@ export function PollChart({
   }, [series, yDomain])
 
   const x = scaleTime().domain(xs).range([0, iw])
+  // Day-only labels repeat across years (two "Jan 1"s), so long spans get the year instead.
+  const fmtTick = xTickFormat ?? (+xs[1] - +xs[0] > 300 * 864e5 ? tickFmtYear : tickFmt)
   const y = scaleLinear().domain(ys).range([ih, 0]).nice(5)
   const maxN = max(series.flatMap((s) => (s.dots ?? []).map((d) => d.n ?? 0))) ?? 1
   const r = scaleSqrt().domain([0, maxN || 1]).range([2.5, 8.5])
@@ -129,7 +132,7 @@ export function PollChart({
             </g>
           ))}
           {xTicks.map((t) => (
-            <text key={t.getTime()} x={x(t)} y={ih + 18} textAnchor="middle" className="axis-text">{xTickFormat(t)}</text>
+            <text key={t.getTime()} x={x(t)} y={ih + 18} textAnchor="middle" className="axis-text">{fmtTick(t)}</text>
           ))}
           <line x1={0} x2={iw} y1={ih} y2={ih} className="axis" />
 

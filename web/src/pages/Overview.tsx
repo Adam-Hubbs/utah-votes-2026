@@ -163,7 +163,7 @@ export function Overview() {
           <Section title="National backdrop" dek="National polling that feeds our forecast.">
             {national ? (
               <div className="national-strip">
-                <NationalStat label="Generic ballot" series={national.generic_ballot.series.map((p) => Number(p.DEM) - Number(p.REP))} value={Number(national.generic_ballot.latest.DEM) - Number(national.generic_ballot.latest.REP)} fmt={(v) => (Math.abs(v) < 0.05 ? 'Even' : `${v > 0 ? 'D' : 'R'}+${Math.abs(v).toFixed(1)}`)} color="var(--dem)" />
+                <NationalStat label="Generic ballot" series={national.generic_ballot.series.map((p) => -Number(p.margin))} value={-Number(national.generic_ballot.latest.margin)} fmt={(v) => (Math.abs(v) < 0.05 ? 'Even' : `${v > 0 ? 'D' : 'R'}+${Math.abs(v).toFixed(1)}`)} color="var(--dem)" />
                 <NationalStat label="Trump approval (net)" series={national.approval.series.map((p) => Number(p.approve) - Number(p.disapprove))} value={Number(national.approval.latest.approve) - Number(national.approval.latest.disapprove)} fmt={(v) => `${v > 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}`} color="var(--ink-2)" />
               </div>
             ) : <div className="unavailable">National polling not yet available.</div>}

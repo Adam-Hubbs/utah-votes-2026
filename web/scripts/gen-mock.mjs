@@ -688,7 +688,7 @@ for (let i = 120; i >= 0; i -= 2) {
   const date = addDays(TODAY, -i)
   gv += 0.05 * normal() + 0.012; av += 0.18 * normal()
   const D = 44.5 + gv / 2, R = 44.5 - gv / 2
-  gb.push({ date, DEM: +D.toFixed(1), REP: +R.toFixed(1) })
+  gb.push({ date, DEM: +D.toFixed(1), REP: +R.toFixed(1), margin: +(R - D).toFixed(1) })
   ap.push({ date, approve: +(42.5 + av / 6).toFixed(1), disapprove: +(54.5 - av / 6).toFixed(1) })
 }
 write('polls/national.json', { generic_ballot: { series: gb, latest: gb[gb.length - 1] }, approval: { series: ap, latest: ap[ap.length - 1] } }, true)
