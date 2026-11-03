@@ -1,11 +1,12 @@
 // Screenshots every route at desktop and phone widths against a running dev/preview server.
 // Usage: node scripts/screenshots.mjs [baseUrl] [outDir]
+import os from 'node:os'
 import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from 'playwright'
 
 const base = process.argv[2] ?? 'http://localhost:5199/'
-const out = process.argv[3] ?? '/private/tmp/claude-502/-Users-adamhubbs-local-dev-election-project/4092dd49-779b-443b-b9a0-a018e0a1357b/scratchpad/shots'
+const out = process.argv[3] ?? path.join(os.tmpdir(), 'utah-votes-shots')
 fs.mkdirSync(out, { recursive: true })
 
 const routes = [

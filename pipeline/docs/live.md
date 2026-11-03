@@ -1,7 +1,7 @@
 # Election-night runbook
 
 Everything below runs from the repo root. Raw downloads are cached in `UTEL_RAW_DIR`
-(`export UTEL_RAW_DIR=/Users/adamhubbs/local_dev/election_project/pipeline/raw` when working in a worktree).
+(`export UTEL_RAW_DIR=<path to main checkout>/pipeline/raw` when working in a worktree).
 
 ## What runs
 
@@ -54,7 +54,7 @@ Manual start: Actions -> "Election night scraper" -> Run workflow.
 Local fallback (GitHub runners blocked, or to run in parallel):
 
 ```bash
-export UTEL_RAW_DIR=/Users/adamhubbs/local_dev/election_project/pipeline/raw
+export UTEL_RAW_DIR=<path to main checkout>/pipeline/raw
 END_TIME=2026-11-05T08:00:00Z pipeline/scripts/election_night_loop.sh
 # PUSH=0 commits locally only; DEPLOY=0 skips the deploy dispatch; ONCE=1 does a single pass
 ```

@@ -1,11 +1,12 @@
 // Visits every route x mode at desktop and phone widths; logs console/network problems and phone overflow.
 // Usage: node scripts/qa.mjs [baseUrl] [outDir]
+import os from 'node:os'
 import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from 'playwright'
 
 const base = process.argv[2] ?? 'http://localhost:5320/'
-const out = process.argv[3] ?? '/private/tmp/claude-502/-Users-adamhubbs-local-dev-election-project/4092dd49-779b-443b-b9a0-a018e0a1357b/scratchpad/qa'
+const out = process.argv[3] ?? path.join(os.tmpdir(), 'utah-votes-qa')
 fs.mkdirSync(out, { recursive: true })
 
 const contests = ['us-house-1', 'us-house-2', 'us-house-3', 'us-house-4', 'amendment-a', 'amendment-b']
