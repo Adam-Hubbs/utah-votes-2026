@@ -50,7 +50,7 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
   const showForecast = needle && (!showLive || needle.stage === 'pre')
 
   return (
-    <article className="race-card">
+    <article className={`race-card${useLive ? ' is-live' : ''}`}>
       <header className="race-card-head">
         <div>
           <h3><Link to={`/race/${contestId}`}>{title}</Link></h3>

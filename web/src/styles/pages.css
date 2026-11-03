@@ -86,3 +86,5 @@
 .prose h2 { font-size: 26px; margin: 34px 0 10px; padding-top: 18px; border-top: 1px solid var(--rule); }
 .prose h2:first-child { border-top: 0; margin-top: 18px; }
 .prose ul { padding-left: 1.2em; } .prose li { margin-bottom: 8px; }
+/* Reserve two lines so needles and meters line up across the four cards on election night. */
+@media (min-width: 601px) { .race-card.is-live .rc-others, .race-card.is-live .rc-foot-text { min-height: 2lh; } }
