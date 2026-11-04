@@ -45,7 +45,6 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
         <TooltipHeader title={`${seatLabel(chamber)} ${d}`} subtitle={s.status === 'holdover' ? 'Not up in 2026' : undefined} />
         <TooltipRow label="Current" value={holder} />
         {s.status !== 'holdover' && <TooltipRow label="Pre-election rating" value={<CompetitivenessChip rating={s.rating} />} />}
-        {s.status !== 'holdover' && <TooltipNote>{s.rating.detail}</TooltipNote>}
         {s.status !== 'holdover' && started && s.leader && s.contest && (
           <>
             <TooltipCandidates candidates={s.contest.candidates.map((c) => ({ id: c.candidate_id, name: c.name, votes: c.votes }))} colors={candidateColors(s.contest.candidates)} />

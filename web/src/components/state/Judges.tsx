@@ -23,7 +23,7 @@ function status(r: Row, decided: boolean): { label: string; cls: string } {
   if (!r.started) return { label: 'Awaiting results', cls: 'pending' }
   const passing = r.yes > 0.5
   if (decided) return passing ? { label: 'Retained', cls: 'good' } : { label: 'Not retained', cls: 'bad' }
-  return passing ? { label: 'On track to be retained', cls: 'track' } : { label: 'Below the 50% needed', cls: 'warn' }
+  return passing ? { label: 'Above 50% so far', cls: 'track' } : { label: 'Below 50% so far', cls: 'warn' }
 }
 
 const jpecClass = (rec: string | null): string => (rec == null ? 'none' : /retain/i.test(rec) && !/not/i.test(rec) ? 'good' : 'bad')

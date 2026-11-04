@@ -90,7 +90,7 @@ export function BalanceOfPower({ chamber, data, states, started }: Props) {
     }
     if (!lead) return 'Neither party has reached a majority yet.'
     const sec = secured(lead)
-    const word = sec >= data.majority ? 'have secured' : 'are on track for'
+    const word = sec >= data.majority ? 'have secured' : 'are leading in enough seats for'
     const sup = sec + leading(lead) >= data.supermajority ? `, including the ${data.supermajority}-seat two-thirds supermajority that can override a veto` : ''
     return `${NAMES[lead]} ${word} a majority${sup}.`
   })()

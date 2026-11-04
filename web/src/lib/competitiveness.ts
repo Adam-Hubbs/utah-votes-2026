@@ -60,7 +60,7 @@ export function rateSeat(seat: LegSeat, candidates: SummaryCandidate[] | undefin
     const side = party === 'REP' || party === 'DEM' ? party : null
     return {
       tier, party: side, label: label(tier, side), source: 'model', prob: p,
-      detail: `Forecast model: ${Math.round(p * 100)}% chance the favourite wins.`,
+      detail: 'Based on our pre-election forecast.',
       sortKey: TIER_ORDER.indexOf(tier) * 10 + (1 - p),
     }
   }
