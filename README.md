@@ -6,6 +6,8 @@ a Bayesian estimate of the vote still to be counted, and an NYT-style live needl
 state races (legislature, judicial retention, school board) and a small national U.S. Senate/House
 section are included.
 
+See the site here: [https://adam-hubbs.github.io/utah-votes-2026/#/results]
+
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the data contracts and design decisions.
 
 ## Layout
