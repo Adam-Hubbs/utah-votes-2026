@@ -1,7 +1,7 @@
 import { MARGIN_LABELS, rampFor } from '../lib/colors'
 import type { PartyGroup } from '../lib/parties'
 
-export function MarginLegend({ groups = ['DEM', 'REP', 'THIRD'], note, hatchNote }: { groups?: PartyGroup[]; note?: string; hatchNote?: boolean }) {
+export function MarginLegend({ groups = ['DEM', 'REP', 'THIRD'], note }: { groups?: PartyGroup[]; note?: string }) {
   const names: Record<string, string> = { DEM: 'Democratic', REP: 'Republican', THIRD: 'Third party', FOR: 'For', AGAINST: 'Against' }
   return (
     <div className="legend" aria-label="Map legend">
@@ -21,7 +21,6 @@ export function MarginLegend({ groups = ['DEM', 'REP', 'THIRD'], note, hatchNote
           </div>
         ))}
       </div>
-      {hatchNote && <div className="legend-hatch"><i /> Hatched: little of the expected vote counted yet</div>}
     </div>
   )
 }

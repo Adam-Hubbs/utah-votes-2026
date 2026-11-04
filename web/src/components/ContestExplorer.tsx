@@ -1,21 +1,20 @@
 import { useCallback, useMemo, useState } from 'react'
 import type { Feature, Geometry } from 'geojson'
-import { useContestResults, useGeo, useModel, usePlaces, useSummary, useTimeline } from '../data/hooks'
+import { useContestResults, useGeo, usePlaces, useSummary, useTimeline } from '../data/hooks'
 import { useSite } from '../data/site'
-import type { ContestResults, CountyResult, ElectionModel, SummaryContest } from '../types/data'
+import type { ContestResults, CountyResult, SummaryContest } from '../types/data'
 import { candidateColors, partyGroup } from '../lib/parties'
 import { NO_DATA, NO_PRECINCT_RESULT, NO_RESIDENTS, leaderFill } from '../lib/colors'
-import { estRemaining, leaderOf, marginText, signedMargin } from '../lib/results'
+import { countiesReporting, leaderOf, marginText, signedMargin } from '../lib/results'
 import { fmtCompact, fmtInt, fmtMT, fmtMTFull, fmtPct } from '../lib/format'
 import { CandidateRow } from './CandidateRow'
 import { ChoroplethMap, type UnitPattern } from './ChoroplethMap'
 import { MarginLegend, PrecinctKey } from './MapLegend'
 import { PartyChip } from './PartyChip'
 import { PollChart, type TSeries } from './PollChart'
-import { PctExpectedText, ReportingMeter } from './ReportingMeter'
 import { SortableTable, type Column } from './SortableTable'
 import { LastUpdated } from './LastUpdated'
-import { Gate, Section, Segmented, Stat, Unavailable } from './Ui'
+import { Gate, Section, Segmented, Unavailable } from './Ui'
 import { TooltipFoot, TooltipHeader, TooltipNote, TooltipRow } from './Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
@@ -23,11 +22,11 @@ type F = Feature<Geometry, Record<string, unknown>>
 interface Props {
   electionId: string
   contestId: string
-  sections?: { timeline?: boolean; turnout?: boolean; counties?: boolean }
+  sections?: { timeline?: boolean; counties?: boolean }
   headingLevel?: 'h2' | 'h3'
 }
 
-export function ContestExplorer({ electionId, contestId, sections = { timeline: true, turnout: true, counties: true } }: Props) {
+export function ContestExplorer({ electionId, contestId, sections = { timeline: true, counties: true } }: Props) {
   const summary = useSummary(electionId)
   const results = useContestResults(electionId, contestId)
   return (
@@ -82,27 +81,23 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
             <div className="contest-foot">
               <span>{fmtInt(contest.total_votes)} votes counted</span>
               <span className="dot-sep">·</span>
-              <span>{rep.counties_reporting} of {rep.counties_total} counties reporting</span>
+              <span>{countiesReporting(rep)}</span>
             </div>
           )}
           {(isLive || hasVotes) && summary.status !== 'final' && (
-            <div className="reporting-block">
-              <div className="reporting-title">Est. <PctExpectedText pct={rep.pct_expected} lo={rep.pct_expected_lo} hi={rep.pct_expected_hi} bare /> of expected vote counted</div>
-              <ReportingMeter pct={rep.pct_expected} lo={rep.pct_expected_lo} hi={rep.pct_expected_hi} showText={false} />
-              <p className="note">Plausible range {fmtPct(rep.pct_expected_lo, 0)}–{fmtPct(rep.pct_expected_hi, 0)}, from a statistical model of how many ballots remain. Utah counts for about two weeks, so late ballots can shift margins.</p>
-            </div>
+            <p className="note">A county counts as reporting once it has posted any votes, not when it has finished. Utah counts for about two weeks, so late ballots can shift margins.</p>
           )}
           {summary.status === 'pre' && !hasVotes && <p className="note">Polls close at 8 p.m. MST on election night. Results appear here as counties report.</p>}
         </div>
         <div className="contest-map">
-          <ContestMapPanel electionId={electionId} summary={summary} contest={contest} results={results} live={isLive} />
+          <ContestMapPanel electionId={electionId} summary={summary} contest={contest} results={results} />
         </div>
       </div>
 
       {sections.counties !== false && (
         <Section title="Results by county" id="counties">
           <Gate data={results} what="County results">
-            {(r) => <CountyTable results={r} contest={contest} live={isLive} final={summary.status === 'final'} />}
+            {(r) => <CountyTable results={r} contest={contest} />}
           </Gate>
         </Section>
       )}
@@ -110,11 +105,6 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
       {sections.timeline !== false && isLive && (
         <Section title="Vote count over time" dek="How the statewide count has evolved since polls closed. Times are Mountain Time.">
           <TimelinePanel electionId={electionId} contest={contest} colors={colors} />
-        </Section>
-      )}
-      {sections.turnout !== false && isLive && (
-        <Section title="Statewide turnout" dek="Ballots counted so far against the model's estimate of the final total.">
-          <TurnoutPanel electionId={electionId} />
         </Section>
       )}
     </div>
@@ -126,7 +116,7 @@ type PrecinctKind = 'data' | 'empty' | 'pending' | 'missing' | 'none'
 const DISTRICT_KINDS = new Set(['us-house', 'state-house', 'state-senate', 'school-board', 'retention'])
 const CD_PROPERTY: Record<string, string> = { precincts_2026: 'cd2026', precincts_2024: 'cd2022', precincts_2022: 'cd2022' }
 
-function ContestMapPanel({ electionId, summary, contest, results, live }: { electionId: string; summary: BodyProps['summary']; contest: SummaryContest; results: BodyProps['results']; live: boolean }) {
+function ContestMapPanel({ electionId, summary, contest, results }: { electionId: string; summary: BodyProps['summary']; contest: SummaryContest; results: BodyProps['results'] }) {
   const precinctGeoName = summary.precinct_geo
   const counties = useGeo('counties')
   const hasPrecinctData = !!results && results.precincts.length > 0
@@ -163,14 +153,14 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
 
   const idOf = useCallback((f: F) => String(f.properties?.[effective === 'precinct' ? 'precinct_id' : 'fips']), [effective])
 
-  const unitVotes = useCallback((f: F): { votes: Record<string, number>; total: number; pct: number | null; name: string } | null => {
+  const unitVotes = useCallback((f: F): { votes: Record<string, number>; total: number; name: string } | null => {
     if (effective === 'county') {
       const c = byFips.get(String(f.properties?.fips))
-      return c ? { votes: c.votes, total: c.total, pct: c.pct_expected, name: `${c.name} County` } : null
+      return c ? { votes: c.votes, total: c.total, name: `${c.name} County` } : null
     }
     const p = byPrecinct.get(String(f.properties?.precinct_id))
     const c = byFips.get(String(f.properties?.county_fips))
-    return p ? { votes: p.votes, total: p.total, pct: c?.pct_expected ?? null, name: `Precinct ${String(f.properties?.name)} · ${c?.name ?? ''} County` } : null
+    return p ? { votes: p.votes, total: p.total, name: `Precinct ${String(f.properties?.name)} · ${c?.name ?? ''} County` } : null
   }, [effective, byFips, byPrecinct])
 
   const counting = summary.status === 'live'
@@ -198,12 +188,6 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
     return kind === 'missing' || kind === 'pending' ? kind : null
   }, [kindOf])
 
-  const hatch = useCallback((f: F) => {
-    if (!live) return false
-    const u = unitVotes(f)
-    return !!u && u.pct != null && u.pct < 0.5 && u.total > 0
-  }, [unitVotes, live])
-
   const tooltip = useCallback((f: F) => {
     const u = unitVotes(f)
     const kind = kindOf(f)
@@ -225,7 +209,7 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
     const rows = [...cands].sort((a, b) => (u.votes[b.candidate_id] ?? 0) - (u.votes[a.candidate_id] ?? 0)).slice(0, 4)
     return (
       <div>
-        <TooltipHeader title={u.name} subtitle={u.pct != null && live ? `Est. ${fmtPct(u.pct, 0)} counted` : undefined} />
+        <TooltipHeader title={u.name} />
         {u.total > 0 ? (
           <>
             {rows.map((c) => (
@@ -237,7 +221,7 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
         ) : <TooltipNote>No votes counted yet</TooltipNote>}
       </div>
     )
-  }, [unitVotes, kindOf, effective, byFips, cands, colors, live])
+  }, [unitVotes, kindOf, effective, byFips, cands, colors])
 
   const onSelect = useCallback((f: F | null) => {
     if (!f) { setSelected(null); return }
@@ -262,20 +246,20 @@ function ContestMapPanel({ electionId, summary, contest, results, live }: { elec
       ) : counties === null ? (
         <Unavailable what="Map geometry" />
       ) : (
-        <ChoroplethMap features={features} idOf={idOf} fill={fill} hatch={hatch} pattern={pattern} tooltip={tooltip} onSelect={onSelect} selectedId={selected}
+        <ChoroplethMap features={features} idOf={idOf} fill={fill} pattern={pattern} tooltip={tooltip} onSelect={onSelect} selectedId={selected}
           focusId={effective === 'county' ? selected : undefined} fitTo={fitTo} overlay={effective === 'precinct' ? countyFeatures.filter((f) => byFips.has(String(f.properties?.fips))) : undefined}
           labels={places ?? undefined} strokeWidth={effective === 'precinct' ? 0.25 : 0.8}
           ariaLabel={`Map of ${contest.name} results by ${effective}${hasData ? '' : '. No results yet.'}`} />
       )}
       {view === 'precinct' && !precinctOk && precincts !== undefined && <p className="note">Precinct results are not available for this election{electionId ? '' : ''}.</p>}
-      <MarginLegend groups={groupsPresent.length ? [...groupsPresent] : ['DEM', 'REP']} hatchNote={live} />
+      <MarginLegend groups={groupsPresent.length ? [...groupsPresent] : ['DEM', 'REP']} />
       {effective === 'precinct' && <PrecinctKey counting={counting} />}
       {effective === 'precinct' && summary.precinct_geo && <p className="note small">Precinct lines are those used for the {summary.precinct_geo.replace('precincts_', '')} election and are not comparable to other years. Where a clerk reported several precincts together, or a precinct name could not be tied to a boundary, the area is shown without a result.</p>}
     </div>
   )
 }
 
-export function CountyTable({ results, contest, live, final = false }: { results: ContestResults; contest: SummaryContest; live: boolean; final?: boolean }) {
+export function CountyTable({ results, contest }: { results: ContestResults; contest: SummaryContest }) {
   const cands = results.candidates
   const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
   const rows = results.counties
@@ -301,16 +285,6 @@ export function CountyTable({ results, contest, live, final = false }: { results
     },
     { key: 'total', header: 'Votes', align: 'right', sort: (r) => r.total, render: (r) => <span className="num">{fmtInt(r.total)}</span> },
   ]
-  if (final) {
-    // Certified results: every county is fully counted, so the counting columns would only show 100% and 0.
-  } else if (live || contest.total_votes > 0) {
-    columns.push(
-      { key: 'pct', header: 'Est. % counted', title: 'Estimated share of expected vote counted', sort: (r) => r.pct_expected, render: (r) => <ReportingMeter pct={r.pct_expected} lo={r.pct_expected_lo} hi={r.pct_expected_hi} size="sm" /> },
-      { key: 'rem', header: 'Est. votes left', align: 'right', sort: (r) => estRemaining(r), render: (r) => <span className="num">{r.pct_expected >= 0.999 ? '0' : `~${fmtCompact(estRemaining(r))}`}</span> },
-    )
-  } else {
-    columns.push({ key: 'exp', header: 'Expected ballots', align: 'right', sort: (r) => r.expected_ballots, render: (r) => <span className="num">{fmtInt(r.expected_ballots)}</span> })
-  }
   return <SortableTable rows={rows} columns={columns} rowKey={(r) => r.fips} initialSort={{ key: 'total', dir: 'desc' }} caption={`${contest.name} results by county`} />
 }
 
@@ -338,38 +312,3 @@ function TimelinePanel({ electionId, contest, colors }: { electionId: string; co
     </Gate>
   )
 }
-
-function TurnoutPanel({ electionId }: { electionId: string }) {
-  const model = useModel(electionId)
-  const summary = useSummary(electionId)
-  return (
-    <Gate data={model} what="The turnout model">
-      {(m: ElectionModel) => {
-        const s = m.statewide
-        const t = summary ?? null
-        const lo = s.expected_lo / s.expected_median, hi = s.expected_hi / s.expected_median
-        const pct = s.counted / s.expected_median
-        return (
-          <div className="turnout-grid">
-            <div>
-              <div className="stat-row">
-                <Stat label="Ballots counted" value={fmtInt(s.counted)} />
-                <Stat label="Expected final" value={fmtInt(s.expected_median)} sub={`${fmtInt(s.expected_lo)} – ${fmtInt(s.expected_hi)}`} />
-                {t && <Stat label="Registered voters" value={fmtInt(t.turnout.registered)} sub={`${fmtPct(s.expected_median / t.turnout.registered, 0)} expected turnout`} />}
-              </div>
-              <ReportingMeter pct={pct} lo={pct / hi} hi={pct / lo} label="Statewide ballots counted vs expected" />
-              <p className="note">{m.method}</p>
-            </div>
-            <PollChart height={220} ariaLabel="Ballots counted over time"
-              series={[
-                { id: 'expected', label: 'Expected final (median)', endLabel: 'Expected', color: '#999', dashed: true, line: m.history.map((h) => ({ x: new Date(h.t), y: h.expected_median })) },
-                { id: 'counted', label: 'Counted', color: '#121212', line: m.history.map((h) => ({ x: new Date(h.t), y: h.counted })) },
-              ]}
-              yFormat={fmtCompact} valueFormat={fmtInt} xTickFormat={fmtMT} tipDateFormat={fmtMTFull} minSpanDays={0.05} />
-          </div>
-        )
-      }}
-    </Gate>
-  )
-}
-

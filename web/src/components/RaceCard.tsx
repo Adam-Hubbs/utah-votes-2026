@@ -3,10 +3,9 @@ import type { CandidateBio, ContestAverage, NeedleContest, Ratings, SummaryConte
 import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
 import { fmtInt, fmtPct } from '../lib/format'
-import { lastName } from '../lib/results'
+import { countiesReporting, lastName } from '../lib/results'
 import { PartyChip } from './PartyChip'
 import { RatingChip } from './RatingChip'
-import { ReportingMeter } from './ReportingMeter'
 import { ResultsBar } from './ResultsBar'
 import { ForecastSummary } from './ForecastSummary'
 
@@ -76,8 +75,7 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
       {showForecast && <ForecastSummary needle={needle} candidates={forecastCands} title={title} compact />}
       {useLive && live ? (
         <div className="rc-foot">
-          <ReportingMeter pct={live.reporting.pct_expected} lo={live.reporting.pct_expected_lo} hi={live.reporting.pct_expected_hi} size="sm" />
-          <span className="rc-foot-text">Est. expected vote counted · {fmtInt(live.total_votes)} votes</span>
+          <span className="rc-foot-text">{fmtInt(live.total_votes)} votes · {countiesReporting(live.reporting)}</span>
         </div>
       ) : (
         <div className="rc-foot rc-foot-text">

@@ -6,9 +6,8 @@ import { ContestExplorer } from '../components/ContestExplorer'
 import { ContestSelect, ElectionSelect } from '../components/ElectionPicker'
 import { Gate, Section, Unavailable } from '../components/Ui'
 import { CandidateRow } from '../components/CandidateRow'
-import { ReportingMeter } from '../components/ReportingMeter'
 import { candidateColors } from '../lib/parties'
-import { MAPPABLE_OFFICES, OFFICE_LABEL } from '../lib/results'
+import { countiesReporting, MAPPABLE_OFFICES, OFFICE_LABEL } from '../lib/results'
 import { fmtInt, fmtPct } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 import { flags } from '../data/base'
@@ -134,7 +133,7 @@ function ContestList({ summary, office, electionId }: { summary: ElectionSummary
             <article key={c.contest_id} className="list-contest">
               <header><h3>{c.name}</h3><span className="muted">{OFFICE_LABEL[c.office] ?? c.office}</span></header>
               {c.candidates.map((x) => <CandidateRow key={x.candidate_id} compact name={x.name} party={x.party} candidateId={x.candidate_id} incumbent={x.incumbent} votes={has ? x.votes : undefined} pct={has ? x.pct : undefined} color={colors[x.candidate_id]} winner={x.winner} />)}
-              {has && <div className="list-foot"><ReportingMeter pct={c.reporting.pct_expected} lo={c.reporting.pct_expected_lo} hi={c.reporting.pct_expected_hi} size="sm" /><span>{fmtInt(c.total_votes)} votes</span></div>}
+              {has && <div className="list-foot"><span>{fmtInt(c.total_votes)} votes · {countiesReporting(c.reporting)}</span></div>}
             </article>
           )
         })}

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { SortableTable, type Column } from '../SortableTable'
 import { CompetitivenessChip } from './CompetitivenessChip'
 import { PartyChip } from '../PartyChip'
-import { ReportingMeter } from '../ReportingMeter'
 import { Segmented } from '../Ui'
 import { useSite } from '../../data/site'
 import { fmtMargin, fmtPct } from '../../lib/format'
@@ -89,7 +88,6 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
               </div>
             ) : <span className="muted">–</span>,
           },
-          { key: 'counted', header: 'Est. counted', sort: (s) => s.pctCounted, render: (s) => (s.contest ? <ReportingMeter pct={s.pctCounted} size="sm" /> : <span className="muted">–</span>) },
           { key: 'flip', header: 'Flip', align: 'center', sort: (s) => (s.flip ? 1 : 0), render: (s) => (s.flip ? <span className="flip-tag">{s.seat.holder_party?.[0]} → {s.leader?.party?.[0] ?? '?'}</span> : <span className="muted">–</span>) },
         ] satisfies Column<SeatState>[])
       : []),

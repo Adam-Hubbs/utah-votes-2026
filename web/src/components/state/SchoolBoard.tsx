@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { PartyChip } from '../PartyChip'
-import { ReportingMeter } from '../ReportingMeter'
 import { ResultsBar } from '../ResultsBar'
 import { useSite } from '../../data/site'
 import { fmtPct } from '../../lib/format'
@@ -28,7 +27,6 @@ export function SchoolBoard({ contests, started }: { contests: SummaryContest[];
               ))}
             </ul>
             {live && !solo && <ResultsBar items={cands.map((x) => ({ candidate_id: x.candidate_id, name: x.name, party: x.party, pct: x.pct }))} height={8} />}
-            {live && <ReportingMeter pct={c.reporting.pct_expected} size="sm" label="Est. expected vote counted" />}
           </article>
         )
       })}

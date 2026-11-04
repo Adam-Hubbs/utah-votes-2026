@@ -45,7 +45,7 @@ export function HistoryPage() {
               <ElectionSelect elections={past} value={election?.election_id ?? ''} onChange={(id) => { setElectionId(id) }} />
               <ContestSelect election={election} value={contestId} onChange={setContestPick} />
             </div>
-            {election && contestId && <ContestExplorer key={`${election.election_id}/${contestId}`} electionId={election.election_id} contestId={contestId} sections={{ counties: true, timeline: false, turnout: false }} />}
+            {election && contestId && <ContestExplorer key={`${election.election_id}/${contestId}`} electionId={election.election_id} contestId={contestId} sections={{ counties: true, timeline: false }} />}
             <Section title="How counties have moved" dek="Margin by county in presidential, gubernatorial and Senate contests, 2016–2024. Right of the dashed line is Republican.">
               <Trends />
             </Section>

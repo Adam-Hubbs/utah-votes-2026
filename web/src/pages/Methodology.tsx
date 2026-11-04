@@ -1,14 +1,11 @@
 import { Link } from 'react-router-dom'
-import { useAverages, useModel, useRatings } from '../data/hooks'
-import { useSite } from '../data/site'
+import { useAverages, useRatings } from '../data/hooks'
 import { useDocTitle } from '../lib/hooks'
 import { fmtDayYear } from '../lib/format'
 
 export function MethodologyPage() {
   useDocTitle('Methodology')
-  const { currentElection } = useSite()
   const averages = useAverages()
-  const model = useModel(currentElection)
   const ratings = useRatings()
   return (
     <div className="page prose-page">
@@ -36,13 +33,11 @@ export function MethodologyPage() {
         <h2>Legislative race ratings</h2>
         <p>Each state House and Senate race gets a pre-election rating from the forecast model’s win probability for the favourite: Safe at 97% or higher, Likely at 85–97%, Lean at 65–85%, and Toss-up below 65% (checked against 2018–2024 results and kept: in held-out back-tests no seat rated above 95% lost; the evidence for the Lean and Toss-up bands is thin, with only a handful of close seats). Races with a single candidate are Uncontested. Where the model has no forecast, we use the absolute 2024 presidential margin in the district instead: 20 points or more is Safe, 10–20 Likely, 5–10 Lean and under 5 a Toss-up. Hovering a rating shows which source was used. The rating is fixed before votes are counted and does not change on election night.</p>
 
-        <h2>Estimating how much vote is left</h2>
-        <p>Utah votes almost entirely by mail, and counties report in batches over about two weeks. A precinct “reporting” therefore says little about how much of the vote is in. Instead we estimate the share of the <em>expected</em> final vote that has been counted.</p>
-        <p>A Bayesian model predicts each county’s final number of ballots from its registration, past turnout and the ballots already counted, and simulates thousands of plausible outcomes. The percent shown is the median; the range is a 90% interval from the simulations. Statewide totals are the sum across simulated counties, so they are more certain than any single county. Estimates are least reliable early on. We checked the model against archived Utah results from 2016 to 2022: counting was slower than most people expect, with only about 70% of the final vote in a day after the polls closed and most of the rest arriving over the following week. Small counties finish on election night while the largest lag. Until about 36 hours after the polls close (or while the 90% range is wider than 25 points) the site therefore shows the share counted as a rounded range, such as “about 55–80%”, instead of a single number.</p>
-        <p>The model is a guide, not a call. Late-arriving ballots can differ in partisanship from those counted first, and the site does not project winners.</p>
+        <h2>How much vote is left</h2>
+        <p>Utah votes almost entirely by mail, and counties report in batches over about two weeks. The state does not publish the share of the vote counted or the number of ballots still to count, and a precinct or county “reporting” says little about how much of the vote is in. We do not estimate it. We show the votes counted in each contest and how many counties have posted any votes.</p>
+        <p>Late-arriving ballots can differ in partisanship from those counted first, and the site does not project winners.</p>
         <h2>Winners and “leading”</h2>
         <p>We do not make race calls. Winners are marked automatically once results are official: when the Lieutenant Governor’s office reports the election results as final, the top vote-getter (the top candidates, where several seats are open) is marked the winner, and a measure or judicial retention is decided by whether it clears its threshold (more than 50% yes). Until then, candidates are shown as leading. The national page shows pre-election context only (ratings and polls), not results.</p>
-        {model && <p className="callout-small"><b>Current model:</b> {model.method}</p>}
 
         <h2>Data sources</h2>
         <ul>
@@ -60,7 +55,7 @@ export function MethodologyPage() {
         <h2>Update schedule</h2>
         <ul>
           <li><b>Before the election:</b> polls and ratings refresh when new data is published, usually daily.</li>
-          <li><b>Election night:</b> results, the turnout model and the vote timeline refresh about every three minutes; this page checks for new data every minute.</li>
+          <li><b>Election night:</b> results and the vote timeline refresh about every three minutes; this page checks for new data every minute.</li>
           <li><b>After election night:</b> county canvasses continue for roughly two weeks, with updates every 30 minutes until certification.</li>
         </ul>
         <h2>Our pre-election forecast: chance of winning</h2>

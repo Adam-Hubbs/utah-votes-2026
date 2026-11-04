@@ -1,4 +1,4 @@
-import type { ContestCandidate, CountyResult, SummaryCandidate } from '../types/data'
+import type { ContestCandidate, SummaryCandidate } from '../types/data'
 import { partyGroup, type PartyGroup } from './parties'
 
 export interface Leader {
@@ -34,11 +34,6 @@ export const lastName = (name: string): string => {
   return parts[parts.length - 1] ?? name
 }
 
-export function estRemaining(c: CountyResult): number {
-  if (c.pct_expected <= 0) return c.expected_ballots
-  return Math.max(0, c.expected_ballots - c.ballots_counted)
-}
-
 export const leadingCandidate = (cands: SummaryCandidate[]): SummaryCandidate | undefined =>
   [...cands].sort((a, b) => b.votes - a.votes)[0]
 
@@ -62,3 +57,6 @@ export function signedMargin(l: Leader): number | null {
   if (l.group === 'DEM' || l.group === 'AGAINST') return -l.margin
   return null
 }
+
+export const countiesReporting = (r: { counties_reporting: number; counties_total: number }): string =>
+  `${r.counties_reporting} of ${r.counties_total} ${r.counties_total === 1 ? 'county' : 'counties'} reporting`

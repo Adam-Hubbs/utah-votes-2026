@@ -83,7 +83,7 @@ export function Layout({ children }: { children: ReactNode }) {
             </div>
             <div>
               <h4>Note</h4>
-              <p>Results are unofficial until certified. Utah counts mail ballots for about two weeks. <Link to="/methodology">How we estimate what is left to count</Link>.</p>
+              <p>Results are unofficial until certified. Utah counts mail ballots for about two weeks. <Link to="/methodology">How this site works</Link>.</p>
             </div>
           </div>
           {flags.mock && <p className="mock-flag">Showing mock data (?mock=1).</p>}

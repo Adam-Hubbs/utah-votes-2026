@@ -9,11 +9,10 @@ import { Countdown, LastUpdated } from '../components/LastUpdated'
 import { LegislatureCard } from '../components/state/LegislatureCard'
 import { Section, Stat } from '../components/Ui'
 import { Sparkline } from '../components/Sparkline'
-import { PctExpectedText, ReportingMeter } from '../components/ReportingMeter'
 import { ResultsBar } from '../components/ResultsBar'
 import { RATING_FILL, NO_DATA, leaderFill } from '../lib/colors'
 import { consensus } from '../lib/ratings'
-import { leadingCandidate } from '../lib/results'
+import { countiesReporting, leadingCandidate } from '../lib/results'
 import { partyGroup } from '../lib/parties'
 import { fmtInt, fmtPct, fmtDayYear } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
@@ -42,8 +41,7 @@ export function Overview() {
   const houseIds = config.featured_contests.filter((c) => c.startsWith('us-house')).length ? config.featured_contests.filter((c) => c.startsWith('us-house')) : HOUSE
   const measureIds = config.featured_contests.filter((c) => c.startsWith('amendment'))
   const turnout = summary?.turnout
-  const turnoutLo = turnout?.expected_hi ? turnout.ballots_counted / turnout.expected_hi : undefined
-  const turnoutHi = turnout?.expected_lo ? turnout.ballots_counted / turnout.expected_lo : undefined
+  const statewide = measureIds.length ? byId.get(measureIds[0])?.reporting : undefined
   const stateReg = useDemographics('state')?.units[0]?.registration
   const registered = turnout?.registered || stateReg?.total
 
@@ -81,8 +79,8 @@ export function Overview() {
         <h1 className="headline">{showLive ? 'Utah election results' : 'Utah’s new congressional map is on the ballot for the first time'}</h1>
         <p className="dek">
           {showLive
-            ? 'Live results for the four U.S. House districts, both constitutional amendments, and every legislative and school board contest, with estimates of how much vote is still to come.'
-            : 'A court-ordered map creates a Salt Lake County–based district. See our forecast and expert ratings now, and live results with estimates of the vote still to be counted on election night.'}
+            ? 'Live results for the four U.S. House districts, both constitutional amendments, and every legislative and school board contest.'
+            : 'A court-ordered map creates a Salt Lake County–based district. See our forecast and expert ratings now, and live results on election night.'}
         </p>
         <div className="status-strip">
           {mode === 'pre' && (
@@ -91,16 +89,8 @@ export function Overview() {
               <Stat label="Registered voters" value={registered ? fmtInt(registered) : '–'} sub={turnout?.registered || !stateReg?.as_of ? 'Utah votes almost entirely by mail' : `Active voters as of ${fmtDayYear(stateReg.as_of)}`} />
             </>
           )}
-          {showLive && turnout && (
-            <>
-              <Stat label="Ballots counted" value={fmtInt(turnout.ballots_counted)} sub={<LastUpdated iso={summary?.updated_at} />} />
-              <div className="stat stat-meter">
-                <div className="stat-label">Est. expected vote counted</div>
-                <div className="stat-value"><PctExpectedText pct={turnout.pct_expected} lo={turnoutLo} hi={turnoutHi} bare /></div>
-                <ReportingMeter pct={turnout.pct_expected} lo={turnoutLo} hi={turnoutHi} showText={false} />
-                <div className="stat-sub">Expected final: {fmtInt(turnout.expected_lo)}–{fmtInt(turnout.expected_hi)} ballots</div>
-              </div>
-            </>
+          {showLive && statewide && (
+            <Stat label="Counties reporting" value={`${statewide.counties_reporting} of ${statewide.counties_total}`} sub={<LastUpdated iso={summary?.updated_at} />} />
           )}
         </div>
       </section>
@@ -149,7 +139,7 @@ export function Overview() {
                       <>
                         <ResultsBar items={items.map((i) => ({ candidate_id: i.candidate_id, name: i.name, party: null, pct: i.pct }))} />
                         <div className="measure-vals">{items.map((i) => <span key={i.candidate_id}>{i.name} <b>{fmtPct(i.pct)}</b></span>)}</div>
-                        {c && <div className="rc-foot-text">Est. <PctExpectedText pct={c.reporting.pct_expected} lo={c.reporting.pct_expected_lo} hi={c.reporting.pct_expected_hi} bare /> of expected vote counted</div>}
+                        {c && <div className="rc-foot-text">{fmtInt(c.total_votes)} votes · {countiesReporting(c.reporting)}</div>}
                       </>
                     ) : <div className="rc-foot-text">No public polling. {blurb ? '' : 'Description pending.'}</div>}
                   </article>

@@ -17,7 +17,6 @@ export interface SeatState {
   leader: SummaryCandidate | null
   margin: number
   flip: boolean
-  pctCounted: number
   called: boolean
   rating: SeatRating
 }
@@ -25,7 +24,7 @@ export interface SeatState {
 export function seatStates(chamber: 'house' | 'senate', data: LegChamber, byId: Map<string, SummaryContest>, started: boolean, needle?: NeedleFile | null): SeatState[] {
   return data.seats_list.map((seat) => {
     const contest = seat.contest_id ? (byId.get(seat.contest_id) ?? null) : null
-    const base = { seat, chamber, contest, leader: null, margin: 0, flip: false, pctCounted: contest?.reporting.pct_expected ?? 0, called: false, rating: rateSeat(seat, contest?.candidates, needle) }
+    const base = { seat, chamber, contest, leader: null, margin: 0, flip: false, called: false, rating: rateSeat(seat, contest?.candidates, needle) }
     const holder = bucketOf(seat.holder_party)
     if (!seat.up) return { ...base, status: 'holdover' as const, bucket: holder }
     if (started) {

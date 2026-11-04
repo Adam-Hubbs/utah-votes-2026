@@ -37,10 +37,6 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
     if (started) return s.leader ? leaderFill(partyGroup(s.leader.party, s.leader.candidate_id), s.margin) : NO_DATA
     return s.bucket ? PRE_FILL[s.bucket] : NO_DATA
   }
-  const hatch = (f: F): boolean => {
-    const s = stateOf(f)
-    return !!s && started && s.status !== 'holdover' && s.status !== 'untracked' && s.pctCounted < 0.5
-  }
   const tooltip = (f: F) => {
     const s = stateOf(f)
     const d = Number(f.properties?.district)
@@ -55,7 +51,7 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
         {s.status !== 'holdover' && started && s.leader && (
           <>
             <TooltipRow label={s.status === 'won' ? 'Winner' : 'Leading'} value={`${s.leader.name} (${s.leader.party?.[0] ?? '–'}) ${fmtPct(s.leader.pct)}`} />
-            <TooltipNote>Est. {fmtPct(s.pctCounted, 0)} counted{s.flip ? ' · flip' : ''}</TooltipNote>
+            {s.flip && <TooltipNote>Flip</TooltipNote>}
           </>
         )}
         {s.status !== 'holdover' && started && !s.leader && <TooltipNote>{s.status === 'untracked' ? 'Contest not yet in results feed' : 'No votes counted yet'}</TooltipNote>}
@@ -83,16 +79,16 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
       <div className="leg-maps">
         <figure className="leg-map">
           <figcaption>Statewide</figcaption>
-          <ChoroplethMap features={features} idOf={(f) => String(f.properties?.district)} fill={fill} hatch={hatch} tooltip={tooltip} onSelect={open}
+          <ChoroplethMap features={features} idOf={(f) => String(f.properties?.district)} fill={fill} tooltip={tooltip} onSelect={open}
             strokeWidth={0.6} zoomable={false} aspect={1.1} maxHeight={520} ariaLabel={`Map of Utah ${chamber} districts`} />
         </figure>
         <figure className="leg-map">
           <figcaption>Wasatch Front</figcaption>
-          <ChoroplethMap features={features} fitTo={[WASATCH]} idOf={(f) => String(f.properties?.district)} fill={fill} hatch={hatch} tooltip={tooltip} onSelect={open}
+          <ChoroplethMap features={features} fitTo={[WASATCH]} idOf={(f) => String(f.properties?.district)} fill={fill} tooltip={tooltip} onSelect={open}
             strokeWidth={0.8} zoomable aspect={1.1} maxHeight={520} ariaLabel={`Map of ${chamber} districts along the Wasatch Front`} />
         </figure>
       </div>
-      {started ? <MarginLegend hatchNote note="leader" /> : (
+      {started ? <MarginLegend note="leader" /> : (
         <div className="legend">
           <div className="legend-title">Current holder&rsquo;s party</div>
           <div className="legend-swatches">
