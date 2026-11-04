@@ -43,7 +43,7 @@ export const OFFICE_LABEL: Record<string, string> = {
   'attorney-general': 'Attorney General', treasurer: 'Treasurer', auditor: 'Auditor',
 }
 export const OFFICE_ORDER = ['president', 'us-senate', 'governor', 'us-house', 'attorney-general', 'treasurer', 'auditor', 'amendment', 'state-senate', 'state-house', 'school-board', 'retention']
-export const MAPPABLE_OFFICES = new Set(['president', 'us-senate', 'governor', 'us-house', 'amendment', 'attorney-general', 'treasurer', 'auditor'])
+export const STATE_OFFICES = new Set(['state-house', 'state-senate', 'school-board', 'retention'])
 
 export const marginText = (l: Leader): string => {
   const who = l.group === 'REP' ? 'R' : l.group === 'DEM' ? 'D' : lastName(l.name)

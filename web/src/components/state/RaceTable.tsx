@@ -4,7 +4,6 @@ import { SortableTable, type Column } from '../SortableTable'
 import { CompetitivenessChip } from './CompetitivenessChip'
 import { PartyChip } from '../PartyChip'
 import { Segmented } from '../Ui'
-import { useSite } from '../../data/site'
 import { fmtMargin, fmtPct } from '../../lib/format'
 import { lastName } from '../../lib/results'
 import { TIER_NAME, matchesTier, type TierFilter } from '../../lib/competitiveness'
@@ -25,7 +24,6 @@ function candidatesOf(s: SeatState, started: boolean) {
 
 export function RaceTable({ states, started }: { states: SeatState[]; started: boolean }) {
   const navigate = useNavigate()
-  const { currentElection } = useSite()
   const [chamber, setChamber] = useState<Chamber>('all')
   const [show, setShow] = useState<Show>('all')
   const [tier, setTier] = useState<TierFilter>('all')
@@ -125,7 +123,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
       <p className="note small">{rows.length} race{rows.length === 1 ? '' : 's'}. Ratings are from before the election and do not change as votes come in; “Competitive” means Toss-up or Lean. See the methodology page for how they are set.</p>
       <SortableTable<SeatState> rows={rows} columns={columns} rowKey={rowKey} initialSort={{ key: 'seat', dir: 'asc' }} maxHeight={640}
         caption="State legislative races"
-        onRowClick={(s) => { if (s.seat.contest_id) navigate(`/results/${currentElection}/${s.seat.contest_id}`) }} empty="No races match." />
+        onRowClick={(s) => { if (s.seat.contest_id) navigate(`/state/${s.seat.contest_id}`) }} empty="No races match." />
     </div>
   )
 }

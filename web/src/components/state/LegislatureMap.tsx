@@ -6,7 +6,6 @@ import { ChoroplethMap } from '../ChoroplethMap'
 import { MarginLegend } from '../MapLegend'
 import { TooltipHeader, TooltipNote, TooltipRow } from '../Tooltip'
 import { useGeo } from '../../data/hooks'
-import { useSite } from '../../data/site'
 import { NO_DATA, leaderFill } from '../../lib/colors'
 import { partyGroup } from '../../lib/parties'
 import { fmtMargin, fmtPct } from '../../lib/format'
@@ -26,7 +25,6 @@ const WASATCH: F = {
 export function LegislatureMap({ chamber, states, started }: { chamber: 'house' | 'senate'; states: SeatState[]; started: boolean }) {
   const geo = useGeo(chamber === 'house' ? 'state_house' : 'state_senate')
   const navigate = useNavigate()
-  const { currentElection } = useSite()
   const byDistrict = useMemo(() => new Map(states.map((s) => [s.seat.district, s])), [states])
   const stateOf = (f: F): SeatState | undefined => byDistrict.get(Number(f.properties?.district))
 
@@ -67,7 +65,7 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
   }
   const open = (f: F | null) => {
     const s = f ? stateOf(f) : undefined
-    if (s?.seat.contest_id) navigate(`/results/${currentElection}/${s.seat.contest_id}`)
+    if (s?.seat.contest_id) navigate(`/state/${s.seat.contest_id}`)
   }
 
   if (geo === undefined) return <div className="map-placeholder">Loading map…</div>

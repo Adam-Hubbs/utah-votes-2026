@@ -29,7 +29,7 @@ function status(r: Row, decided: boolean): { label: string; cls: string } {
 const jpecClass = (rec: string | null): string => (rec == null ? 'none' : /retain/i.test(rec) && !/not/i.test(rec) ? 'good' : 'bad')
 
 export function Judges({ contests, judges, started }: { contests: SummaryContest[]; judges: JudgesFile | null | undefined; started: boolean }) {
-  const { mode, currentElection } = useSite()
+  const { mode } = useSite()
   const [q, setQ] = useState('')
 
   const rows = useMemo<Row[]>(() => contests.filter((c) => c.office === 'retention').map((c) => {
@@ -71,7 +71,7 @@ export function Judges({ contests, judges, started }: { contests: SummaryContest
                   const st = status(r, mode === 'final' || r.contest.candidates.some((c) => c.winner))
                   return (
                     <tr key={r.contest.contest_id}>
-                      <td><Link to={`/results/${currentElection}/${r.contest.contest_id}`}><b>{r.name}</b></Link></td>
+                      <td><Link to={`/state/${r.contest.contest_id}`}><b>{r.name}</b></Link></td>
                       <td className="muted">{r.info?.court ?? '–'}</td>
                       <td>{r.info?.jpec_recommendation ? <span className={`chip jpec-${jpecClass(r.info.jpec_recommendation)}`} title="Judicial Performance Evaluation Commission recommendation">{r.info.jpec_recommendation}</span> : <span className="muted">–</span>}</td>
                       <td className="right"><b>{r.started ? fmtPct(r.yes) : '–'}</b></td>

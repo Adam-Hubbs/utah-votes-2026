@@ -2,10 +2,10 @@ import { useCallback, useMemo, useState } from 'react'
 import type { Feature, Geometry } from 'geojson'
 import { useContestResults, useGeo, usePlaces, useSummary, useTimeline } from '../data/hooks'
 import { useSite } from '../data/site'
-import type { ContestResults, CountyResult, SummaryContest } from '../types/data'
+import type { ContestResults, CountyResult, PrecinctResult, SummaryContest } from '../types/data'
 import { candidateColors, partyGroup } from '../lib/parties'
 import { NO_DATA, NO_PRECINCT_RESULT, NO_RESIDENTS, leaderFill } from '../lib/colors'
-import { countiesReporting, leaderOf, marginText, signedMargin } from '../lib/results'
+import { countiesReporting, leaderOf, marginText, signedMargin, STATE_OFFICES } from '../lib/results'
 import { fmtCompact, fmtInt, fmtMT, fmtMTFull, fmtPct } from '../lib/format'
 import { CandidateRow } from './CandidateRow'
 import { ChoroplethMap, type UnitPattern } from './ChoroplethMap'
@@ -94,6 +94,12 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
         </div>
       </div>
 
+      {STATE_OFFICES.has(contest.office) && !!results?.precincts.length && (
+        <Section title="Results by precinct" id="precincts">
+          <PrecinctTable results={results} contest={contest} precinctGeo={summary.precinct_geo} />
+        </Section>
+      )}
+
       {sections.counties !== false && (
         <Section title="Results by county" id="counties">
           <Gate data={results} what="County results">
@@ -102,7 +108,7 @@ function ContestBody({ electionId, summary, contest, results, sections }: BodyPr
         </Section>
       )}
 
-      {sections.timeline !== false && isLive && (
+      {sections.timeline !== false && isLive && !STATE_OFFICES.has(contest.office) && (
         <Section title="Vote count over time" dek="How the statewide count has evolved since polls closed. Times are Mountain Time.">
           <TimelinePanel electionId={electionId} contest={contest} colors={colors} />
         </Section>
@@ -120,7 +126,7 @@ function ContestMapPanel({ electionId, summary, contest, results }: { electionId
   const precinctGeoName = summary.precinct_geo
   const counties = useGeo('counties')
   const hasPrecinctData = !!results && results.precincts.length > 0
-  const [view, setView] = useState<'county' | 'precinct'>('county')
+  const [view, setView] = useState<'county' | 'precinct'>(STATE_OFFICES.has(contest.office) ? 'precinct' : 'county')
   const precincts = useGeo(view === 'precinct' && precinctGeoName ? precinctGeoName : null)
   const places = usePlaces()
   const [selected, setSelected] = useState<string | null>(null)
@@ -147,9 +153,11 @@ function ContestMapPanel({ electionId, summary, contest, results }: { electionId
   }, [precincts, byPrecinct, byFips, contest.office, contest.district, precinctGeoName])
   const features = effective === 'precinct' ? precinctFeatures : countyFeatures
   const fitTo = useMemo(() => {
+    // Most legislative districts are a speck inside their county, so the precinct view frames the district itself.
+    if (effective === 'precinct' && STATE_OFFICES.has(contest.office) && precinctFeatures.length) return precinctFeatures
     const inRace = countyFeatures.filter((f) => byFips.has(String(f.properties?.fips)))
     return inRace.length ? inRace : countyFeatures
-  }, [countyFeatures, byFips])
+  }, [countyFeatures, byFips, effective, contest.office, precinctFeatures])
 
   const idOf = useCallback((f: F) => String(f.properties?.[effective === 'precinct' ? 'precinct_id' : 'fips']), [effective])
 
@@ -259,13 +267,8 @@ function ContestMapPanel({ electionId, summary, contest, results }: { electionId
   )
 }
 
-export function CountyTable({ results, contest }: { results: ContestResults; contest: SummaryContest }) {
-  const cands = results.candidates
-  const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
-  const rows = results.counties
-  const measure = contest.candidates.some((c) => partyGroup(c.party, c.candidate_id) === 'FOR')
-  const columns: Column<CountyResult>[] = [
-    { key: 'name', header: 'County', sort: (r) => r.name, render: (r) => <b>{r.name}</b> },
+function resultColumns<T extends { votes: Record<string, number>; total: number }>(cands: ContestResults['candidates'], colors: Record<string, string>, measure: boolean): Column<T>[] {
+  return [
     {
       key: 'leader', header: 'Leader', sort: (r) => leaderOf(r.votes, r.total, cands).name,
       render: (r) => {
@@ -284,6 +287,32 @@ export function CountyTable({ results, contest }: { results: ContestResults; con
       },
     },
     { key: 'total', header: 'Votes', align: 'right', sort: (r) => r.total, render: (r) => <span className="num">{fmtInt(r.total)}</span> },
+  ]
+}
+
+function PrecinctTable({ results, contest, precinctGeo }: { results: ContestResults; contest: SummaryContest; precinctGeo: string | null | undefined }) {
+  const geo = useGeo(precinctGeo)
+  const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
+  const nameOf = useMemo(() => new Map((geo?.features ?? []).map((f) => [String(f.properties?.precinct_id), String(f.properties?.name)])), [geo])
+  const countyOf = useMemo(() => new Map(results.counties.map((c) => [c.fips, c.name])), [results.counties])
+  const precinctName = (r: PrecinctResult) => nameOf.get(r.precinct_id) ?? r.precinct_id.slice(6)
+  const measure = contest.candidates.some((c) => partyGroup(c.party, c.candidate_id) === 'FOR')
+  const columns: Column<PrecinctResult>[] = [
+    { key: 'name', header: 'Precinct', sort: precinctName, render: (r) => <b>{precinctName(r)}</b> },
+    ...(results.counties.length > 1 ? [{ key: 'county', header: 'County', sort: (r: PrecinctResult) => countyOf.get(r.precinct_id.slice(0, 5)) ?? '', render: (r: PrecinctResult) => countyOf.get(r.precinct_id.slice(0, 5)) ?? '–' }] : []),
+    ...resultColumns<PrecinctResult>(results.candidates, colors, measure),
+  ]
+  return <SortableTable rows={results.precincts} columns={columns} rowKey={(r) => r.precinct_id} initialSort={{ key: 'total', dir: 'desc' }} maxHeight={520} caption={`${contest.name} results by precinct`} />
+}
+
+export function CountyTable({ results, contest }: { results: ContestResults; contest: SummaryContest }) {
+  const cands = results.candidates
+  const colors = useMemo(() => candidateColors(contest.candidates), [contest.candidates])
+  const rows = results.counties
+  const measure = contest.candidates.some((c) => partyGroup(c.party, c.candidate_id) === 'FOR')
+  const columns: Column<CountyResult>[] = [
+    { key: 'name', header: 'County', sort: (r) => r.name, render: (r) => <b>{r.name}</b> },
+    ...resultColumns<CountyResult>(cands, colors, measure),
   ]
   return <SortableTable rows={rows} columns={columns} rowKey={(r) => r.fips} initialSort={{ key: 'total', dir: 'desc' }} caption={`${contest.name} results by county`} />
 }

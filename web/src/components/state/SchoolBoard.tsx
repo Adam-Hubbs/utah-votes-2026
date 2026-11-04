@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom'
 import { PartyChip } from '../PartyChip'
 import { ResultsBar } from '../ResultsBar'
-import { useSite } from '../../data/site'
 import { fmtPct } from '../../lib/format'
 import type { SummaryContest } from '../../types/data'
 
 export function SchoolBoard({ contests, started }: { contests: SummaryContest[]; started: boolean }) {
-  const { currentElection } = useSite()
   const boards = contests.filter((c) => c.office === 'school-board').sort((a, b) => (a.district ?? 0) - (b.district ?? 0))
   if (!boards.length) return <div className="unavailable">State School Board contests are not yet available.</div>
   return (
@@ -17,7 +15,7 @@ export function SchoolBoard({ contests, started }: { contests: SummaryContest[];
         const solo = cands.length === 1
         return (
           <article key={c.contest_id} className="sb-card">
-            <h3><Link to={`/results/${currentElection}/${c.contest_id}`}>District {c.district}</Link>{solo && <span className="tag">Unopposed</span>}</h3>
+            <h3><Link to={`/state/${c.contest_id}`}>District {c.district}</Link>{solo && <span className="tag">Unopposed</span>}</h3>
             <ul>
               {cands.map((x, i) => (
                 <li key={x.candidate_id} className={live && i === 0 ? 'lead' : ''}>

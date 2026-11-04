@@ -10,6 +10,7 @@ import { ForecastsPage } from './pages/Forecasts'
 import { HistoryPage } from './pages/History'
 import { DemographicsPage } from './pages/Demographics'
 import { StatePage } from './pages/StatePage'
+import { StateRacePage } from './pages/StateRace'
 import { MethodologyPage } from './pages/Methodology'
 import { NationalPage } from './pages/National'
 
@@ -32,6 +33,7 @@ export function App() {
             <Route path="/polls" element={<PollsPage />} />
             <Route path="/race/:contestId" element={<RacePage />} />
             <Route path="/state" element={<StatePage />} />
+            <Route path="/state/:contestId" element={<StateRacePage />} />
             <Route path="/forecasts" element={<ForecastsPage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/demographics" element={<DemographicsPage />} />
