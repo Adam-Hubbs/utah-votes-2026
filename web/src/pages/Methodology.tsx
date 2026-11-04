@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useAverages, useModel, useNeedle, useRatings } from '../data/hooks'
+import { useAverages, useModel, useRatings } from '../data/hooks'
 import { useSite } from '../data/site'
 import { useDocTitle } from '../lib/hooks'
 import { fmtDayYear } from '../lib/format'
@@ -9,7 +9,6 @@ export function MethodologyPage() {
   const { currentElection } = useSite()
   const averages = useAverages()
   const model = useModel(currentElection)
-  const needle = useNeedle(currentElection)
   const ratings = useRatings()
   return (
     <div className="page prose-page">
@@ -23,8 +22,8 @@ export function MethodologyPage() {
         <h2>Polls, forecast and results are different things</h2>
         <ul>
           <li><b>Polling average:</b> what surveys say. It is not a vote count and not a prediction by itself.</li>
-          <li><b>Our forecast:</b> a model’s projection of the final result, built from the polling average, 2024 results re-assigned to the new districts and the national environment. It is shown as a chance of winning and a projected margin with a range.</li>
-          <li><b>Results:</b> only counted votes. On election night the forecast becomes a live projection of the final result; it is always labelled separately from the votes counted so far.</li>
+          <li><b>Our forecast:</b> a model’s pre-election projection of the final result, built from the polling average, 2024 results re-assigned to the new districts and the national environment. It is shown as a chance of winning and a projected margin with a range.</li>
+          <li><b>Results:</b> only counted votes. We do not publish live win probabilities or projected margins during the count.</li>
         </ul>
 
         <h2>Poll averages</h2>
@@ -64,16 +63,12 @@ export function MethodologyPage() {
           <li><b>Election night:</b> results, the turnout model and the vote timeline refresh about every three minutes; this page checks for new data every minute.</li>
           <li><b>After election night:</b> county canvasses continue for roughly two weeks, with updates every 30 minutes until certification.</li>
         </ul>
-        <h2>Our forecast and the needle: chance of winning</h2>
-        <p>Before votes arrive, the needle shows our forecast (faded); once counting starts it is a live projection. It projects the <em>final</em> result of each U.S. House race, each amendment and each legislative contest. It is not a call and it does not use the percent counted alone: counted votes are exact, and the ballots still to come are simulated 5,000 times (2,500 for legislative contests).</p>
+        <h2>Our pre-election forecast: chance of winning</h2>
+        <p>Before votes were counted we published a chance of winning and a projected margin for each U.S. House race and legislative contest. That forecast is frozen as of Election Day and is not updated with results. We do not publish live win probabilities or projected margins during the count.</p>
         <ul>
-          <li><b>Before votes arrive</b> the starting estimate blends the poll average with a fundamentals baseline: 2024 presidential results re-assigned to the 2026 precincts, nudged by how far the national generic ballot has moved since 2024 (damped by half for Utah). Legislative contests have no polls, so they use the baseline, adjusted using 2018–2024 results: the Democratic share in the baseline runs high where a Republican is the incumbent, slightly low where a Democrat is, and non-Democratic challengers (unaffiliated, Forward, Libertarian, Constitution) get less than the Democratic baseline. Amendments have no public polling, so before votes arrive we show no forecast. U.S. House races assume about 5% to 7% of votes go to minor candidates, based on 2016–2024 results. The needle is shown faded until results arrive.</li>
-          <li><b>As precincts report</b>, each counted precinct is compared with its 2024 baseline. Those differences show how this contest is running relative to 2024 in each county and statewide; the more precincts are in, the less the starting estimate matters. For amendments the model learns how support varies with a precinct’s 2024 partisanship from the precincts already counted.</li>
-          <li><b>Remaining ballots</b> per county come from the expected-vote model above (a lognormal fitted to its 90% range, with a shared statewide factor). The lean of those ballots is what has been counted in the same precinct and county, plus an uncertain shift for late-counted ballots, which in Utah can differ from the first batches. We did not have historical timing data to estimate that shift, so it is a wide assumption, not a measurement.</li>
-          <li><b>Back-test:</b> replaying 2024 at 25%, 50%, 75% and 90% counted, the model’s 90% range for the final margin contained the actual margin 85–93% of the time when late ballots behaved as assumed, and 72–74% of the time in a harsher scenario with larger, biased late shifts and worse ballot-count estimates. Treat early-night ranges as optimistic.</li>
-          <li><b>Probabilities</b> are never shown above “&gt;99%” or below “&lt;1%”. The needle jitters within the 50% range of the projected margin, as a reminder of that uncertainty; you can stop it with “Stop jitter”, and it stays still if your device asks for reduced motion.</li>
+          <li><b>The estimate</b> blends the poll average with a fundamentals baseline: 2024 presidential results re-assigned to the 2026 precincts, nudged by how far the national generic ballot has moved since 2024 (damped by half for Utah). Legislative contests have no polls, so they use the baseline, adjusted using 2018–2024 results: the Democratic share in the baseline runs high where a Republican is the incumbent, slightly low where a Democrat is, and non-Democratic challengers (unaffiliated, Forward, Libertarian, Constitution) get less than the Democratic baseline. Amendments have no public polling, so before votes arrive we show no forecast. U.S. House races assume about 5% to 7% of votes go to minor candidates, based on 2016–2024 results.</li>
+          <li><b>Probabilities</b> are never shown above “&gt;99%” or below “&lt;1%”.</li>
         </ul>
-        {needle && <p className="callout-small"><b>Current needle model:</b> {needle.method}</p>}
 
         <p className="muted">Results are unofficial until certified by the state.</p>
       </article>

@@ -8,7 +8,6 @@ import { PartyChip } from './PartyChip'
 import { RatingChip } from './RatingChip'
 import { ReportingMeter } from './ReportingMeter'
 import { ResultsBar } from './ResultsBar'
-import { CompactNeedle } from './NeedlePanel'
 import { ForecastSummary } from './ForecastSummary'
 
 interface Props {
@@ -47,7 +46,7 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
   const others = rows.slice(2)
   const barItems = useLive ? rows.map((r) => ({ candidate_id: r.id, name: r.name, party: r.party, pct: r.value ?? 0 })) : []
   const forecastCands = live?.candidates ?? rows.map((r) => ({ candidate_id: r.id, name: r.name, party: r.party }))
-  const showForecast = needle && (!showLive || needle.stage === 'pre')
+  const showForecast = needle && !showLive
 
   return (
     <article className={`race-card${useLive ? ' is-live' : ''}`}>
@@ -75,12 +74,6 @@ export function RaceCard({ contestId, title, subtitle, roster = [], avg, live, s
       </div>
       {useLive ? <ResultsBar items={barItems} /> : <div className="results-empty">No votes counted yet. Polls close 8 p.m. MT Nov 3.</div>}
       {showForecast && <ForecastSummary needle={needle} candidates={forecastCands} title={title} compact />}
-      {useLive && live && needle && needle.stage !== 'pre' && (
-        <div className="race-card-needle">
-          <div className="results-label">Live projection of the final result</div>
-          <CompactNeedle nc={needle} candidates={live.candidates} title={title} measure={live.type === 'measure'} />
-        </div>
-      )}
       {useLive && live ? (
         <div className="rc-foot">
           <ReportingMeter pct={live.reporting.pct_expected} lo={live.reporting.pct_expected_lo} hi={live.reporting.pct_expected_hi} size="sm" />

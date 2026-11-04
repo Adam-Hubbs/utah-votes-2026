@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, useNeedle, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useCandidates, useDemographics, useGeo, useMeasures, useNational, usePreElectionForecast, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { RaceCard } from '../components/RaceCard'
 import { ChoroplethMap } from '../components/ChoroplethMap'
@@ -32,7 +32,7 @@ export function Overview() {
   const ratings = useRatings()
   const national = useNational()
   const measures = useMeasures()
-  const needle = useNeedle(currentElection)
+  const needle = usePreElectionForecast()
   const districts = useGeo('cd2026')
   const counties = useGeo('counties')
 

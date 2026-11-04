@@ -30,7 +30,7 @@ export function ForecastSummary({ needle, candidates, title, measure = false, co
         <div className="forecast-head">No forecast — there is no public polling</div>
         {!compact && showNote && (
           <p className="forecast-note">
-            We will show a live projection once votes are counted. <Link to="/methodology">How the forecast works</Link>.
+            <Link to="/methodology">How the forecast works</Link>.
           </p>
         )}
       </div>

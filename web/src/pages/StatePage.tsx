@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useJudges, useLegislature } from '../data/legislature'
-import { useNeedle, useSummary } from '../data/hooks'
+import { usePreElectionForecast, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { BalanceOfPower } from '../components/state/BalanceOfPower'
 import { LegislatureMap } from '../components/state/LegislatureMap'
@@ -18,7 +18,7 @@ export function StatePage() {
   useDocTitle('State races')
   const { mode, currentElection } = useSite()
   const summary = useSummary(currentElection)
-  const needle = useNeedle(currentElection)
+  const needle = usePreElectionForecast()
   const leg = useLegislature()
   const judges = useJudges()
   const [mapChamber, setMapChamber] = useState<'house' | 'senate'>('house')

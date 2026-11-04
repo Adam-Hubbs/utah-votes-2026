@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useCandidates, useNeedle, useRatings, useSummary } from '../data/hooks'
+import { useCandidates, usePreElectionForecast, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { ForecastSummary } from '../components/ForecastSummary'
 import { sideOf, signed, type NamedCandidate } from '../lib/needle'
@@ -17,7 +17,7 @@ export function ForecastsPage() {
   const ratings = useRatings()
   const { currentElection, config, mode } = useSite()
   const summary = useSummary(currentElection)
-  const needle = useNeedle(currentElection)
+  const needle = usePreElectionForecast()
   const roster = useCandidates()
   const nameOf = (id: string) => summary?.contests.find((c) => c.contest_id === id)?.name
     ?? id.replace('us-house-', 'U.S. House District ').replace('state-senate-', 'State Senate ').replace('state-house-', 'State House ').replace('amendment-', 'Amendment ').replace('Amendment a', 'Amendment A').replace('Amendment b', 'Amendment B')
@@ -35,10 +35,10 @@ export function ForecastsPage() {
       <header className="page-head">
         <div className="kicker">Forecasts</div>
         <h1 className="headline sm">Our forecast, and outside views</h1>
-        <p className="dek">Our model’s projection of each race, followed by what expert raters and prediction markets think. None of these are election results.</p>
+        <p className="dek">Our pre-election projection of each race, followed by what expert raters and prediction markets think. None of these are election results.</p>
       </header>
       {needle && featured.length > 0 && (
-        <Section title={mode === 'pre' ? 'Our forecast' : 'Projection'} dek={mode === 'pre' ? 'Based on the polling average, 2024 results in the new district and the national environment. Updated ' + fmtDayYear(needle.updated_at) + '.' : 'During and after counting this is a live projection of the final result, not the count. Pre-election forecasts are replaced as votes arrive.'}
+        <Section title={mode === 'pre' ? 'Our forecast' : 'Our pre-election forecast'} dek={`Based on the polling average, 2024 results in the new district and the national environment. Made ${fmtDayYear(needle.updated_at)}, before any votes were counted, and not updated with results.`}
           aside={<Link to="/methodology" className="more">Methodology →</Link>}>
           <div className="forecast-grid">
             {featured.map((id) => (
@@ -51,7 +51,7 @@ export function ForecastsPage() {
         </Section>
       )}
       {needle && others.length > 0 && (
-        <Section title="Legislature" dek="Win probability for the contests our model covers. Click a column to sort.">
+        <Section title="Legislature" dek="Pre-election win probability for the contests our model covers, not updated with results. Click a column to sort.">
           <LegislatureForecastTable ids={others} needle={needle.contests} nameOf={nameOf} candsOf={candsOf} nameFallback={nameFallback} />
         </Section>
       )}

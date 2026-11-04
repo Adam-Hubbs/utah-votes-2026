@@ -124,6 +124,9 @@ export function useGeo<P = Record<string, unknown>>(name: string | null | undefi
   return (state.name === name ? state.data : undefined) as Loaded<Geo<P>>
 }
 
+/** Frozen copy of the last pre-election forecast. The live needle.json must not feed the site: its history starts at the first count. */
+export const usePreElectionForecast = () => useJson<NeedleFile>('forecast_pre_2026.json')
+
 export const useNeedle = (election: string | null) => {
   const live = useIsLive(election ?? '')
   return useJson<NeedleFile>(election ? resultsPath(election, 'needle.json') : null, live)

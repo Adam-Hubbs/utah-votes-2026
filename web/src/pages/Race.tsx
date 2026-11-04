@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import type { Feature, Geometry } from 'geojson'
-import { useAverages, useBaselines, useCandidates, useDemographics, useGeo, useMeasures, useNeedle, usePolls, useRatings, useSummary } from '../data/hooks'
+import { useAverages, useBaselines, useCandidates, useDemographics, useGeo, useMeasures, usePreElectionForecast, usePolls, useRatings, useSummary } from '../data/hooks'
 import { useSite } from '../data/site'
 import { ContestExplorer } from '../components/ContestExplorer'
 import { Gate, Section, Unavailable } from '../components/Ui'
@@ -10,7 +10,6 @@ import { PartyChip } from '../components/PartyChip'
 import { RatingChip, RatingStrip } from '../components/RatingChip'
 import { ChoroplethMap } from '../components/ChoroplethMap'
 import { DemoCompare } from '../components/DemoCompare'
-import { NeedlePanel } from '../components/NeedlePanel'
 import { ForecastSummary } from '../components/ForecastSummary'
 import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
@@ -29,7 +28,7 @@ export function RacePage() {
   const averages = useAverages()
   const polls = usePolls()
   const measures = useMeasures()
-  const needle = useNeedle(currentElection)
+  const needle = usePreElectionForecast()
   const contest = summary?.contests.find((c) => c.contest_id === contestId)
   const isHouse = contestId.startsWith('us-house-')
   const district = isHouse ? Number(contestId.split('-').pop()) : null
@@ -47,10 +46,9 @@ export function RacePage() {
   const needleContest = needle?.contests[contestId]
   const forecastCands = contest?.candidates ?? roster ?? []
   const preForecast = useMemo(() => {
-    const h = needleContest?.history?.[0]
-    if (!needleContest || !h) return null
+    if (!needleContest || needleContest.forecast === false) return null
     const [a, b] = needleContest.pair
-    const pa = h.prob[a] ?? 0.5
+    const pa = needleContest.prob[a] ?? 0.5
     const id = pa >= 0.5 ? a : b
     const name = forecastCands.find((c) => c.candidate_id === id)?.name ?? id
     return `${name} ${Math.round(Math.max(pa, 1 - pa) * 100)} in 100`
@@ -78,7 +76,6 @@ export function RacePage() {
           <ForecastSummary needle={needleContest} candidates={forecastCands} title={title} measure={!isHouse} />
         </Section>
       )}
-      {mode === 'live' && <NeedlePanel electionId={currentElection} contestId={contestId} title="Live projection of the final result" />}
 
       <Section title={mode === 'pre' ? 'Results' : mode === 'live' ? 'Votes counted so far' : 'Results'} id="results">
         {mode === 'pre' ? (

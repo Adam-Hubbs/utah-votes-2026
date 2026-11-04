@@ -14,7 +14,6 @@ import { useDocTitle } from '../lib/hooks'
 import { flags } from '../data/base'
 import type { ElectionSummary, IndexElection, SummaryContest } from '../types/data'
 import { LastUpdated } from '../components/LastUpdated'
-import { NeedlePanel, NeedleStrip } from '../components/NeedlePanel'
 
 export function ResultsPage() {
   const { currentElection, config } = useSite()
@@ -66,10 +65,6 @@ export function ResultsPage() {
           )}
         </Gate>
       </div>
-
-      {electionId === currentElection && <NeedleStrip electionId={electionId} featured={config.featured_contests} />}
-
-      {!listView && electionId === currentElection && <NeedlePanel electionId={electionId} contestId={contestId} headingId="results-needle" />}
 
       {listView ? (
         <Gate data={summary} what="Election summary">
