@@ -4,11 +4,11 @@ import type { Feature, Geometry } from 'geojson'
 import { CompetitivenessChip } from './CompetitivenessChip'
 import { ChoroplethMap } from '../ChoroplethMap'
 import { MarginLegend } from '../MapLegend'
-import { TooltipHeader, TooltipNote, TooltipRow } from '../Tooltip'
+import { TooltipCandidates, TooltipHeader, TooltipNote, TooltipRow } from '../Tooltip'
 import { useGeo } from '../../data/hooks'
 import { NO_DATA, leaderFill } from '../../lib/colors'
-import { partyGroup } from '../../lib/parties'
-import { fmtMargin, fmtPct } from '../../lib/format'
+import { candidateColors, partyGroup } from '../../lib/parties'
+import { fmtMargin } from '../../lib/format'
 import { seatLabel, type SeatState } from '../../lib/legislature'
 
 type F = Feature<Geometry, Record<string, unknown>>
@@ -46,9 +46,10 @@ export function LegislatureMap({ chamber, states, started }: { chamber: 'house' 
         <TooltipRow label="Current" value={holder} />
         {s.status !== 'holdover' && <TooltipRow label="Pre-election rating" value={<CompetitivenessChip rating={s.rating} />} />}
         {s.status !== 'holdover' && <TooltipNote>{s.rating.detail}</TooltipNote>}
-        {s.status !== 'holdover' && started && s.leader && (
+        {s.status !== 'holdover' && started && s.leader && s.contest && (
           <>
-            <TooltipRow label={s.status === 'won' ? 'Winner' : 'Leading'} value={`${s.leader.name} (${s.leader.party?.[0] ?? '–'}) ${fmtPct(s.leader.pct)}`} />
+            <TooltipCandidates candidates={s.contest.candidates.map((c) => ({ id: c.candidate_id, name: c.name, votes: c.votes }))} colors={candidateColors(s.contest.candidates)} />
+            {s.status === 'won' && <TooltipNote>Winner: {s.leader.name}</TooltipNote>}
             {s.flip && <TooltipNote>Flip</TooltipNote>}
           </>
         )}

@@ -1,3 +1,4 @@
+import { fmtInt, fmtPct } from '../lib/format'
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 
 interface Props {
@@ -64,4 +65,20 @@ export function TooltipNote({ children }: { children: ReactNode }) {
 
 export function TooltipFoot({ children }: { children: ReactNode }) {
   return <div className="tt-foot">{children}</div>
+}
+
+const MAJOR_CANDIDATES_SHOWN = 4
+
+/** The leading candidates in a map unit, each with vote share and votes. Share and total always count every candidate, including those not listed. */
+export function TooltipCandidates({ candidates, colors }: { candidates: { id: string; name: string; votes: number }[]; colors: Record<string, string> }) {
+  const total = candidates.reduce((sum, c) => sum + c.votes, 0)
+  const shown = [...candidates].sort((a, b) => b.votes - a.votes).slice(0, MAJOR_CANDIDATES_SHOWN)
+  return (
+    <>
+      {shown.map((c) => (
+        <TooltipRow key={c.id} color={colors[c.id] ?? '#999'} label={c.name} value={fmtPct(total ? c.votes / total : 0)} detail={fmtInt(c.votes)} />
+      ))}
+      <TooltipFoot><span>Total votes</span><b>{fmtInt(total)}</b></TooltipFoot>
+    </>
+  )
 }

@@ -15,7 +15,7 @@ import { candidateColors } from '../lib/parties'
 import { consensus } from '../lib/ratings'
 import { fmtDayYear, fmtInt, fmtMargin } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
-import { TooltipHeader } from '../components/Tooltip'
+import { TooltipCandidates, TooltipHeader } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -157,6 +157,8 @@ export function RacePage() {
 }
 
 function DistrictProfile({ district }: { district: number }) {
+  const { currentElection } = useSite()
+  const summary = useSummary(currentElection)
   const districts = useGeo('cd2026')
   const counties = useGeo('counties')
   const demo = useDemographics('cd2026')
@@ -174,7 +176,15 @@ function DistrictProfile({ district }: { district: number }) {
             <ChoroplethMap features={districts.features as F[]} idOf={(f) => String(f.properties?.district)} fill={fill} overlay={(counties?.features as F[] | undefined)} overlayWidth={0.4}
               fitTo={(districts.features as F[]).filter((f) => Number(f.properties?.district) === district)}
               strokeWidth={1.2} zoomable={false} aspect={1} maxHeight={480} ariaLabel={`Map of 2026 congressional district ${district}`}
-              tooltip={(f) => <TooltipHeader title={`District ${String(f.properties?.district)}`} />} />
+              tooltip={(f) => {
+                const c = summary?.contests.find((x) => x.contest_id === `us-house-${String(f.properties?.district)}`)
+                return (
+                  <div>
+                    <TooltipHeader title={`District ${String(f.properties?.district)}`} />
+                    {c && c.total_votes > 0 && <TooltipCandidates candidates={c.candidates.map((x) => ({ id: x.candidate_id, name: x.name, votes: x.votes }))} colors={candidateColors(c.candidates)} />}
+                  </div>
+                )
+              }} />
           ) : <div className="map-placeholder">{districts === null ? 'District map not yet available.' : 'Loading map…'}</div>}
           <p className="note">2026 district lines, with county boundaries. Lines were redrawn by court order in 2025 and differ from the 2022–2024 districts.</p>
         </Section>

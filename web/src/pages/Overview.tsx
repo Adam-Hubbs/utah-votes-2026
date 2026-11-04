@@ -12,12 +12,12 @@ import { Sparkline } from '../components/Sparkline'
 import { ResultsBar } from '../components/ResultsBar'
 import { RATING_FILL, NO_DATA, leaderFill } from '../lib/colors'
 import { consensus } from '../lib/ratings'
-import { countiesReporting, leadingCandidate } from '../lib/results'
-import { partyGroup } from '../lib/parties'
+import { countiesReporting } from '../lib/results'
+import { candidateColors, partyGroup } from '../lib/parties'
 import { fmtInt, fmtPct, fmtDayYear } from '../lib/format'
 import { useDocTitle } from '../lib/hooks'
 import { NationalCard } from '../national/NationalCard'
-import { TooltipHeader, TooltipNote, TooltipRow } from '../components/Tooltip'
+import { TooltipCandidates, TooltipHeader, TooltipNote, TooltipRow } from '../components/Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 const HOUSE = ['us-house-1', 'us-house-2', 'us-house-3', 'us-house-4']
@@ -62,11 +62,10 @@ export function Overview() {
     const id = `us-house-${String(f.properties?.district)}`
     const c = byId.get(id)
     const cons = consensus(ratings, id)
-    const lead = c && c.total_votes > 0 ? leadingCandidate(c.candidates) : null
     return (
       <div>
         <TooltipHeader title={`District ${String(f.properties?.district)}`} />
-        {showLive && lead ? <TooltipRow label={`${lead.name} leads`} value={fmtPct(lead.pct)} /> : cons ? <TooltipRow label="Consensus" value={cons.label} /> : <TooltipNote>No rating yet</TooltipNote>}
+        {showLive && c && c.total_votes > 0 ? <TooltipCandidates candidates={c.candidates.map((x) => ({ id: x.candidate_id, name: x.name, votes: x.votes }))} colors={candidateColors(c.candidates)} /> : cons ? <TooltipRow label="Consensus" value={cons.label} /> : <TooltipNote>No rating yet</TooltipNote>}
         <div className="tt-muted">Click for the race page</div>
       </div>
     )

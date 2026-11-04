@@ -6,7 +6,7 @@ import type { ContestResults, CountyResult, PrecinctResult, SummaryContest } fro
 import { candidateColors, partyGroup } from '../lib/parties'
 import { NO_DATA, NO_PRECINCT_RESULT, NO_RESIDENTS, leaderFill } from '../lib/colors'
 import { countiesReporting, leaderOf, marginText, signedMargin, STATE_OFFICES } from '../lib/results'
-import { fmtCompact, fmtInt, fmtMT, fmtMTFull, fmtPct } from '../lib/format'
+import { fmtCompact, fmtInt, fmtMT, fmtMTFull } from '../lib/format'
 import { CandidateRow } from './CandidateRow'
 import { ChoroplethMap, type UnitPattern } from './ChoroplethMap'
 import { MarginLegend, PrecinctKey } from './MapLegend'
@@ -15,7 +15,7 @@ import { PollChart, type TSeries } from './PollChart'
 import { SortableTable, type Column } from './SortableTable'
 import { LastUpdated } from './LastUpdated'
 import { Gate, Section, Segmented, Unavailable } from './Ui'
-import { TooltipFoot, TooltipHeader, TooltipNote, TooltipRow } from './Tooltip'
+import { TooltipCandidates, TooltipFoot, TooltipHeader, TooltipNote } from './Tooltip'
 
 type F = Feature<Geometry, Record<string, unknown>>
 
@@ -214,16 +214,12 @@ function ContestMapPanel({ electionId, summary, contest, results }: { electionId
     }
     if (!u) return <div><TooltipHeader title={String(f.properties?.name ?? '')} /><TooltipNote>Not in this contest</TooltipNote></div>
     const l = leaderOf(u.votes, u.total, cands)
-    const rows = [...cands].sort((a, b) => (u.votes[b.candidate_id] ?? 0) - (u.votes[a.candidate_id] ?? 0)).slice(0, 4)
     return (
       <div>
         <TooltipHeader title={u.name} />
         {u.total > 0 ? (
           <>
-            {rows.map((c) => (
-              <TooltipRow key={c.candidate_id} color={colors[c.candidate_id] ?? '#999'} label={c.name}
-                value={fmtPct((u.votes[c.candidate_id] ?? 0) / u.total)} detail={fmtInt(u.votes[c.candidate_id] ?? 0)} />
-            ))}
+            <TooltipCandidates candidates={cands.map((c) => ({ id: c.candidate_id, name: c.name, votes: u.votes[c.candidate_id] ?? 0 }))} colors={colors} />
             {l.id && <TooltipFoot><span>Margin</span><b>{marginText(l)}</b></TooltipFoot>}
           </>
         ) : <TooltipNote>No votes counted yet</TooltipNote>}
