@@ -134,7 +134,7 @@ export function BalanceOfPower({ chamber, data, states, started }: Props) {
       )}
       <p className="bop-foot">Two-thirds ({data.supermajority} seats) is enough to override the governor’s veto.</p>
 
-      <Legend started={started} />
+      <Legend started={started} hasFlips={t.flips.length > 0} />
       {t.flips.length > 0 && (
         <p className="bop-flips"><b>Flips so far:</b> {t.flips.map((f) => `${seatLabel(chamber).replace('Utah ', '')} ${f.district} (${f.from === 'REP' ? 'R' : f.from === 'DEM' ? 'D' : 'Other'}→${f.to === 'REP' ? 'R' : f.to === 'DEM' ? 'D' : 'Other'})`).join(', ')}</p>
       )}
@@ -142,12 +142,12 @@ export function BalanceOfPower({ chamber, data, states, started }: Props) {
   )
 }
 
-function Legend({ started }: { started: boolean }) {
+function Legend({ started, hasFlips }: { started: boolean; hasFlips: boolean }) {
   const items: { c: string; label: string }[] = started
     ? [
         { c: 'seat seat-dem st-won', label: 'Won (official)' }, { c: 'seat seat-dem st-leading', label: 'Leading' },
         { c: 'seat seat-dem st-holdover', label: 'Not up in 2026' }, { c: 'seat seat-none st-pending', label: 'No result yet' },
-        { c: 'seat seat-rep st-won flip', label: 'Flip from current holder' },
+        ...(hasFlips ? [{ c: 'seat seat-rep st-won flip', label: 'Flip from current holder' }] : []),
       ]
     : [
         { c: 'seat seat-dem st-holder', label: 'Current holder, seat up in 2026' }, { c: 'seat seat-dem st-holdover', label: 'Holdover, not on ballot' },

@@ -37,7 +37,8 @@ export function seatStates(chamber: 'house' | 'senate', data: LegChamber, byId: 
       return {
         ...base, leader: lead, bucket, status: winner ? ('won' as const) : ('leading' as const), called: !!winner,
         margin: lead.pct - (ranked.find((c) => c.candidate_id !== lead.candidate_id)?.pct ?? 0),
-        flip: !!holder && !!bucket && holder !== bucket,
+        // A lead can still change while ballots are being counted, so only an official winner is a flip.
+        flip: !!winner && !!holder && !!bucket && holder !== bucket,
       }
     }
     if (seat.vacant) return { ...base, status: 'vacant' as const, bucket: null }

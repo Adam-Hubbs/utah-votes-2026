@@ -45,6 +45,8 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
     })
   }, [states, chamber, show, tier, q])
 
+  const anyFlip = states.some((s) => s.flip)
+  const flipColumn: Column<SeatState> = { key: 'flip', header: 'Flip', align: 'center', sort: (s) => (s.flip ? 1 : 0), render: (s) => (s.flip ? <span className="flip-tag">{s.seat.holder_party?.[0]} → {s.leader?.party?.[0] ?? '?'}</span> : <span className="muted">–</span>) }
   const columns: Column<SeatState>[] = [
     {
       key: 'seat', header: 'Seat', sort: (s) => (s.chamber === 'house' ? 0 : 1000) + s.seat.district,
@@ -88,7 +90,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
               </div>
             ) : <span className="muted">–</span>,
           },
-          { key: 'flip', header: 'Flip', align: 'center', sort: (s) => (s.flip ? 1 : 0), render: (s) => (s.flip ? <span className="flip-tag">{s.seat.holder_party?.[0]} → {s.leader?.party?.[0] ?? '?'}</span> : <span className="muted">–</span>) },
+          ...(anyFlip ? [flipColumn] : []),
         ] satisfies Column<SeatState>[])
       : []),
     {
@@ -115,7 +117,7 @@ export function RaceTable({ states, started }: { states: SeatState[]; started: b
       <div className="selectors race-filters">
         <Segmented<Chamber> label="Chamber" value={chamber} onChange={setChamber} options={[{ value: 'all', label: 'Both' }, { value: 'house', label: 'House' }, { value: 'senate', label: 'Senate' }]} />
         <Segmented<Show> label="Filter" value={show} onChange={setShow}
-          options={[{ value: 'all', label: 'All' }, { value: 'open', label: 'Open seats' }, ...(started ? [{ value: 'flips' as const, label: 'Flips' }] : [])]} />
+          options={[{ value: 'all', label: 'All' }, { value: 'open', label: 'Open seats' }, ...(anyFlip ? [{ value: 'flips' as const, label: 'Flips' }] : [])]} />
         <Segmented<TierFilter> label="Pre-election rating" value={tier} onChange={setTier}
           options={[{ value: 'all', label: 'All' }, { value: 'competitive', label: 'Competitive' }, { value: 'toss-up', label: TIER_NAME['toss-up'] }, { value: 'lean', label: 'Lean' }, { value: 'likely', label: 'Likely' }, { value: 'safe', label: 'Safe' }, { value: 'uncontested', label: 'Uncontested' }]} />
         <input className="search" type="search" placeholder="Search district, name or candidate" aria-label="Search races" value={q} onChange={(e) => setQ(e.target.value)} />
